@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="8e2369ce9df44ff58790c5c178865d31" Name="Diagram1" ZoomLevel="64">
+        <EntityTypeShape EntityType="ProAccModel.Consultant" Width="1.5" PointX="3" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProAccModel.Customer" Width="1.5" PointX="3" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProAccModel.Milestone" Width="1.5" PointX="5.25" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProAccModel.MilestoneDetail" Width="1.5" PointX="7.5" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProAccModel.Project" Width="1.5" PointX="5.25" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProAccModel.ProjectDetail" Width="1.5" PointX="12" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProAccModel.StageStatu" Width="1.5" PointX="9.75" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProAccModel.SubMilestoneConfig" Width="1.5" PointX="9.75" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProAccModel.User_Master" Width="1.5" PointX="0.75" PointY="5.625" IsExpanded="true" />
+        <AssociationConnector Association="ProAccModel.FK_Consultant_User_Master" ManuallyRouted="false" />
+        <AssociationConnector Association="ProAccModel.FK_Project_Consultant" ManuallyRouted="false" />
+        <AssociationConnector Association="ProAccModel.FK_Customer_User_Master" ManuallyRouted="false" />
+        <AssociationConnector Association="ProAccModel.FK_Project_Customer" ManuallyRouted="false" />
+        <AssociationConnector Association="ProAccModel.FK_MilestoneDetails_Milestone" ManuallyRouted="false" />
+        <AssociationConnector Association="ProAccModel.FK_MilestoneDetails_Project" ManuallyRouted="false" />
+        <AssociationConnector Association="ProAccModel.FK_SubMilestoneConfig_MilestoneDetails" ManuallyRouted="false" />
+        <AssociationConnector Association="ProAccModel.FK_ProjectDetails_Project" ManuallyRouted="false" />
+        <AssociationConnector Association="ProAccModel.FK_ProjectDetails_MilestoneDetails" ManuallyRouted="false" />
+        <AssociationConnector Association="ProAccModel.FK_ProjectDetails_StageStatus" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

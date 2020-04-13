@@ -1,0 +1,242 @@
+﻿
+@{
+    ViewBag.Title = "CreateAnalysis";
+    Layout = "~/Views/shared/_Layout.cshtml";
+}
+<style type="text/css">
+    .cs_Closed {
+        color: lightgreen;
+    }
+
+    .cs_Inprogress {
+        color: cornflowerblue;
+    }
+</style>
+<script src="~/Asset/Scripts/Chart.js"></script>
+<script src="~/Asset/Scripts/Chart.RadialGauge.umd.js"></script>
+@*<script src="~/Asset/Scripts/utils.js"></script>*@
+<div style="padding:1em;">
+    <ul class="body-tabs body-tabs-layout tabs-animated body-tabs-animated nav">
+        <li class="nav-item">
+            <a role="tab" class="nav-link active" id="tab-0" data-toggle="tab" href="#tab-content-0">
+                <span>Create Analysis</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a role="tab" class="nav-link" id="tab-1" data-toggle="tab" href="#tab-content-1">
+                <span>Readiness Report</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a role="tab" class="nav-link" id="tab-2" data-toggle="tab" href="#tab-content-2">
+                <span>Compatibility Report</span>
+            </a>
+        </li>
+    </ul>
+    <div class="row">
+        <div class="card-body col-lg-6 card">
+            <h5 class="card-title">Create Analysis</h5>
+            <div class="position-relative form-group">
+                <label for="exampleEmail" class="">Analysis Name</label>
+                <input name="email" id="exampleEmail" placeholder="" class="form-control">
+            </div>
+            <div class="position-relative form-group">
+                <label for="exampleEmail" class="">Customer Name</label>
+                <input name="email" id="exampleEmail" placeholder="" class="form-control">
+            </div>
+            <div class="position-relative form-group">
+                <label for="exampleEmail" class="">Customer Number</label>
+                <input name="email" id="exampleEmail" placeholder="" class="form-control">
+            </div>
+            <div class="position-relative form-group">
+                <label for="exampleFile" class="">Upload Analysis</label>
+                <input name="file" id="exampleFile" type="file" class="form-control-file">
+               </div>
+            <div class="position-relative form-group">
+                <label for="exampleFile" class="">Upload Custom code Analysis</label>
+                <input name="file" id="exampleFile" type="file" class="form-control-file">
+                </div>
+            <div class="position-relative form-group">
+
+                <div class="custom-checkbox custom-control">
+                    <input type="checkbox" id="exampleCustomCheckbox" class="custom-control-input">
+                    <label class="custom-control-label" for="exampleCustomCheckbox">I have read the SAP Readiness check Disclaimer and SAP readiness check term of use</label>
+                </div>
+                <div class="custom-checkbox custom-control">
+                    <input type="checkbox" id="exampleCustomCheckbox2" class="custom-control-input">
+                    <label class="custom-control-label" for="exampleCustomCheckbox2">
+                        I acknowldge all SAP employees may access and use the SAP Readiness check results for SAP business purposes like support services and marketing
+                    </label>
+                </div>
+
+
+            </div>
+            <div class="text-center">
+                <button class="btn-wide mb-2 mr-2 btn btn-primary">
+                    Start Analysis
+                </button>
+            </div>
+
+        </div>
+        <div class="col-lg-6">
+            <div class="row" style="padding:0em 1em 1em 1em;" >
+                <div class="col-lg-6 card text-center">
+                    <label>In Progress</label>
+                    <canvas id="chart-area"></canvas>
+                    <label>Total: 238</label>
+                </div>
+                <div class="col-lg-6 card text-center">
+                    <label>Closed</label>
+                    <canvas id="chart-area1"></canvas>
+                    <label>Total: 80</label>
+                </div>
+            </div>
+            <div class="main-card mb-6 card">
+                <div class="card-body">
+                    <h5 class="card-title">Recent Updates</h5>
+                    <table class="mb-0 table table-hover">
+                        <thead>
+                            <tr>
+                               
+                                <th>Analysis Name</th>
+                                <th>Customer Name</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+
+                                <td>Custom Code Analysis</td>
+                                <td>Mathew Anderson</td>
+                                <td class="cs_Inprogress">Inprogress</td>
+                            </tr>
+                            <tr>
+
+                                <td>Pre Check report</td>
+                                <td>Latin Mike</td>
+                                <td class="cs_Inprogress">Inprogress</td>
+                            </tr>
+                            <tr>
+                                <td>Making DB to code</td>
+                                <td>Mathew anderson</td>
+                                <td class="cs_Closed">Closed</td>
+                            </tr>
+                            <tr>
+                                <td>Check server role</td>
+                                <td>Anamika M </td>
+                                <td class="cs_Inprogress">Inprogress</td>
+                            </tr>
+                            <tr>
+                                <td>Auto Start SAP Services</td>
+                                <td>Hayden Leu </td>
+                                <td class="cs_Closed">Closed</td>
+                            </tr>
+                            <tr>
+                                <td>AutoUnlock DDIC</td>
+                                <td>Steve Michael</td>
+                                <td class="cs_Inprogress">Inprogress</td>
+                            </tr>
+                            <tr>
+                                <td>AutoUnlock DDIC</td>
+                                <td>Steve Michael</td>
+                                <td class="cs_Inprogress">Inprogress</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    //var randomScalingFactor = function () {
+    //    return Math.round(Math.random() * 100);
+    //};
+
+    Chart.defaults.global.defaultFontFamily = "Verdana";
+
+    var ctx = document.getElementById("chart-area").getContext("2d");
+    var ctx1 = document.getElementById("chart-area1").getContext("2d");
+     window.onload = function () {
+        var ctx = document.getElementById("chart-area").getContext("2d");
+         window.myRadialGauge = new Chart(ctx, config);
+
+         var ctx1 = document.getElementById("chart-area1").getContext("2d");
+        window.myRadialGauge = new Chart(ctx1, config1);
+    };
+
+
+    
+    
+
+    var gradientStroke_Progress = ctx.createLinearGradient(500, 0, 100, 0);
+    gradientStroke_Progress.addColorStop(0, "#FDB777");
+    gradientStroke_Progress.addColorStop(1, "#FD9346");
+
+     var gradientStroke_Closed = ctx.createLinearGradient(500, 0, 100, 0);
+    gradientStroke_Closed.addColorStop(0, "#FB291B");
+    gradientStroke_Closed.addColorStop(1, "#CD1B2D");
+
+    var config = {
+        type: "radialGauge",
+        data: {
+            labels: ["In Progress"],
+            datasets: [
+                {
+                    data: [60],
+                    backgroundColor: [gradientStroke_Progress],
+                    borderWidth: 0,
+                    label: "Score"
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            legend: {},
+            title: {
+                display: false,
+                text: "Radial gauge chart"
+            },
+            centerPercentage: 60,
+              centerArea: {
+                displayText: true,
+                text: "60%"
+            }
+        }
+    };
+
+    var config1 = {
+        type: "radialGauge",
+        data: {
+            labels: ["Closed"],
+            datasets: [
+                {
+                    data: [40],
+                    backgroundColor: [gradientStroke_Closed],
+                    borderWidth: 0,
+                    label: "Score"
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            legend: {},
+            title: {
+                display: false,
+                text: "Radial gauge chart"
+            },
+            centerPercentage: 60,
+            centerArea: {
+                displayText: true,
+                text: "40%"
+            }
+        }
+    };
+
+   
+
+   
+</script>
+
+

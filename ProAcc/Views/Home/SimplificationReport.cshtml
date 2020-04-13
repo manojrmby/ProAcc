@@ -1,0 +1,193 @@
+﻿
+@{
+    ViewBag.Title = "SimplificationReport";
+    Layout = "~/Views/shared/_Layout.cshtml";
+}
+<script src="~/Asset/Scripts/Chart.js"></script>
+<script src="~/Asset/Scripts/Chart.RadialGauge.umd.js"></script>
+<div style="padding:1em;">
+    <div class="row-cols-1">
+        @Html.DropDownList("parent", Enumerable.Empty<SelectListItem>(), "--Select Parent--")
+        @*@Html.DropDownList("LOB", (IEnumerable<SelectListItem>)ViewBag.LOB, new { id = "IDLob", @class = "form-control" })*@
+
+
+    </div>
+    <div class="row-cols-2">
+
+        <label>Simplification</label>
+        <canvas id="Chart_Relevant" min-height="300" max-height="500"></canvas>
+        @*<div id="Chart_Relevant"></div>*@
+        <label>Total:238</label>
+
+    </div>
+
+</div>
+
+<script type="text/javascript" charset="utf-8">
+	function renderChart(data, labels) {
+
+		Chart.defaults.global.defaultFontFamily = "Verdana";
+		var ctx = document.getElementById("Chart_Relevant").getContext("2d");
+
+var gradientStroke_ = ctx.createLinearGradient(500, 0, 100, 0);
+		gradientStroke_.addColorStop(0, "#FDB777");
+gradientStroke_.addColorStop(1, "#FD9346");
+
+var gradientStroke_2 = ctx.createLinearGradient(500, 0, 100, 0);
+gradientStroke_2.addColorStop(0, "#FB291B");
+gradientStroke_2.addColorStop(1, "#CD1B2D");
+
+var gradientStroke_3 = ctx.createLinearGradient(500, 0, 100, 0);
+gradientStroke_3.addColorStop(0, "#FDB777");
+gradientStroke_3.addColorStop(1, "#FD9346");
+
+var gradientStroke_4 = ctx.createLinearGradient(500, 0, 100, 0);
+gradientStroke_4.addColorStop(0, "#FB291B");
+gradientStroke_4.addColorStop(1, "#CD1B2D");
+
+var config = {
+	type: "horizontalBar",
+	data: {
+		labels: labels,
+		datasets: [
+			{
+
+				data: data,
+				backgroundColor: [gradientStroke_, gradientStroke_2],
+				backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850"],
+				borderWidth: 2,
+				label: "Score"
+			}
+		]
+	},
+	options: {
+		responsive: true,
+		legend: {
+			display: false
+		},
+		title: {
+			display: false,
+			text: "Radial gauge chart"
+		},
+		centerPercentage: 60,
+		centerArea: {
+			displayText: true,
+			text: "100%"
+        },
+        scales: {
+            xAxes: [{
+                stacked: true
+            }],
+            yAxes: [{
+                stacked: true
+            }]
+        }
+	}
+	};
+
+				window.myRadialGauge = new Chart(ctx, config);
+	}
+
+
+
+
+
+
+
+
+
+jQuery(document).ready(function ($) {
+		 $.ajax({
+				type: "POST",
+				url: '@Url.Action("GetSimplificationReport")',
+				//data: '{std: ' + JSON.stringify(std) + '}',
+				dataType: "json",
+				contentType: "application/json; charset=utf-8",
+			 success: function (Data) {
+                 data_ = [Data.R, Data.RC, Data.RC_NON, Data.R_NON];
+                 labels = ["Relevant", "Relevance to be Checked", "Relevance to be Checked (Non-strategic)", "Relevant (Non-strategic)"];
+				 renderChart(data_, labels);
+
+				},
+				error: function () {
+					alert("Error while inserting data");
+				}
+			});
+
+
+	});
+</script>
+@*<canvas id="myChart" ></canvas>*@
+@*<script type="text/javascript" charset="utf-8">
+
+
+
+        function renderChart(data, labels) {
+            //debugger;
+
+            var ctx = document.getElementById("Chart_Relevant").getContext('2d');
+            var gradientStroke_ = ctx.createLinearGradient(500, 0, 100, 0);
+                gradientStroke_.addColorStop(0, "#7EFFD4");
+                gradientStroke_.addColorStop(1, "#40846E");
+            var gradientStroke_1 = ctx.createLinearGradient(500, 0, 100, 0);
+                gradientStroke_1.addColorStop(0, "#FB291B");
+            gradientStroke_1.addColorStop(1, "#CD1B2D");
+            var gradientStroke_2 = ctx.createLinearGradient(500, 0, 100, 0);
+                gradientStroke_2.addColorStop(0, "#D391FA");
+            gradientStroke_2.addColorStop(1, "#190087");
+            var gradientStroke_3 = ctx.createLinearGradient(500, 0, 100, 0);
+                gradientStroke_3.addColorStop(0, "#FDB777");
+                gradientStroke_3.addColorStop(1, "#FD9346");
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Relevant',
+                    data: data,
+                    //backgroundColor: [gradientStroke_],
+                    backgroundColor: [gradientStroke_, gradientStroke_1, gradientStroke_2, gradientStroke_3],
+                    borderWidth:2,
+                }],
+            },
+            options: {
+                        responsive: true,
+                        legend: {
+                            display: false
+                        },
+                        title: {
+                            display: true,
+                            text: "RelevantS"
+                        },
+                        centerPercentage: 60,
+                        centerArea: {
+                            displayText: true,
+                            text: "60%"
+                        }
+                    }
+        });
+    }
+        jQuery(document).ready(function ($) {
+             $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("GetRelevant")',
+                    //data: '{std: ' + JSON.stringify(std) + '}',
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                 success: function (Data) {
+                     //debugger;
+                           //chart_Assessment(Data)
+                     //data: [Re_Result.R, Re_Result.RC, Re_Result.RC_NON, Re_Result.R_NON],
+                     data_ = [Data.R, Data.RC, Data.RC_NON, Data.R_NON];
+            labels =  ["Relevant", "Relevance to be Checked", "Relevance to be Checked (Non-strategic)", "Relevant (Non-strategic)"];
+            renderChart(data_, labels);
+
+                    },
+                    error: function () {
+                        alert("Error while inserting data");
+                    }
+                });
+
+
+        });
+    </script>*@
