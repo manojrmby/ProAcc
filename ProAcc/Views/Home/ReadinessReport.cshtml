@@ -1,29 +1,29 @@
 ﻿
 @{
-    ViewBag.Title = "ReadinessReport";
-    Layout = "~/Views/shared/_Layout.cshtml";
+	ViewBag.Title = "ReadinessReport";
+	Layout = "~/Views/shared/_Layout.cshtml";
 }
 <script src="~/Asset/Scripts/Chart.js"></script>
 <script src="~/Asset/Scripts/Chart.RadialGauge.umd.js"></script>
-<div style="padding:1em;">
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="row" style="padding:0em 1em 1em 1em;">
-                <div class="col-lg-6">
-                    <label>Simplification</label>
-                    <canvas id="Chart_Relevant"></canvas>
-                    @*<div id="Chart_Relevant"></div>*@
-                    <label>Total:238</label>
-                </div>
-                <div class="col-lg-6">
+<div style="padding:1em;"class="card">
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="row" style="padding:0em 1em 1em 1em;">
+				<div class="col-lg-6">
+					<label>Simplification</label>
+					<canvas id="Chart_Relevant"></canvas>
+					@*<div id="Chart_Relevant"></div>*@
+					<label>Total:238</label>
+				</div>
+				<div class="col-lg-6">
 
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-12">
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-12">
 
-        </div>
-    </div>
+		</div>
+	</div>
 
 </div>
 
@@ -101,8 +101,8 @@ jQuery(document).ready(function ($) {
 				dataType: "json",
 				contentType: "application/json; charset=utf-8",
 			 success: function (Data) {
-                 data_ = [Data.R, Data.RC, Data.RC_NON, Data.R_NON];
-                 labels = ["Relevant", "Relevance to be Checked", "Relevance to be Checked (Non-strategic)", "Relevant (Non-strategic)"];
+				 data_ = [Data.R, Data.RC, Data.RC_NON, Data.R_NON];
+				 labels = ["Relevant", "Relevance to be Checked", "Relevance to be Checked (Non-strategic)", "Relevant (Non-strategic)"];
 				 renderChart(data_, labels);
 
 				},

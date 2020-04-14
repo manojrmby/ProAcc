@@ -5,19 +5,19 @@ using System.Web;
 
 namespace ProAcc.BL.Model
 {
-    public class SP_SimplificationReport
+    public class Common
     {
-        public class GetDropdown
+        public class GeneralList
         {
 
-            public List<LOB> List_LOB { get; set; }
+            public List<Lis> _List { get; set; }
 
 
         }
-        public class LOB
+        public class Lis
         {
             public string Name { get; set; }
-            public int ID { get; set; }
+            public int _Value { get; set; }
         }
     }
 }

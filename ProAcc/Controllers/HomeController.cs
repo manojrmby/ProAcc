@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using ProAcc.BL.Model;
+using static ProAcc.BL.Model.Common;
 
 namespace ProAcc.Controllers
 {
@@ -31,8 +32,8 @@ namespace ProAcc.Controllers
         }
         public ActionResult SimplificationReport()
         {
-            SP_SimplificationReport.GetDropdown sP_ = _Base.sP_SimplificationReport();
-
+            Common.GeneralList sP_ = _Base.sP_SimplificationReport();
+            ViewBag.LOB = new SelectList(sP_._List, "_Value", "Name");
             return View();
         }
 
@@ -46,10 +47,10 @@ namespace ProAcc.Controllers
         }
 
         [HttpPost]
-        public JsonResult GetSimplificationReport_Bar()
+        public JsonResult GetSimplificationReport_Bar(string LOB)
         {
+            GeneralList sP_ = _Base.sP_SimplificationReport_Bar(LOB);
 
-            SP_SimplificationReport.GetDropdown sP_ = _Base.sP_SimplificationReport();
             return Json(sP_, JsonRequestBehavior.AllowGet);
         }
 

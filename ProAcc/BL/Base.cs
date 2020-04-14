@@ -5,12 +5,13 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Web;
-using static ProAcc.BL.Model.SP_SimplificationReport;
+using static ProAcc.BL.Model.Common;
 
 namespace ProAcc.BL
 {
     public class Base
     {
+
         public SP_ReadinessReport_Result sAPInput()
         {
             SP_ReadinessReport_Result GetRelevant = new SP_ReadinessReport_Result();
@@ -26,43 +27,60 @@ namespace ProAcc.BL
             }
             return GetRelevant;
         }
-        public SP_SimplificationReport.GetDropdown sP_SimplificationReport()
+        public GeneralList sP_SimplificationReport()
         {
-            SP_SimplificationReport.GetDropdown sP_ = new SP_SimplificationReport.GetDropdown();
+            GeneralList sP_ = new GeneralList();
             DataTable dt = new DataTable();
             DBHelper dB = new DBHelper("SP_SimplificationReport", CommandType.StoredProcedure);
             dB.addIn("@Type", "GetDropdown");
             dt = dB.ExecuteDataTable();
-            List<LOB> _Lob = new List<LOB>();
+            List<Lis> _Lob = new List<Lis>();
 
             int count = 0;
             foreach (DataRow dr in dt.Rows)
             {
-                _Lob.Add(new LOB { Name = dr["LOB"].ToString(), ID = count });
+                _Lob.Add(new Lis { Name = dr["LOB"].ToString(), _Value = count });
                 count = count++;
             }
 
-            sP_.List_LOB = _Lob;
+            sP_._List = _Lob;
             return sP_;
         }
-        //public SP_SimplificationReport.GetDropdown sP_SimplificationReport()
-        //{
-        //    SP_SimplificationReport.GetDropdown sP_ = new SP_SimplificationReport.GetDropdown();
-        //    DataTable dt = new DataTable();
-        //    DBHelper dB = new DBHelper("SP_SimplificationReport", CommandType.StoredProcedure);
-        //    dB.addIn("@Type", "GetDropdown");
-        //    dt = dB.ExecuteDataTable();
-        //    List<LOB> _Lob = new List<LOB>();
+        public GeneralList sP_SimplificationReport_Bar(String Input)
+        {
+            GeneralList sP_ = new GeneralList();
+            DataTable dt = new DataTable();
+            DBHelper dB = new DBHelper("SP_SimplificationReport", CommandType.StoredProcedure);
+            if (Input == "ALL")
+            {
+                dB.addIn("@Type", "ALL");
+            }
+            else
+            {
+                dB.addIn("@Type", "Single");
+                dB.addIn("@Input", Input);
+            }
+            dt = dB.ExecuteDataTable();
+            if (dt.Rows.Count > 0)
+            {
+                List<Lis> _Lob = new List<Lis>();
+                foreach (DataRow dr in dt.Rows)
+                {
+                    _Lob.Add(
+                        new Lis
+                        {
+                            Name = dr["LOB_NAME"].ToString(),
+                            _Value = Convert.ToInt32(dr["_Count"].ToString()
+                            )
+                        });
 
-        //    int count = 0;
-        //    foreach (DataRow dr in dt.Rows)
-        //    {
-        //        _Lob.Add(new LOB { Name = dr["LOB"].ToString(), ID = count });
-        //        count = count++;
-        //    }
+                }
 
-        //    sP_.List_LOB = _Lob;
-        //    return sP_;
-        //}
+                sP_._List = _Lob;
+
+
+            }
+            return sP_;
+        }
     }
 }
