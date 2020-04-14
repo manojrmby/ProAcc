@@ -1,9 +1,9 @@
 ﻿USE [ProAcc]
 GO
-/****** Object:  StoredProcedure [dbo].[SP_SimplificationReport]    Script Date: 4/13/2020 8:11:56 PM ******/
+/****** Object:  StoredProcedure [dbo].[SP_SimplificationReport]    Script Date: 4/14/2020 12:08:46 PM ******/
 DROP PROCEDURE [dbo].[SP_SimplificationReport]
 GO
-/****** Object:  StoredProcedure [dbo].[SP_ReadinessReport]    Script Date: 4/13/2020 8:11:56 PM ******/
+/****** Object:  StoredProcedure [dbo].[SP_ReadinessReport]    Script Date: 4/14/2020 12:08:46 PM ******/
 DROP PROCEDURE [dbo].[SP_ReadinessReport]
 GO
 ALTER TABLE [dbo].[SubMilestoneConfig] DROP CONSTRAINT [FK_SubMilestoneConfig_MilestoneDetails]
@@ -80,37 +80,37 @@ ALTER TABLE [dbo].[Consultant] DROP CONSTRAINT [DF_Consultant_Cre_on]
 GO
 ALTER TABLE [dbo].[Consultant] DROP CONSTRAINT [DF_Consultant_isActive]
 GO
-/****** Object:  Table [dbo].[User_Master]    Script Date: 4/13/2020 8:11:56 PM ******/
+/****** Object:  Table [dbo].[User_Master]    Script Date: 4/14/2020 12:08:46 PM ******/
 DROP TABLE [dbo].[User_Master]
 GO
-/****** Object:  Table [dbo].[SubMilestoneConfig]    Script Date: 4/13/2020 8:11:56 PM ******/
+/****** Object:  Table [dbo].[SubMilestoneConfig]    Script Date: 4/14/2020 12:08:46 PM ******/
 DROP TABLE [dbo].[SubMilestoneConfig]
 GO
-/****** Object:  Table [dbo].[StageStatus]    Script Date: 4/13/2020 8:11:56 PM ******/
+/****** Object:  Table [dbo].[StageStatus]    Script Date: 4/14/2020 12:08:46 PM ******/
 DROP TABLE [dbo].[StageStatus]
 GO
-/****** Object:  Table [dbo].[SAPInput]    Script Date: 4/13/2020 8:11:56 PM ******/
+/****** Object:  Table [dbo].[SAPInput]    Script Date: 4/14/2020 12:08:46 PM ******/
 DROP TABLE [dbo].[SAPInput]
 GO
-/****** Object:  Table [dbo].[ProjectDetails]    Script Date: 4/13/2020 8:11:56 PM ******/
+/****** Object:  Table [dbo].[ProjectDetails]    Script Date: 4/14/2020 12:08:46 PM ******/
 DROP TABLE [dbo].[ProjectDetails]
 GO
-/****** Object:  Table [dbo].[Project]    Script Date: 4/13/2020 8:11:56 PM ******/
+/****** Object:  Table [dbo].[Project]    Script Date: 4/14/2020 12:08:46 PM ******/
 DROP TABLE [dbo].[Project]
 GO
-/****** Object:  Table [dbo].[MilestoneDetails]    Script Date: 4/13/2020 8:11:56 PM ******/
+/****** Object:  Table [dbo].[MilestoneDetails]    Script Date: 4/14/2020 12:08:46 PM ******/
 DROP TABLE [dbo].[MilestoneDetails]
 GO
-/****** Object:  Table [dbo].[Milestone]    Script Date: 4/13/2020 8:11:56 PM ******/
+/****** Object:  Table [dbo].[Milestone]    Script Date: 4/14/2020 12:08:46 PM ******/
 DROP TABLE [dbo].[Milestone]
 GO
-/****** Object:  Table [dbo].[Customer]    Script Date: 4/13/2020 8:11:56 PM ******/
+/****** Object:  Table [dbo].[Customer]    Script Date: 4/14/2020 12:08:46 PM ******/
 DROP TABLE [dbo].[Customer]
 GO
-/****** Object:  Table [dbo].[Consultant]    Script Date: 4/13/2020 8:11:56 PM ******/
+/****** Object:  Table [dbo].[Consultant]    Script Date: 4/14/2020 12:08:46 PM ******/
 DROP TABLE [dbo].[Consultant]
 GO
-/****** Object:  Table [dbo].[Consultant]    Script Date: 4/13/2020 8:11:56 PM ******/
+/****** Object:  Table [dbo].[Consultant]    Script Date: 4/14/2020 12:08:46 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -136,7 +136,7 @@ CREATE TABLE [dbo].[Consultant](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Customer]    Script Date: 4/13/2020 8:11:56 PM ******/
+/****** Object:  Table [dbo].[Customer]    Script Date: 4/14/2020 12:08:46 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -170,7 +170,7 @@ CREATE TABLE [dbo].[Customer](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Milestone]    Script Date: 4/13/2020 8:11:56 PM ******/
+/****** Object:  Table [dbo].[Milestone]    Script Date: 4/14/2020 12:08:46 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -190,7 +190,7 @@ CREATE TABLE [dbo].[Milestone](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[MilestoneDetails]    Script Date: 4/13/2020 8:11:56 PM ******/
+/****** Object:  Table [dbo].[MilestoneDetails]    Script Date: 4/14/2020 12:08:46 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -213,7 +213,7 @@ CREATE TABLE [dbo].[MilestoneDetails](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Project]    Script Date: 4/13/2020 8:11:56 PM ******/
+/****** Object:  Table [dbo].[Project]    Script Date: 4/14/2020 12:08:46 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -238,7 +238,7 @@ CREATE TABLE [dbo].[Project](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[ProjectDetails]    Script Date: 4/13/2020 8:11:56 PM ******/
+/****** Object:  Table [dbo].[ProjectDetails]    Script Date: 4/14/2020 12:08:46 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -264,7 +264,7 @@ CREATE TABLE [dbo].[ProjectDetails](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[SAPInput]    Script Date: 4/13/2020 8:11:56 PM ******/
+/****** Object:  Table [dbo].[SAPInput]    Script Date: 4/14/2020 12:08:46 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -286,7 +286,7 @@ CREATE TABLE [dbo].[SAPInput](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[StageStatus]    Script Date: 4/13/2020 8:11:56 PM ******/
+/****** Object:  Table [dbo].[StageStatus]    Script Date: 4/14/2020 12:08:46 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -306,7 +306,7 @@ CREATE TABLE [dbo].[StageStatus](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[SubMilestoneConfig]    Script Date: 4/13/2020 8:11:56 PM ******/
+/****** Object:  Table [dbo].[SubMilestoneConfig]    Script Date: 4/14/2020 12:08:46 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -329,7 +329,7 @@ CREATE TABLE [dbo].[SubMilestoneConfig](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[User_Master]    Script Date: 4/13/2020 8:11:56 PM ******/
+/****** Object:  Table [dbo].[User_Master]    Script Date: 4/14/2020 12:08:46 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -579,7 +579,7 @@ REFERENCES [dbo].[MilestoneDetails] ([Id])
 GO
 ALTER TABLE [dbo].[SubMilestoneConfig] CHECK CONSTRAINT [FK_SubMilestoneConfig_MilestoneDetails]
 GO
-/****** Object:  StoredProcedure [dbo].[SP_ReadinessReport]    Script Date: 4/13/2020 8:11:56 PM ******/
+/****** Object:  StoredProcedure [dbo].[SP_ReadinessReport]    Script Date: 4/14/2020 12:08:46 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -599,19 +599,31 @@ SELECT COUNT(*)AS R_NON from SAPInput Where Relevance='Relevant (Non-strategic)'
 SELECT COUNT(*)AS R from SAPInput WHERE Relevance='Relevant')R
 END
 GO
-/****** Object:  StoredProcedure [dbo].[SP_SimplificationReport]    Script Date: 4/13/2020 8:11:56 PM ******/
+/****** Object:  StoredProcedure [dbo].[SP_SimplificationReport]    Script Date: 4/14/2020 12:08:46 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE PROCEDURE [dbo].[SP_SimplificationReport] 
-	@Type Varchar(50)
+	@Type Varchar(50),
+	@Input varchar(50)=NULL
 AS
 BEGIN
 	If @Type='GetDropdown'
 	BEGIN
 	   Select DISTINCT  [LoB/Technology] As LOB  from SAPInput 
+	END
+	IF @Type='ALL'
+	BEGIN
+		SELECT [LoB/Technology] AS LOB_NAME,COUNT([LoB/Technology])as _Count
+		FROM SAPInput group by [LoB/Technology] 
+	END
+	IF @Type='Single'
+	BEGIN
+	SELECT [LoB/Technology] AS LOB_NAME, count(*) as _Count
+	from SAPInput WHERE [LoB/Technology]=@Input group by [LoB/Technology] 
+		
 	END
 END
 GO
