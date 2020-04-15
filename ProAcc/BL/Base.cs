@@ -17,6 +17,7 @@ namespace ProAcc.BL
             SP_ReadinessReport_Result GetRelevant = new SP_ReadinessReport_Result();
             DataTable dt = new DataTable();
             DBHelper dB = new DBHelper("SP_ReadinessReport", CommandType.StoredProcedure);
+            dB.addIn("@Type", "Simple_Donut");
             dt = dB.ExecuteDataTable();
             if (dt.Rows.Count == 1)
             {
@@ -82,5 +83,95 @@ namespace ProAcc.BL
             }
             return sP_;
         }
+
+        public GeneralList sP_GetActivities_Bar1()
+        {
+            GeneralList sP_ = new GeneralList();
+            DataTable dt = new DataTable();
+            DBHelper dB = new DBHelper("SP_ReadinessReport", CommandType.StoredProcedure);
+
+            dB.addIn("@Type", "Activities_Bar1");
+            dt = dB.ExecuteDataTable();
+            if (dt.Rows.Count > 0)
+            {
+                List<Lis> _Lob = new List<Lis>();
+                foreach (DataRow dr in dt.Rows)
+                {
+                    _Lob.Add(
+                        new Lis
+                        {
+                            Name = dr["ACT_NAME"].ToString(),
+                            _Value = Convert.ToInt32(dr["_Count"].ToString()
+                            )
+                        });
+
+                }
+
+                sP_._List = _Lob;
+
+
+            }
+            return sP_;
+        }
+        public GeneralList sP_GetActivities_Bar2()
+        {
+            GeneralList sP_ = new GeneralList();
+            DataTable dt = new DataTable();
+            DBHelper dB = new DBHelper("SP_ReadinessReport", CommandType.StoredProcedure);
+
+            dB.addIn("@Type", "Activities_Bar2");
+            dt = dB.ExecuteDataTable();
+            if (dt.Rows.Count > 0)
+            {
+                List<Lis> _Lob = new List<Lis>();
+                foreach (DataRow dr in dt.Rows)
+                {
+                    _Lob.Add(
+                        new Lis
+                        {
+                            Name = dr["Phase"].ToString(),
+                            _Value = Convert.ToInt32(dr["_Count"].ToString()
+                            )
+                        });
+
+                }
+
+                sP_._List = _Lob;
+
+
+            }
+            return sP_;
+        }
+        public GeneralList sP_GetActivities_Donut()
+        {
+            GeneralList sP_ = new GeneralList();
+            DataTable dt = new DataTable();
+            DBHelper dB = new DBHelper("SP_ReadinessReport", CommandType.StoredProcedure);
+
+            dB.addIn("@Type", "Activities_Donut");
+            dt = dB.ExecuteDataTable();
+            if (dt.Rows.Count > 0)
+            {
+                List<Lis> _Lob = new List<Lis>();
+                foreach (DataRow dr in dt.Rows)
+                {
+                    _Lob.Add(
+                        new Lis
+                        {
+                            Name = dr["Condition"].ToString(),
+                            _Value = Convert.ToInt32(dr["_Count"].ToString()
+                            )
+                        });
+
+                }
+
+                sP_._List = _Lob;
+
+
+            }
+            return sP_;
+        }
+
+
     }
 }

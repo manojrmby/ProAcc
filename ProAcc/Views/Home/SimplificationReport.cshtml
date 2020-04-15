@@ -41,8 +41,10 @@
 	var randomScalingFactor = function () {
 				return Math.round(Math.random() * 100);
 			};
-	function renderChart(data, labels) {
-
+    function renderChart(data, labels) {
+        
+        var maxval = Math.max.apply(Math,data);
+		
 		Chart.defaults.global.defaultFontFamily = "Verdana";
 		
 
@@ -94,23 +96,25 @@ var config = {
 			displayText: true,
 			text: "100%"
 		},
-		//scales: {
-		//	xAxes: [{
-		//		stacked: true
-		//	}],
-		//	yAxes: [{
-		//		stacked: true
-		//	}]
-		//}
-		animation: {
-				duration:5000
-		},
+		
+		//animation: {
+		//		duration:5000
+		//},
 		scales: {
 			xAxes: [{
 				ticks: {
 					display: false //this will remove only the label
 				}
-			}]
+            }],
+			yAxes: [{
+                            display: true,
+                ticks: {
+                    beginAtZero: false,
+                                steps: 10,
+                                stepValue: 5,
+                                max: maxval+10
+                            }
+                        }]
 		}
 	}
 	};

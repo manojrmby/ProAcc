@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\Users\Promantus Inc\source\repos\ProAcc\ProACC_DB\ProAcc_DB_Entity.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\Promantus Inc\source\repos\ProAcc\ProAcc\Models\PROACC.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

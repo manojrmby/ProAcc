@@ -195,7 +195,7 @@
                         <ul class="vertical-nav-menu">
                             <li class="app-sidebar__heading"></li>
                             <li>
-                                <a href="@Url.Action("Home","Home")" class="mm-active">
+                                <a href="@Url.Action("Home","Home")">
                                     <!-- <i class="metismenu-icon pe-7s-home"></i> -->
                                     <i class="metismenu-icon fa fa-home"></i>
                                     Dashboard
@@ -313,12 +313,16 @@
         <script src="~/Scripts/popper-utils.js"></script>*@
 
     <script type="text/javascript" src="~/Scripts/bootstrap.min.js"></script>
-    @*<script>
-        $(".vertical-nav-menu li a").each(function () {
-            if($(this).attr("href")=="www.xyz.com/other/link1")
-            $(this).addClass("active");
-        })
-    </script>*@
+  
+    <script>
+        $(".vertical-nav-menu a").each(function() {
+   
+            if ((window.location.pathname.indexOf($(this).attr('href'))) > -1) {
+                $(this).addClass('mm-active');
+                $(this).parent().addClass('mm-active');
+            }
+        });
+    </script>
 
 </body>
 </html>

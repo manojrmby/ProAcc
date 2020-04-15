@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="ProAccModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="ProAccModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Consultant">
           <Key>
             <PropertyRef Name="Id" />
@@ -305,7 +305,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Function Name="SP_ReadinessReport" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_ReadinessReport" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Type" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="SP_SimplificationReport" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Type" Type="varchar" Mode="In" />
           <Parameter Name="Input" Type="varchar" Mode="In" />
@@ -363,7 +365,8 @@
             <End Role="SubMilestoneConfig" EntitySet="SubMilestoneConfig" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ProAccModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -493,6 +496,32 @@
           <NavigationProperty Name="Project" Relationship="Self.FK_ProjectDetails_Project" FromRole="ProjectDetails" ToRole="Project" />
           <NavigationProperty Name="SubMilestoneConfig" Relationship="Self.FK_ProjectDetails_MilestoneDetails" FromRole="ProjectDetails" ToRole="SubMilestoneConfig" />
           <NavigationProperty Name="StageStatu" Relationship="Self.FK_ProjectDetails_StageStatus" FromRole="ProjectDetails" ToRole="StageStatus" />
+        </EntityType>
+        <EntityType Name="SAPInput_Activities">
+          <Key>
+            <PropertyRef Name="S_No" />
+          </Key>
+          <Property Name="S_No" Type="Double" Nullable="false" />
+          <Property Name="Related_Simplification_Items" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Activities" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Phase" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Condition" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Additional_Information" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="SAPInput_SimplificationReport">
+          <Key>
+            <PropertyRef Name="S_No" />
+          </Key>
+          <Property Name="S_No" Type="Int32" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Category" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Relevance" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="LoB_Technology" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Business_Area" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Consistency_Status" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Manual_Status" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="SAP_Notes" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Relevance_Summary" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="StageStatu">
           <Key>
@@ -661,13 +690,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="ProAccEntities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="ProAccEntities1" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Consultants" EntityType="Self.Consultant" />
           <EntitySet Name="Customers" EntityType="Self.Customer" />
           <EntitySet Name="Milestones" EntityType="Self.Milestone" />
           <EntitySet Name="MilestoneDetails" EntityType="Self.MilestoneDetail" />
           <EntitySet Name="Projects" EntityType="Self.Project" />
           <EntitySet Name="ProjectDetails" EntityType="Self.ProjectDetail" />
+          <EntitySet Name="SAPInput_Activities" EntityType="Self.SAPInput_Activities" />
+          <EntitySet Name="SAPInput_SimplificationReport" EntityType="Self.SAPInput_SimplificationReport" />
           <EntitySet Name="StageStatus" EntityType="Self.StageStatu" />
           <EntitySet Name="SubMilestoneConfigs" EntityType="Self.SubMilestoneConfig" />
           <EntitySet Name="User_Master" EntityType="Self.User_Master" />
@@ -711,13 +742,13 @@
             <End Role="StageStatus" EntitySet="StageStatus" />
             <End Role="ProjectDetails" EntitySet="ProjectDetails" />
           </AssociationSet>
-          <FunctionImport Name="SP_ReadinessReport" ReturnType="Collection(ProAccModel.SP_ReadinessReport_Result)" />
+          <FunctionImport Name="SP_ReadinessReport" ReturnType="Collection(ProAccModel.SP_ReadinessReport_Result)">
+            <Parameter Name="Type" Mode="In" Type="String" />
+          </FunctionImport>
           <FunctionImport Name="SP_SimplificationReport" ReturnType="Collection(String)">
             <Parameter Name="Type" Mode="In" Type="String" />
             <Parameter Name="Input" Mode="In" Type="String" />
           </FunctionImport>
-          <EntitySet Name="SAPInput_SimplificationReport" EntityType="ProAccModel.SAPInput_SimplificationReport" />
-          <EntitySet Name="SAPInput_Activities" EntityType="ProAccModel.SAPInput_Activities" />
         </EntityContainer>
         <ComplexType Name="SP_ReadinessReport_Result">
           <Property Type="Int32" Name="RC" Nullable="true" />
@@ -725,38 +756,12 @@
           <Property Type="Int32" Name="R_NON" Nullable="true" />
           <Property Type="Int32" Name="R" Nullable="true" />
         </ComplexType>
-        <EntityType Name="SAPInput_SimplificationReport">
-          <Key>
-            <PropertyRef Name="S_No" />
-          </Key>
-          <Property Name="S_No" Type="Int32" Nullable="false" />
-          <Property Name="Title" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Category" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Relevance" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="LoB_Technology" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Business_Area" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Consistency_Status" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Manual_Status" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="SAP_Notes" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Relevance_Summary" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="SAPInput_Activities">
-          <Key>
-            <PropertyRef Name="S_No" />
-          </Key>
-          <Property Name="S_No" Type="Double" Nullable="false" />
-          <Property Name="Related_Simplification_Items" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Activities" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Phase" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Condition" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Additional_Information" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="ProAccModelStoreContainer" CdmEntityContainer="ProAccEntities">
+        <EntityContainerMapping StorageEntityContainer="ProAccModelStoreContainer" CdmEntityContainer="ProAccEntities1">
           <EntitySetMapping Name="Consultants">
             <EntityTypeMapping TypeName="ProAccModel.Consultant">
               <MappingFragment StoreEntitySet="Consultant">
@@ -875,6 +880,34 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="SAPInput_Activities">
+            <EntityTypeMapping TypeName="ProAccModel.SAPInput_Activities">
+              <MappingFragment StoreEntitySet="SAPInput_Activities">
+                <ScalarProperty Name="S_No" ColumnName="S_No" />
+                <ScalarProperty Name="Related_Simplification_Items" ColumnName="Related Simplification Items" />
+                <ScalarProperty Name="Activities" ColumnName="Activities" />
+                <ScalarProperty Name="Phase" ColumnName="Phase" />
+                <ScalarProperty Name="Condition" ColumnName="Condition" />
+                <ScalarProperty Name="Additional_Information" ColumnName="Additional Information" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SAPInput_SimplificationReport">
+            <EntityTypeMapping TypeName="ProAccModel.SAPInput_SimplificationReport">
+              <MappingFragment StoreEntitySet="SAPInput_SimplificationReport">
+                <ScalarProperty Name="S_No" ColumnName="S_No" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+                <ScalarProperty Name="Relevance" ColumnName="Relevance" />
+                <ScalarProperty Name="LoB_Technology" ColumnName="LoB/Technology" />
+                <ScalarProperty Name="Business_Area" ColumnName="Business Area" />
+                <ScalarProperty Name="Consistency_Status" ColumnName="Consistency Status" />
+                <ScalarProperty Name="Manual_Status" ColumnName="Manual Status" />
+                <ScalarProperty Name="SAP_Notes" ColumnName="SAP Notes" />
+                <ScalarProperty Name="Relevance_Summary" ColumnName="Relevance Summary" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="StageStatus">
             <EntityTypeMapping TypeName="ProAccModel.StageStatu">
               <MappingFragment StoreEntitySet="StageStatus">
@@ -931,34 +964,6 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="SP_SimplificationReport" FunctionName="ProAccModel.Store.SP_SimplificationReport" />
-          <EntitySetMapping Name="SAPInput_SimplificationReport">
-            <EntityTypeMapping TypeName="ProAccModel.SAPInput_SimplificationReport">
-              <MappingFragment StoreEntitySet="SAPInput_SimplificationReport">
-                <ScalarProperty Name="Relevance_Summary" ColumnName="Relevance Summary" />
-                <ScalarProperty Name="SAP_Notes" ColumnName="SAP Notes" />
-                <ScalarProperty Name="Manual_Status" ColumnName="Manual Status" />
-                <ScalarProperty Name="Consistency_Status" ColumnName="Consistency Status" />
-                <ScalarProperty Name="Business_Area" ColumnName="Business Area" />
-                <ScalarProperty Name="LoB_Technology" ColumnName="LoB/Technology" />
-                <ScalarProperty Name="Relevance" ColumnName="Relevance" />
-                <ScalarProperty Name="Category" ColumnName="Category" />
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="S_No" ColumnName="S_No" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="SAPInput_Activities">
-            <EntityTypeMapping TypeName="ProAccModel.SAPInput_Activities">
-              <MappingFragment StoreEntitySet="SAPInput_Activities">
-                <ScalarProperty Name="Additional_Information" ColumnName="Additional Information" />
-                <ScalarProperty Name="Condition" ColumnName="Condition" />
-                <ScalarProperty Name="Phase" ColumnName="Phase" />
-                <ScalarProperty Name="Activities" ColumnName="Activities" />
-                <ScalarProperty Name="Related_Simplification_Items" ColumnName="Related Simplification Items" />
-                <ScalarProperty Name="S_No" ColumnName="S_No" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

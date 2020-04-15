@@ -45,7 +45,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -321,6 +331,16 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Global.asax" />
+    <Content Include="Models\PROACC.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>PROACC.Context.cs</LastGenOutput>
+      <DependentUpon>PROACC.edmx</DependentUpon>
+    </Content>
+    <Content Include="Models\PROACC.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>PROACC.edmx</DependentUpon>
+      <LastGenOutput>PROACC.cs</LastGenOutput>
+    </Content>
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -410,6 +430,13 @@
     <Content Include="bin\roslyn\vbc.exe.config" />
     <Content Include="bin\roslyn\vbc.rsp" />
     <Content Include="bin\roslyn\VBCSCompiler.exe.config" />
+    <EntityDeploy Include="Models\PROACC.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>PROACC.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\PROACC.edmx.diagram">
+      <DependentUpon>PROACC.edmx</DependentUpon>
+    </Content>
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
@@ -508,16 +535,67 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Models\Consultant.cs">
+      <DependentUpon>PROACC.tt</DependentUpon>
+    </Compile>
     <Compile Include="Controllers\AssessmentController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="BL\Base.cs" />
     <Compile Include="BL\DBHelper.cs" />
     <Compile Include="BL\Model\Common.cs" />
+    <Compile Include="Models\Customer.cs">
+      <DependentUpon>PROACC.tt</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Milestone.cs">
+      <DependentUpon>PROACC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MilestoneDetail.cs">
+      <DependentUpon>PROACC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PROACC.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PROACC.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PROACC.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PROACC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PROACC.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PROACC.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Project.cs">
+      <DependentUpon>PROACC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ProjectDetail.cs">
+      <DependentUpon>PROACC.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Models\SAPInput_Activities.cs">
+      <DependentUpon>PROACC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SAPInput_SimplificationReport.cs">
+      <DependentUpon>PROACC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_ReadinessReport_Result.cs">
+      <DependentUpon>PROACC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\StageStatu.cs">
+      <DependentUpon>PROACC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SubMilestoneConfig.cs">
+      <DependentUpon>PROACC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\User_Master.cs">
+      <DependentUpon>PROACC.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
@@ -539,10 +617,10 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\index.d.ts" />

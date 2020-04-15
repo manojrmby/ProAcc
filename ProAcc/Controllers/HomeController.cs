@@ -53,6 +53,23 @@ namespace ProAcc.Controllers
 
             return Json(sP_, JsonRequestBehavior.AllowGet);
         }
+        public JsonResult GetActivities_Bar1()
+        {
+            GeneralList sP_ = _Base.sP_GetActivities_Bar1();
+            return Json(sP_, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetActivities_Bar2()
+        {
+            GeneralList sP_ = _Base.sP_GetActivities_Bar2();
+            return Json(sP_, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetActivities_Donut()
+        {
+            GeneralList sP_ = _Base.sP_GetActivities_Donut();
+            return Json(sP_, JsonRequestBehavior.AllowGet);
+        }
 
     }
 }

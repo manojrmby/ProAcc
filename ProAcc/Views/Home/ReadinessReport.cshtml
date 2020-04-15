@@ -1,100 +1,75 @@
 ﻿
 @{
-	ViewBag.Title = "ReadinessReport";
-	Layout = "~/Views/shared/_Layout.cshtml";
+    ViewBag.Title = "ReadinessReport";
+    Layout = "~/Views/shared/_Layout.cshtml";
 }
 <script src="~/Asset/Scripts/Chart.js"></script>
 <script src="~/Asset/Scripts/Chart.RadialGauge.umd.js"></script>
-<div style="padding:1em;"class="card">
-	<div class="row">
-		<div class="col-lg-12">
-			<div class="row" style="padding:0em 1em 1em 1em;">
-				<div class="col-lg-6">
-					<label>Simplification</label>
-					<canvas id="Chart_Relevant"></canvas>
-					@*<div id="Chart_Relevant"></div>*@
-					<label>Total:238</label>
-				</div>
-				<div class="col-lg-6">
 
+<div style="padding:1em;">
+
+    <div class="row ">
+       
+		<div class="col-lg-12 ">
+			<a>SAP Readiness Report</a>
+			<div class="row" style="padding:0em 1em 1em 1em;">
+				<div class="col-lg-6 card">
+					<label class="align-self-center">Simplification</label>
+					<canvas id="Chart_Relevant"></canvas>
+				</div>
+				<div class="col-lg-6 card">
+					<div class="row">
+						<div class="col-lg-4">
+							<label></label>
+							<canvas id="Chart_Activities_Bar1"></canvas>
+						</div>
+						@*<div class="col-lg-4">
+							<label></label>
+							<canvas id="Chart_Activities_Bar2"></canvas>
+						</div>
+						<div class="col-lg-4">
+							<label></label>
+							<canvas id="Chart_Activities_Donut"></canvas>
+						</div>*@
+						
+						
+						
+					</div>
 				</div>
 			</div>
 		</div>
-		<div class="col-lg-12">
-
-		</div>
-	</div>
+        <div class="col-lg-12">
+            <a>Activities Related Simplification Items</a>
+            <div class="row" style="padding:0em 1em 1em 1em;">
+                <div class="col-lg-4">
+                    
+                </div>
+                <div class="col-lg-4">
+                    
+                </div>
+                <div class="col-lg-4">
+                   
+                </div>
+            </div>
+        </div>
+    </div>
 
 </div>
 
 <script type="text/javascript">
 
-	function renderChart(data, labels) {
+	Chart.defaults.global.defaultFontFamily = "calibri";
 
-		Chart.defaults.global.defaultFontFamily = "Verdana";
-		var ctx = document.getElementById("Chart_Relevant").getContext("2d");
+	jQuery(document).ready(function ($) {
 
-var gradientStroke_ = ctx.createLinearGradient(500, 0, 100, 0);
-		gradientStroke_.addColorStop(0, "#FDB777");
-gradientStroke_.addColorStop(1, "#FD9346");
+		Ajax_SimplificationDonut();
 
-var gradientStroke_2 = ctx.createLinearGradient(500, 0, 100, 0);
-gradientStroke_2.addColorStop(0, "#FB291B");
-gradientStroke_2.addColorStop(1, "#CD1B2D");
-
-var gradientStroke_3 = ctx.createLinearGradient(500, 0, 100, 0);
-gradientStroke_3.addColorStop(0, "#FDB777");
-gradientStroke_3.addColorStop(1, "#FD9346");
-
-var gradientStroke_4 = ctx.createLinearGradient(500, 0, 100, 0);
-gradientStroke_4.addColorStop(0, "#FB291B");
-gradientStroke_4.addColorStop(1, "#CD1B2D");
-
-var config = {
-	type: "doughnut",
-	data: {
-		labels: labels,
-		datasets: [
-			{
-
-				data: data,
-				backgroundColor: [gradientStroke_, gradientStroke_2],
-				backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850"],
-				borderWidth: 2,
-				label: "Score"
-			}
-		]
-	},
-	options: {
-		responsive: true,
-		legend: {
-			display: false
-		},
-		title: {
-			display: false,
-			text: "Radial gauge chart"
-		},
-		centerPercentage: 60,
-		centerArea: {
-			displayText: true,
-			text: "100%"
-		}
-	}
-	};
-
-				window.myRadialGauge = new Chart(ctx, config);
-	}
-
-
-
-
-
-
-
-
-
-jQuery(document).ready(function ($) {
-		 $.ajax({
+		Ajax_Activities_Bar1();
+		Ajax_Activities_Bar2();
+		Ajax_Activities_Donut();
+	});
+	function Ajax_SimplificationDonut() {
+		$.ajax({
 				type: "POST",
 				url: '@Url.Action("GetSimplificationReport")',
 				//data: '{std: ' + JSON.stringify(std) + '}',
@@ -110,12 +85,449 @@ jQuery(document).ready(function ($) {
 					alert("Error while inserting data");
 				}
 			});
+	}
+	function renderChart(data, labels) {
+
+		
+		var ctx = document.getElementById("Chart_Relevant").getContext("2d");
+
+		var gradientStroke_ = ctx.createLinearGradient(500, 0, 100, 0);
+		gradientStroke_.addColorStop(0, "#FDB777");
+		gradientStroke_.addColorStop(1, "#FD9346");
+
+		var gradientStroke_2 = ctx.createLinearGradient(500, 0, 100, 0);
+		gradientStroke_2.addColorStop(0, "#FB291B");
+		gradientStroke_2.addColorStop(1, "#CD1B2D");
+
+		var gradientStroke_3 = ctx.createLinearGradient(500, 0, 100, 0);
+		gradientStroke_3.addColorStop(0, "#FDB777");
+		gradientStroke_3.addColorStop(1, "#FD9346");
+
+		var gradientStroke_4 = ctx.createLinearGradient(500, 0, 100, 0);
+		gradientStroke_4.addColorStop(0, "#FB291B");
+		gradientStroke_4.addColorStop(1, "#CD1B2D");
+
+		var config = {
+			type: "doughnut",
+			data: {
+				labels: labels,
+				datasets: [{
+
+					data: data,
+					backgroundColor: [gradientStroke_, gradientStroke_2],
+					backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850"],
+					borderWidth: 2,
+					label: "Score"
+				}]
+			},
+			options: {
+
+				responsive: true,
+				legend: {
+					//display: true,
+					position: 'bottom'
+				},
+				//title: {
+				//	display: false,
+				//	text: "Radial gauge chart"
+				//},
+				centerPercentage: 60,
+				centerArea: {
+					displayText: true,
+					text: "100%"
+				},
+				//scales: {
+				//	xAxes: [{
+				//		stacked: true
+				//	}],
+				//	yAxes: [{
+				//		stacked: true
+				//	}]
+				//}
+				animation: {
+					duration: 5000
+				}
+//                ,
+				//scales: {
+				//	xAxes: [{
+				//		ticks: {
+				//			display: false //this will remove only the label
+				//		}
+				//	}]
+				//}
+			}
+		};
+
+		window.myRadialGauge = new Chart(ctx, config);
+	}
+
+	function Ajax_Activities_Bar1() {
+		$.ajax({
+			type: "POST",
+			url: '@Url.Action("GetActivities_Bar1")',
+			//data: '{LOB: ' + JSON.stringify(a) + '}',
+			dataType: "json",
+			contentType: "application/json; charset=utf-8",
+			success: function (Data) {
+				var Output = Data._List;
+				var inpName = [];
+				var inpVal = [];
+				var C = 0;
+				for (var i = 0; i < Output.length; i++) {
+
+					var _Name = Output[i].Name;
+
+					if (_Name == 'Custom Code Adaption') {
+						inpName.push(Output[i].Name);
+						inpVal.push(Output[i]._Value);
+					} else if (_Name == 'Customizing / Configuration') {
+						inpName.push(Output[i].Name);
+						inpVal.push(Output[i]._Value);
+					} else if (_Name == 'User Training') {
+						inpName.push(Output[i].Name);
+						inpVal.push(Output[i]._Value);
+					} else {
+						C = C + Output[i]._Value;
+					}
+				}
+				inpName.push("Others");
+				inpVal.push(C);
+				labels = inpName;
+				data_ = inpVal;
+				renderBar1Chart(data_, labels);
+			},
+			error: function () {
+				alert("Error while inserting data");
+			}
+		}).done(function (response) {
+			//chart.data = response;
+
+		});
+	}
+	function renderBar1Chart(data, labels) {
+
+		
+		var ctx = document.getElementById("Chart_Activities_Bar1").getContext("2d");
+
+		var gradientStroke_ = ctx.createLinearGradient(500, 0, 100, 0);
+		gradientStroke_.addColorStop(0, "#FDB777");
+		gradientStroke_.addColorStop(1, "#FD9346");
+
+		var gradientStroke_2 = ctx.createLinearGradient(500, 0, 100, 0);
+		gradientStroke_2.addColorStop(0, "#FB291B");
+		gradientStroke_2.addColorStop(1, "#CD1B2D");
+
+		var gradientStroke_3 = ctx.createLinearGradient(500, 0, 100, 0);
+		gradientStroke_3.addColorStop(0, "#FDB777");
+		gradientStroke_3.addColorStop(1, "#FD9346");
+
+		var gradientStroke_4 = ctx.createLinearGradient(500, 0, 100, 0);
+		gradientStroke_4.addColorStop(0, "#FB291B");
+		gradientStroke_4.addColorStop(1, "#CD1B2D");
+
+		var config = {
+			//type: "horizontalBar",
+			type: "bar",
+
+			data: {
+				labels: labels,
+				datasets: [{
+
+					data: data,
+					//backgroundColor: [gradientStroke_, gradientStroke_2],
+					backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850"],
+					borderWidth: 2,
+					label: "Score"
+				}]
+			},
+			options: {
+
+				responsive: true,
+				legend: {
+					display: false
+				},
+				title: {
+					display: false,
+					text: "Radial gauge chart"
+				},
+				centerPercentage: 60,
+				centerArea: {
+					displayText: true,
+					text: "100%"
+				},
+				//scales: {
+				//	xAxes: [{
+				//		stacked: true
+				//	}],
+				//	yAxes: [{
+				//		stacked: true
+				//	}]
+				//}
+				animation: {
+					duration: 5000
+				},
+				scales: {
+					xAxes: [{
+						ticks: {
+							display: false //this will remove only the label
+						}
+                    }],
+					yAxes: [{
+						ticks: {
+							display: false //this will remove only the label
+						}
+					}]
+				}
+			}
+		};
+		window.myRadialGauge = new Chart(ctx, config);
+	}
 
 
-	});
+	function Ajax_Activities_Bar2() {
+		$.ajax({
+			type: "POST",
+			url: '@Url.Action("GetActivities_Bar2")',
+			//data: '{LOB: ' + JSON.stringify(a) + '}',
+			dataType: "json",
+			contentType: "application/json; charset=utf-8",
+			success: function (Data) {
+				var Output = Data._List;
+				var inpName = [];
+				var inpVal = [];
+				var C = 0;
+				for (var i = 0; i < Output.length; i++) {
 
-$("#Chart_Relevant").click(
+					var _Name = Output[i].Name;
 
+					if (_Name == 'During conversion project') {
+						inpName.push(Output[i].Name);
+						inpVal.push(Output[i]._Value);
+					} else if (_Name == 'Before conversion project') {
+						inpName.push(Output[i].Name);
+						inpVal.push(Output[i]._Value);
+					} else if (_Name == 'Before or during conversion project') {
+						inpName.push(Output[i].Name);
+						inpVal.push(Output[i]._Value);
+					} else {
+						C = C + Output[i]._Value;
+					}
+				}
+				inpName.push("Others");
+				inpVal.push(C);
+				labels = inpName;
+				data_ = inpVal;
+				renderBar2Chart(data_, labels);
+			},
+			error: function () {
+				alert("Error while inserting data");
+			}
+		}).done(function (response) {
+			//chart.data = response;
+
+		});
+	}
+	function renderBar2Chart(data, labels) {
+
+		Chart.defaults.global.defaultFontFamily = "Verdana";
+		var ctx = document.getElementById("Chart_Activities_Bar2").getContext("2d");
+
+		var gradientStroke_ = ctx.createLinearGradient(500, 0, 100, 0);
+		gradientStroke_.addColorStop(0, "#FDB777");
+		gradientStroke_.addColorStop(1, "#FD9346");
+
+		var gradientStroke_2 = ctx.createLinearGradient(500, 0, 100, 0);
+		gradientStroke_2.addColorStop(0, "#FB291B");
+		gradientStroke_2.addColorStop(1, "#CD1B2D");
+
+		var gradientStroke_3 = ctx.createLinearGradient(500, 0, 100, 0);
+		gradientStroke_3.addColorStop(0, "#FDB777");
+		gradientStroke_3.addColorStop(1, "#FD9346");
+
+		var gradientStroke_4 = ctx.createLinearGradient(500, 0, 100, 0);
+		gradientStroke_4.addColorStop(0, "#FB291B");
+		gradientStroke_4.addColorStop(1, "#CD1B2D");
+
+		var config = {
+			//type: "horizontalBar",
+			type: "bar",
+
+			data: {
+				labels: labels,
+				datasets: [{
+
+					data: data,
+					//backgroundColor: [gradientStroke_, gradientStroke_2],
+					backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850"],
+					borderWidth: 2,
+					label: "Score"
+				}]
+			},
+			options: {
+
+				responsive: true,
+				legend: {
+					display: false
+				},
+				title: {
+					display: false,
+					text: "Radial gauge chart"
+				},
+				centerPercentage: 60,
+				centerArea: {
+					displayText: true,
+					text: "100%"
+				},
+				//scales: {
+				//	xAxes: [{
+				//		stacked: true
+				//	}],
+				//	yAxes: [{
+				//		stacked: true
+				//	}]
+				//}
+				animation: {
+					duration: 5000
+				},
+				scales: {
+					xAxes: [{
+						ticks: {
+							display: false //this will remove only the label
+						}
+					}]
+				}
+			}
+		};
+		window.myRadialGauge = new Chart(ctx, config);
+	}
+
+	function Ajax_Activities_Donut() {
+		$.ajax({
+			type: "POST",
+			url: '@Url.Action("GetActivities_Donut")',
+			//data: '{LOB: ' + JSON.stringify(a) + '}',
+			dataType: "json",
+			contentType: "application/json; charset=utf-8",
+			success: function (Data) {
+
+				var Output = Data._List;
+				var inpName = [];
+				var inpVal = [];
+				var C = 0;
+
+				for (var i = 0; i < Output.length; i++) {
+
+					inpName.push(Output[i].Name);
+					inpVal.push(Output[i]._Value);
+
+					//var _Name = Output[i].Name;
+
+					//if (_Name == 'Custom Code Adaption') {
+					//	inpName.push(Output[i].Name);
+					//	inpVal.push(Output[i]._Value);
+					//} else if (_Name == 'Customizing / Configuration') {
+					//	inpName.push(Output[i].Name);
+					//	inpVal.push(Output[i]._Value);
+					//} else if (_Name == 'User Training') {
+					//	inpName.push(Output[i].Name);
+					//	inpVal.push(Output[i]._Value);
+					//} else {
+					//	C = C + Output[i]._Value;
+					//}
+				}
+				//inpName.push("Others");
+				//inpVal.push(C);
+				labels = inpName;
+				data_ = inpVal;
+
+				renderDonutChart(data_, labels);
+			},
+			error: function () {
+				alert("Error while inserting data");
+			}
+		}).done(function (response) {
+			//chart.data = response;
+
+		});
+	}
+	function renderDonutChart(data, labels) {
+
+		//Chart.defaults.global.defaultFontFamily = "Verdana";
+		var ctx = document.getElementById("Chart_Activities_Donut").getContext("2d");
+
+		var gradientStroke_ = ctx.createLinearGradient(500, 0, 100, 0);
+		gradientStroke_.addColorStop(0, "#FDB777");
+		gradientStroke_.addColorStop(1, "#FD9346");
+
+		var gradientStroke_2 = ctx.createLinearGradient(500, 0, 100, 0);
+		gradientStroke_2.addColorStop(0, "#FB291B");
+		gradientStroke_2.addColorStop(1, "#CD1B2D");
+
+		var gradientStroke_3 = ctx.createLinearGradient(500, 0, 100, 0);
+		gradientStroke_3.addColorStop(0, "#FDB777");
+		gradientStroke_3.addColorStop(1, "#FD9346");
+
+		var gradientStroke_4 = ctx.createLinearGradient(500, 0, 100, 0);
+		gradientStroke_4.addColorStop(0, "#FB291B");
+		gradientStroke_4.addColorStop(1, "#CD1B2D");
+
+		var config = {
+			//type: "horizontalBar",
+			type: "doughnut",
+
+			data: {
+				labels: labels,
+				datasets: [{
+
+					data: data,
+					//backgroundColor: [gradientStroke_, gradientStroke_2],
+					backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850"],
+					borderWidth: 2,
+					label: "Score"
+				}]
+			},
+			options: {
+
+				responsive: true,
+                legend: {
+
+					//display: true,
+					position: 'bottom'
+				},
+				//title: {
+				//	display: false,
+				//	text: "Radial gauge chart"
+				//},
+				centerPercentage: 60,
+				centerArea: {
+					displayText: true,
+					text: "100%"
+				},
+				//scales: {
+				//	xAxes: [{
+				//		stacked: true
+				//	}],
+				//	yAxes: [{
+				//		stacked: true
+				//	}]
+				//}
+				animation: {
+					duration: 5000
+				}
+//                ,
+				//scales: {
+				//	xAxes: [{
+				//		ticks: {
+				//			display: false //this will remove only the label
+				//		}
+				//	}]
+				//}
+			}
+		};
+		window.myRadialGauge = new Chart(ctx, config);
+	}
+
+	$("#Chart_Relevant").click(
 	function (evt) {
 		//alert(evt);
 		//debugger;
@@ -124,5 +536,8 @@ $("#Chart_Relevant").click(
 		//var url = "http://example.com/?label=" + activePoints[0].label + "&value=" + activePoints[0].value;
 		//alert(url);
 	}
-);
+	);
+
+
 </script>
+

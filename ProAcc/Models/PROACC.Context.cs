@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ProACC_DB
+namespace ProAcc.Models
 {
     using System;
     using System.Data.Entity;
@@ -15,10 +15,10 @@ namespace ProACC_DB
     using System.Data.Entity.Core.Objects;
     using System.Linq;
     
-    public partial class ProAccEntities : DbContext
+    public partial class ProAccEntities1 : DbContext
     {
-        public ProAccEntities()
-            : base("name=ProAccEntities")
+        public ProAccEntities1()
+            : base("name=ProAccEntities1")
         {
         }
     
@@ -33,15 +33,19 @@ namespace ProACC_DB
         public virtual DbSet<MilestoneDetail> MilestoneDetails { get; set; }
         public virtual DbSet<Project> Projects { get; set; }
         public virtual DbSet<ProjectDetail> ProjectDetails { get; set; }
+        public virtual DbSet<SAPInput_Activities> SAPInput_Activities { get; set; }
+        public virtual DbSet<SAPInput_SimplificationReport> SAPInput_SimplificationReport { get; set; }
         public virtual DbSet<StageStatu> StageStatus { get; set; }
         public virtual DbSet<SubMilestoneConfig> SubMilestoneConfigs { get; set; }
         public virtual DbSet<User_Master> User_Master { get; set; }
-        public virtual DbSet<SAPInput_SimplificationReport> SAPInput_SimplificationReport { get; set; }
-        public virtual DbSet<SAPInput_Activities> SAPInput_Activities { get; set; }
     
-        public virtual ObjectResult<SP_ReadinessReport_Result> SP_ReadinessReport()
+        public virtual ObjectResult<SP_ReadinessReport_Result> SP_ReadinessReport(string type)
         {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_ReadinessReport_Result>("SP_ReadinessReport");
+            var typeParameter = type != null ?
+                new ObjectParameter("Type", type) :
+                new ObjectParameter("Type", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_ReadinessReport_Result>("SP_ReadinessReport", typeParameter);
         }
     
         public virtual ObjectResult<string> SP_SimplificationReport(string type, string input)
