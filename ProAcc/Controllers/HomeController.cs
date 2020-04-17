@@ -16,60 +16,21 @@ namespace ProAcc.Controllers
         // GET: Home
         public ActionResult Home()
         {
-
+            //int j = 0;
+            //var stat = db.HanaStatus.ToList();
+            //for (int i = 0; i < stat.Count(); i++)
+            //{
+            //    if (stat[i].IsActive == true)
+            //    {
+            //        j = j + 1;
+            //    }
+            //}
+            //ViewBag.count = j;
             return View();
         }
-        public ActionResult PreConvertion()
+        public ActionResult Test()
         {
             return View();
         }
-
-
-
-        public ActionResult ReadinessReport()
-        {
-            return View();
-        }
-        public ActionResult SimplificationReport()
-        {
-            Common.GeneralList sP_ = _Base.sP_SimplificationReport();
-            ViewBag.LOB = new SelectList(sP_._List, "_Value", "Name");
-            return View();
-        }
-
-        //Post
-        [HttpPost]
-        public JsonResult GetSimplificationReport()
-        {
-
-            SP_ReadinessReport_Result GetRelevant = _Base.sAPInput();
-            return Json(GetRelevant, JsonRequestBehavior.AllowGet);
-        }
-
-        [HttpPost]
-        public JsonResult GetSimplificationReport_Bar(string LOB)
-        {
-            GeneralList sP_ = _Base.sP_SimplificationReport_Bar(LOB);
-
-            return Json(sP_, JsonRequestBehavior.AllowGet);
-        }
-        public JsonResult GetActivities_Bar1()
-        {
-            GeneralList sP_ = _Base.sP_GetActivities_Bar1();
-            return Json(sP_, JsonRequestBehavior.AllowGet);
-        }
-
-        public JsonResult GetActivities_Bar2()
-        {
-            GeneralList sP_ = _Base.sP_GetActivities_Bar2();
-            return Json(sP_, JsonRequestBehavior.AllowGet);
-        }
-
-        public JsonResult GetActivities_Donut()
-        {
-            GeneralList sP_ = _Base.sP_GetActivities_Donut();
-            return Json(sP_, JsonRequestBehavior.AllowGet);
-        }
-
     }
 }

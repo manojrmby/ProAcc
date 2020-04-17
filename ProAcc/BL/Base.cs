@@ -173,5 +173,193 @@ namespace ProAcc.BL
         }
 
 
+        public GeneralList sP_GetFiori_Bar()
+        {
+            GeneralList sP_ = new GeneralList();
+            DataTable dt = new DataTable();
+            DBHelper dB = new DBHelper("SP_ReadinessReport", CommandType.StoredProcedure);
+
+            dB.addIn("@Type", "Fiori_Bar");
+            dt = dB.ExecuteDataTable();
+            if (dt.Rows.Count > 0)
+            {
+                List<Lis> _Lob = new List<Lis>();
+                foreach (DataRow dr in dt.Rows)
+                {
+                    _Lob.Add(
+                        new Lis
+                        {
+                            Name = dr["Application_Area"].ToString(),
+                            _Value = Convert.ToInt32(dr["_Count"].ToString()
+                            )
+                        });
+
+                }
+
+                sP_._List = _Lob;
+
+
+            }
+            return sP_;
+        }
+        public GeneralList sP_GetCustomCode_Bar()
+        {
+            GeneralList sP_ = new GeneralList();
+            DataTable dt = new DataTable();
+            DBHelper dB = new DBHelper("SP_ReadinessReport", CommandType.StoredProcedure);
+
+            dB.addIn("@Type", "CustomCode_Bar");
+            dt = dB.ExecuteDataTable();
+            if (dt.Rows.Count > 0)
+            {
+                List<Lis> _Lob = new List<Lis>();
+                foreach (DataRow dr in dt.Rows)
+                {
+                    _Lob.Add(
+                        new Lis
+                        {
+                            Name = dr["_Status"].ToString(),
+                            _Value = Convert.ToInt32(dr["_Count"].ToString()
+                            )
+                        });
+
+                }
+
+                sP_._List = _Lob;
+
+
+            }
+            return sP_;
+        }
+        public List<SAPInput_SimplificationReport> SAPInput_SimplificationReport()
+        {
+            List<SAPInput_SimplificationReport> SR = new List<SAPInput_SimplificationReport>();
+            DataTable dt = new DataTable();
+            DBHelper dB = new DBHelper("SP_SimplificationReport", CommandType.StoredProcedure);
+            dB.addIn("@Type", "SR_Table");
+            dt = dB.ExecuteDataTable();
+            //  List<DataRow> list = new List<DataRow>(dt.Select());
+            int i = 0;
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow dr in dt.Rows)
+                {
+                    i += 1;
+                    SAPInput_SimplificationReport data = new SAPInput_SimplificationReport();
+                    data.S_No = i;
+                    data.Title = dr["Title"].ToString();
+                    data.Category = dr["Category"].ToString();
+                    data.Relevance = dr["Relevance"].ToString();
+                    data.LoB_Technology = dr["LoB/Technology"].ToString();
+                    data.Business_Area = dr["Business Area"].ToString();
+                    data.Consistency_Status = dr["Consistency Status"].ToString();
+                    data.Manual_Status = dr["Manual Status"].ToString();
+                    data.SAP_Notes = dr["SAP Notes"].ToString();
+                    data.Relevance_Summary = dr["Relevance Summary"].ToString();
+                    SR.Add(data);
+                }
+            }
+            return SR;
+        }
+
+        public List<SAPInput_CustomCode> SAPInput_CustomCodeReport()
+        {
+            List<SAPInput_CustomCode> CR = new List<SAPInput_CustomCode>();
+            DataTable dt = new DataTable();
+            DBHelper dB = new DBHelper("SP_CustomCode", CommandType.StoredProcedure);
+            dB.addIn("@Type", "CustomTable");
+            dt = dB.ExecuteDataTable();
+            //  List<DataRow> list = new List<DataRow>(dt.Select());
+            int i = 0;
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow dr in dt.Rows)
+                {
+                    i += 1;
+                    SAPInput_CustomCode data = new SAPInput_CustomCode();
+                    data.S_No = i;
+                    data.Custom_Code_Topic = dr["Custom Code Topic"].ToString();
+                    data.Status = dr["Status"].ToString();
+                    data.Application_Component = dr["Application Component"].ToString();
+                    data.Custom_Code_Note = dr["Custom Code Note"].ToString();
+
+                    CR.Add(data);
+                }
+            }
+            return CR;
+        }
+
+        //public GeneralList sP_AnalysisDropdownProject()
+        //{
+        //    GeneralList sP_ = new GeneralList();
+        //    DataSet ds = new DataSet();
+        //    DBHelper dB = new DBHelper("SP_CreateAnalysis", CommandType.StoredProcedure);
+        //    dB.addIn("@Type", "Drp_Project");
+        //    ds = dB.ExecuteDataSet();
+        //    List<Lis> _Lob = new List<Lis>();
+        //    if (ds.Tables.Count > 0)
+        //    {
+        //        DataTable dt = new DataTable();
+        //        dt = ds.Tables[0];
+        //        foreach (DataRow dr in dt.Rows)
+        //        {
+        //            _Lob.Add(new Lis
+        //            {
+        //                Name = dr["ProjectName"].ToString(),
+        //                Value = dr["CustProjconfigID"].ToString()
+        //            });
+
+        //        }
+        //    }
+
+
+        //    sP_._List = _Lob;
+        //    return sP_;
+        //}
+        public Tuple<List<Lis>, List<Lis>> sP_AnalysisDropdowns()
+        {
+            List<Lis> list1 = new List<Lis>();
+            List<Lis> list2 = new List<Lis>();
+            DataSet ds = new DataSet();
+            DBHelper dB = new DBHelper("SP_CreateAnalysis", CommandType.StoredProcedure);
+            dB.addIn("@Type", "Drp_Project");
+            ds = dB.ExecuteDataSet();
+
+            if (ds.Tables.Count > 0)
+            {
+                if (ds.Tables[0].Rows.Count > 0)
+                {
+                    DataTable dt = new DataTable();
+                    dt = ds.Tables[0];//Customer
+                    foreach (DataRow dr in dt.Rows)
+                    {
+                        list1.Add(new Lis
+                        {
+                            Name = dr["Name"].ToString(),
+                            Value = dr["ID"].ToString()
+                        });
+
+                    }
+                }
+                if (ds.Tables[1].Rows.Count > 0)
+                {
+                    DataTable dt = new DataTable();
+                    dt = ds.Tables[1];//ProjectName
+                    foreach (DataRow dr in dt.Rows)
+                    {
+                        list2.Add(new Lis
+                        {
+
+                            Name = dr["ProjectName"].ToString(),
+                            Value = dr["CustProjconfigID"].ToString()
+                        });
+
+                    }
+                }
+
+            }
+
+            return Tuple.Create(list1, list2);
+        }
     }
 }

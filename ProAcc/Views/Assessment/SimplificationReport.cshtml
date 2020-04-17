@@ -6,13 +6,13 @@
 <script src="~/Asset/Scripts/Chart.js"></script>
 <script src="~/Asset/Scripts/Chart.RadialGauge.umd.js"></script>
 @*<style>
-	.app-main__outer {
-		padding-left:290px!important;
-	}
-</style>*@
-<div style="padding:1em;" class="card">
+		.app-main__outer {
+			padding-left:290px!important;
+		}
+	</style>*@
+<div style="padding:1em;">
 	<div class="row">
-		<div class="col-lg-12">
+		<div class="col-lg-12 card">
 			<div class="row" style="padding:0em 1em 1em 1em;">
 				<div class="col-lg-6">
 					<label>SimplificationReport</label>
@@ -22,18 +22,87 @@
 					@Html.DropDownList("LOB", (IEnumerable<SelectListItem>)ViewBag.LOB, "ALL", new { id = "IDLob", @class = "form-control" })
 				</div>
 			</div>
+			<canvas id="Chart_Relevant"></canvas>
+		</div>
+
+	</div>
+	<div class="row">
+		<div class="col-lg-12 card">
+			<h3>Show Database value in DataTable</h3>
+			<div>
+				<table id="t01">
+					<thead >
+					<th scope="col">S NO</th>
+					<th scope="row">Title</th>
+					<th scope="row">Category</th>
+					<th>Relevance</th>
+					<th>LoB/Technology</th>
+					<th>Business Area</th>
+					<th>Consistency Status</th>
+					<th>Manual Status</th>
+					<th>SAP Notes</th>
+					<th>Relevance Summary</th>
+					</thead>
+
+					@foreach (var item in ViewBag.SRReport)
+					{
+
+				<tr>
+					<td>
+						@item.S_No
+					</td>
+					<td>
+						@item.Title
+					</td>
+					<td>
+						@item.Category
+					</td>
+					<td>
+						@item.Relevance
+					</td>
+					<td>
+						@item.LoB_Technology
+					</td>
+					<td>
+						@item.Business_Area
+					</td>
+					<td>
+						@item.Consistency_Status
+					</td>
+					<td>
+						@item.Manual_Status
+					<td>
+						
+						@{
+							var result = "";
+							if (@item.SAP_Notes != null)
+							{
+								var data = @item.SAP_Notes;
+								result = (data.Length > 6) ? data.Substring(data.Length - 6, 6) : data;
+							}
+							<a href="@item.SAP_Notes">@result</a>
+						}
+					</td>
+				<td>
+				   @item.Relevance_Summary
+					</td>
+				</tr>
+
+
+
+					}
+
+				</table>
+			</div>
+			@*<label>Simplification</label>*@
+
+			@*<div id="Chart_Relevant"></div>*@
+			@*<label>Total:238</label>*@
 
 		</div>
-	</div>
-	<div class="row-cols-1">
 
-		@*<label>Simplification</label>*@
-		<canvas id="Chart_Relevant"></canvas>
-		@*<div id="Chart_Relevant"></div>*@
-		@*<label>Total:238</label>*@
 
 	</div>
-
 </div>
 
 <script type="text/javascript" charset="utf-8">
@@ -41,12 +110,12 @@
 	var randomScalingFactor = function () {
 				return Math.round(Math.random() * 100);
 			};
-    function renderChart(data, labels) {
-        
-        var maxval = Math.max.apply(Math,data);
-		
+	function renderChart(data, labels) {
+
+		var maxval = Math.max.apply(Math,data);
+
 		Chart.defaults.global.defaultFontFamily = "Verdana";
-		
+
 
 var gradientStroke_ = ctx.createLinearGradient(500, 0, 100, 0);
 		gradientStroke_.addColorStop(0, "#FDB777");
@@ -82,7 +151,7 @@ var config = {
 		]
 	},
 	options: {
-		
+
 		responsive: true,
 		legend: {
 			display: false
@@ -96,7 +165,7 @@ var config = {
 			displayText: true,
 			text: "100%"
 		},
-		
+
 		//animation: {
 		//		duration:5000
 		//},
@@ -105,16 +174,16 @@ var config = {
 				ticks: {
 					display: false //this will remove only the label
 				}
-            }],
+			}],
 			yAxes: [{
-                            display: true,
-                ticks: {
-                    beginAtZero: false,
-                                steps: 10,
-                                stepValue: 5,
-                                max: maxval+10
-                            }
-                        }]
+							display: true,
+				ticks: {
+					beginAtZero: false,
+					steps: 10,
+					stepValue: 5,
+					max: maxval + 10
+				}
+						}]
 		}
 	}
 	};
@@ -133,27 +202,27 @@ var config = {
 			success: function (Data) {
 
 				var Output = Data._List;
-				
+
 				var inpName = []; var inpVal = []; var backColor = [];
 				for (var i = 0; i < Output.length; i++) {
 					inpName.push(Output[i].Name);
 					inpVal.push(Output[i]._Value);
 					backColor.push()
 				}
-			   
+
 				// data_ = [Data.R, Data.RC, Data.RC_NON, Data.R_NON];
 				//labels = ["Relevant", "Relevance to be Checked", "Relevance to be Checked (Non-strategic)", "Relevant (Non-strategic)"];
 				labels = inpName;
 				data_ = inpVal;
 				renderChart(data_, labels);
-				
+
 				},
 				error: function () {
 					alert("Error while inserting data");
 			}
 		}).done(function (response) {
 	//chart.data = response;
-	
+
 });
 	}
 
@@ -172,7 +241,7 @@ var config = {
 	$("#IDLob").change(function () {
 
 		var a = $('#IDLob option:selected').text();
-	   
+
 		Ajax_Call(a);
 	   });
 </script>

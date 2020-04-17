@@ -22,9 +22,7 @@ namespace ProACC_DB
         }
     
         public System.Guid Id { get; set; }
-        public string ProjectName { get; set; }
-        public Nullable<System.Guid> Cust_ID { get; set; }
-        public Nullable<System.Guid> Consultunt_Id { get; set; }
+        public System.Guid projectinstanceid { get; set; }
         public System.DateTime Start_Dt { get; set; }
         public System.DateTime End_Dt { get; set; }
         public string Accuracy { get; set; }
@@ -35,10 +33,10 @@ namespace ProACC_DB
         public Nullable<System.Guid> Modified_by { get; set; }
         public bool IsDeleted { get; set; }
     
-        public virtual Consultant Consultant { get; set; }
         public virtual Customer Customer { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MilestoneDetail> MilestoneDetails { get; set; }
+        public virtual ProjInstanceConfig ProjInstanceConfig { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProjectDetail> ProjectDetails { get; set; }
     }

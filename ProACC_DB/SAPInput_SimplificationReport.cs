@@ -14,7 +14,7 @@ namespace ProACC_DB
     
     public partial class SAPInput_SimplificationReport
     {
-        public int S_No { get; set; }
+        public double S_No { get; set; }
         public string Title { get; set; }
         public string Category { get; set; }
         public string Relevance { get; set; }

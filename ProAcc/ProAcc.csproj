@@ -100,6 +100,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Asset\css\Demo.css" />
+    <Content Include="Asset\css\jBox.all.css" />
     <Content Include="Asset\css\Menu.css" />
     <Content Include="Asset\css\main_Login.css" />
     <Content Include="Asset\DBScript.sql" />
@@ -119,6 +121,7 @@
     <Content Include="Asset\images\Promantus_logo_.png" />
     <Content Include="Asset\Scripts\Chart.RadialGauge.umd.js" />
     <Content Include="Asset\Scripts\Chart.js" />
+    <Content Include="Asset\Scripts\jBox.all.js" />
     <Content Include="Asset\Scripts\main.js" />
     <Content Include="Asset\Scripts\Prograssbarjs.js" />
     <Content Include="Asset\Scripts\utils.js" />
@@ -535,6 +538,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\PreConvertionController.cs" />
     <Compile Include="Models\Consultant.cs">
       <DependentUpon>PROACC.tt</DependentUpon>
     </Compile>
@@ -604,10 +608,11 @@
     <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.4.1.min.map" />
     <Content Include="Views\Assessment\CreateAnalysis.cshtml" />
-    <Content Include="Views\Home\PreConvertion.cshtml" />
+    <Content Include="Views\PreConvertion\PreConvertion.cshtml" />
     <Content Include="Views\Home\Test.cshtml" />
-    <Content Include="Views\Home\ReadinessReport.cshtml" />
-    <Content Include="Views\Home\SimplificationReport.cshtml" />
+    <Content Include="Views\Assessment\ReadinessReport.cshtml" />
+    <Content Include="Views\Assessment\SimplificationReport.cshtml" />
+    <Content Include="Views\Assessment\CustomReport.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -617,6 +622,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Asset\UploadedFiles\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

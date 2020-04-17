@@ -1,562 +1,776 @@
 ﻿
 @{
-	ViewBag.Title = "Home";
-	Layout = "~/Views/shared/_Layout.cshtml";
+    ViewBag.Title = "Home";
+    Layout = "~/Views/shared/_Layout.cshtml";
 }
 <style type="text/css">
-	.cs_Closed {
-		color: lightgreen;
-	}
+    .cs_Closed {
+        color: lightgreen;
+    }
 
-	.cs_Inprogress {
-		color: cornflowerblue;
-	}
+    .cs_Inprogress {
+        color: cornflowerblue;
+    }
 
-	.prograss_Bar {
-		height: 15px;
-	}
+    .prograss_Bar {
+        height: 15px;
+    }
 </style>
 
-@*<script src="https://www.amcharts.com/lib/4/core.js"></script>
-	<script src="https://www.amcharts.com/lib/4/charts.js"></script>
-	<script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>*@
+<style>
+    /* noUISlider ================================== */
+    .noUi-target {
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -ms-touch-action: none;
+        touch-action: none;
+        -ms-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        position: relative;
+        direction: ltr;
+    }
 
+        .noUi-target * {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -ms-touch-action: none;
+            touch-action: none;
+            -ms-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
 
+    .noUi-base {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        z-index: 1;
+    }
+
+    .noUi-origin {
+        position: absolute;
+        right: 0;
+        top: 6px;
+        left: 0;
+        bottom: 0;
+    }
+
+    .noUi-handle {
+        position: relative;
+        z-index: 1;
+    }
+
+    .noUi-stacking .noUi-handle {
+        z-index: 10;
+    }
+
+    .noUi-state-tap .noUi-origin {
+        -webkit-transition: left 0.25s, top 0.25s;
+        transition: left 0.25s, top 0.25s;
+    }
+
+    .noUi-state-drag * {
+        cursor: inherit !important;
+    }
+
+    .noUi-base {
+        -webkit-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0);
+    }
+
+    .noUi-horizontal {
+        height: 18px;
+    }
+
+        .noUi-horizontal .noUi-handle {
+            width: 34px;
+            height: 28px;
+            left: -17px;
+            top: -6px;
+        }
+
+    .noUi-vertical {
+        width: 18px;
+    }
+
+        .noUi-vertical .noUi-handle {
+            width: 28px;
+            height: 34px;
+            left: -6px;
+            top: -17px;
+        }
+
+    .noUi-background {
+        background: #FAFAFA;
+        box-shadow: inset 0 1px 1px #f0f0f0;
+    }
+
+    .noUi-connect {
+        background: #3FB8AF;
+        box-shadow: inset 0 0 3px rgba(51, 51, 51, 0.45);
+        -webkit-transition: background 450ms;
+        transition: background 450ms;
+    }
+
+    /*.noUi-origin {
+              border-radius: 2px; }*/
+
+    .noUi-target {
+        border-radius: 4px;
+        border: 1px solid #D3D3D3;
+        box-shadow: inset 0 1px 1px #F0F0F0, 0 3px 6px -5px #BBB;
+    }
+
+        .noUi-target.noUi-connect {
+            box-shadow: inset 0 0 3px rgba(51, 51, 51, 0.45), 0 3px 6px -5px #BBB;
+        }
+
+    .noUi-dragable {
+        cursor: w-resize;
+    }
+
+    .noUi-vertical .noUi-dragable {
+        cursor: n-resize;
+    }
+
+    .noUi-handle {
+        border: 1px solid #D9D9D9;
+        border-radius: 3px;
+        background: #FFF;
+        cursor: default;
+        box-shadow: inset 0 0 1px #FFF, inset 0 1px 7px #EBEBEB, 0 3px 6px -3px #BBB;
+    }
+
+    .noUi-active {
+        box-shadow: inset 0 0 1px #FFF, inset 0 1px 7px #DDD, 0 3px 6px -3px #BBB;
+    }
+
+    .noUi-handle:before {
+        content: "";
+        display: block;
+        position: absolute;
+        height: 14px;
+        width: 1px;
+        background: #E8E7E6;
+        left: 14px;
+        top: 6px;
+    }
+
+    .noUi-handle:after {
+        content: "";
+        display: block;
+        position: absolute;
+        height: 14px;
+        width: 1px;
+        background: #E8E7E6;
+        left: 14px;
+        top: 6px;
+        left: 17px;
+    }
+
+    .noUi-vertical .noUi-handle:before {
+        width: 14px;
+        height: 1px;
+        left: 6px;
+        top: 14px;
+    }
+
+    .noUi-vertical .noUi-handle:after {
+        width: 14px;
+        height: 1px;
+        left: 6px;
+        top: 14px;
+        top: 17px;
+    }
+
+    [disabled].noUi-connect, [disabled] .noUi-connect {
+        background: #B8B8B8;
+    }
+
+    [disabled].noUi-origin, [disabled] .noUi-handle {
+        cursor: not-allowed;
+    }
+
+    .noUi-target {
+        box-shadow: none;
+        border: none;
+    }
+
+    .noUi-base {
+        height: 15px;
+        top: -6px;
+    }
+
+    .noUi-background {
+        height: 6px;
+        top: 6px;
+        background-color: #FFFfff; /* #bfbfbf;*/
+        box-shadow: none;
+    }
+
+    .noUi-background1 {
+        height: 6px;
+        top: 6px;
+        background-color: red; /* #bfbfbf;*/
+        box-shadow: none;
+    }
+
+    .noUi-horizontal {
+        height: 3px;
+    }
+
+    .noUi-connect {
+        height: 6px;
+        top: 6px;
+        background-color: #46a626; /* #26A69A;*/
+        box-shadow: none;
+    }
+
+    .noUi-horizontal .noUi-handle {
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+        box-shadow: none;
+        background-color: #000000; /*#26A69A*/
+        border: none;
+        /*left: -5px;*/
+        top: -10px;
+        transition: width 0.2s cubic-bezier(0.215, 0.61, 0.355, 1), height 0.2s cubic-bezier(0.215, 0.61, 0.355, 1), left 0.2s cubic-bezier(0.215, 0.61, 0.355, 1), top 0.2s cubic-bezier(0.215, 0.61, 0.355, 1);
+    }
+
+    .noUi-handle:before, .noUi-handle:after {
+        content: none;
+    }
+
+    .noUi-target .noUi-active.noUi-handle {
+        -webkit-box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        -moz-box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        -ms-box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    }
+
+    .noUi-target .range-label {
+        position: absolute;
+        height: 30px;
+        width: 30px;
+        top: -17px;
+        left: -2px;
+        background-color: #26A69A;
+        border-radius: 50%;
+        transition: border-radius 0.25s cubic-bezier(0.215, 0.61, 0.355, 1), transform 0.25s cubic-bezier(0.215, 0.61, 0.355, 1);
+        transform: scale(0.5) rotate(-45deg);
+        transform-origin: 50% 100%;
+    }
+
+    .noUi-target .noUi-active .range-label {
+        border-radius: 15px 15px 15px 0;
+        transform: rotate(-45deg) translate(23px, -25px);
+    }
+
+    .range-label span {
+        width: 100%;
+        text-align: center;
+        color: #fff;
+        font-size: 12px;
+        transform: rotate(45deg);
+        opacity: 0;
+        position: absolute;
+        top: 7px;
+        left: -1px;
+        transition: opacity 0.25s cubic-bezier(0.215, 0.61, 0.355, 1);
+    }
+
+    .noUi-active .range-label span {
+        opacity: 1;
+    }
+</style>
 <script src="~/Asset/Scripts/Chart.js"></script>
-	<script src="~/Asset/Scripts/Chart.RadialGauge.umd.js"></script>
-
-
-<script src="~/Asset/Scripts/amCharts/core.js"></script>
-<script src="~/Asset/Scripts/amCharts/charts.js"></script>
-<script src="~/Asset/Scripts/amCharts/animated.js"></script>
-
+<script src="~/Asset/Scripts/Chart.RadialGauge.umd.js"></script>
 <script src="~/Asset/Scripts/Prograssbarjs.js"></script>
 
 @*<script src="~/Asset/Scripts/utils.js"></script>*@
 <div style="padding:1em;">
-	<div class="row">
-		<div class="col-lg-12">
-			<div class="row" style="padding:0em 1em 1em 1em;">
-				<div class="col-lg-3 card text-center">
-					<label>Simplification</label>
-					<canvas id="Chart_Relevant"></canvas>
-					@*<div id="Chart_Relevant"></div>*@
-					<label>Total:238</label>
-				</div>
-				<div class="col-lg-3 card text-center">
-						<label>Pre Conversion</label>
-						<canvas id="chart-Pre_Conversion"></canvas>
-						<label>Total:244</label>
-					</div>
-					<div class="col-lg-3 card text-center">
-						<label>Conversion</label>
-						<canvas id="chart-Conversion"></canvas>
-						<label>Total:365</label>
-					</div>
-					<div class="col-lg-3 card text-center">
-						<label>Post Conversion</label>
-						<canvas id="chart-Post_Conversion"></canvas>
-						<label>Total:215</label>
-					</div>
-			</div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="row" style="padding:0em 1em 1em 1em;">
+                <div class="col-lg-3 card text-center">
+                    <label>Assessment</label>
+                    <canvas id="chart-Assessment"></canvas>
+                    <label>Total:238</label>
+                </div>
+                <div class="col-lg-3 card text-center">
+                    <label>Pre Conversion</label>
+                    <canvas id="chart-Pre_Conversion"></canvas>
+                    <label>Total:244</label>
+                </div>
+                <div class="col-lg-3 card text-center">
+                    <label>Conversion</label>
+                    <canvas id="chart-Conversion"></canvas>
+                    <label>Total:365</label>
+                </div>
+                <div class="col-lg-3 card text-center">
+                    <label>Post Conversion</label>
+                    <canvas id="chart-Post_Conversion"></canvas>
+                    <label>Total:215</label>
+                </div>
+            </div>
 
-		</div>
-		<div class="col-lg-12">
-			<div class="row" style="padding:0em 1em 1em 1em;">
-				<div class="col-lg-3 card text-center">
-					<label>Validation</label>
-					<canvas id="chart-Validation"></canvas>
-					<label>Total:215</label>
-				</div>
-				<div class="col-lg-9 card ">
-					<div class="card-body">
-						<h5 class="card-title">S4 Hana System Conversion</h5>
-						<form class="">
-							<fieldset class="position-relative form-group">
-								<monkey-bar min="0" max="100" now="30" class="prograss_Bar" labeled striped></monkey-bar>
-								@*<div class="position-relative form-check">
-										<label class="form-check-label"><input name="radio1" type="radio" class="form-check-input"> Option one is this and that—be sure to include why it's great</label>
-									</div>
-									<div class="position-relative form-check">
-										<label class="form-check-label">
-											<input name="radio1" type="radio" class="form-check-input"> Option two can be something else and selecting it will deselect option
-											one
-										</label>
-									</div>
-									<div class="position-relative form-check disabled"><label class="form-check-label"><input name="radio1" disabled="" type="radio" class="form-check-input"> Option three is disabled</label></div>*@
-							</fieldset>
-							@*<div class="position-relative form-check"><label class="form-check-label"><input type="checkbox" class="form-check-input"> Check me out</label></div>*@
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="col-lg-12">
-			<div class="row" style="padding:0em 1em 1em 1em;">
-				<div class="col-lg-6 card">
-					<div class="card-body">
-						<h5 class="card-title">Active Members</h5>
-						<ul class="list-group list-group-flush">
+        </div>
+        <div class="col-lg-12">
+            <div class="row" style="padding:0em 1em 1em 1em;">
+                <div class="col-lg-3 card text-center">
+                    <label>Validation</label>
+                    <canvas id="chart-Validation"></canvas>
+                    <label>Total:215</label>
+                </div>
+                <div class="col-lg-9 card ">
+                    <div class="card-body">
+                        <h5 class="card-title">S4 Hana System Conversion</h5>
+                        <form class="">
+                            @if (ViewBag.count != null)
+                            {
+                                int i = ViewBag.count;
+                                string progress = "noUi-origin noUi-background1";
+                                string progress1 = "noUi-origin noUi-background1";
+                                string progress2 = "noUi-origin noUi-background1";
+                                if (i == 1)
+                                {
+                                    progress = "noUi-origin noUi-connect";
+                                }
+                                else if (i == 2)
+                                {
+                                    progress = "noUi-origin noUi-connect";
+                                    progress1 = "noUi-origin noUi-connect";
+                                }
+                                else if (i == 3)
+                                {
+                                    progress = "noUi-origin noUi-connect";
+                                    progress1 = "noUi-origin noUi-connect";
+                                    progress2 = "noUi-origin noUi-connect";
+                                }
 
-							<shadow>
 
-								<a class="list-group-item">
-									<img width="42" class="rounded-circle" src="/Asset/images/1.jpg">
-									<b>Martin Luther</b><b class="fa fa-check" style="float:right;color:cornflowerblue;" aria-hidden="true"></b>
-								</a>
-							</shadow>
-							<shadow><a class="list-group-item"><img width="42" class="rounded-circle" src="/Asset/images/1.jpg"><b>Martin Luther</b><b class="fa fa-check" style="float:right;color:cornflowerblue;" aria-hidden="true"></b></a></shadow>
-							<shadow><a class="list-group-item"><img width="42" class="rounded-circle" src="/Asset/images/1.jpg"><b>Martin Luther</b><b class="fa fa-check" style="float:right;color:cornflowerblue;" aria-hidden="true"></b></a></shadow>
-							@*<shadow><a href="javascript:void(0);" class="list-group-item"><b>Martin Luther</b><br />Consultant</a></shadow>*@
-						</ul>
-					</div>
-				</div>
-				<div class="col-lg-6 card">
-					<div class="card-body" style="height:284px">
-						<table class="table">
-							<thead>
-								<h5 class="card-title">To Do List</h5>
-							</thead>
-							<tbody>
-								<tr id="addRow">
-									<td class="col-xs-5">
-										<input class="form-control addMain" type="text" placeholder="What do you need to do today?" style="width:100%" />
-									</td>
+                                <div id="nouislider_range_example" class="noUi-target noUi-ltr noUi-horizontal" style="margin-top: 25px;">
+                                    <div class="noUi-base">
 
-									<td class="col-xs-1 text-center">
-										<span class="addBtn">
-											<i class="fa fa-plus-circle"></i>
-										</span>
-									</td>
-								</tr>
-								<tr>
-									<td class="col-xs-3"><label>Convert Customers Vendors to BP</label></td>
+                                        <div class="@progress" style="left: 20%;">
+                                            <div class="noUi-handle noUi-handle-lower">
+                                                <br>
+                                                <p style="width: 200px !important;margin-left: -35px;margin-top: 5px;"> &nbsp;PRE MIGRATION</p>
+                                            </div>
+                                        </div>
+                                        <div class="@progress1" style="left: 40%;">
+                                            <div class="noUi-handle noUi-handle-upper">
+                                                <br>
+                                                <p style="width: 200px !important;margin-left: -35px;margin-top: 5px;"> &nbsp;PULL & PUSH</p>
+                                            </div>
+                                        </div>
+                                        <div class="@progress2" style="left: 60%;">
+                                            <div class="noUi-handle noUi-handle-upper">
+                                                <br>
+                                                <p style="width: 300px !important;margin-left: -35px;margin-top: 5px;"> &nbsp;POST MIGRATION</p>
+                                            </div>
+                                        </div>
+                                        <div class="noUi-origin noUi-background" style="left: 80%;background-color: white !important;">
+                                            <div class="noUi-handle noUi-handle-upper">
+                                                <br>
+                                                <p style="width: 300px !important;margin-left: -35px;margin-top: 5px;"> &nbsp;VALIDATION</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                                @if (ViewBag.count != null)
+                                {
+                                    int i = ViewBag.count;
+                                    int value = 0;
+                                    if (i == 1)
+                                    {
+                                        value = 30;
+                                    }
+                                    else if (i == 2)
+                                    {
+                                        value = 60;
+                                    }
+                                    else if (i == 3)
+                                    {
+                                        value = 100;
+                                    }
+                                    <fieldset class="position-relative form-group">
+                                        <monkey-bar min="0" max="100" now=@value class="prograss_Bar" labeled striped></monkey-bar>
+                                    </fieldset>
+                                }
+                                @*<div class="position-relative form-check">
+                <label class="form-check-label"><input name="radio1" type="radio" class="form-check-input"> Option one is this and that—be sure to include why it's great</label>
+            </div>
+            <div class="position-relative form-check">
+                <label class="form-check-label">
+                    <input name="radio1" type="radio" class="form-check-input"> Option two can be something else and selecting it will deselect option
+                    one
+                </label>
+            </div>
+            <div class="position-relative form-check disabled"><label class="form-check-label"><input name="radio1" disabled="" type="radio" class="form-check-input"> Option three is disabled</label></div>*@
 
-									<td class="col-xs-1 text-center"><a href="#" onClick="deleteRow(this)"><i class="fa fa-times-circle" style="color:red" aria-hidden="true"></a></td>
-								</tr>
-								<tr>
-									<td class="col-xs-3"><label>Activate Material Leadger</label></td>
+                                @*<div class="position-relative form-check"><label class="form-check-label"><input type="checkbox" class="form-check-input"> Check me out</label></div>*@
+                            </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <div class="row" style="padding:0em 1em 1em 1em;">
+                <div class="col-lg-6 card">
+                    <div class="card-body">
+                        <h5 class="card-title">Active Members</h5>
+                        <ul class="list-group list-group-flush">
 
-									<td class="col-xs-1 text-center"><a href="#" onClick="deleteRow(this)"><i class="fa fa-times-circle" style="color:red" aria-hidden="true"></a></td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="col-lg-12">
-			<div class="row" style="padding:0em 1em 1em 1em;">
-				<div class="col-lg-3 card ">
-					<label>Storage</label>
-					<canvas id="chart-Storage"></canvas>
-					<label class="text-center">Storage size<br />2.05 TB</label>
-					<label>
-						<a style="float:left">8.50 GB Free<br /><b>30%</b> </a>
-						<a style="float:right">1.20 TB Filled<br /><b>70%</b> </a>
-					</label>
+                            <shadow>
 
-				</div>
-				<div class="col-lg-9 card">
-					<div class="card-body">
-						<h5 class="card-title">Recent Updates</h5>
-						<table class="mb-0 table table-hover">
+                                <a class="list-group-item">
+                                    <img width="42" class="rounded-circle" src="/Asset/images/1.jpg">
+                                    <b>Martin Luther</b><b class="fa fa-check" style="float:right;color:cornflowerblue;" aria-hidden="true"></b>
+                                </a>
+                            </shadow>
+                            <shadow><a class="list-group-item"><img width="42" class="rounded-circle" src="/Asset/images/1.jpg"><b>Martin Luther</b><b class="fa fa-check" style="float:right;color:cornflowerblue;" aria-hidden="true"></b></a></shadow>
+                            <shadow><a class="list-group-item"><img width="42" class="rounded-circle" src="/Asset/images/1.jpg"><b>Martin Luther</b><b class="fa fa-check" style="float:right;color:cornflowerblue;" aria-hidden="true"></b></a></shadow>
+                            @*<shadow><a href="javascript:void(0);" class="list-group-item"><b>Martin Luther</b><br />Consultant</a></shadow>*@
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-6 card">
+                    <div class="card-body" style="height:284px">
+                        <table class="table">
+                            <thead>
+                                <h5 class="card-title">To Do List</h5>
+                            </thead>
+                            <tbody>
+                                <tr id="addRow">
+                                    <td class="col-xs-5">
+                                        <input class="form-control addMain" type="text" placeholder="What do you need to do today?" style="width:100%" />
+                                    </td>
 
-							<thead>
-								<tr>
-									<th>Tasks</th>
-									<th>Progress</th>
-									<th>Status</th>
-									<th>Deadline</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
+                                    <td class="col-xs-1 text-center">
+                                        <span class="addBtn">
+                                            <i class="fa fa-plus-circle"></i>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-xs-3"><label>Convert Customers Vendors to BP</label></td>
 
-									<td>Carry out pricing related updates</td>
-									<td>
-										<monkey-bar min="0" max="100" now="80" class="prograss_Bar"></monkey-bar>@*labeled striped*@
-									</td>
-									<td>InProgress</td>
-									<td>08 Apr 2020</td>
-								</tr>
-								<tr>
+                                    <td class="col-xs-1 text-center"><a href="#" onClick="deleteRow(this)"><i class="fa fa-times-circle" style="color:red" aria-hidden="true" /></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="col-xs-3"><label>Activate Material Leadger</label></td>
 
-									<td>Migration to Material Ledger</td>
-									<td>
-										<monkey-bar min="0" max="100" now="100" class="prograss_Bar"></monkey-bar>@*labeled striped*@
-									</td>
-									<td>Completed</td>
-									<td>08 Apr 2020</td>
-								</tr>
-								<tr>
+                                    <td class="col-xs-1 text-center"><a href="#" onClick="deleteRow(this)"><i class="fa fa-times-circle" style="color:red" aria-hidden="true" /></a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <div class="row" style="padding:0em 1em 1em 1em;">
+                <div class="col-lg-3 card ">
+                    <label>Storage</label>
+                    <canvas id="chart-Storage"></canvas>
+                    <label class="text-center">Storage size<br />2.05 TB</label>
+                    <label>
+                        <a style="float:left">8.50 GB Free<br /><b>30%</b> </a>
+                        <a style="float:right">1.20 TB Filled<br /><b>70%</b> </a>
+                    </label>
 
-									<td>Pull and Push Data</td>
-									<td>
-										<monkey-bar min="0" max="100" now="80" class="prograss_Bar"></monkey-bar>@*labeled striped*@
-									</td>
-									<td>InProgress</td>
-									<td>08 Apr 2020</td>
-								</tr>
-								<tr>
-									<td>Pricing Data Model Changes</td>
+                </div>
+                <div class="col-lg-9 card">
+                    <div class="card-body">
+                        <h5 class="card-title">Recent Updates</h5>
+                        <table class="mb-0 table table-hover">
 
-									<td>
-										<monkey-bar min="0" max="100" now="80" class="prograss_Bar"></monkey-bar>@*labeled striped*@
-									</td>
-									<td>InProgress</td>
-									<td>08 Apr 2020</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</div>
-		</div>
+                            <thead>
+                                <tr>
+                                    <th>Tasks</th>
+                                    <th>Progress</th>
+                                    <th>Status</th>
+                                    <th>Deadline</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
 
-	</div>
+                                    <td>Carry out pricing related updates</td>
+                                    <td>
+                                        <monkey-bar min="0" max="100" now="80" class="prograss_Bar"></monkey-bar>@*labeled striped*@
+                                    </td>
+                                    <td>InProgress</td>
+                                    <td>08 Apr 2020</td>
+                                </tr>
+                                <tr>
+
+                                    <td>Migration to Material Ledger</td>
+                                    <td>
+                                        <monkey-bar min="0" max="100" now="100" class="prograss_Bar"></monkey-bar>@*labeled striped*@
+                                    </td>
+                                    <td>Completed</td>
+                                    <td>08 Apr 2020</td>
+                                </tr>
+                                <tr>
+
+                                    <td>Pull and Push Data</td>
+                                    <td>
+                                        <monkey-bar min="0" max="100" now="80" class="prograss_Bar"></monkey-bar>@*labeled striped*@
+                                    </td>
+                                    <td>InProgress</td>
+                                    <td>08 Apr 2020</td>
+                                </tr>
+                                <tr>
+                                    <td>Pricing Data Model Changes</td>
+
+                                    <td>
+                                        <monkey-bar min="0" max="100" now="80" class="prograss_Bar"></monkey-bar>@*labeled striped*@
+                                    </td>
+                                    <td>InProgress</td>
+                                    <td>08 Apr 2020</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript">
+            //var randomScalingFactor = function () {
+            //    return Math.round(Math.random() * 100);
+            //};
+
+            Chart.defaults.global.defaultFontFamily = "Verdana";
+
+            var ctx = document.getElementById("chart-Assessment").getContext("2d");
+            var ctx1 = document.getElementById("chart-Pre_Conversion").getContext("2d");
+            var ctx2 = document.getElementById("chart-Conversion").getContext("2d");
+            var ctx3 = document.getElementById("chart-Post_Conversion").getContext("2d");
+            var ctx4 = document.getElementById("chart-Validation").getContext("2d");
+
+            var ctx5 = document.getElementById("chart-Storage").getContext("2d");
+
+            window.onload = function () {
+                var ctx = document.getElementById("chart-Assessment").getContext("2d");
+                window.myRadialGauge = new Chart(ctx, config);
+
+                var ctx1 = document.getElementById("chart-Pre_Conversion").getContext("2d");
+                window.myRadialGauge = new Chart(ctx1, config1);
+
+                var ctx2 = document.getElementById("chart-Conversion").getContext("2d");
+                window.myRadialGauge = new Chart(ctx2, config2);
+
+                var ctx3 = document.getElementById("chart-Post_Conversion").getContext("2d");
+                window.myRadialGauge = new Chart(ctx3, config3);
+
+                var ctx4 = document.getElementById("chart-Validation").getContext("2d");
+                window.myRadialGauge = new Chart(ctx4, config4);
+
+                var ctx5 = document.getElementById("chart-Storage").getContext("2d");
+                window.myRadialGauge = new Chart(ctx5, config5);
+            };
+
+            var gradientStroke_ = ctx.createLinearGradient(500, 0, 100, 0);
+            gradientStroke_.addColorStop(0, "#FDB777");
+            gradientStroke_.addColorStop(1, "#FD9346");
+
+            var gradientStroke_1 = ctx1.createLinearGradient(500, 0, 100, 0);
+            gradientStroke_1.addColorStop(0, "#FDB777");
+            gradientStroke_1.addColorStop(1, "#FD9346");
+
+            var gradientStroke_2 = ctx2.createLinearGradient(500, 0, 100, 0);
+            gradientStroke_2.addColorStop(0, "#FB291B");
+            gradientStroke_2.addColorStop(1, "#CD1B2D");
+
+            var gradientStroke_3 = ctx3.createLinearGradient(500, 0, 100, 0);
+            gradientStroke_3.addColorStop(0, "#FDB777");
+            gradientStroke_3.addColorStop(1, "#FD9346");
+
+            var gradientStroke_4 = ctx4.createLinearGradient(500, 0, 100, 0);
+            gradientStroke_4.addColorStop(0, "#FB291B");
+            gradientStroke_4.addColorStop(1, "#CD1B2D");
+
+            var gradientStroke_5 = ctx5.createLinearGradient(500, 0, 100, 0);
+            gradientStroke_5.addColorStop(0, "#FDB777");
+            gradientStroke_5.addColorStop(1, "#FD9346");
+
+            var config = {
+                type: "radialGauge",
+                data: {
+                    labels: ["In Progress"],
+                    datasets: [
+                        {
+                            data: [60],
+                            backgroundColor: [gradientStroke_],
+                            borderWidth: 0,
+                            label: "Score"
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    legend: {},
+                    title: {
+                        display: false,
+                        text: "Radial gauge chart"
+                    },
+                    centerPercentage: 60,
+                    centerArea: {
+                        displayText: true,
+                        text: "60%"
+                    }
+                }
+            };
+
+            var config1 = {
+                type: "radialGauge",
+                data: {
+                    labels: ["Closed"],
+                    datasets: [
+                        {
+                            data: [40],
+                            backgroundColor: [gradientStroke_1],
+                            borderWidth: 0,
+                            label: "Score"
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    legend: {},
+                    title: {
+                        display: false,
+                        text: "Radial gauge chart"
+                    },
+                    centerPercentage: 60,
+                    centerArea: {
+                        displayText: true,
+                        text: "40%"
+                    }
+                }
+            };
+            var config2 = {
+                type: "radialGauge",
+                data: {
+                    labels: ["In Progress"],
+                    datasets: [
+                        {
+                            data: [60],
+                            backgroundColor: [gradientStroke_2],
+                            borderWidth: 0,
+                            label: "Score"
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    legend: {},
+                    title: {
+                        display: false,
+                        text: "Radial gauge chart"
+                    },
+                    centerPercentage: 60,
+                    centerArea: {
+                        displayText: true,
+                        text: "60%"
+                    }
+                }
+            };
+
+            var config3 = {
+                type: "radialGauge",
+                data: {
+                    labels: ["Closed"],
+                    datasets: [
+                        {
+                            data: [40],
+                            backgroundColor: [gradientStroke_3],
+                            borderWidth: 0,
+                            label: "Score"
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    legend: {},
+                    title: {
+                        display: false,
+                        text: "Radial gauge chart"
+                    },
+                    centerPercentage: 60,
+                    centerArea: {
+                        displayText: true,
+                        text: "40%"
+                    }
+                }
+            };
+
+            var config4 = {
+                type: "radialGauge",
+                data: {
+                    labels: ["In Progress"],
+                    datasets: [
+                        {
+                            data: [60],
+                            backgroundColor: [gradientStroke_4],
+                            borderWidth: 0,
+                            label: "Score"
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    legend: {},
+                    title: {
+                        display: false,
+                        text: "Radial gauge chart"
+                    },
+                    centerPercentage: 60,
+                    centerArea: {
+                        displayText: true,
+                        text: "60%"
+                    }
+                }
+            };
+
+
+            var config5 = {
+                type: "radialGauge",
+                data: {
+                    labels: ["In Progress"],
+                    datasets: [
+                        {
+                            data: [60],
+                            backgroundColor: [gradientStroke_5],
+                            borderWidth: 0,
+                            label: "Score"
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    legend: {},
+                    title: {
+                        display: false,
+                        text: "Radial gauge chart"
+                    },
+                    centerPercentage: 40,
+                    centerArea: {
+                        displayText: false,
+                        text: "60%"
+                    }
+                }
+            };
+        </script>
+
+    </div>
 </div>
-
-<script>
-	@*$(document).ready(function () {
-
-			   $.ajax({
-				type: "POST",
-				url: '@Url.Action("GetRelevant")',
-				//data: '{std: ' + JSON.stringify(std) + '}',
-				dataType: "json",
-				contentType: "application/json; charset=utf-8",
-				   success: function (Data) {
-
-					  chart_Assessment(Data)
-
-				},
-				error: function () {
-					alert("Error while inserting data");
-				}
-			});
-
-			});
-
-	function chart_Assessment(Re_Result) {
-
-				am4core.ready(function () {
-
-					// Themes begin
-					am4core.useTheme(am4themes_animated);
-					// Themes end
-
-					// Create chart instance
-					var chart = am4core.create("Chart_Relevant", am4charts.PieChart);
-
-					// Add data
-					chart.data = [
-						{
-							"Relevant": "Relevant",
-							"litres": Re_Result.R
-						},
-						{
-							"Relevant": "Relevance to be Checked",
-							"litres": Re_Result.RC
-						},
-						{
-							"Relevant": "Relevance to be Checked (Non-strategic)",
-							"litres": Re_Result.RC_NON
-						},
-						{
-							"Relevant": "Relevant (Non-strategic)",
-							"litres": Re_Result.R_NON
-						}
-						];
-
-					// Add and configure Series
-					var pieSeries = chart.series.push(new am4charts.PieSeries());
-					pieSeries.dataFields.value = "litres";
-					pieSeries.dataFields.category = "Relevant";
-					pieSeries.innerRadius = am4core.percent(50);
-					pieSeries.ticks.template.disabled = true;
-					pieSeries.labels.template.disabled = true;
-
-					var rgm = new am4core.RadialGradientModifier();
-					rgm.brightnesses.push(-0.8, -0.8, -0.5, 0, - 0.5);
-					pieSeries.slices.template.fillModifier = rgm;
-					pieSeries.slices.template.strokeModifier = rgm;
-					pieSeries.slices.template.strokeOpacity = 0.4;
-					pieSeries.slices.template.strokeWidth = 0;
-					//	let watermark = new am4core.Label();
-					//watermark.text = "Manoj";
-					//chart.children.push(watermark);
-					//chart.legend = new am4charts.Legend();
-					//chart.legend.position = "right";
-
-				}); // end am4core.ready()
-
-			}*@
-</script>
-
-<script type="text/javascript">
-			Chart.defaults.global.defaultFontFamily = "Verdana";
-			
-				
-				 
-
-
-			//var randomScalingFactor = function () {
-			//    return Math.round(Math.random() * 100);
-			//};
-
-
-
-			var ctx = document.getElementById("Chart_Relevant").getContext("2d");
-			var ctx1 = document.getElementById("chart-Pre_Conversion").getContext("2d");
-			var ctx2 = document.getElementById("chart-Conversion").getContext("2d");
-			var ctx3 = document.getElementById("chart-Post_Conversion").getContext("2d");
-			var ctx4 = document.getElementById("chart-Validation").getContext("2d");
-
-			var ctx5 = document.getElementById("chart-Storage").getContext("2d");
-
-			window.onload = function () {
-
-				var ctx = document.getElementById("Chart_Relevant").getContext("2d");
-				window.myRadialGauge = new Chart(ctx, config);
-
-				var ctx1 = document.getElementById("chart-Pre_Conversion").getContext("2d");
-				window.myRadialGauge = new Chart(ctx1, config1);
-
-				var ctx2 = document.getElementById("chart-Conversion").getContext("2d");
-				window.myRadialGauge = new Chart(ctx2, config2);
-
-				var ctx3 = document.getElementById("chart-Post_Conversion").getContext("2d");
-				window.myRadialGauge = new Chart(ctx3, config3);
-
-				var ctx4 = document.getElementById("chart-Validation").getContext("2d");
-				window.myRadialGauge = new Chart(ctx4, config4);
-
-				var ctx5 = document.getElementById("chart-Storage").getContext("2d");
-				window.myRadialGauge = new Chart(ctx5, config5);
-			};
-
-			var gradientStroke_ = ctx.createLinearGradient(500, 0, 100, 0);
-			gradientStroke_.addColorStop(0, "#FDB777");
-			gradientStroke_.addColorStop(1, "#FD9346");
-			
-
-			var gradientStroke_1 = ctx1.createLinearGradient(500, 0, 100, 0);
-			gradientStroke_1.addColorStop(0, "#FDB777");
-			gradientStroke_1.addColorStop(1, "#FD9346");
-
-			var gradientStroke_2 = ctx2.createLinearGradient(500, 0, 100, 0);
-			gradientStroke_2.addColorStop(0, "#FB291B");
-			gradientStroke_2.addColorStop(1, "#CD1B2D");
-
-			var gradientStroke_3 = ctx3.createLinearGradient(500, 0, 100, 0);
-			gradientStroke_3.addColorStop(0, "#FDB777");
-			gradientStroke_3.addColorStop(1, "#FD9346");
-
-			var gradientStroke_4 = ctx4.createLinearGradient(500, 0, 100, 0);
-			gradientStroke_4.addColorStop(0, "#FB291B");
-			gradientStroke_4.addColorStop(1, "#CD1B2D");
-
-			var gradientStroke_5 = ctx5.createLinearGradient(500, 0, 100, 0);
-			gradientStroke_5.addColorStop(0, "#FDB777");
-			gradientStroke_5.addColorStop(1, "#FD9346");
-
-	//var config = {
-	//			type: "doughnut",
-	//			data: {
-	//				// labels: ["In Progress"],
-	//				labels: ["Relevant", "Relevance to be Checked", "Relevance to be Checked (Non-strategic)", "Relevant (Non-strategic)"],
-	//				datasets: [
-	//					{
-	//						//data: [Re_Result.R, Re_Result.RC, Re_Result.RC_NON, Re_Result.R_NON],
-	//						// data: [38,4,14,2],
-	//						backgroundColor: [gradientStroke_],
-	//						backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850"],
-	//						borderWidth: 2,
-	//						label: "Score"
-	//					}
-	//				]
-	//			},
-	//			options: {
-	//				responsive: true,
-	//				legend: {
-	//					display: false
-	//				},
-	//				//title: {
-	//				//    display: true,
-	//				//    text: "Radial gauge chart"
-	//				//},
-	//				centerPercentage: 60,
-	//				//centerArea: {
-	//				//    displayText: true,
-	//				//    text: "60%"
-	//				//}
-	//			}
-	//};
-	var config = {
-				type: "radialGauge",
-				data: {
-					labels: ["Closed"],
-					datasets: [
-						{
-							data: [100],
-							backgroundColor: [gradientStroke_],
-							borderWidth: 0,
-							label: "Score"
-						}
-					]
-				},
-				options: {
-					responsive: true,
-					legend: {},
-					title: {
-						display: false,
-						text: "Radial gauge chart"
-					},
-					centerPercentage: 60,
-					centerArea: {
-						displayText: true,
-						text: "100%"
-					}
-				}
-			};
-			var config1 = {
-				type: "radialGauge",
-				data: {
-					labels: ["Closed"],
-					datasets: [
-						{
-							data: [40],
-							backgroundColor: [gradientStroke_1],
-							borderWidth: 0,
-							label: "Score"
-						}
-					]
-				},
-				options: {
-					responsive: true,
-					legend: {},
-					title: {
-						display: false,
-						text: "Radial gauge chart"
-					},
-					centerPercentage: 60,
-					centerArea: {
-						displayText: true,
-						text: "40%"
-					}
-				}
-			};
-			var config2 = {
-				type: "radialGauge",
-				data: {
-					labels: ["In Progress"],
-					datasets: [
-						{
-							data: [60],
-							backgroundColor: [gradientStroke_2],
-							borderWidth: 0,
-							label: "Score"
-						}
-					]
-				},
-				options: {
-					responsive: true,
-					legend: {},
-					title: {
-						display: false,
-						text: "Radial gauge chart"
-					},
-					centerPercentage: 60,
-					centerArea: {
-						displayText: true,
-						text: "60%"
-					}
-				}
-			};
-
-			var config3 = {
-				type: "radialGauge",
-				data: {
-					labels: ["Closed"],
-					datasets: [
-						{
-							data: [40],
-							backgroundColor: [gradientStroke_3],
-							borderWidth: 0,
-							label: "Score"
-						}
-					]
-				},
-				options: {
-					responsive: true,
-					legend: {},
-					title: {
-						display: false,
-						text: "Radial gauge chart"
-					},
-					centerPercentage: 60,
-					centerArea: {
-						displayText: true,
-						text: "40%"
-					}
-				}
-			};
-
-			var config4 = {
-				type: "radialGauge",
-				data: {
-					labels: ["In Progress"],
-					datasets: [
-						{
-							data: [60],
-							backgroundColor: [gradientStroke_4],
-							borderWidth: 0,
-							label: "Score"
-						}
-					]
-				},
-				options: {
-					responsive: true,
-					legend: {},
-					title: {
-						display: false,
-						text: "Radial gauge chart"
-					},
-					centerPercentage: 60,
-					centerArea: {
-						displayText: true,
-						text: "60%"
-					}
-				}
-			};
-
-
-			var config5 = {
-				type: "radialGauge",
-				data: {
-					labels: ["In Progress"],
-					datasets: [
-						{
-							data: [60],
-							backgroundColor: [gradientStroke_5],
-							borderWidth: 0,
-							label: "Score"
-						}
-					]
-				},
-				options: {
-					responsive: true,
-					legend: {},
-					title: {
-						display: false,
-						text: "Radial gauge chart"
-					},
-					centerPercentage: 40,
-					centerArea: {
-						displayText: false,
-						text: "60%"
-					}
-				}
-			};
-</script>

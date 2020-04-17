@@ -7,6 +7,7 @@ namespace ProAcc.BL.Model
 {
     public class Common
     {
+
         public class GeneralList
         {
 
@@ -17,6 +18,8 @@ namespace ProAcc.BL.Model
         public class Lis
         {
             public string Name { get; set; }
+
+            public string Value { get; set; }
             public int _Value { get; set; }
         }
     }

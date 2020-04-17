@@ -12,16 +12,18 @@ namespace ProACC_DB
     using System;
     using System.Collections.Generic;
     
-    public partial class Consultant
+    public partial class CustProjconfig
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public CustProjconfig()
+        {
+            this.ProjInstanceConfigs = new HashSet<ProjInstanceConfig>();
+        }
+    
         public System.Guid Id { get; set; }
-        public string UserName { get; set; }
-        public string Password { get; set; }
-        public int UserTypeID { get; set; }
-        public string Name { get; set; }
-        public string Designation { get; set; }
-        public string Phone { get; set; }
-        public string EMail { get; set; }
+        public string ProjectName { get; set; }
+        public System.Guid Cust_Con_ID { get; set; }
+        public System.DateTime LastUpdated_Dt { get; set; }
         public bool isActive { get; set; }
         public System.DateTime Cre_on { get; set; }
         public System.Guid Cre_By { get; set; }
@@ -29,6 +31,7 @@ namespace ProACC_DB
         public Nullable<System.Guid> Modified_by { get; set; }
         public bool IsDeleted { get; set; }
     
-        public virtual User_Master User_Master { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ProjInstanceConfig> ProjInstanceConfigs { get; set; }
     }
 }
