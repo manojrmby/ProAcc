@@ -1,0 +1,64 @@
+﻿
+@{
+    ViewBag.Title = "Home";
+    Layout = "~/Views/shared/_Layout.cshtml";
+}
+
+
+<div>
+    <h4 class="resume">Upload a document to presentation </h4>
+    <div class="description">Please click on the link below to add documents to your presentation.</div>
+
+    <table id="fieldsTable" class="tblFields">
+        <tr>
+            <td class="description">Choose file:</td>
+            <td> <input id="fileDialog" type="file" name="file" /></td>
+        </tr>
+        <tr>
+            <td class="description">Description:</td>
+            <td> <input type="text" id="docFileName" style="width: 225px;" /></td>
+        </tr>
+        <tr>
+            <td colspan="2" width="300px"><span class="errorMessage" id="spanErrorMessage"></span></td>
+        </tr>
+    </table>
+    <button id="Save">Save</button>
+</div>
+<script>
+        $('#Save').click(function () {
+            debugger;
+            //var data = new FormData();
+            //fd.append("id", cmaId);
+            //data.append("files", $("#fileDialog")[0].files);
+
+            $.ajax({
+                url: '@Url.Action("UploadFiles", "Assessment")',
+                type: 'POST',
+                dataType: 'json',
+                data: new FormData($("#fileDialog")[0].files),
+                contentType: false,
+                processData: false,
+                success: function () {
+                    alert('added to temp');
+                }
+            });
+        });
+</script>
+@*<h2>UploadFile</h2>
+
+    @using (Html.BeginForm("UploadFile", "Assessment", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+
+        <div>
+            @Html.TextBox("file", "", new { type = "file" }) <br />
+
+            <input type="submit" value="Upload" />
+
+            @ViewBag.Message
+
+        </div>
+
+
+    }*@
+
+

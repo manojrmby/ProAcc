@@ -99,7 +99,181 @@ namespace ProAcc.Controllers
         }
         //END Custom Code
 
+        public ActionResult Test()
+        {
+            return View();
+        }
 
+        [HttpPost]
+        public ActionResult Upload()
+        {
+
+            if (Request.Files.Count > 0)
+            {
+                try
+                {
+                    //  Get all files from Request object  
+                    HttpFileCollectionBase files = Request.Files;
+                    for (int i = 0; i < files.Count; i++)
+                    {
+                        //string path = AppDomain.CurrentDomain.BaseDirectory + "Uploads/";  
+                        //string filename = Path.GetFileName(Request.Files[i].FileName);  
+
+                        HttpPostedFileBase file = files[i];
+                        string fname;
+
+                        // Checking for Internet Explorer  
+                        if (Request.Browser.Browser.ToUpper() == "IE" || Request.Browser.Browser.ToUpper() == "INTERNETEXPLORER")
+                        {
+                            string[] testfiles = file.FileName.Split(new char[] { '\\' });
+                            fname = testfiles[testfiles.Length - 1];
+                        }
+                        else
+                        {
+                            fname = file.FileName;
+                        }
+
+                        // Get the complete folder path and store the file inside it.  
+                        fname = Path.Combine(Server.MapPath("~/Content/UploadedFiles/"), fname);
+                        file.SaveAs(fname);
+                    }
+                    // Returns message that successfully uploaded  
+                    return Json("File Uploaded Successfully!");
+                }
+                catch (Exception ex)
+                {
+                    return Json("Error occurred. Error details: " + ex.Message);
+                }
+            }
+            else
+            {
+                return Json("No files selected.");
+            }
+            // Verify that the user selected a file
+            //if (files != null && files.ContentLength > 0)
+            //{
+            //    // extract only the filename
+            //    var fileName = Path.GetFileName(files.FileName);
+            //    // store the file inside ~/App_Data/uploads folder
+            //    var path = Path.Combine(Server.MapPath("~/App_Data/uploads"), fileName);
+            //    files.SaveAs(path);
+            //}
+            // redirect back to the index action to show the form once again
+
+            return View("Index");
+        }
+
+        //[HttpPost]
+        //public ActionResult UploadFile(HttpPostedFileBase file)
+        //{
+        //    try
+        //    {
+        //        if (file.ContentLength > 0)
+        //        {
+        //            string _FileName = Path.GetFileName(file.FileName);
+        //            string _path = Path.Combine(Server.MapPath("~/UploadedFiles"), _FileName);
+        //            file.SaveAs(_path);
+        //        }
+        //        ViewBag.Message = "File Uploaded Successfully!!";
+        //        return View();
+        //    }
+        //    catch
+        //    {
+        //        ViewBag.Message = "File upload failed!!";
+        //        return View();
+        //    }
+        //}
+
+
+        //public void ProcessRequest(HttpContext context)
+        //{
+        //    context.Response.ContentType = "text/plain";
+        //    try
+        //    {
+        //        string dirFullPath = Server.MapPath("~/MediaUploader/");
+        //        string[] files;
+        //        int numFiles;
+        //        files = System.IO.Directory.GetFiles(dirFullPath);
+        //        numFiles = files.Length;
+        //        numFiles = numFiles + 1;
+        //        string str_image = "";
+
+        //        foreach (string s in context.Request.Files)
+        //        {
+        //            HttpPostedFile file = context.Request.Files[s];
+        //            string fileName = file.FileName;
+        //            string fileExtension = file.ContentType;
+
+        //            if (!string.IsNullOrEmpty(fileName))
+        //            {
+        //                fileExtension = Path.GetExtension(fileName);
+        //                str_image = "MyPHOTO_" + numFiles.ToString() + fileExtension;
+        //                string pathToSave_100 = Server.MapPath("~/MediaUploader/") + str_image;
+        //                file.SaveAs(pathToSave_100);
+        //            }
+        //        }
+        //        //  database record update logic here  ()
+
+        //        context.Response.Write(str_image);
+        //    }
+        //    catch (Exception ac)
+        //    {
+
+        //    }
+        //}
+        //public bool IsReusable
+        //{
+        //    get
+        //    {
+        //        return false;
+        //    }
+        //}
+        //[HttpPost]
+        //public ActionResult UploadFiles(files)
+        //{
+        //    // Checking no of files injected in Request object  
+        //    if (Request.Files.Count > 0)
+        //    {
+        //        try
+        //        {
+        //            //  Get all files from Request object  
+        //            HttpFileCollectionBase files = Request.Files;
+        //            for (int i = 0; i < files.Count; i++)
+        //            {
+        //                //string path = AppDomain.CurrentDomain.BaseDirectory + "Uploads/";  
+        //                //string filename = Path.GetFileName(Request.Files[i].FileName);  
+
+        //                HttpPostedFileBase file = files[i];
+        //                string fname;
+
+        //                // Checking for Internet Explorer  
+        //                if (Request.Browser.Browser.ToUpper() == "IE" || Request.Browser.Browser.ToUpper() == "INTERNETEXPLORER")
+        //                {
+        //                    string[] testfiles = file.FileName.Split(new char[] { '\\' });
+        //                    fname = testfiles[testfiles.Length - 1];
+        //                }
+        //                else
+        //                {
+        //                    fname = file.FileName;
+        //                }
+
+        //                // Get the complete folder path and store the file inside it.  
+        //                fname = Path.Combine(Server.MapPath("~/Uploads/"), fname);
+        //                file.SaveAs(fname);
+        //            }
+        //            // Returns message that successfully uploaded  
+        //            return Json("File Uploaded Successfully!");
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            return Json("Error occurred. Error details: " + ex.Message);
+        //        }
+        //    }
+        //    else
+        //    {
+        //        return Json("No files selected.");
+        //    }
+        //}
         [HttpPost]
         public ActionResult UploadFiles(HttpPostedFileBase[] files)
         {
@@ -125,5 +299,18 @@ namespace ProAcc.Controllers
             return View();
         }
 
+
+        //[HttpPost]
+        //public ActionResult UploadFiles()
+        //{
+        //    string path = Server.MapPath("~/Content/Upload/");
+        //    HttpFileCollectionBase files = Request.Files;
+        //    for (int i = 0; i < files.Count; i++)
+        //    {
+        //        HttpPostedFileBase file = files[i];
+        //        file.SaveAs(path + file.FileName);
+        //    }
+        //    return Json(files.Count + " Files Uploaded!");
+        //}
     }
 }
