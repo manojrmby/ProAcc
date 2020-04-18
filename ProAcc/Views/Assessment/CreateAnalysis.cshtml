@@ -16,12 +16,23 @@
         visibility: hidden;
         position: absolute;
     }
+
+    .file {
+        visibility: hidden;
+        position: absolute;
+    }
 </style>
 <script src="~/Asset/Scripts/Chart.js"></script>
 <script src="~/Asset/Scripts/Chart.RadialGauge.umd.js"></script>
 <link href="~/Asset/css/jBox.all.css" rel="stylesheet" />
 <link href="~/Asset/css/Demo.css" rel="stylesheet" />
+
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js">
+</script>
+<script src="http://malsup.github.com/jquery.form.js"></script>
 @*<script src="~/Asset/Scripts/utils.js"></script>*@
+
 <div style="padding: 1em;">
     <ul class="body-tabs body-tabs-layout tabs-animated body-tabs-animated nav">
         <li class="nav-item">
@@ -49,10 +60,7 @@
                 <label for="exampleEmail" class="">Customer Name</label>
                 @Html.DropDownList("Customer", (IEnumerable<SelectListItem>)ViewBag.Customer, new { id = "IDCustomer", @class = "form-control" })
             </div>
-            @*<div class="position-relative form-group">
-                    <label for="exampleEmail" class="">Customer Number</label>
-                    <input name="email" id="exampleEmail" placeholder="" class="form-control">
-                </div>*@
+
             <div class="position-relative form-group">
                 <label for="exampleEmail" class="">Project Name</label>
                 @Html.DropDownList("Project", (IEnumerable<SelectListItem>)ViewBag.Project, new { id = "IDProject", @class = "form-control" })
@@ -62,24 +70,15 @@
                 <input name="email" id="exampleEmail" placeholder="" class="form-control">
             </div>
 
-            <div class="text-left">
-                @*<button id="Modal-1" class="btn-wide mb-2 mr-2 btn btn-primary">
-            Files
-        </button>*@
-                @*<button class="mb-2 mr-2 btn-icon btn-pill btn btn-success"><i class="lnr-crop btn-icon-wrapper"> </i>Success</button>*@
-                <button class="mb-2 mr-2 btn-icon btn-icon-only btn-pill btn btn-danger" id="Modal-1">File's upload <i class="fa fa-fw" aria-hidden="true" title="Copy to use upload"></i></button>
-               
-                
-                @*<div  class="target-click">Click me</div>*@
-            </div>
-            @*<div class="position-relative form-group">
-                    <label for="exampleFile" class="">Upload Analysis</label>
-                    <input name="file" id="exampleFile" type="file" class="form-control-file">
-                </div>
-                <div class="position-relative form-group">
-                    <label for="exampleFile" class="">Upload Custom code Analysis</label>
-                    <input name="file" id="exampleFile" type="file" class="form-control-file">
-                </div>*@
+            <input type="file" name="files" id="FileUpload1" />
+            <input type="file" name="files" id="FileUpload2" />
+            <input type="file" name="files" id="FileUpload3" />
+            <input type="file" name="files" id="FileUpload4" />
+            <input type="file" name="files" id="FileUpload5" />
+            <input type="file" name="files" id="FileUpload6" />
+            <input type="file" name="files" id="FileUpload7" />
+
+
             <div class="position-relative form-group">
 
                 <div class="custom-checkbox custom-control">
@@ -96,128 +95,130 @@
 
             </div>
             <div class="text-center">
-                <button class="btn-wide mb-2 mr-2 btn btn-primary">
+                <button class="btn-wide mb-2 mr-2 btn btn-primary" id="btnUpload">
                     Start Analysis
                 </button>
             </div>
 
         </div>
         @*<div class="col-lg-6">
-            <div class="row" style="padding:0em 1em 1em 1em;">
-                <div class="col-lg-6 card text-center">
-                    <label>In Progress</label>
-                    <canvas id="chart-area"></canvas>
-                    <label>Total: 238</label>
+                <div class="row" style="padding:0em 1em 1em 1em;">
+                    <div class="col-lg-6 card text-center">
+                        <label>In Progress</label>
+                        <canvas id="chart-area"></canvas>
+                        <label>Total: 238</label>
+                    </div>
+                    <div class="col-lg-6 card text-center">
+                        <label>Closed</label>
+                        <canvas id="chart-area1"></canvas>
+                        <label>Total: 80</label>
+                    </div>
                 </div>
-                <div class="col-lg-6 card text-center">
-                    <label>Closed</label>
-                    <canvas id="chart-area1"></canvas>
-                    <label>Total: 80</label>
+                <div class="main-card mb-6 card">
+                    <div class="card-body">
+                        <h5 class="card-title">Recent Updates</h5>
+                        <table class="mb-0 table table-hover">
+                            <thead>
+                                <tr>
+
+                                    <th>Analysis Name</th>
+                                    <th>Customer Name</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+
+                                    <td>Custom Code Analysis</td>
+                                    <td>Mathew Anderson</td>
+                                    <td class="cs_Inprogress">Inprogress</td>
+                                </tr>
+                                <tr>
+
+                                    <td>Pre Check report</td>
+                                    <td>Latin Mike</td>
+                                    <td class="cs_Inprogress">Inprogress</td>
+                                </tr>
+                                <tr>
+                                    <td>Making DB to code</td>
+                                    <td>Mathew anderson</td>
+                                    <td class="cs_Closed">Closed</td>
+                                </tr>
+                                <tr>
+                                    <td>Check server role</td>
+                                    <td>Anamika M </td>
+                                    <td class="cs_Inprogress">Inprogress</td>
+                                </tr>
+                                <tr>
+                                    <td>Auto Start SAP Services</td>
+                                    <td>Hayden Leu </td>
+                                    <td class="cs_Closed">Closed</td>
+                                </tr>
+                                <tr>
+                                    <td>AutoUnlock DDIC</td>
+                                    <td>Steve Michael</td>
+                                    <td class="cs_Inprogress">Inprogress</td>
+                                </tr>
+                                <tr>
+                                    <td>AutoUnlock DDIC</td>
+                                    <td>Steve Michael</td>
+                                    <td class="cs_Inprogress">Inprogress</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
-            <div class="main-card mb-6 card">
-                <div class="card-body">
-                    <h5 class="card-title">Recent Updates</h5>
-                    <table class="mb-0 table table-hover">
-                        <thead>
-                            <tr>
-
-                                <th>Analysis Name</th>
-                                <th>Customer Name</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-
-                                <td>Custom Code Analysis</td>
-                                <td>Mathew Anderson</td>
-                                <td class="cs_Inprogress">Inprogress</td>
-                            </tr>
-                            <tr>
-
-                                <td>Pre Check report</td>
-                                <td>Latin Mike</td>
-                                <td class="cs_Inprogress">Inprogress</td>
-                            </tr>
-                            <tr>
-                                <td>Making DB to code</td>
-                                <td>Mathew anderson</td>
-                                <td class="cs_Closed">Closed</td>
-                            </tr>
-                            <tr>
-                                <td>Check server role</td>
-                                <td>Anamika M </td>
-                                <td class="cs_Inprogress">Inprogress</td>
-                            </tr>
-                            <tr>
-                                <td>Auto Start SAP Services</td>
-                                <td>Hayden Leu </td>
-                                <td class="cs_Closed">Closed</td>
-                            </tr>
-                            <tr>
-                                <td>AutoUnlock DDIC</td>
-                                <td>Steve Michael</td>
-                                <td class="cs_Inprogress">Inprogress</td>
-                            </tr>
-                            <tr>
-                                <td>AutoUnlock DDIC</td>
-                                <td>Steve Michael</td>
-                                <td class="cs_Inprogress">Inprogress</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>*@
+            </div>*@
     </div>
 </div>
-<div style="display: none" id="grabMe">
+@*<div style="display: none" id="grabMe">
 
 
-    <div class="col-12">
+        <div class="col-12">
+            <div class="row">
+                <div class="form-group">
+                    <input type="file" class="file" id="myFile" multiple size="50" onchange="myFunction()">
+
+
+                    <div class="input-group col-xs-12" id="Brow">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-picture"></i></span>
+                        <input type="text" class="form-control input-lg" disabled placeholder="Upload Image">
+                        <span class="input-group-btn">
+                            <button class="browse btn btn-primary input-lg" type="button"><i class="glyphicon glyphicon-search"></i> Browse</button>
+                            <button class="btn-icon btn-icon-only btn btn-outline-danger"><i class="fa fa-trash btn-icon-wrapper"> </i></button>
+                        </span>
+
+                    </div>
+                    <p id="demo"></p>
+                </div>
+
+            </div>
+
+        </div>
         <div class="row">
             <div class="form-group">
-                <input type="file" class="file" id="myFile" multiple size="50" onchange="myFunction()">
-
-
-                <div class="input-group col-xs-12" id="Brow">
-                    <span class="input-group-addon"><i class="glyphicon glyphicon-picture"></i></span>
-                    <input type="text" class="form-control input-lg" disabled placeholder="Upload Image">
-                    <span class="input-group-btn">
-                        <button class="browse btn btn-primary input-lg" type="button"><i class="glyphicon glyphicon-search"></i> Browse</button>
-                        @*<button class="btn-icon btn-icon-only btn btn-outline-danger"><i class="fa fa-trash btn-icon-wrapper"> </i></button>*@
-                    </span>
-
-                </div>
-                <p id="demo"></p>
+                <button class="btn-wide mb-2 mr-2 btn btn-primary" id="fi_upload">
+                    Submit
+                </button>
+                <button class="btn btn-outline-danger" id="ClaerFileUpload"><i class="fa fa-trash btn-icon-wrapper"></i></button>
             </div>
-
         </div>
 
-    </div>
-    <div class="row">
-        <div class="form-group">
-            <button class="btn-wide mb-2 mr-2 btn btn-primary" id="fi_upload">
-                Submit
-            </button>
-            <button class="btn btn-outline-danger" id="ClaerFileUpload"><i class="fa fa-trash btn-icon-wrapper"></i></button>
-        </div>
-    </div>
+    </div>*@
 
-</div>
-<script src="~/Asset/Scripts/jBox.all.js"></script>
-<script type="text/javascript">
+@*<script src="~/Asset/Scripts/jBox.all.js"></script>*@
+@*<script type="text/javascript">
+
     //var randomScalingFactor = function () {
     //    return Math.round(Math.random() * 100);
     //};
-    new jBox('Modal', {
-        attach: '#Modal-1',
-        height: 350,
-        width: 600,
-        title: 'File\'s Upload',
-        content: $('#grabMe')
-    });
+    //new jBox('Modal', {
+    //    attach: '#Modal-1',
+    //    height: 350,
+    //    width: 600,
+    //    title: 'File\'s Upload',
+    //    content: $('#grabMe')
+    //});
 
     Chart.defaults.global.defaultFontFamily = "Verdana";
 
@@ -302,80 +303,42 @@
 
     //'<div style="line-height: 30px;">Try to scroll ...it\'s blocked.<br>Press [ESC] or click anywhere to close.</div>'
 
-</script>
-
-
+    
+    
+</script>*@
 <script>
-    jQuery(document).ready(function ($) {
+    $(document).ready(function () {
+        $('#btnUpload').click(function () {
+            debugger;
+            var fileUpload = $("#FileUpload1").get(0);
+            var fileUpload1 = $("#FileUpload2").get(0);
+            var files = fileUpload.files;
+            debugger;
+            var fileData = new FormData();
 
-        //debugger;
-        $("#fi_upload").hide();
-        $("#ClaerFileUpload").hide();
-       
-        
-    });
-    $(document).on('click', '.browse', function () {
-
-        var file = $(this).parent().parent().parent().find('.file');
-        file.trigger('click');
-
-    });
-    //$(document).on('change', '.file', function () {
-
-    //    $(this).parent().find('.form-control').val($(this).val().replace(/C:\\fakepath\\/i, ''));
-
-    //});
-    $("#ClaerFileUpload").click(function () {
-        $("#myFile").val("");
-        document.getElementById("demo").innerHTML = "";
-        $("#fi_upload").hide();
-        $("#Brow").show();
-        $(this).hide();
-    });
-    function myFunction() {
-        
-        $("#fi_upload").hide();
-        var x = document.getElementById("myFile");
-        var txt = "";
-        if ('files' in x) {
-            
-            if (x.files.length == 0) {
-                txt = "Select one or more files.";
-            } else {
-                for (var i = 0; i < x.files.length; i++) {
-                    //txt += "<br><strong>" + (i + 1) + ". file</strong><br>";
-                     
-                    var file = x.files[i];
-                    if ('name' in file) {
-                        txt += "<br><strong>" + (i + 1) + "."+file.name+" </strong>";
-                        //txt += "name: " +  + "<br>";
-                    }
-                    if ('size' in file) {
-                        txt += "size: " + file.size + " bytes <br>";
-                    }
+            // Looping over all files and add it to FormData object
+            for (var i = 0; i < files.length; i++) {
+                fileData.append(files[i].name, files[i]);
+            }
+            $.ajax({
+                url: '/FileUplaod/Upload',
+                type: "POST",
+                contentType: false, // Not to set any content header
+                processData: false, // Not to process data
+                data: fileData,
+                success: function (result) {
+                    alert(result);
+                },
+                error: function (err) {
+                    alert(err.statusText);
                 }
-            }
-        }
-        else {
-            if (x.value == "") {
-                txt += "Select one or more files.";
-            } else {
-                txt += "The files property is not supported by your browser!";
-                txt += "<br>The path of the selected file: " + x.value; // If the browser does not support the files property, it will return the path of the selected file instead.
-            }
-        }
-        if (x.files.length == 7) {
-            $("#fi_upload").show();
-            $("#ClaerFileUpload").show();
-            $("#Brow").hide();
-            $("#Modal-1").addClass("btn-success");
-            $("#Modal-1").removeClass("btn-danger");
-        }
-        else {
-            $("#Modal-1").addClass("btn-danger");
-        }
-        
-        document.getElementById("demo").innerHTML = txt;
-    }
+            });
+
+        });
+    });
 </script>
+
+
+
+
 

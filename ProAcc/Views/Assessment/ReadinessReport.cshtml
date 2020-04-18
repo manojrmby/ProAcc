@@ -1,62 +1,62 @@
 ﻿
 @{
-	ViewBag.Title = "ReadinessReport";
-	Layout = "~/Views/shared/_Layout.cshtml";
+    ViewBag.Title = "ReadinessReport";
+    Layout = "~/Views/shared/_Layout.cshtml";
 }
 <script src="~/Asset/Scripts/Chart.js"></script>
 <script src="~/Asset/Scripts/Chart.RadialGauge.umd.js"></script>
 
 <div style="padding:1em;">
 
-	<div class="row">
+    <div class="row">
 
-		<div class="col-lg-12 ">
-			<a>SAP Readiness Report</a>
-			<div class="row" style="padding:0em 1em 1em 1em;">
-				<div class="col-lg-6 text-center card">
-					@*<label>Simplification</label>*@
-					<canvas id="Chart_Relevant"></canvas>
-				</div>
-				<div class="col-lg-6 text-center card">
-					<label>Custom Code Analysis</label>
-					<canvas id="Chart_CustomCode"></canvas>
-				</div>
+        <div class="col-lg-12 ">
+            <a>SAP Readiness Report</a>
+            <div class="row" style="padding:0em 1em 1em 1em;">
+                <div class="col-lg-6 text-center card">
+                    @*<label>Simplification</label>*@
+                    <canvas id="Chart_Relevant"></canvas>
+                </div>
+                <div class="col-lg-6 text-center card">
+                    <label>Custom Code Analysis</label>
+                    <canvas id="Chart_CustomCode"></canvas>
+                </div>
 
-			</div>
-		</div>
-		<div class="col-lg-12 card">
-			<a>Activities Related Simplification Items</a>
-			<div class="row" style="padding:0em 1em 1em 1em;">
-				<div class="col-lg-4">
-					<label></label>
-					<canvas id="Chart_Activities_Bar1"></canvas>
-				</div>
-				<div class="col-lg-4">
-					<label></label>
-					<canvas id="Chart_Activities_Donut"></canvas>
-				</div>
-				<div class="col-lg-4">
-					<label></label>
+            </div>
+        </div>
+        <div class="col-lg-12 card">
+            <a>Activities Related Simplification Items</a>
+            <div class="row" style="padding:0em 1em 1em 1em;">
+                <div class="col-lg-4">
+                    <label></label>
+                    <canvas id="Chart_Activities_Bar1"></canvas>
+                </div>
+                <div class="col-lg-4">
+                    <label></label>
+                    <canvas id="Chart_Activities_Donut"></canvas>
+                </div>
+                <div class="col-lg-4">
+                    <label></label>
 
-					<canvas id="Chart_Activities_Bar2"></canvas>
-				</div>
-			</div>
-		</div>
-		<div class="col-lg-12 card">
-			<a>Recommended SAP Fiori Apps</a>
-			<div class="row" style="padding:0em 1em 1em 1em;">
-				<div class="col-lg-4">
-					@*<label></label>
-						<canvas id="Chart_Activities_Bar1"></canvas>*@
-				</div>
-				<div class="col-lg-4">
-					<label></label>
-					<canvas id="Chart_Fiori_Bar1"></canvas>
-				</div>
-			</div>
-		</div>
+                    <canvas id="Chart_Activities_Bar2"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 card">
+            <a>Recommended SAP Fiori Apps</a>
+            <div class="row" style="padding:0em 1em 1em 1em;">
+                <div class="col-lg-4">
+                    @*<label></label>
+                        <canvas id="Chart_Activities_Bar1"></canvas>*@
+                </div>
+                <div class="col-lg-4">
+                    <label></label>
+                    <canvas id="Chart_Fiori_Bar1"></canvas>
+                </div>
+            </div>
+        </div>
 
-	</div>
+    </div>
 </div>
 <script type="text/javascript">
 
@@ -127,8 +127,8 @@
 			options: {
 
 				responsive: true,
-                legend: {
-                    //display: true,
+				legend: {
+					//display: true,
 					position: 'left'
 				},
 				title: {
@@ -749,7 +749,7 @@
 				},
 				title: {
 					display: true,
-					text: "Application Area"
+					text: "Role"
 				},
 				centerPercentage: 60,
 				centerArea: {

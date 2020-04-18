@@ -1,0 +1,46 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<div class="row">
+    <div class="col-md-4">
+        @*@using (Html.BeginForm("Index", "FileUplaod", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {*@
+            <input type="file" name="files" id="FileUpload1" multiple/>
+            <input type="submit" value="OK" id="btnUpload"/>
+        @*}*@
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $('#btnUpload').click(function () {
+            var fileUpload = $("#FileUpload1").get(0);  
+            var files = fileUpload.files;
+            debugger;
+            var fileData = new FormData();  
+  
+            // Looping over all files and add it to FormData object  
+            for (var i = 0; i < files.length; i++) {  
+                fileData.append(files[i].name, files[i]);  
+            }
+            $.ajax({  
+                url: '/FileUplaod/Upload',  
+                type: "POST",  
+                contentType: false, // Not to set any content header  
+                processData: false, // Not to process data  
+                data: fileData,  
+                success: function (result) {  
+                    alert(result);  
+                },  
+                error: function (err) {  
+                    alert(err.statusText);  
+                }  
+            });  
+        
+        });
+            });
+</script>

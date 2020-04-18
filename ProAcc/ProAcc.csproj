@@ -129,14 +129,11 @@
     <Content Include="bin\Antlr3.Runtime.pdb" />
     <Content Include="bin\EntityFramework.dll" />
     <Content Include="bin\EntityFramework.SqlServer.dll" />
-    <Content Include="bin\EntityFramework.SqlServer.xml" />
-    <Content Include="bin\EntityFramework.xml" />
     <Content Include="bin\Microsoft.AspNet.Identity.Core.dll" />
     <Content Include="bin\Microsoft.AspNet.Identity.Core.xml" />
     <Content Include="bin\Microsoft.AspNet.Identity.EntityFramework.dll" />
     <Content Include="bin\Microsoft.AspNet.Identity.EntityFramework.xml" />
     <Content Include="bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll" />
-    <Content Include="bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml" />
     <Content Include="bin\Microsoft.Web.Infrastructure.dll" />
     <Content Include="bin\Newtonsoft.Json.dll" />
     <Content Include="bin\Newtonsoft.Json.xml" />
@@ -309,23 +306,17 @@
     <Content Include="bin\System.Net.Http.Formatting.dll" />
     <Content Include="bin\System.Net.Http.Formatting.xml" />
     <Content Include="bin\System.Web.Helpers.dll" />
-    <Content Include="bin\System.Web.Helpers.xml" />
     <Content Include="bin\System.Web.Http.dll" />
     <Content Include="bin\System.Web.Http.WebHost.dll" />
     <Content Include="bin\System.Web.Http.WebHost.xml" />
     <Content Include="bin\System.Web.Http.xml" />
     <Content Include="bin\System.Web.Mvc.dll" />
-    <Content Include="bin\System.Web.Mvc.xml" />
     <Content Include="bin\System.Web.Optimization.dll" />
     <Content Include="bin\System.Web.Optimization.xml" />
     <Content Include="bin\System.Web.Razor.dll" />
-    <Content Include="bin\System.Web.Razor.xml" />
     <Content Include="bin\System.Web.Webpages.Deployment.dll" />
-    <Content Include="bin\System.Web.Webpages.Deployment.xml" />
     <Content Include="bin\System.Web.Webpages.dll" />
     <Content Include="bin\System.Web.Webpages.Razor.dll" />
-    <Content Include="bin\System.Web.Webpages.Razor.xml" />
-    <Content Include="bin\System.Web.Webpages.xml" />
     <Content Include="bin\WebGrease.dll" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
@@ -538,6 +529,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\FileUplaodController.cs" />
     <Compile Include="Controllers\PreConvertionController.cs" />
     <Compile Include="Models\Consultant.cs">
       <DependentUpon>PROACC.tt</DependentUpon>
@@ -609,10 +601,11 @@
     <Content Include="Scripts\jquery-3.4.1.min.map" />
     <Content Include="Views\Assessment\CreateAnalysis.cshtml" />
     <Content Include="Views\PreConvertion\PreConvertion.cshtml" />
-    <Content Include="Views\Home\Test.cshtml" />
+    <Content Include="Views\Assessment\Test.cshtml" />
     <Content Include="Views\Assessment\ReadinessReport.cshtml" />
     <Content Include="Views\Assessment\SimplificationReport.cshtml" />
     <Content Include="Views\Assessment\CustomReport.cshtml" />
+    <Content Include="Views\FileUplaod\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -622,7 +615,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Asset\UploadedFiles\" />
+    <Folder Include="Content\UploadedFiles\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
