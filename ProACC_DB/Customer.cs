@@ -14,6 +14,12 @@ namespace ProACC_DB
     
     public partial class Customer
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Customer()
+        {
+            this.CustomerProjectConfigs = new HashSet<CustomerProjectConfig>();
+        }
+    
         public System.Guid Id { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
@@ -39,5 +45,7 @@ namespace ProACC_DB
     
         public virtual User_Master User_Master { get; set; }
         public virtual Project Project { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CustomerProjectConfig> CustomerProjectConfigs { get; set; }
     }
 }

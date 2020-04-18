@@ -1,0 +1,120 @@
+﻿@model IEnumerable<ProACC_DB.Customer>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/shared/_Layout.cshtml";
+}
+
+<h2 class="card-title">CUSTOMER LIST</h2>
+
+<p>
+   
+        @Html.ActionLink("Create New", "Create")
+   
+</p>
+<table class="mb-0 table table-bordered">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.UserName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Password)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Company)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Work_Function)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Phone)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EstimatedSale)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LastContact_Dt)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NextAction_Dt)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NextContact_Dt)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LeadStatus)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LeadSource)
+        </th>      
+        <th>
+            @Html.DisplayNameFor(model => model.isActive)
+        </th>      
+        <th>
+            @Html.DisplayNameFor(model => model.User_Master.UserType)
+        </th>       
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Password)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Company)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Work_Function)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Phone)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EstimatedSale)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LastContact_Dt)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NextAction_Dt)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NextContact_Dt)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LeadStatus)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LeadSource)
+        </td>        
+        <td>
+            @Html.DisplayFor(modelItem => item.isActive)
+        </td>      
+        <td>
+            @Html.DisplayFor(modelItem => item.User_Master.UserType)
+        </td>       
+        <td style="width:75px !important;">
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

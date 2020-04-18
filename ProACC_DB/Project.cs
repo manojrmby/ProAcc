@@ -36,8 +36,8 @@ namespace ProACC_DB
         public virtual Customer Customer { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MilestoneDetail> MilestoneDetails { get; set; }
-        public virtual ProjInstanceConfig ProjInstanceConfig { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProjectDetail> ProjectDetails { get; set; }
+        public virtual ProjectInstanceConfig ProjectInstanceConfig { get; set; }
     }
 }

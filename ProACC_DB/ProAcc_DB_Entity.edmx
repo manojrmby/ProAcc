@@ -51,13 +51,14 @@
           <Property Name="Modified_by" Type="uniqueidentifier" />
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
         </EntityType>
-        <EntityType Name="CustProjconfig">
+        <EntityType Name="CustomerProjectConfig">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
           <Property Name="ProjectName" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Cust_Con_ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CustomerID" Type="uniqueidentifier" />
+          <Property Name="ConsultantID" Type="uniqueidentifier" />
           <Property Name="LastUpdated_Dt" Type="datetime" Nullable="false" />
           <Property Name="isActive" Type="bit" Nullable="false" />
           <Property Name="Cre_on" Type="datetime" Nullable="false" />
@@ -65,6 +66,14 @@
           <Property Name="Modified_On" Type="datetime" />
           <Property Name="Modified_by" Type="uniqueidentifier" />
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="HanaStatus">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="HanaStatus" Type="varchar" MaxLength="50" />
+          <Property Name="IsActive" Type="bit" />
         </EntityType>
         <EntityType Name="Milestone">
           <Key>
@@ -130,7 +139,7 @@
           <Property Name="Modified_by" Type="uniqueidentifier" />
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
         </EntityType>
-        <EntityType Name="ProjInstanceConfig">
+        <EntityType Name="ProjectInstanceConfig">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -167,7 +176,7 @@
           <Property Name="Custom Code Note" Type="nvarchar" MaxLength="255" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6013: The table/view 'ProAcc.dbo.SAPInput_FioriApps' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+warning 6013: The table/view 'ProAccDev.dbo.SAPInput_FioriApps' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
         <EntityType Name="SAPInput_FioriApps">
           <Property Name="S_No" Type="float" />
           <Property Name="Role" Type="nvarchar" MaxLength="255" />
@@ -232,6 +241,18 @@ warning 6013: The table/view 'ProAcc.dbo.SAPInput_FioriApps' does not have a pri
           <Property Name="Modified_by" Type="uniqueidentifier" />
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
         </EntityType>
+        <Association Name="FK_COnsultant_CustomerProjectConfig">
+          <End Role="Consultant" Type="Self.Consultant" Multiplicity="0..1" />
+          <End Role="CustomerProjectConfig" Type="Self.CustomerProjectConfig" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Consultant">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CustomerProjectConfig">
+              <PropertyRef Name="ConsultantID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Consultant_User_Master">
           <End Role="User_Master" Type="Self.User_Master" Multiplicity="1" />
           <End Role="Consultant" Type="Self.Consultant" Multiplicity="*" />
@@ -241,6 +262,18 @@ warning 6013: The table/view 'ProAcc.dbo.SAPInput_FioriApps' does not have a pri
             </Principal>
             <Dependent Role="Consultant">
               <PropertyRef Name="UserTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Customer_CustomerProjectConfig">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
+          <End Role="CustomerProjectConfig" Type="Self.CustomerProjectConfig" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CustomerProjectConfig">
+              <PropertyRef Name="CustomerID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -293,10 +326,10 @@ warning 6013: The table/view 'ProAcc.dbo.SAPInput_FioriApps' does not have a pri
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Project_ProjInstanceConfig">
-          <End Role="ProjInstanceConfig" Type="Self.ProjInstanceConfig" Multiplicity="1" />
+          <End Role="ProjectInstanceConfig" Type="Self.ProjectInstanceConfig" Multiplicity="1" />
           <End Role="Project" Type="Self.Project" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="ProjInstanceConfig">
+            <Principal Role="ProjectInstanceConfig">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Project">
@@ -341,13 +374,13 @@ warning 6013: The table/view 'ProAcc.dbo.SAPInput_FioriApps' does not have a pri
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_ProjInstanceConfig_CustProjconfig">
-          <End Role="CustProjconfig" Type="Self.CustProjconfig" Multiplicity="1" />
-          <End Role="ProjInstanceConfig" Type="Self.ProjInstanceConfig" Multiplicity="*" />
+          <End Role="CustomerProjectConfig" Type="Self.CustomerProjectConfig" Multiplicity="1" />
+          <End Role="ProjectInstanceConfig" Type="Self.ProjectInstanceConfig" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="CustProjconfig">
+            <Principal Role="CustomerProjectConfig">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="ProjInstanceConfig">
+            <Dependent Role="ProjectInstanceConfig">
               <PropertyRef Name="CustProjconfigID" />
             </Dependent>
           </ReferentialConstraint>
@@ -364,6 +397,9 @@ warning 6013: The table/view 'ProAcc.dbo.SAPInput_FioriApps' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="SP_CreateAnalysis" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Type" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="SP_CustomCode" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Type" Type="varchar" Mode="In" />
         </Function>
@@ -377,21 +413,30 @@ warning 6013: The table/view 'ProAcc.dbo.SAPInput_FioriApps' does not have a pri
         <EntityContainer Name="ProAccModelStoreContainer">
           <EntitySet Name="Consultant" EntityType="Self.Consultant" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="CustProjconfig" EntityType="Self.CustProjconfig" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CustomerProjectConfig" EntityType="Self.CustomerProjectConfig" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HanaStatus" EntityType="Self.HanaStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Milestone" EntityType="Self.Milestone" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MilestoneDetails" EntityType="Self.MilestoneDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Project" EntityType="Self.Project" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProjectDetails" EntityType="Self.ProjectDetails" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ProjInstanceConfig" EntityType="Self.ProjInstanceConfig" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProjectInstanceConfig" EntityType="Self.ProjectInstanceConfig" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SAPInput_Activities" EntityType="Self.SAPInput_Activities" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SAPInput_CustomCode" EntityType="Self.SAPInput_CustomCode" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SAPInput_SimplificationReport" EntityType="Self.SAPInput_SimplificationReport" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StageStatus" EntityType="Self.StageStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SubMilestoneConfig" EntityType="Self.SubMilestoneConfig" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User_Master" EntityType="Self.User_Master" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_COnsultant_CustomerProjectConfig" Association="Self.FK_COnsultant_CustomerProjectConfig">
+            <End Role="Consultant" EntitySet="Consultant" />
+            <End Role="CustomerProjectConfig" EntitySet="CustomerProjectConfig" />
+          </AssociationSet>
           <AssociationSet Name="FK_Consultant_User_Master" Association="Self.FK_Consultant_User_Master">
             <End Role="User_Master" EntitySet="User_Master" />
             <End Role="Consultant" EntitySet="Consultant" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Customer_CustomerProjectConfig" Association="Self.FK_Customer_CustomerProjectConfig">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="CustomerProjectConfig" EntitySet="CustomerProjectConfig" />
           </AssociationSet>
           <AssociationSet Name="FK_Customer_User_Master" Association="Self.FK_Customer_User_Master">
             <End Role="User_Master" EntitySet="User_Master" />
@@ -410,7 +455,7 @@ warning 6013: The table/view 'ProAcc.dbo.SAPInput_FioriApps' does not have a pri
             <End Role="Project" EntitySet="Project" />
           </AssociationSet>
           <AssociationSet Name="FK_Project_ProjInstanceConfig" Association="Self.FK_Project_ProjInstanceConfig">
-            <End Role="ProjInstanceConfig" EntitySet="ProjInstanceConfig" />
+            <End Role="ProjectInstanceConfig" EntitySet="ProjectInstanceConfig" />
             <End Role="Project" EntitySet="Project" />
           </AssociationSet>
           <AssociationSet Name="FK_ProjectDetails_MilestoneDetails" Association="Self.FK_ProjectDetails_MilestoneDetails">
@@ -426,8 +471,8 @@ warning 6013: The table/view 'ProAcc.dbo.SAPInput_FioriApps' does not have a pri
             <End Role="ProjectDetails" EntitySet="ProjectDetails" />
           </AssociationSet>
           <AssociationSet Name="FK_ProjInstanceConfig_CustProjconfig" Association="Self.FK_ProjInstanceConfig_CustProjconfig">
-            <End Role="CustProjconfig" EntitySet="CustProjconfig" />
-            <End Role="ProjInstanceConfig" EntitySet="ProjInstanceConfig" />
+            <End Role="CustomerProjectConfig" EntitySet="CustomerProjectConfig" />
+            <End Role="ProjectInstanceConfig" EntitySet="ProjectInstanceConfig" />
           </AssociationSet>
           <AssociationSet Name="FK_SubMilestoneConfig_MilestoneDetails" Association="Self.FK_SubMilestoneConfig_MilestoneDetails">
             <End Role="MilestoneDetails" EntitySet="MilestoneDetails" />
@@ -451,12 +496,10 @@ warning 6013: The table/view 'ProAcc.dbo.SAPInput_FioriApps' does not have a pri
           </FunctionImport>
           <EntitySet Name="Consultants" EntityType="ProAccModel.Consultant" />
           <EntitySet Name="Customers" EntityType="ProAccModel.Customer" />
-          <EntitySet Name="CustProjconfigs" EntityType="ProAccModel.CustProjconfig" />
           <EntitySet Name="Milestones" EntityType="ProAccModel.Milestone" />
           <EntitySet Name="MilestoneDetails" EntityType="ProAccModel.MilestoneDetail" />
           <EntitySet Name="Projects" EntityType="ProAccModel.Project" />
           <EntitySet Name="ProjectDetails" EntityType="ProAccModel.ProjectDetail" />
-          <EntitySet Name="ProjInstanceConfigs" EntityType="ProAccModel.ProjInstanceConfig" />
           <EntitySet Name="SAPInput_Activities" EntityType="ProAccModel.SAPInput_Activities" />
           <EntitySet Name="SAPInput_SimplificationReport" EntityType="ProAccModel.SAPInput_SimplificationReport" />
           <EntitySet Name="StageStatus" EntityType="ProAccModel.StageStatu" />
@@ -474,10 +517,6 @@ warning 6013: The table/view 'ProAcc.dbo.SAPInput_FioriApps' does not have a pri
             <End Role="Customer" EntitySet="Customers" />
             <End Role="Project" EntitySet="Projects" />
           </AssociationSet>
-          <AssociationSet Name="FK_ProjInstanceConfig_CustProjconfig" Association="ProAccModel.FK_ProjInstanceConfig_CustProjconfig">
-            <End Role="CustProjconfig" EntitySet="CustProjconfigs" />
-            <End Role="ProjInstanceConfig" EntitySet="ProjInstanceConfigs" />
-          </AssociationSet>
           <AssociationSet Name="FK_MilestoneDetails_Milestone" Association="ProAccModel.FK_MilestoneDetails_Milestone">
             <End Role="Milestone" EntitySet="Milestones" />
             <End Role="MilestoneDetail" EntitySet="MilestoneDetails" />
@@ -489,10 +528,6 @@ warning 6013: The table/view 'ProAcc.dbo.SAPInput_FioriApps' does not have a pri
           <AssociationSet Name="FK_SubMilestoneConfig_MilestoneDetails" Association="ProAccModel.FK_SubMilestoneConfig_MilestoneDetails">
             <End Role="MilestoneDetail" EntitySet="MilestoneDetails" />
             <End Role="SubMilestoneConfig" EntitySet="SubMilestoneConfigs" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Project_ProjInstanceConfig" Association="ProAccModel.FK_Project_ProjInstanceConfig">
-            <End Role="ProjInstanceConfig" EntitySet="ProjInstanceConfigs" />
-            <End Role="Project" EntitySet="Projects" />
           </AssociationSet>
           <AssociationSet Name="FK_ProjectDetails_Project" Association="ProAccModel.FK_ProjectDetails_Project">
             <End Role="Project" EntitySet="Projects" />
@@ -507,6 +542,28 @@ warning 6013: The table/view 'ProAcc.dbo.SAPInput_FioriApps' does not have a pri
             <End Role="ProjectDetail" EntitySet="ProjectDetails" />
           </AssociationSet>
           <EntitySet Name="SAPInput_CustomCode" EntityType="ProAccModel.SAPInput_CustomCode" />
+          <EntitySet Name="CustomerProjectConfigs" EntityType="ProAccModel.CustomerProjectConfig" />
+          <EntitySet Name="HanaStatus" EntityType="ProAccModel.HanaStatu" />
+          <EntitySet Name="ProjectInstanceConfigs" EntityType="ProAccModel.ProjectInstanceConfig" />
+          <AssociationSet Name="FK_ProjInstanceConfig_CustProjconfig1" Association="ProAccModel.FK_ProjInstanceConfig_CustProjconfig1">
+            <End Role="CustomerProjectConfig" EntitySet="CustomerProjectConfigs" />
+            <End Role="ProjectInstanceConfig" EntitySet="ProjectInstanceConfigs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Project_ProjInstanceConfig1" Association="ProAccModel.FK_Project_ProjInstanceConfig1">
+            <End Role="ProjectInstanceConfig" EntitySet="ProjectInstanceConfigs" />
+            <End Role="Project" EntitySet="Projects" />
+          </AssociationSet>
+          <FunctionImport Name="SP_CreateAnalysis" ReturnType="Collection(ProAccModel.SP_CreateAnalysis_Result)">
+          <Parameter Name="Type" Mode="In" Type="String" />
+          </FunctionImport>
+          <AssociationSet Name="FK_COnsultant_CustomerProjectConfig" Association="ProAccModel.FK_COnsultant_CustomerProjectConfig">
+            <End Role="Consultant" EntitySet="Consultants" />
+            <End Role="CustomerProjectConfig" EntitySet="CustomerProjectConfigs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Customer_CustomerProjectConfig" Association="ProAccModel.FK_Customer_CustomerProjectConfig">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="CustomerProjectConfig" EntitySet="CustomerProjectConfigs" />
+          </AssociationSet>
         </EntityContainer>
         <ComplexType Name="SP_ReadinessReport_Result">
           <Property Type="Int32" Name="RC" Nullable="true" />
@@ -537,6 +594,7 @@ warning 6013: The table/view 'ProAcc.dbo.SAPInput_FioriApps' does not have a pri
           <Property Name="Modified_by" Type="Guid" />
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="User_Master" Relationship="ProAccModel.FK_Consultant_User_Master" FromRole="Consultant" ToRole="User_Master" />
+          <NavigationProperty Name="CustomerProjectConfigs" Relationship="ProAccModel.FK_COnsultant_CustomerProjectConfig" FromRole="Consultant" ToRole="CustomerProjectConfig" />
         </EntityType>
         <EntityType Name="Customer">
           <Key>
@@ -566,22 +624,7 @@ warning 6013: The table/view 'ProAcc.dbo.SAPInput_FioriApps' does not have a pri
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="User_Master" Relationship="ProAccModel.FK_Customer_User_Master" FromRole="Customer" ToRole="User_Master" />
           <NavigationProperty Name="Project" Relationship="ProAccModel.FK_Project_Customer" FromRole="Customer" ToRole="Project" />
-        </EntityType>
-        <EntityType Name="CustProjconfig">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Guid" Nullable="false" />
-          <Property Name="ProjectName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Cust_Con_ID" Type="Guid" Nullable="false" />
-          <Property Name="LastUpdated_Dt" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="isActive" Type="Boolean" Nullable="false" />
-          <Property Name="Cre_on" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Cre_By" Type="Guid" Nullable="false" />
-          <Property Name="Modified_On" Type="DateTime" Precision="3" />
-          <Property Name="Modified_by" Type="Guid" />
-          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="ProjInstanceConfigs" Relationship="ProAccModel.FK_ProjInstanceConfig_CustProjconfig" FromRole="CustProjconfig" ToRole="ProjInstanceConfig" />
+          <NavigationProperty Name="CustomerProjectConfigs" Relationship="ProAccModel.FK_Customer_CustomerProjectConfig" FromRole="Customer" ToRole="CustomerProjectConfig" />
         </EntityType>
         <EntityType Name="Milestone">
           <Key>
@@ -633,8 +676,8 @@ warning 6013: The table/view 'ProAcc.dbo.SAPInput_FioriApps' does not have a pri
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Customer" Relationship="ProAccModel.FK_Project_Customer" FromRole="Project" ToRole="Customer" />
           <NavigationProperty Name="MilestoneDetails" Relationship="ProAccModel.FK_MilestoneDetails_Project" FromRole="Project" ToRole="MilestoneDetail" />
-          <NavigationProperty Name="ProjInstanceConfig" Relationship="ProAccModel.FK_Project_ProjInstanceConfig" FromRole="Project" ToRole="ProjInstanceConfig" />
           <NavigationProperty Name="ProjectDetails" Relationship="ProAccModel.FK_ProjectDetails_Project" FromRole="Project" ToRole="ProjectDetail" />
+          <NavigationProperty Name="ProjectInstanceConfig" Relationship="ProAccModel.FK_Project_ProjInstanceConfig1" FromRole="Project" ToRole="ProjectInstanceConfig" />
         </EntityType>
         <EntityType Name="ProjectDetail">
           <Key>
@@ -657,23 +700,6 @@ warning 6013: The table/view 'ProAcc.dbo.SAPInput_FioriApps' does not have a pri
           <NavigationProperty Name="Project" Relationship="ProAccModel.FK_ProjectDetails_Project" FromRole="ProjectDetail" ToRole="Project" />
           <NavigationProperty Name="SubMilestoneConfig" Relationship="ProAccModel.FK_ProjectDetails_MilestoneDetails" FromRole="ProjectDetail" ToRole="SubMilestoneConfig" />
           <NavigationProperty Name="StageStatu" Relationship="ProAccModel.FK_ProjectDetails_StageStatus" FromRole="ProjectDetail" ToRole="StageStatu" />
-        </EntityType>
-        <EntityType Name="ProjInstanceConfig">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Guid" Nullable="false" />
-          <Property Name="InstaceName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CustProjconfigID" Type="Guid" Nullable="false" />
-          <Property Name="LastUpdated_Dt" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="isActive" Type="Boolean" Nullable="false" />
-          <Property Name="Cre_on" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Cre_By" Type="Guid" Nullable="false" />
-          <Property Name="Modified_On" Type="DateTime" Precision="3" />
-          <Property Name="Modified_by" Type="Guid" />
-          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="CustProjconfig" Relationship="ProAccModel.FK_ProjInstanceConfig_CustProjconfig" FromRole="ProjInstanceConfig" ToRole="CustProjconfig" />
-          <NavigationProperty Name="Projects" Relationship="ProAccModel.FK_Project_ProjInstanceConfig" FromRole="ProjInstanceConfig" ToRole="Project" />
         </EntityType>
         <EntityType Name="SAPInput_Activities">
           <Key>
@@ -784,18 +810,6 @@ warning 6013: The table/view 'ProAcc.dbo.SAPInput_FioriApps' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ProjInstanceConfig_CustProjconfig">
-          <End Type="ProAccModel.CustProjconfig" Role="CustProjconfig" Multiplicity="1" />
-          <End Type="ProAccModel.ProjInstanceConfig" Role="ProjInstanceConfig" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CustProjconfig">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ProjInstanceConfig">
-              <PropertyRef Name="CustProjconfigID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_MilestoneDetails_Milestone">
           <End Type="ProAccModel.Milestone" Role="Milestone" Multiplicity="1" />
           <End Type="ProAccModel.MilestoneDetail" Role="MilestoneDetail" Multiplicity="*" />
@@ -829,18 +843,6 @@ warning 6013: The table/view 'ProAcc.dbo.SAPInput_FioriApps' does not have a pri
             </Principal>
             <Dependent Role="SubMilestoneConfig">
               <PropertyRef Name="MilestoneDetails_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Project_ProjInstanceConfig">
-          <End Type="ProAccModel.ProjInstanceConfig" Role="ProjInstanceConfig" Multiplicity="1" />
-          <End Type="ProAccModel.Project" Role="Project" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ProjInstanceConfig">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Project">
-              <PropertyRef Name="projectinstanceid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -890,6 +892,103 @@ warning 6013: The table/view 'ProAcc.dbo.SAPInput_FioriApps' does not have a pri
           <Property Name="Application_Component" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="Custom_Code_Note" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="CustomerProjectConfig">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="ProjectName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerID" Type="Guid" />
+          <Property Name="ConsultantID" Type="Guid" />
+          <Property Name="LastUpdated_Dt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="isActive" Type="Boolean" Nullable="false" />
+          <Property Name="Cre_on" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Cre_By" Type="Guid" Nullable="false" />
+          <Property Name="Modified_On" Type="DateTime" Precision="3" />
+          <Property Name="Modified_by" Type="Guid" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="ProjectInstanceConfigs" Relationship="ProAccModel.FK_ProjInstanceConfig_CustProjconfig1" FromRole="CustomerProjectConfig" ToRole="ProjectInstanceConfig" />
+          <NavigationProperty Name="Consultant" Relationship="ProAccModel.FK_COnsultant_CustomerProjectConfig" FromRole="CustomerProjectConfig" ToRole="Consultant" />
+          <NavigationProperty Name="Customer" Relationship="ProAccModel.FK_Customer_CustomerProjectConfig" FromRole="CustomerProjectConfig" ToRole="Customer" />
+        </EntityType>
+        <EntityType Name="HanaStatu">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="HanaStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="ProjectInstanceConfig">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="InstaceName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CustProjconfigID" Type="Guid" Nullable="false" />
+          <Property Name="LastUpdated_Dt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="isActive" Type="Boolean" Nullable="false" />
+          <Property Name="Cre_on" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Cre_By" Type="Guid" Nullable="false" />
+          <Property Name="Modified_On" Type="DateTime" Precision="3" />
+          <Property Name="Modified_by" Type="Guid" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="CustomerProjectConfig" Relationship="ProAccModel.FK_ProjInstanceConfig_CustProjconfig1" FromRole="ProjectInstanceConfig" ToRole="CustomerProjectConfig" />
+          <NavigationProperty Name="Projects" Relationship="ProAccModel.FK_Project_ProjInstanceConfig1" FromRole="ProjectInstanceConfig" ToRole="Project" />
+        </EntityType>
+        <Association Name="FK_ProjInstanceConfig_CustProjconfig1">
+          <End Type="ProAccModel.CustomerProjectConfig" Role="CustomerProjectConfig" Multiplicity="1" />
+          <End Type="ProAccModel.ProjectInstanceConfig" Role="ProjectInstanceConfig" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustomerProjectConfig">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProjectInstanceConfig">
+              <PropertyRef Name="CustProjconfigID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Project_ProjInstanceConfig1">
+          <End Type="ProAccModel.ProjectInstanceConfig" Role="ProjectInstanceConfig" Multiplicity="1" />
+          <End Type="ProAccModel.Project" Role="Project" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProjectInstanceConfig">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Project">
+              <PropertyRef Name="projectinstanceid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="SP_CreateAnalysis_Result">
+          <Property Type="Guid" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Company" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <Association Name="FK_COnsultant_CustomerProjectConfig">
+          <End Type="ProAccModel.Consultant" Role="Consultant" Multiplicity="0..1" />
+          <End Type="ProAccModel.CustomerProjectConfig" Role="CustomerProjectConfig" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Consultant">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CustomerProjectConfig">
+              <PropertyRef Name="ConsultantID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Customer_CustomerProjectConfig">
+          <End Type="ProAccModel.Customer" Role="Customer" Multiplicity="0..1" />
+          <End Type="ProAccModel.CustomerProjectConfig" Role="CustomerProjectConfig" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CustomerProjectConfig">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -963,22 +1062,6 @@ warning 6013: The table/view 'ProAcc.dbo.SAPInput_FioriApps' does not have a pri
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="CustProjconfigs">
-            <EntityTypeMapping TypeName="ProAccModel.CustProjconfig">
-              <MappingFragment StoreEntitySet="CustProjconfig">
-                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
-                <ScalarProperty Name="Modified_by" ColumnName="Modified_by" />
-                <ScalarProperty Name="Modified_On" ColumnName="Modified_On" />
-                <ScalarProperty Name="Cre_By" ColumnName="Cre_By" />
-                <ScalarProperty Name="Cre_on" ColumnName="Cre_on" />
-                <ScalarProperty Name="isActive" ColumnName="isActive" />
-                <ScalarProperty Name="LastUpdated_Dt" ColumnName="LastUpdated_Dt" />
-                <ScalarProperty Name="Cust_Con_ID" ColumnName="Cust_Con_ID" />
-                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Milestones">
             <EntityTypeMapping TypeName="ProAccModel.Milestone">
               <MappingFragment StoreEntitySet="Milestone">
@@ -1044,22 +1127,6 @@ warning 6013: The table/view 'ProAcc.dbo.SAPInput_FioriApps' does not have a pri
                 <ScalarProperty Name="SubMile_ID" ColumnName="SubMile_ID" />
                 <ScalarProperty Name="Proj_ID" ColumnName="Proj_ID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ProjInstanceConfigs">
-            <EntityTypeMapping TypeName="ProAccModel.ProjInstanceConfig">
-              <MappingFragment StoreEntitySet="ProjInstanceConfig">
-                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
-                <ScalarProperty Name="Modified_by" ColumnName="Modified_by" />
-                <ScalarProperty Name="Modified_On" ColumnName="Modified_On" />
-                <ScalarProperty Name="Cre_By" ColumnName="Cre_By" />
-                <ScalarProperty Name="Cre_on" ColumnName="Cre_on" />
-                <ScalarProperty Name="isActive" ColumnName="isActive" />
-                <ScalarProperty Name="LastUpdated_Dt" ColumnName="LastUpdated_Dt" />
-                <ScalarProperty Name="CustProjconfigID" ColumnName="CustProjconfigID" />
-                <ScalarProperty Name="InstaceName" ColumnName="InstaceName" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1147,6 +1214,57 @@ warning 6013: The table/view 'ProAcc.dbo.SAPInput_FioriApps' does not have a pri
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="CustomerProjectConfigs">
+            <EntityTypeMapping TypeName="ProAccModel.CustomerProjectConfig">
+              <MappingFragment StoreEntitySet="CustomerProjectConfig">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="Modified_by" ColumnName="Modified_by" />
+                <ScalarProperty Name="Modified_On" ColumnName="Modified_On" />
+                <ScalarProperty Name="Cre_By" ColumnName="Cre_By" />
+                <ScalarProperty Name="Cre_on" ColumnName="Cre_on" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+                <ScalarProperty Name="LastUpdated_Dt" ColumnName="LastUpdated_Dt" />
+                <ScalarProperty Name="ConsultantID" ColumnName="ConsultantID" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HanaStatus">
+            <EntityTypeMapping TypeName="ProAccModel.HanaStatu">
+              <MappingFragment StoreEntitySet="HanaStatus">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="HanaStatus" ColumnName="HanaStatus" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProjectInstanceConfigs">
+            <EntityTypeMapping TypeName="ProAccModel.ProjectInstanceConfig">
+              <MappingFragment StoreEntitySet="ProjectInstanceConfig">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="Modified_by" ColumnName="Modified_by" />
+                <ScalarProperty Name="Modified_On" ColumnName="Modified_On" />
+                <ScalarProperty Name="Cre_By" ColumnName="Cre_By" />
+                <ScalarProperty Name="Cre_on" ColumnName="Cre_on" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+                <ScalarProperty Name="LastUpdated_Dt" ColumnName="LastUpdated_Dt" />
+                <ScalarProperty Name="CustProjconfigID" ColumnName="CustProjconfigID" />
+                <ScalarProperty Name="InstaceName" ColumnName="InstaceName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="SP_CreateAnalysis" FunctionName="ProAccModel.Store.SP_CreateAnalysis">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ProAccModel.SP_CreateAnalysis_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Company" ColumnName="Company" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

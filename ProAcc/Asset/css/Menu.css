@@ -10011,7 +10011,7 @@ a, button, .btn {
 }
 
 	.app-header.header-text-light .app-header-left > .nav > li > .nav-link .nav-link-icon {
-		color: rgba(255,255,255,0.8)
+		color: white;
 	}
 
 	.app-header.header-text-light .app-header-left > .nav > li > .nav-link:hover {
@@ -10098,7 +10098,7 @@ a, button, .btn {
 }
 
 	.app-header.header-text-dark .app-header-left > .nav > li > .nav-link .nav-link-icon {
-		color: rgba(0,0,0,0.8)
+		color: white;
 	}
 
 	.app-header.header-text-dark .app-header-left > .nav > li > .nav-link:hover {
@@ -10294,10 +10294,10 @@ a, button, .btn {
 		margin: .1rem 0
 	}
 
-		.vertical-nav-menu li a:hover {
-			background: #e0f3ff;
-			text-decoration: none
-		}
+        .vertical-nav-menu li a:hover {
+            background: #d6fd9a;
+            text-decoration: none
+        }
 
 			.vertical-nav-menu li a:hover i.metismenu-icon {
 				opacity: .6
@@ -10366,7 +10366,7 @@ a, button, .btn {
 		}
 
 			.vertical-nav-menu ul > li > a:hover {
-				color: #3f6ad8
+				color: black;
 			}
 
 			.vertical-nav-menu ul > li > a .metismenu-icon {
@@ -15354,11 +15354,10 @@ a.badge-alternate:focus {
 }
 
 	.nav-link .nav-link-icon {
-		color: #3f6ad8;
+		color: white;
 		font-size: 1rem;
 		width: 30px;
-		text-align: center;
-		opacity: .45;
+		text-align: center;		
 		margin-left: -10px
 	}
 
@@ -22288,7 +22287,7 @@ legend {
 	}
 
 	.hamburger.is-active .hamburger-inner, .hamburger.is-active .hamburger-inner::before, .hamburger.is-active .hamburger-inner::after {
-		background-color: #3f6ad8
+		background-color: white;
 	}
 
 .hamburger-box {
@@ -22307,7 +22306,7 @@ legend {
 	.hamburger-inner, .hamburger-inner::before, .hamburger-inner::after {
 		width: 24px;
 		height: 2px;
-		background-color: #3f6ad8;
+		background-color: white;
 		border-radius: 10px;
 		position: absolute;
 		transition-property: transform;

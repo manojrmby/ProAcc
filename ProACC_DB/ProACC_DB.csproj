@@ -56,7 +56,10 @@
     <Compile Include="Customer.cs">
       <DependentUpon>ProAcc_DB_Entity.tt</DependentUpon>
     </Compile>
-    <Compile Include="CustProjconfig.cs">
+    <Compile Include="CustomerProjectConfig.cs">
+      <DependentUpon>ProAcc_DB_Entity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HanaStatu.cs">
       <DependentUpon>ProAcc_DB_Entity.tt</DependentUpon>
     </Compile>
     <Compile Include="Milestone.cs">
@@ -86,7 +89,7 @@
     <Compile Include="ProjectDetail.cs">
       <DependentUpon>ProAcc_DB_Entity.tt</DependentUpon>
     </Compile>
-    <Compile Include="ProjInstanceConfig.cs">
+    <Compile Include="ProjectInstanceConfig.cs">
       <DependentUpon>ProAcc_DB_Entity.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -97,6 +100,9 @@
       <DependentUpon>ProAcc_DB_Entity.tt</DependentUpon>
     </Compile>
     <Compile Include="SAPInput_SimplificationReport.cs">
+      <DependentUpon>ProAcc_DB_Entity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_CreateAnalysis_Result.cs">
       <DependentUpon>ProAcc_DB_Entity.tt</DependentUpon>
     </Compile>
     <Compile Include="SP_CustomCode_Result.cs">

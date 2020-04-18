@@ -56,7 +56,7 @@
 <body>
 
     <div class="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header">
-        <div class="app-header header-shadow  sidebar-text-light bg-happy-Top ">
+        <div class="app-header header-shadow  sidebar-text-dark" style="background-color:black !important;">
             @*<div class="app-header header-shadow">*@
             <div class="app-header__logo ">
                 <div class="logo-src"></div>
@@ -122,7 +122,7 @@
                                            aria-haspopup="true"
                                            aria-expanded="false"
                                            class="p-0 btn">
-                                            <img width="42"
+                                            <img width="30"
                                                  class="rounded-circle"
                                                  src="~/Asset/images/ManojPass.jpg"
                                                  alt="" />
@@ -271,8 +271,8 @@
                                             <i class="metismenu-icon pe-7s-car"></i>
                                             Compatability Report
                                             <!-- <i
-                                              class="metismenu-state-icon pe-7s-angle-down caret-left"
-                                            ></i> -->
+                      class="metismenu-state-icon pe-7s-angle-down caret-left"
+                    ></i> -->
                                             <i class="metismenu-state-icon fa fa-caret-down caret-left"></i>
                                         </a>
                                         <ul>
@@ -317,14 +317,112 @@
                                     Validation
                                 </a>
                             </li>
+                            <li>
+                                <a href="dashboard-boxes.html">
+                                    <i class="metismenu-icon fa fa-user"></i>
+                                    Customer
+                                    <i class="metismenu-state-icon fa fa-caret-down caret-left"></i>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <a href="@Url.Action("Create","Customers")">
+                                            <i class="metismenu-icon pe-7s-diamond"></i>
+                                            Create Customer
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("Index","Customers")">
+                                            <i class="metismenu-icon pe-7s-diamond"></i>
+                                            Customer List
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="dashboard-boxes.html">
+                                    <i class="metismenu-icon fa fa-user"></i>
+                                    Consultant
+                                    <i class="metismenu-state-icon fa fa-caret-down caret-left"></i>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <a href="@Url.Action("Create","Consultants")">
+                                            <i class="metismenu-icon pe-7s-diamond"></i>
+                                            Create Consultant
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("Index","Consultants")">
+                                            <i class="metismenu-icon pe-7s-diamond"></i>
+                                            Consultant List
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="dashboard-boxes.html">
+                                    <i class="metismenu-icon fa fa-briefcase"></i>
+                                    Customer Project Config
+                                    <i class="metismenu-state-icon fa fa-caret-down caret-left"></i>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <a href="@Url.Action("Create","CustomerProjectConfigs")">
+                                            <i class="metismenu-icon pe-7s-diamond"></i>
+                                            Project Customer Config
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("Index","CustomerProjectConfigs")">
+                                            <i class="metismenu-icon pe-7s-diamond"></i>
+                                            Customer Project List
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="dashboard-boxes.html">
+                                    <i class="metismenu-icon fa fa-briefcase"></i>
+                                    Project Instance Config
+                                    <i class="metismenu-state-icon fa fa-caret-down caret-left"></i>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <a href="@Url.Action("Create","ProjectInstanceConfigs")">
+                                            <i class="metismenu-icon pe-7s-diamond"></i>
+                                            Project Instance Config
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("Index","ProjectInstanceConfigs")">
+                                            <i class="metismenu-icon pe-7s-diamond"></i>
+                                            Project Instance List
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
 
                         </ul>
                     </div>
                 </div>
             </div>
             <div class="app-main__outer">
-                @RenderBody()
-                <footer style="text-indent: 1em;">Copyrights 2020 <a style="color:forestgreen">Promantus</a> All Rights Reserved</footer>
+                <div class="tab-content">
+                    <div class="tab-pane tabs-animation fade active show">
+                        <div class="main-card mb-3 card">
+                            <div class="card-body">
+                                @RenderBody()
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="app-wrapper-footer">
+                    <div class="app-footer">
+                        <div class="app-footer__inner">
+                            <footer style="text-indent: 1em;">Copyrights 2020 <a style="color:forestgreen">Promantus</a> All Rights Reserved</footer>
+                        </div>
+                    </div>
+                </div>
             </div>
 
 

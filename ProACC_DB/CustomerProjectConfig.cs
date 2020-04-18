@@ -11,18 +11,25 @@ namespace ProACC_DB
 {
     using System;
     using System.Collections.Generic;
-    
-    public partial class ProjInstanceConfig
+    using System.ComponentModel.DataAnnotations;
+
+    public partial class CustomerProjectConfig
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public ProjInstanceConfig()
+        public CustomerProjectConfig()
         {
-            this.Projects = new HashSet<Project>();
+            this.ProjectInstanceConfigs = new HashSet<ProjectInstanceConfig>();
         }
     
         public System.Guid Id { get; set; }
-        public string InstaceName { get; set; }
-        public System.Guid CustProjconfigID { get; set; }
+        [Required]
+        public string ProjectName { get; set; }
+
+        [Display(Name = "Choose a Customer")]
+        public Nullable<System.Guid> CustomerID { get; set; }
+
+        [Display(Name = "Choose a Consultant")]
+        public Nullable<System.Guid> ConsultantID { get; set; }
         public System.DateTime LastUpdated_Dt { get; set; }
         public bool isActive { get; set; }
         public System.DateTime Cre_on { get; set; }
@@ -31,8 +38,9 @@ namespace ProACC_DB
         public Nullable<System.Guid> Modified_by { get; set; }
         public bool IsDeleted { get; set; }
     
-        public virtual CustProjconfig CustProjconfig { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Project> Projects { get; set; }
+        public virtual ICollection<ProjectInstanceConfig> ProjectInstanceConfigs { get; set; }
+        public virtual Consultant Consultant { get; set; }
+        public virtual Customer Customer { get; set; }
     }
 }

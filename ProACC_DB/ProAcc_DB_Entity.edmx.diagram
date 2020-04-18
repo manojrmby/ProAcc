@@ -7,12 +7,10 @@
       <Diagram DiagramId="8e2369ce9df44ff58790c5c178865d31" Name="Diagram1" ZoomLevel="64">
         <EntityTypeShape EntityType="ProAccModel.Consultant" Width="1.5" PointX="3" PointY="9.75" />
         <EntityTypeShape EntityType="ProAccModel.Customer" Width="1.5" PointX="3" PointY="3.25" />
-        <EntityTypeShape EntityType="ProAccModel.CustProjconfig" Width="1.5" PointX="0.75" PointY="14.5" />
         <EntityTypeShape EntityType="ProAccModel.Milestone" Width="1.5" PointX="5.25" PointY="10.75" />
         <EntityTypeShape EntityType="ProAccModel.MilestoneDetail" Width="1.5" PointX="7.5" PointY="4.25" />
         <EntityTypeShape EntityType="ProAccModel.Project" Width="1.5" PointX="5.25" PointY="4.125" />
         <EntityTypeShape EntityType="ProAccModel.ProjectDetail" Width="1.5" PointX="12" PointY="4" />
-        <EntityTypeShape EntityType="ProAccModel.ProjInstanceConfig" Width="1.5" PointX="3" PointY="14.5" />
         <EntityTypeShape EntityType="ProAccModel.SAPInput_Activities" Width="1.5" PointX="7.75" PointY="9.75" />
         <EntityTypeShape EntityType="ProAccModel.SAPInput_SimplificationReport" Width="1.5" PointX="9.75" PointY="9.75" />
         <EntityTypeShape EntityType="ProAccModel.StageStatu" Width="1.5" PointX="9.75" PointY="0.75" />
@@ -21,15 +19,20 @@
         <AssociationConnector Association="ProAccModel.FK_Consultant_User_Master" />
         <AssociationConnector Association="ProAccModel.FK_Customer_User_Master" />
         <AssociationConnector Association="ProAccModel.FK_Project_Customer" />
-        <AssociationConnector Association="ProAccModel.FK_ProjInstanceConfig_CustProjconfig" />
         <AssociationConnector Association="ProAccModel.FK_MilestoneDetails_Milestone" />
         <AssociationConnector Association="ProAccModel.FK_MilestoneDetails_Project" />
         <AssociationConnector Association="ProAccModel.FK_SubMilestoneConfig_MilestoneDetails" />
-        <AssociationConnector Association="ProAccModel.FK_Project_ProjInstanceConfig" />
         <AssociationConnector Association="ProAccModel.FK_ProjectDetails_Project" />
         <AssociationConnector Association="ProAccModel.FK_ProjectDetails_MilestoneDetails" />
         <AssociationConnector Association="ProAccModel.FK_ProjectDetails_StageStatus" />
         <EntityTypeShape EntityType="ProAccModel.SAPInput_CustomCode" Width="1.5" PointX="5.375" PointY="0.75" />
+        <EntityTypeShape EntityType="ProAccModel.CustomerProjectConfig" Width="1.5" PointX="12.75" PointY="10" />
+        <EntityTypeShape EntityType="ProAccModel.HanaStatu" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ProAccModel.ProjectInstanceConfig" Width="1.5" PointX="15" PointY="10" />
+        <AssociationConnector Association="ProAccModel.FK_ProjInstanceConfig_CustProjconfig1" />
+        <AssociationConnector Association="ProAccModel.FK_Project_ProjInstanceConfig1" />
+        <AssociationConnector Association="ProAccModel.FK_COnsultant_CustomerProjectConfig" />
+        <AssociationConnector Association="ProAccModel.FK_Customer_CustomerProjectConfig" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
