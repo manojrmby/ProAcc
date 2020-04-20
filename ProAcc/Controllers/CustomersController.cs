@@ -35,7 +35,7 @@ namespace ProAcc.Controllers
             }
             return View(customer);
         }
-
+        
         // GET: Customers/Create
         public ActionResult Create()
         {
@@ -53,6 +53,10 @@ namespace ProAcc.Controllers
         {
             if (ModelState.IsValid)
             {
+                //if (customer.UserName != null)
+                //{
+                //    customer.UserName
+                //}
                 customer.Id = Guid.NewGuid();
                 customer.Cre_on = DateTime.Now.Date;
                 db.Customers.Add(customer);

@@ -5,10 +5,10 @@
     Layout = "~/Views/shared/_Layout.cshtml";
 }
 
-<h2>Details</h2>
+@*<h2>Details</h2>*@
 
 <div>
-    <h4>ProjectInstanceConfig</h4>
+    <h4>ProjectInstanceConfig Details</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -27,7 +27,7 @@
             @Html.DisplayFor(model => model.LastUpdated_Dt)
         </dd>
 
-        <dt>
+        @*<dt>
             @Html.DisplayNameFor(model => model.isActive)
         </dt>
 
@@ -73,7 +73,7 @@
 
         <dd>
             @Html.DisplayFor(model => model.IsDeleted)
-        </dd>
+        </dd>*@
 
         <dt>
             @Html.DisplayNameFor(model => model.CustomerProjectConfig.ProjectName)
