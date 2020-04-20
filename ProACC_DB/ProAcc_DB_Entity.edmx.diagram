@@ -33,6 +33,7 @@
         <AssociationConnector Association="ProAccModel.FK_Project_ProjInstanceConfig1" />
         <AssociationConnector Association="ProAccModel.FK_COnsultant_CustomerProjectConfig" />
         <AssociationConnector Association="ProAccModel.FK_Customer_CustomerProjectConfig" />
+        <EntityTypeShape EntityType="ProAccModel.FileUploadMaster" Width="1.5" PointX="7.375" PointY="13.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

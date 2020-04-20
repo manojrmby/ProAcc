@@ -42,6 +42,7 @@ namespace ProACC_DB
         public virtual DbSet<CustomerProjectConfig> CustomerProjectConfigs { get; set; }
         public virtual DbSet<HanaStatu> HanaStatus { get; set; }
         public virtual DbSet<ProjectInstanceConfig> ProjectInstanceConfigs { get; set; }
+        public virtual DbSet<FileUploadMaster> FileUploadMasters { get; set; }
     
         public virtual ObjectResult<SP_ReadinessReport_Result> SP_ReadinessReport(string type)
         {

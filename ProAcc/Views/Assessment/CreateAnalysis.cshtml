@@ -28,9 +28,6 @@
 <link href="~/Asset/css/Demo.css" rel="stylesheet" />
 
 
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js">
-</script>
-<script src="http://malsup.github.com/jquery.form.js"></script>
 @*<script src="~/Asset/Scripts/utils.js"></script>*@
 
 <div style="padding: 1em;">
@@ -66,16 +63,22 @@
                 @Html.DropDownList("Project", (IEnumerable<SelectListItem>)ViewBag.Project, new { id = "IDProject", @class = "form-control" })
             </div>
             <div class="position-relative form-group">
-                <label for="exampleEmail" class="">Analysis Name</label>
-                <input name="email" id="exampleEmail" placeholder="" class="form-control">
+                <label for="exampleEmail" class="">Instance Name</label>
+                <input name="email" id="InstanceID" placeholder="" class="form-control">
             </div>
-
+            <label>Activities</label>
             <input type="file" name="files" id="FileUpload1" />
+            <label>Bwextractors</label>
             <input type="file" name="files" id="FileUpload2" />
+            <label>CustomCode</label>
             <input type="file" name="files" id="FileUpload3" />
+            <label>HanaDatabaseTables</label>
             <input type="file" name="files" id="FileUpload4" />
+            <label>RecommendedFioriApps</label>
             <input type="file" name="files" id="FileUpload5" />
+            <label>RelevantSimplificationItems</label>
             <input type="file" name="files" id="FileUpload6" />
+            <label>SAP Readiness Check</label>
             <input type="file" name="files" id="FileUpload7" />
 
 
@@ -93,6 +96,14 @@
                 </div>
 
 
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <div id="progressbar-5">
+                        <div class="progress-label">
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="text-center">
                 <button class="btn-wide mb-2 mr-2 btn btn-primary" id="btnUpload">
@@ -209,125 +220,154 @@
 @*<script src="~/Asset/Scripts/jBox.all.js"></script>*@
 @*<script type="text/javascript">
 
-    //var randomScalingFactor = function () {
-    //    return Math.round(Math.random() * 100);
-    //};
-    //new jBox('Modal', {
-    //    attach: '#Modal-1',
-    //    height: 350,
-    //    width: 600,
-    //    title: 'File\'s Upload',
-    //    content: $('#grabMe')
-    //});
+        //var randomScalingFactor = function () {
+        //    return Math.round(Math.random() * 100);
+        //};
+        //new jBox('Modal', {
+        //    attach: '#Modal-1',
+        //    height: 350,
+        //    width: 600,
+        //    title: 'File\'s Upload',
+        //    content: $('#grabMe')
+        //});
 
-    Chart.defaults.global.defaultFontFamily = "Verdana";
+        Chart.defaults.global.defaultFontFamily = "Verdana";
 
-    var ctx = document.getElementById("chart-area").getContext("2d");
-    var ctx1 = document.getElementById("chart-area1").getContext("2d");
-    window.onload = function () {
         var ctx = document.getElementById("chart-area").getContext("2d");
-        window.myRadialGauge = new Chart(ctx, config);
-
         var ctx1 = document.getElementById("chart-area1").getContext("2d");
-        window.myRadialGauge = new Chart(ctx1, config1);
-    };
+        window.onload = function () {
+            var ctx = document.getElementById("chart-area").getContext("2d");
+            window.myRadialGauge = new Chart(ctx, config);
+
+            var ctx1 = document.getElementById("chart-area1").getContext("2d");
+            window.myRadialGauge = new Chart(ctx1, config1);
+        };
 
 
 
 
 
-    var gradientStroke_Progress = ctx.createLinearGradient(500, 0, 100, 0);
-    gradientStroke_Progress.addColorStop(0, "#FDB777");
-    gradientStroke_Progress.addColorStop(1, "#FD9346");
+        var gradientStroke_Progress = ctx.createLinearGradient(500, 0, 100, 0);
+        gradientStroke_Progress.addColorStop(0, "#FDB777");
+        gradientStroke_Progress.addColorStop(1, "#FD9346");
 
-    var gradientStroke_Closed = ctx.createLinearGradient(500, 0, 100, 0);
-    gradientStroke_Closed.addColorStop(0, "#FB291B");
-    gradientStroke_Closed.addColorStop(1, "#CD1B2D");
+        var gradientStroke_Closed = ctx.createLinearGradient(500, 0, 100, 0);
+        gradientStroke_Closed.addColorStop(0, "#FB291B");
+        gradientStroke_Closed.addColorStop(1, "#CD1B2D");
 
-    var config = {
-        type: "radialGauge",
-        data: {
-            labels: ["In Progress"],
-            datasets: [
-                {
-                    data: [60],
-                    backgroundColor: [gradientStroke_Progress],
-                    borderWidth: 0,
-                    label: "Score"
-                }
-            ]
-        },
-        options: {
-            responsive: true,
-            legend: {},
-            title: {
-                display: false,
-                text: "Radial gauge chart"
+        var config = {
+            type: "radialGauge",
+            data: {
+                labels: ["In Progress"],
+                datasets: [
+                    {
+                        data: [60],
+                        backgroundColor: [gradientStroke_Progress],
+                        borderWidth: 0,
+                        label: "Score"
+                    }
+                ]
             },
-            centerPercentage: 60,
-            centerArea: {
-                displayText: true,
-                text: "60%"
-            }
-        }
-    };
-
-    var config1 = {
-        type: "radialGauge",
-        data: {
-            labels: ["Closed"],
-            datasets: [
-                {
-                    data: [40],
-                    backgroundColor: [gradientStroke_Closed],
-                    borderWidth: 0,
-                    label: "Score"
+            options: {
+                responsive: true,
+                legend: {},
+                title: {
+                    display: false,
+                    text: "Radial gauge chart"
+                },
+                centerPercentage: 60,
+                centerArea: {
+                    displayText: true,
+                    text: "60%"
                 }
-            ]
-        },
-        options: {
-            responsive: true,
-            legend: {},
-            title: {
-                display: false,
-                text: "Radial gauge chart"
-            },
-            centerPercentage: 60,
-            centerArea: {
-                displayText: true,
-                text: "40%"
             }
-        }
-    };
+        };
+
+        var config1 = {
+            type: "radialGauge",
+            data: {
+                labels: ["Closed"],
+                datasets: [
+                    {
+                        data: [40],
+                        backgroundColor: [gradientStroke_Closed],
+                        borderWidth: 0,
+                        label: "Score"
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                legend: {},
+                title: {
+                    display: false,
+                    text: "Radial gauge chart"
+                },
+                centerPercentage: 60,
+                centerArea: {
+                    displayText: true,
+                    text: "40%"
+                }
+            }
+        };
 
 
-    //'<div style="line-height: 30px;">Try to scroll ...it\'s blocked.<br>Press [ESC] or click anywhere to close.</div>'
+        //'<div style="line-height: 30px;">Try to scroll ...it\'s blocked.<br>Press [ESC] or click anywhere to close.</div>'
 
-    
-    
-</script>*@
+
+
+    </script>*@
 <script>
     $(document).ready(function () {
         $('#btnUpload').click(function () {
-            debugger;
-            var fileUpload = $("#FileUpload1").get(0);
-            var fileUpload1 = $("#FileUpload2").get(0);
-            var files = fileUpload.files;
-            debugger;
+
+            var fileUpload1 = $("#FileUpload1").get(0);
+            var fileUpload2 = $("#FileUpload2").get(0);
+
+            var fileUpload3 = $("#FileUpload3").get(0);
+            var fileUpload4 = $("#FileUpload4").get(0);
+
+            var fileUpload5 = $("#FileUpload5").get(0);
+            var fileUpload6 = $("#FileUpload6").get(0);
+
+            var fileUpload7 = $("#FileUpload7").get(0);
+
+            var Cust_ID = $("select#IDCustomer").val();
+            var IDProject = $("select#IDProject").val();
+            var InstanceID = $("#InstanceID").val();
+
+            var files = [
+                fileUpload1.files, fileUpload2.files,
+                fileUpload3.files, fileUpload4.files,
+                fileUpload5.files, fileUpload6.files,
+                fileUpload7.files
+            ];
+
             var fileData = new FormData();
+            fileData.append("Cust_ID", Cust_ID);
+            fileData.append("IDProject", IDProject);
+            fileData.append("InstanceID", InstanceID);
 
             // Looping over all files and add it to FormData object
             for (var i = 0; i < files.length; i++) {
-                fileData.append(files[i].name, files[i]);
+                if (files[i][0] != null)
+                    fileData.append(i, files[i][0]);
             }
+
+
             $.ajax({
-                url: '/FileUplaod/Upload',
+                //url: '<%: Url.Action("Upload")%>?Cust_ID=' + Cust_ID + '&IDProject=' + IDProject+'&InstanceID='+InstanceID,
+                url: '@Url.Action("Upload", "Assessment")',
                 type: "POST",
                 contentType: false, // Not to set any content header
                 processData: false, // Not to process data
                 data: fileData,
+                async: false,
                 success: function (result) {
-                    alert(result);
+                    if (result != "") {
+                        $('#FileBrowse').find("*").prop("disabled", true);
+                        LoadProgressBar(result); //calling LoadProgressBar function to load the progress bar.
+                    }
                 },
                 error: function (err) {
                     alert(err.statusText);
@@ -336,6 +376,37 @@
 
         });
     });
+
+    function LoadProgressBar(result) {
+        var progressbar = $("#progressbar-5");
+        var progressLabel = $(".progress-label");
+        progressbar.show();
+        $("#progressbar-5").progressbar({
+            //value: false,
+            change: function () {
+                progressLabel.text(
+                    progressbar.progressbar("value") + "%");  // Showing the progress increment value in progress bar
+            },
+            complete: function () {
+                progressLabel.text("Loading Completed!");
+                progressbar.progressbar("value", 0);  //Reinitialize the progress bar value 0
+                progressLabel.text("");
+                progressbar.hide(); //Hiding the progress bar
+                var markup = "<tr><td>" + result + "</td><td><a href='#' onclick='DeleteFile(\"" + result + "\")'><span class='glyphicon glyphicon-remove red'></span></a></td></tr>"; // Binding the file name
+                $("#ListofFiles tbody").append(markup);
+                $('#Files').val('');
+                $('#FileBrowse').find("*").prop("disabled", false);
+            }
+        });
+        function progress() {
+            var val = progressbar.progressbar("value") || 0;
+            progressbar.progressbar("value", val + 1);
+            if (val < 99) {
+                setTimeout(progress, 25);
+            }
+        }
+        setTimeout(progress, 100);
+    }
 </script>
 
 

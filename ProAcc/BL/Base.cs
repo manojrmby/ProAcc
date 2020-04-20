@@ -1,4 +1,5 @@
-﻿using ProAcc.BL.Model;
+﻿
+using ProAcc.BL.Model;
 using ProACC_DB;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,8 @@ namespace ProAcc.BL
 {
     public class Base
     {
-
+        Guid userID = Guid.Empty;
+        //Graph
         public SP_ReadinessReport_Result sAPInput()
         {
             SP_ReadinessReport_Result GetRelevant = new SP_ReadinessReport_Result();
@@ -361,5 +363,169 @@ namespace ProAcc.BL
 
             return Tuple.Create(list1, list2);
         }
+
+
+
+        //FileUpload
+        public Boolean Upload_Activities(DataTable CustomTable, string fileName, Guid Instance_ID)
+        {
+            Boolean status = false;
+
+
+            DBHelper dB = new DBHelper("SP_FileUpload", CommandType.StoredProcedure);
+
+            dB.addIn("@Type", "up_Activities");
+            dB.addIn("@tblActivities", CustomTable);
+            dB.addIn("@File_Type", "Activities");
+            dB.addIn("@FileUploadID", Guid.NewGuid());
+            dB.addIn("@instanceId", Instance_ID);
+            dB.addIn("@fileName", fileName);
+            dB.addIn("@Createdby", userID);
+
+            dB.ExecuteScalar();
+            status = true;
+            return status;
+
+        }
+        public Boolean Upload_CustomCode(DataTable CustomTable, string fileName, Guid Instance_ID)
+        {
+            Boolean status = false;
+
+
+            DBHelper dB = new DBHelper("SP_FileUpload", CommandType.StoredProcedure);
+
+            dB.addIn("@Type", "up_CustomCode");
+            dB.addIn("@tblCustomCode", CustomTable);
+            dB.addIn("@File_Type", "CustomCode");
+            dB.addIn("@FileUploadID", Guid.NewGuid());
+            dB.addIn("@instanceId", Instance_ID);
+            dB.addIn("@fileName", fileName);
+            dB.addIn("@Createdby", userID);
+
+            dB.ExecuteScalar();
+            status = true;
+            return status;
+
+        }
+        public Boolean Upload_FioriApps(DataTable CustomTable, string fileName, Guid Instance_ID)
+        {
+            Boolean status = false;
+
+
+            DBHelper dB = new DBHelper("SP_FileUpload", CommandType.StoredProcedure);
+
+            dB.addIn("@Type", "up_FioriApps");
+            dB.addIn("@tblFioriApps", CustomTable);
+            dB.addIn("@File_Type", "RecommendedFioriApp");
+            dB.addIn("@FileUploadID", Guid.NewGuid());
+            dB.addIn("@instanceId", Instance_ID);
+            dB.addIn("@fileName", fileName);
+            dB.addIn("@Createdby", userID);
+
+            dB.ExecuteScalar();
+            status = true;
+            return status;
+
+        }
+
+        public Boolean Upload_Simplification(DataTable CustomTable, string fileName, Guid Instance_ID)
+        {
+            Boolean status = false;
+
+
+            DBHelper dB = new DBHelper("SP_FileUpload", CommandType.StoredProcedure);
+
+            dB.addIn("@Type", "up_Simplification");
+            dB.addIn("@tblSimplification", CustomTable);
+            dB.addIn("@File_Type", "RelevantSimplificationItems");
+            dB.addIn("@FileUploadID", Guid.NewGuid());
+            dB.addIn("@instanceId", Instance_ID);
+            dB.addIn("@fileName", fileName);
+            dB.addIn("@Createdby", userID);
+
+            dB.ExecuteScalar();
+            status = true;
+            return status;
+
+        }
+
+        public Boolean Upload_Bwextractors(string fileName, Guid Instance_ID)
+        {
+            Boolean status = false;
+
+
+            DBHelper dB = new DBHelper("SP_FileUpload", CommandType.StoredProcedure);
+
+            dB.addIn("@Type", "up_Bwextractors");
+            //dB.addIn("@tblSimplification", CustomTable);
+            dB.addIn("@File_Type", "Bwextractors");
+            dB.addIn("@FileUploadID", Guid.NewGuid());
+            dB.addIn("@instanceId", Instance_ID);
+            dB.addIn("@fileName", fileName);
+            dB.addIn("@Createdby", userID);
+
+            dB.ExecuteScalar();
+            status = true;
+            return status;
+
+        }
+        public Boolean Upload_HanaDatabaseTables(string fileName, Guid Instance_ID)
+        {
+            Boolean status = false;
+
+
+            DBHelper dB = new DBHelper("SP_FileUpload", CommandType.StoredProcedure);
+
+            dB.addIn("@Type", "up_HanaDatabaseTables");
+            //dB.addIn("@tblSimplification", CustomTable);
+            dB.addIn("@File_Type", "HanaDatabaseTables");
+            dB.addIn("@FileUploadID", Guid.NewGuid());
+            dB.addIn("@instanceId", Instance_ID);
+            dB.addIn("@fileName", fileName);
+            dB.addIn("@Createdby", userID);
+
+            dB.ExecuteScalar();
+            status = true;
+            return status;
+
+        }
+        public Boolean Upload_SAPReadinessCheck(string fileName, Guid Instance_ID)
+        {
+            Boolean status = false;
+
+
+            DBHelper dB = new DBHelper("SP_FileUpload", CommandType.StoredProcedure);
+
+            dB.addIn("@Type", "up_SAPReadinessCheck");
+            //dB.addIn("@tblSimplification", CustomTable);
+            dB.addIn("@File_Type", "SAPReadinessCheck");
+            dB.addIn("@FileUploadID", Guid.NewGuid());
+            dB.addIn("@instanceId", Instance_ID);
+            dB.addIn("@fileName", fileName);
+            dB.addIn("@Createdby", userID);
+
+            dB.ExecuteScalar();
+            status = true;
+            return status;
+
+        }
+
+
+        public Boolean AddInstance(string ProjectID, string InstaceName, Guid Instance_ID)
+        {
+            Boolean status = false;
+
+            Guid Project_ID = Guid.Parse(ProjectID);
+            DBHelper dB = new DBHelper("SP_Instance", CommandType.StoredProcedure);
+            dB.addIn("@Type", "AddInstance");
+            dB.addIn("@Id", Instance_ID);
+            dB.addIn("@InstaceName", InstaceName);
+            dB.addIn("@CustProjconfigID", Project_ID);
+            dB.addIn("@Cre_By", userID);
+            dB.ExecuteScalar();
+            status = false;
+            return status;
+        }
+
     }
 }

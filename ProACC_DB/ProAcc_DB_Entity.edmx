@@ -67,6 +67,21 @@
           <Property Name="Modified_by" Type="uniqueidentifier" />
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="FileUploadMaster">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="InstanceID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="File_Type" Type="nvarchar" MaxLength="50" />
+          <Property Name="_FileName" Type="nvarchar" MaxLength="50" />
+          <Property Name="isActive" Type="bit" Nullable="false" />
+          <Property Name="Cre_on" Type="datetime" Nullable="false" />
+          <Property Name="Cre_By" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Modified_On" Type="datetime" />
+          <Property Name="Modified_by" Type="uniqueidentifier" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="HanaStatus">
           <Key>
             <PropertyRef Name="id" />
@@ -154,41 +169,43 @@
           <Property Name="Modified_by" Type="uniqueidentifier" />
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'ProAccDev.dbo.SAPInput_Activities' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="SAPInput_Activities">
           <Key>
-            <PropertyRef Name="S_No" />
+            <PropertyRef Name="FileUploadID" />
+            <PropertyRef Name="Inserted_on" />
           </Key>
-          <Property Name="S_No" Type="float" Nullable="false" />
-          <Property Name="Related Simplification Items" Type="nvarchar" MaxLength="255" />
-          <Property Name="Activities" Type="nvarchar" MaxLength="255" />
-          <Property Name="Phase" Type="nvarchar" MaxLength="255" />
-          <Property Name="Condition" Type="nvarchar" MaxLength="255" />
-          <Property Name="Additional Information" Type="nvarchar" MaxLength="255" />
+          <Property Name="FileUploadID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Related Simplification Items" Type="nvarchar(max)" />
+          <Property Name="Activities" Type="nvarchar(max)" />
+          <Property Name="Phase" Type="nvarchar(max)" />
+          <Property Name="Condition" Type="nvarchar(max)" />
+          <Property Name="Additional Information" Type="nvarchar(max)" />
+          <Property Name="Inserted_on" Type="datetime" Nullable="false" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'ProAccDev.dbo.SAPInput_CustomCode' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
         <EntityType Name="SAPInput_CustomCode">
-          <Key>
-            <PropertyRef Name="S_No" />
-          </Key>
-          <Property Name="S_No" Type="int" Nullable="false" />
-          <Property Name="Custom Code Topic" Type="nvarchar" MaxLength="255" />
-          <Property Name="Status" Type="nvarchar" MaxLength="255" />
-          <Property Name="Application Component" Type="nvarchar" MaxLength="255" />
-          <Property Name="Custom Code Note" Type="nvarchar" MaxLength="255" />
-        </EntityType>
+          <Property Name="FileUploadID" Type="uniqueidentifier" />
+          <Property Name="Custom Code Topic" Type="nvarchar(max)" />
+          <Property Name="Status" Type="nvarchar(max)" />
+          <Property Name="Application Component" Type="nvarchar(max)" />
+          <Property Name="Custom Code Note" Type="nvarchar(max)" />
+        </EntityType>-->
         <!--Errors Found During Generation:
 warning 6013: The table/view 'ProAccDev.dbo.SAPInput_FioriApps' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
         <EntityType Name="SAPInput_FioriApps">
-          <Property Name="S_No" Type="float" />
+          <Property Name="FileUploadID" Type="uniqueidentifier" />
           <Property Name="Role" Type="nvarchar" MaxLength="255" />
           <Property Name="Name" Type="nvarchar" MaxLength="255" />
           <Property Name="Application Area" Type="nvarchar" MaxLength="255" />
           <Property Name="Description" Type="nvarchar(max)" />
         </EntityType>-->
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'ProAccDev.dbo.SAPInput_SimplificationReport' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
         <EntityType Name="SAPInput_SimplificationReport">
-          <Key>
-            <PropertyRef Name="S_No" />
-          </Key>
-          <Property Name="S_No" Type="float" Nullable="false" />
+          <Property Name="FileUploadID" Type="uniqueidentifier" />
           <Property Name="Title" Type="nvarchar" MaxLength="255" />
           <Property Name="Category" Type="nvarchar" MaxLength="255" />
           <Property Name="Relevance" Type="nvarchar" MaxLength="255" />
@@ -198,7 +215,7 @@ warning 6013: The table/view 'ProAccDev.dbo.SAPInput_FioriApps' does not have a 
           <Property Name="Manual Status" Type="nvarchar" MaxLength="255" />
           <Property Name="SAP Notes" Type="nvarchar" MaxLength="255" />
           <Property Name="Relevance Summary" Type="nvarchar" MaxLength="255" />
-        </EntityType>
+        </EntityType>-->
         <EntityType Name="StageStatus">
           <Key>
             <PropertyRef Name="ID" />
@@ -414,18 +431,27 @@ warning 6013: The table/view 'ProAccDev.dbo.SAPInput_FioriApps' does not have a 
           <EntitySet Name="Consultant" EntityType="Self.Consultant" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CustomerProjectConfig" EntityType="Self.CustomerProjectConfig" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FileUploadMaster" EntityType="Self.FileUploadMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HanaStatus" EntityType="Self.HanaStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Milestone" EntityType="Self.Milestone" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MilestoneDetails" EntityType="Self.MilestoneDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Project" EntityType="Self.Project" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProjectDetails" EntityType="Self.ProjectDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProjectInstanceConfig" EntityType="Self.ProjectInstanceConfig" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="SAPInput_Activities" EntityType="Self.SAPInput_Activities" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="SAPInput_CustomCode" EntityType="Self.SAPInput_CustomCode" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="SAPInput_SimplificationReport" EntityType="Self.SAPInput_SimplificationReport" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StageStatus" EntityType="Self.StageStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SubMilestoneConfig" EntityType="Self.SubMilestoneConfig" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User_Master" EntityType="Self.User_Master" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SAPInput_Activities" EntityType="Self.SAPInput_Activities" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [SAPInput_Activities].[FileUploadID] AS [FileUploadID], 
+    [SAPInput_Activities].[Related Simplification Items] AS [Related Simplification Items], 
+    [SAPInput_Activities].[Activities] AS [Activities], 
+    [SAPInput_Activities].[Phase] AS [Phase], 
+    [SAPInput_Activities].[Condition] AS [Condition], 
+    [SAPInput_Activities].[Additional Information] AS [Additional Information], 
+    [SAPInput_Activities].[Inserted_on] AS [Inserted_on]
+    FROM [dbo].[SAPInput_Activities] AS [SAPInput_Activities]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_COnsultant_CustomerProjectConfig" Association="Self.FK_COnsultant_CustomerProjectConfig">
             <End Role="Consultant" EntitySet="Consultant" />
             <End Role="CustomerProjectConfig" EntitySet="CustomerProjectConfig" />
@@ -564,6 +590,7 @@ warning 6013: The table/view 'ProAccDev.dbo.SAPInput_FioriApps' does not have a 
             <End Role="Customer" EntitySet="Customers" />
             <End Role="CustomerProjectConfig" EntitySet="CustomerProjectConfigs" />
           </AssociationSet>
+          <EntitySet Name="FileUploadMasters" EntityType="ProAccModel.FileUploadMaster" />
         </EntityContainer>
         <ComplexType Name="SP_ReadinessReport_Result">
           <Property Type="Int32" Name="RC" Nullable="true" />
@@ -704,13 +731,17 @@ warning 6013: The table/view 'ProAccDev.dbo.SAPInput_FioriApps' does not have a 
         <EntityType Name="SAPInput_Activities">
           <Key>
             <PropertyRef Name="S_No" />
+            <PropertyRef Name="FileUploadID" />
+            <PropertyRef Name="Inserted_on" />
           </Key>
           <Property Name="S_No" Type="Double" Nullable="false" />
-          <Property Name="Related_Simplification_Items" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Activities" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Phase" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Condition" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Additional_Information" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Related_Simplification_Items" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Activities" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Phase" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Condition" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Additional_Information" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FileUploadID" Type="Guid" Nullable="false" />
+          <Property Name="Inserted_on" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
         <EntityType Name="SAPInput_SimplificationReport">
           <Key>
@@ -989,6 +1020,21 @@ warning 6013: The table/view 'ProAccDev.dbo.SAPInput_FioriApps' does not have a 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="FileUploadMaster">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="InstanceID" Type="Guid" Nullable="false" />
+          <Property Name="File_Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C_FileName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="isActive" Type="Boolean" Nullable="false" />
+          <Property Name="Cre_on" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Cre_By" Type="Guid" Nullable="false" />
+          <Property Name="Modified_On" Type="DateTime" Precision="3" />
+          <Property Name="Modified_by" Type="Guid" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1133,28 +1179,13 @@ warning 6013: The table/view 'ProAccDev.dbo.SAPInput_FioriApps' does not have a 
           <EntitySetMapping Name="SAPInput_Activities">
             <EntityTypeMapping TypeName="ProAccModel.SAPInput_Activities">
               <MappingFragment StoreEntitySet="SAPInput_Activities">
+                <ScalarProperty Name="Inserted_on" ColumnName="Inserted_on" />
+                <ScalarProperty Name="FileUploadID" ColumnName="FileUploadID" />
                 <ScalarProperty Name="Additional_Information" ColumnName="Additional Information" />
                 <ScalarProperty Name="Condition" ColumnName="Condition" />
                 <ScalarProperty Name="Phase" ColumnName="Phase" />
                 <ScalarProperty Name="Activities" ColumnName="Activities" />
                 <ScalarProperty Name="Related_Simplification_Items" ColumnName="Related Simplification Items" />
-                <ScalarProperty Name="S_No" ColumnName="S_No" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="SAPInput_SimplificationReport">
-            <EntityTypeMapping TypeName="ProAccModel.SAPInput_SimplificationReport">
-              <MappingFragment StoreEntitySet="SAPInput_SimplificationReport">
-                <ScalarProperty Name="Relevance_Summary" ColumnName="Relevance Summary" />
-                <ScalarProperty Name="SAP_Notes" ColumnName="SAP Notes" />
-                <ScalarProperty Name="Manual_Status" ColumnName="Manual Status" />
-                <ScalarProperty Name="Consistency_Status" ColumnName="Consistency Status" />
-                <ScalarProperty Name="Business_Area" ColumnName="Business Area" />
-                <ScalarProperty Name="LoB_Technology" ColumnName="LoB/Technology" />
-                <ScalarProperty Name="Relevance" ColumnName="Relevance" />
-                <ScalarProperty Name="Category" ColumnName="Category" />
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="S_No" ColumnName="S_No" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1200,17 +1231,6 @@ warning 6013: The table/view 'ProAccDev.dbo.SAPInput_FioriApps' does not have a 
                 <ScalarProperty Name="isActive" ColumnName="isActive" />
                 <ScalarProperty Name="UserType" ColumnName="UserType" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="SAPInput_CustomCode">
-            <EntityTypeMapping TypeName="ProAccModel.SAPInput_CustomCode">
-              <MappingFragment StoreEntitySet="SAPInput_CustomCode">
-                <ScalarProperty Name="Custom_Code_Note" ColumnName="Custom Code Note" />
-                <ScalarProperty Name="Application_Component" ColumnName="Application Component" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Custom_Code_Topic" ColumnName="Custom Code Topic" />
-                <ScalarProperty Name="S_No" ColumnName="S_No" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1265,6 +1285,22 @@ warning 6013: The table/view 'ProAccDev.dbo.SAPInput_FioriApps' does not have a 
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="FileUploadMasters">
+            <EntityTypeMapping TypeName="ProAccModel.FileUploadMaster">
+              <MappingFragment StoreEntitySet="FileUploadMaster">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="Modified_by" ColumnName="Modified_by" />
+                <ScalarProperty Name="Modified_On" ColumnName="Modified_On" />
+                <ScalarProperty Name="Cre_By" ColumnName="Cre_By" />
+                <ScalarProperty Name="Cre_on" ColumnName="Cre_on" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+                <ScalarProperty Name="C_FileName" ColumnName="_FileName" />
+                <ScalarProperty Name="File_Type" ColumnName="File_Type" />
+                <ScalarProperty Name="InstanceID" ColumnName="InstanceID" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

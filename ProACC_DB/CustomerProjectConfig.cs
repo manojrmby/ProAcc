@@ -11,8 +11,7 @@ namespace ProACC_DB
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class CustomerProjectConfig
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -22,13 +21,8 @@ namespace ProACC_DB
         }
     
         public System.Guid Id { get; set; }
-        [Required]
         public string ProjectName { get; set; }
-
-        [Display(Name = "Choose a Customer")]
         public Nullable<System.Guid> CustomerID { get; set; }
-
-        [Display(Name = "Choose a Consultant")]
         public Nullable<System.Guid> ConsultantID { get; set; }
         public System.DateTime LastUpdated_Dt { get; set; }
         public bool isActive { get; set; }

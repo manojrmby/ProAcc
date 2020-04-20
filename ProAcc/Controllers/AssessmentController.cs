@@ -107,210 +107,112 @@ namespace ProAcc.Controllers
         [HttpPost]
         public ActionResult Upload()
         {
+            string Cust_ID = Request.Params["Cust_ID"].ToString();
+            string IDProject = Request.Params["IDProject"].ToString();
+            string InstanceName = Request.Params["InstanceID"].ToString();
 
-            if (Request.Files.Count > 0)
+            if (IDProject != null)
             {
-                try
+                if (Request.Files.Count > 0)
                 {
-                    //  Get all files from Request object  
-                    HttpFileCollectionBase files = Request.Files;
-                    for (int i = 0; i < files.Count; i++)
+                    try
                     {
-                        //string path = AppDomain.CurrentDomain.BaseDirectory + "Uploads/";  
-                        //string filename = Path.GetFileName(Request.Files[i].FileName);  
-
-                        HttpPostedFileBase file = files[i];
-                        string fname;
-
-                        // Checking for Internet Explorer  
-                        if (Request.Browser.Browser.ToUpper() == "IE" || Request.Browser.Browser.ToUpper() == "INTERNETEXPLORER")
+                        bool Result_Process_Activities = false, Result_Process_Bwextractors = false,
+                            Result_Process_CustomCode = false, Result_Processup_HanaDatabaseTables = false,
+                            Result_Process_FioriApps = false, Result_Process_Simplification = false,
+                            Result_Process_SAPReadinessCheck = false, Result_Instance = false;
+                        Guid Instance_ID = Guid.NewGuid();
+                        //  Get all files from Request object  
+                        HttpFileCollectionBase files = Request.Files;
+                        for (int i = 0; i < files.Count; i++)
                         {
-                            string[] testfiles = file.FileName.Split(new char[] { '\\' });
-                            fname = testfiles[testfiles.Length - 1];
-                        }
-                        else
-                        {
-                            fname = file.FileName;
+                            int FileCount = 0;
+                            FileCount = Convert.ToInt32(files.AllKeys[i]) + 1;
+                            HttpPostedFileBase file = files[i];
+                            string fname;
+                            string ext;
+                            string NewID = Guid.NewGuid().ToString();
+                            //Checking for Internet Explorer
+                            if (Request.Browser.Browser.ToUpper() == "IE" || Request.Browser.Browser.ToUpper() == "INTERNETEXPLORER")
+                            {
+                                string[] testfiles = file.FileName.Split(new char[] { '\\' });
+                                fname = testfiles[testfiles.Length - 1];
+                                ext = System.IO.Path.GetExtension(fname);
+                            }
+                            else
+                            {
+                                fname = file.FileName;
+                                ext = System.IO.Path.GetExtension(fname);
+                            }
+                            String _fname = NewID + ext;
+                            FileUpload _fileUpload = new FileUpload();
+                            // Get the complete folder path and store the file inside it.  
+                            fname = Path.Combine(Server.MapPath("~/Asset/UploadedFiles/"), _fname);
+                            file.SaveAs(fname);
+                            if (FileCount == 1)
+                            {
+                                Result_Process_Activities = _fileUpload.Process_Activities(fname, NewID, Instance_ID);
+                            }
+                            if (FileCount == 2)
+                            {
+                                Result_Process_Bwextractors = _Base.Upload_Bwextractors(NewID, Instance_ID);
+                            }
+                            else if (FileCount == 3)
+                            {
+                                Result_Process_CustomCode = _fileUpload.Process_CustomCode(fname, NewID, Instance_ID);
+                            }
+                            if (FileCount == 4)
+                            {
+                                Result_Processup_HanaDatabaseTables = _Base.Upload_HanaDatabaseTables(NewID, Instance_ID);
+                            }
+                            else if (FileCount == 5)
+                            {
+                                Result_Process_FioriApps = _fileUpload.Process_FioriApps(fname, NewID, Instance_ID);
+                            }
+                            else if (FileCount == 6)
+                            {
+                                Result_Process_Simplification = _fileUpload.Process_Simplification(fname, NewID, Instance_ID);
+                            }
+                            else if (FileCount == 7)
+                            {
+                                Result_Process_SAPReadinessCheck = _Base.Upload_SAPReadinessCheck(NewID, Instance_ID);
+                            }
+
+
                         }
 
-                        // Get the complete folder path and store the file inside it.  
-                        fname = Path.Combine(Server.MapPath("~/Content/UploadedFiles/"), fname);
-                        file.SaveAs(fname);
+                        if (Result_Process_Bwextractors & Result_Process_Bwextractors &
+                            Result_Process_CustomCode & Result_Processup_HanaDatabaseTables &
+                            Result_Process_FioriApps & Result_Process_Simplification &
+                            Result_Process_SAPReadinessCheck)
+                        {
+
+                            Result_Instance = _Base.AddInstance(IDProject, InstanceName, Instance_ID);
+
+                            return Json("File Uploaded Successfully!");
+                        }
+                        return Json("File Uploaded Incomplete");
+                        // Returns message that successfully uploaded  
+
                     }
-                    // Returns message that successfully uploaded  
-                    return Json("File Uploaded Successfully!");
+                    catch (Exception ex)
+                    {
+                        return Json("Error occurred. Error details: " + ex.Message);
+                    }
                 }
-                catch (Exception ex)
+                else
                 {
-                    return Json("Error occurred. Error details: " + ex.Message);
+                    return Json("Select ProjectID");
                 }
             }
             else
             {
                 return Json("No files selected.");
             }
-            // Verify that the user selected a file
-            //if (files != null && files.ContentLength > 0)
-            //{
-            //    // extract only the filename
-            //    var fileName = Path.GetFileName(files.FileName);
-            //    // store the file inside ~/App_Data/uploads folder
-            //    var path = Path.Combine(Server.MapPath("~/App_Data/uploads"), fileName);
-            //    files.SaveAs(path);
-            //}
-            // redirect back to the index action to show the form once again
-
-            return View("Index");
-        }
-
-        //[HttpPost]
-        //public ActionResult UploadFile(HttpPostedFileBase file)
-        //{
-        //    try
-        //    {
-        //        if (file.ContentLength > 0)
-        //        {
-        //            string _FileName = Path.GetFileName(file.FileName);
-        //            string _path = Path.Combine(Server.MapPath("~/UploadedFiles"), _FileName);
-        //            file.SaveAs(_path);
-        //        }
-        //        ViewBag.Message = "File Uploaded Successfully!!";
-        //        return View();
-        //    }
-        //    catch
-        //    {
-        //        ViewBag.Message = "File upload failed!!";
-        //        return View();
-        //    }
-        //}
 
 
-        //public void ProcessRequest(HttpContext context)
-        //{
-        //    context.Response.ContentType = "text/plain";
-        //    try
-        //    {
-        //        string dirFullPath = Server.MapPath("~/MediaUploader/");
-        //        string[] files;
-        //        int numFiles;
-        //        files = System.IO.Directory.GetFiles(dirFullPath);
-        //        numFiles = files.Length;
-        //        numFiles = numFiles + 1;
-        //        string str_image = "";
-
-        //        foreach (string s in context.Request.Files)
-        //        {
-        //            HttpPostedFile file = context.Request.Files[s];
-        //            string fileName = file.FileName;
-        //            string fileExtension = file.ContentType;
-
-        //            if (!string.IsNullOrEmpty(fileName))
-        //            {
-        //                fileExtension = Path.GetExtension(fileName);
-        //                str_image = "MyPHOTO_" + numFiles.ToString() + fileExtension;
-        //                string pathToSave_100 = Server.MapPath("~/MediaUploader/") + str_image;
-        //                file.SaveAs(pathToSave_100);
-        //            }
-        //        }
-        //        //  database record update logic here  ()
-
-        //        context.Response.Write(str_image);
-        //    }
-        //    catch (Exception ac)
-        //    {
-
-        //    }
-        //}
-        //public bool IsReusable
-        //{
-        //    get
-        //    {
-        //        return false;
-        //    }
-        //}
-        //[HttpPost]
-        //public ActionResult UploadFiles(files)
-        //{
-        //    // Checking no of files injected in Request object  
-        //    if (Request.Files.Count > 0)
-        //    {
-        //        try
-        //        {
-        //            //  Get all files from Request object  
-        //            HttpFileCollectionBase files = Request.Files;
-        //            for (int i = 0; i < files.Count; i++)
-        //            {
-        //                //string path = AppDomain.CurrentDomain.BaseDirectory + "Uploads/";  
-        //                //string filename = Path.GetFileName(Request.Files[i].FileName);  
-
-        //                HttpPostedFileBase file = files[i];
-        //                string fname;
-
-        //                // Checking for Internet Explorer  
-        //                if (Request.Browser.Browser.ToUpper() == "IE" || Request.Browser.Browser.ToUpper() == "INTERNETEXPLORER")
-        //                {
-        //                    string[] testfiles = file.FileName.Split(new char[] { '\\' });
-        //                    fname = testfiles[testfiles.Length - 1];
-        //                }
-        //                else
-        //                {
-        //                    fname = file.FileName;
-        //                }
-
-        //                // Get the complete folder path and store the file inside it.  
-        //                fname = Path.Combine(Server.MapPath("~/Uploads/"), fname);
-        //                file.SaveAs(fname);
-        //            }
-        //            // Returns message that successfully uploaded  
-        //            return Json("File Uploaded Successfully!");
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            return Json("Error occurred. Error details: " + ex.Message);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        return Json("No files selected.");
-        //    }
-        //}
-        [HttpPost]
-        public ActionResult UploadFiles(HttpPostedFileBase[] files)
-        {
-
-            //Ensure model state is valid  
-            if (ModelState.IsValid)
-            {   //iterating through multiple file collection   
-                foreach (HttpPostedFileBase file in files)
-                {
-                    //Checking file is available to save.  
-                    if (file != null)
-                    {
-                        var InputFileName = Path.GetFileName(file.FileName);
-                        var ServerSavePath = Path.Combine(Server.MapPath("~/UploadedFiles/") + InputFileName);
-                        //Save file to server folder  
-                        file.SaveAs(ServerSavePath);
-                        //assigning file uploaded status to ViewBag for showing message to user.  
-                        ViewBag.UploadStatus = files.Count().ToString() + " files uploaded successfully.";
-                    }
-
-                }
-            }
-            return View();
         }
 
 
-        //[HttpPost]
-        //public ActionResult UploadFiles()
-        //{
-        //    string path = Server.MapPath("~/Content/Upload/");
-        //    HttpFileCollectionBase files = Request.Files;
-        //    for (int i = 0; i < files.Count; i++)
-        //    {
-        //        HttpPostedFileBase file = files[i];
-        //        file.SaveAs(path + file.FileName);
-        //    }
-        //    return Json(files.Count + " Files Uploaded!");
-        //}
     }
 }

@@ -12,27 +12,17 @@ namespace ProACC_DB
     using System;
     using System.Collections.Generic;
     
-    public partial class ProjectInstanceConfig
+    public partial class FileUploadMaster
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public ProjectInstanceConfig()
-        {
-            this.Projects = new HashSet<Project>();
-        }
-    
         public System.Guid Id { get; set; }
-        public string InstaceName { get; set; }
-        public System.Guid CustProjconfigID { get; set; }
-        public System.DateTime LastUpdated_Dt { get; set; }
+        public System.Guid InstanceID { get; set; }
+        public string File_Type { get; set; }
+        public string C_FileName { get; set; }
         public bool isActive { get; set; }
         public System.DateTime Cre_on { get; set; }
         public System.Guid Cre_By { get; set; }
         public Nullable<System.DateTime> Modified_On { get; set; }
         public Nullable<System.Guid> Modified_by { get; set; }
         public bool IsDeleted { get; set; }
-    
-        public virtual CustomerProjectConfig CustomerProjectConfig { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Project> Projects { get; set; }
     }
 }

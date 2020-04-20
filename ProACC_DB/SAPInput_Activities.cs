@@ -20,5 +20,7 @@ namespace ProACC_DB
         public string Phase { get; set; }
         public string Condition { get; set; }
         public string Additional_Information { get; set; }
+        public System.Guid FileUploadID { get; set; }
+        public System.DateTime Inserted_on { get; set; }
     }
 }
