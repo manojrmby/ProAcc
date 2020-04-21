@@ -13,19 +13,20 @@ namespace ProAcc.Controllers
     public class HomeController : Controller
     {
         Base _Base = new Base();
+        private ProAccEntities db = new ProAccEntities();
         // GET: Home
         public ActionResult Home()
         {
-            //int j = 0;
-            //var stat = db.HanaStatus.ToList();
-            //for (int i = 0; i < stat.Count(); i++)
-            //{
-            //    if (stat[i].IsActive == true)
-            //    {
-            //        j = j + 1;
-            //    }
-            //}
-            //ViewBag.count = j;
+            int j = 0;
+            var stat = db.HanaStatus.ToList();
+            for (int i = 0; i < stat.Count(); i++)
+            {
+                if (stat[i].IsActive == true)
+                {
+                    j = j + 1;
+                }
+            }
+            ViewBag.count = j;
             return View();
         }
         public ActionResult Test()

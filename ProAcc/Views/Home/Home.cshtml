@@ -333,51 +333,71 @@
                         <h5 class="card-title">S4 Hana System Conversion</h5>
                         <form class="">
                             @if (ViewBag.count != null)
-                            {
-                                int i = ViewBag.count;
-                                string progress = "noUi-origin noUi-background1";
-                                string progress1 = "noUi-origin noUi-background1";
-                                string progress2 = "noUi-origin noUi-background1";
-                                if (i == 1)
-                                {
-                                    progress = "noUi-origin noUi-connect";
-                                }
-                                else if (i == 2)
-                                {
-                                    progress = "noUi-origin noUi-connect";
-                                    progress1 = "noUi-origin noUi-connect";
-                                }
-                                else if (i == 3)
-                                {
-                                    progress = "noUi-origin noUi-connect";
-                                    progress1 = "noUi-origin noUi-connect";
-                                    progress2 = "noUi-origin noUi-connect";
-                                }
+                                    {
+                                        int i = ViewBag.count;
+                                        string progress = "noUi-origin noUi-background1";
+                                        string progress1 = "noUi-origin noUi-background1";
+                                        string progress2 = "noUi-origin noUi-background1";
+                                        string color = "black";
+                                        string color1 = "black";
+                                        string color2 = "black";
+                                        string color3 = "black";
+                                        if (i == 1)
+                                        {
+                                            //progress = "noUi-origin noUi-connect";
+                                            color = "Green";
+                                        }
+                                        else if (i == 2)
+                                        {
+                                            progress = "noUi-origin noUi-connect";
+                                           // progress1 = "noUi-origin noUi-connect";
+                                            color = "Green";
+                                            color1 = "Green";
+                                        }
+                                        else if (i == 3)
+                                        {
+                                            progress = "noUi-origin noUi-connect";
+                                            progress1 = "noUi-origin noUi-connect";
+                                           // progress2 = "noUi-origin noUi-connect";
+                                            color = "Green";
+                                            color1 = "Green";
+                                            color2 = "Green";
+                                        }
+                                        else if (i == 4)
+                                        {
+                                            progress = "noUi-origin noUi-connect";
+                                            progress1 = "noUi-origin noUi-connect";
+                                            progress2 = "noUi-origin noUi-connect";
+                                            color = "Green";
+                                            color1 = "Green";
+                                            color2 = "Green";
+                                            color3 = "Green";
+                                        }
 
 
                                 <div id="nouislider_range_example" class="noUi-target noUi-ltr noUi-horizontal" style="margin-top: 25px;">
                                     <div class="noUi-base">
 
                                         <div class="@progress" style="left: 20%;">
-                                            <div class="noUi-handle noUi-handle-lower">
+                                            <div class="noUi-handle noUi-handle-lower" style="background-color:@color">
                                                 <br>
                                                 <p style="width: 200px !important;margin-left: -35px;margin-top: 5px;"> &nbsp;PRE MIGRATION</p>
                                             </div>
                                         </div>
                                         <div class="@progress1" style="left: 40%;">
-                                            <div class="noUi-handle noUi-handle-upper">
+                                            <div class="noUi-handle noUi-handle-upper" style="background-color:@color1">
                                                 <br>
                                                 <p style="width: 200px !important;margin-left: -35px;margin-top: 5px;"> &nbsp;PULL & PUSH</p>
                                             </div>
                                         </div>
                                         <div class="@progress2" style="left: 60%;">
-                                            <div class="noUi-handle noUi-handle-upper">
+                                            <div class="noUi-handle noUi-handle-upper" style="background-color:@color2">
                                                 <br>
                                                 <p style="width: 300px !important;margin-left: -35px;margin-top: 5px;"> &nbsp;POST MIGRATION</p>
                                             </div>
                                         </div>
                                         <div class="noUi-origin noUi-background" style="left: 80%;background-color: white !important;">
-                                            <div class="noUi-handle noUi-handle-upper">
+                                            <div class="noUi-handle noUi-handle-upper" style="background-color:@color3">
                                                 <br>
                                                 <p style="width: 300px !important;margin-left: -35px;margin-top: 5px;"> &nbsp;VALIDATION</p>
                                             </div>
@@ -391,17 +411,21 @@
                                     int value = 0;
                                     if (i == 1)
                                     {
-                                        value = 30;
+                                        value = 10;
                                     }
                                     else if (i == 2)
                                     {
-                                        value = 60;
+                                        value = 35;
                                     }
                                     else if (i == 3)
                                     {
+                                        value = 70;
+                                    }
+                                    else if (i == 4)
+                                    {
                                         value = 100;
                                     }
-                                    <fieldset class="position-relative form-group">
+                                    <fieldset class="position-relative form-group" style="top: 50px;">
                                         <monkey-bar min="0" max="100" now=@value class="prograss_Bar" labeled striped></monkey-bar>
                                     </fieldset>
                                 }
