@@ -33,16 +33,14 @@ namespace ProACC_DB
         public virtual DbSet<MilestoneDetail> MilestoneDetails { get; set; }
         public virtual DbSet<Project> Projects { get; set; }
         public virtual DbSet<ProjectDetail> ProjectDetails { get; set; }
-        public virtual DbSet<SAPInput_Activities> SAPInput_Activities { get; set; }
-        public virtual DbSet<SAPInput_SimplificationReport> SAPInput_SimplificationReport { get; set; }
         public virtual DbSet<StageStatu> StageStatus { get; set; }
         public virtual DbSet<SubMilestoneConfig> SubMilestoneConfigs { get; set; }
         public virtual DbSet<User_Master> User_Master { get; set; }
-        public virtual DbSet<SAPInput_CustomCode> SAPInput_CustomCode { get; set; }
         public virtual DbSet<CustomerProjectConfig> CustomerProjectConfigs { get; set; }
         public virtual DbSet<HanaStatu> HanaStatus { get; set; }
         public virtual DbSet<ProjectInstanceConfig> ProjectInstanceConfigs { get; set; }
         public virtual DbSet<FileUploadMaster> FileUploadMasters { get; set; }
+        public virtual DbSet<SAPInput_Activities> SAPInput_Activities { get; set; }
     
         public virtual ObjectResult<SP_ReadinessReport_Result> SP_ReadinessReport(string type)
         {

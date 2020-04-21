@@ -99,12 +99,6 @@
     <Compile Include="SAPInput_Activities.cs">
       <DependentUpon>ProAcc_DB_Entity.tt</DependentUpon>
     </Compile>
-    <Compile Include="SAPInput_CustomCode.cs">
-      <DependentUpon>ProAcc_DB_Entity.tt</DependentUpon>
-    </Compile>
-    <Compile Include="SAPInput_SimplificationReport.cs">
-      <DependentUpon>ProAcc_DB_Entity.tt</DependentUpon>
-    </Compile>
     <Compile Include="SP_CreateAnalysis_Result.cs">
       <DependentUpon>ProAcc_DB_Entity.tt</DependentUpon>
     </Compile>

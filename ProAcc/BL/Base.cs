@@ -12,6 +12,7 @@ namespace ProAcc.BL
 {
     public class Base
     {
+
         Guid userID = Guid.Empty;
         //Graph
         public SP_ReadinessReport_Result sAPInput()
@@ -233,7 +234,7 @@ namespace ProAcc.BL
             }
             return sP_;
         }
-        public List<SAPInput_SimplificationReport> SAPInput_SimplificationReport()
+        public List<SAPInput_SimplificationReport> SAPInput_Simplification()
         {
             List<SAPInput_SimplificationReport> SR = new List<SAPInput_SimplificationReport>();
             DataTable dt = new DataTable();
@@ -291,33 +292,33 @@ namespace ProAcc.BL
             return CR;
         }
 
-        //public GeneralList sP_AnalysisDropdownProject()
-        //{
-        //    GeneralList sP_ = new GeneralList();
-        //    DataSet ds = new DataSet();
-        //    DBHelper dB = new DBHelper("SP_CreateAnalysis", CommandType.StoredProcedure);
-        //    dB.addIn("@Type", "Drp_Project");
-        //    ds = dB.ExecuteDataSet();
-        //    List<Lis> _Lob = new List<Lis>();
-        //    if (ds.Tables.Count > 0)
-        //    {
-        //        DataTable dt = new DataTable();
-        //        dt = ds.Tables[0];
-        //        foreach (DataRow dr in dt.Rows)
-        //        {
-        //            _Lob.Add(new Lis
-        //            {
-        //                Name = dr["ProjectName"].ToString(),
-        //                Value = dr["CustProjconfigID"].ToString()
-        //            });
+        public GeneralList sP_AnalysisDropdownProject()
+        {
+            GeneralList sP_ = new GeneralList();
+            DataSet ds = new DataSet();
+            DBHelper dB = new DBHelper("SP_CreateAnalysis", CommandType.StoredProcedure);
+            dB.addIn("@Type", "Drp_Project");
+            ds = dB.ExecuteDataSet();
+            List<Lis> _Lob = new List<Lis>();
+            if (ds.Tables.Count > 0)
+            {
+                DataTable dt = new DataTable();
+                dt = ds.Tables[0];
+                foreach (DataRow dr in dt.Rows)
+                {
+                    _Lob.Add(new Lis
+                    {
+                        Name = dr["ProjectName"].ToString(),
+                        Value = dr["CustProjconfigID"].ToString()
+                    });
 
-        //        }
-        //    }
+                }
+            }
 
 
-        //    sP_._List = _Lob;
-        //    return sP_;
-        //}
+            sP_._List = _Lob;
+            return sP_;
+        }
         public Tuple<List<Lis>, List<Lis>> sP_AnalysisDropdowns()
         {
             List<Lis> list1 = new List<Lis>();

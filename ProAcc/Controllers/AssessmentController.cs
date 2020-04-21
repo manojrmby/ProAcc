@@ -1,4 +1,5 @@
 ﻿using ProAcc.BL;
+using ProAcc.BL.Model;
 using ProACC_DB;
 using System;
 using System.Collections.Generic;
@@ -72,7 +73,7 @@ namespace ProAcc.Controllers
         {
             GeneralList sP_ = _Base.sP_SimplificationReport();
             ViewBag.LOB = new SelectList(sP_._List, "_Value", "Name");
-            List<SAPInput_SimplificationReport> SR = _Base.SAPInput_SimplificationReport();
+            List<SAPInput_SimplificationReport> SR = _Base.SAPInput_Simplification();
             ViewBag.SRReport = SR;
             return View();
         }
@@ -91,8 +92,8 @@ namespace ProAcc.Controllers
         //START Custom Code
         public ActionResult CustomReport()
         {
-            //GeneralList sP_ = _Base.sP_SimplificationReport();
-            //ViewBag.LOB = new SelectList(sP_._List, "_Value", "Name");
+            GeneralList sP_ = _Base.sP_SimplificationReport();
+            ViewBag.LOB = new SelectList(sP_._List, "_Value", "Name");
             List<SAPInput_CustomCode> CR = _Base.SAPInput_CustomCodeReport();
             ViewBag.CRReport = CR;
             return View();

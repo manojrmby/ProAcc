@@ -5,6 +5,7 @@
 }
 <script src="~/Asset/Scripts/Chart.js"></script>
 <script src="~/Asset/Scripts/Chart.RadialGauge.umd.js"></script>
+<script src="~/Asset/Scripts/chartjs-plugin-labels.min.js"></script>
 @*<style>
 		.app-main__outer {
 			padding-left:290px!important;
@@ -12,10 +13,10 @@
 	</style>*@
 <div style="padding:1em;">
 	<div class="row">
-		<div class="col-lg-12 card">
+		<div class="col-md-6 card">
 			<div class="row" style="padding:0em 1em 1em 1em;">
 				<div class="col-lg-6">
-					<label>SimplificationReport</label>
+					<a>SimplificationReport</a>
 				</div>
 				<div class="col-lg-6">
 
@@ -26,80 +27,79 @@
 		</div>
 
 	</div>
+	<h4>Show Database value in DataTable</h4>
 	<div class="row">
 		<div class="col-lg-12 card">
-			<h3>Show Database value in DataTable</h3>
-			<div>
-				<table id="t01">
-					<thead >
-					<th scope="col">S NO</th>
-					<th scope="row">Title</th>
-					<th scope="row">Category</th>
-					<th>Relevance</th>
-					<th>LoB/Technology</th>
-					<th>Business Area</th>
-					<th>Consistency Status</th>
-					<th>Manual Status</th>
-					<th>SAP Notes</th>
-					<th>Relevance Summary</th>
-					</thead>
+			<table id="t01" class="table table-bordered table-hover">
+				<thead>
+					<tr>
+						<th>S.NO</th>
+						<th>Title</th>
+						<th>Category</th>
+						<th>Relevance</th>
+						<th>LoB/Technology</th>
+						<th>Business Area</th>
+						<th>Consistency Status</th>
+						<th>Manual Status</th>
+						<th>SAP Notes</th>
+						<th>Relevance Summary</th>
+					</tr>
 
+				</thead>
+				<tbody>
 					@foreach (var item in ViewBag.SRReport)
 					{
 
-				<tr>
-					<td>
-						@item.S_No
-					</td>
-					<td>
-						@item.Title
-					</td>
-					<td>
-						@item.Category
-					</td>
-					<td>
-						@item.Relevance
-					</td>
-					<td>
-						@item.LoB_Technology
-					</td>
-					<td>
-						@item.Business_Area
-					</td>
-					<td>
-						@item.Consistency_Status
-					</td>
-					<td>
-						@item.Manual_Status
-					<td>
-						
-						@{
-							var result = "";
-							if (@item.SAP_Notes != null)
-							{
-								var data = @item.SAP_Notes;
-								result = (data.Length > 6) ? data.Substring(data.Length - 6, 6) : data;
-							}
-							<a href="@item.SAP_Notes">@result</a>
-						}
-					</td>
-				<td>
-				   @item.Relevance_Summary
-					</td>
-				</tr>
+						<tr>
+							<td class="text-center">
+								@item.S_No.
+							</td>
+							<td>
+								@item.Title
+							</td>
+							<td>
+								@item.Category
+							</td>
+							<td>
+								@item.Relevance
+							</td>
+							<td>
+								@item.LoB_Technology
+							</td>
+							<td>
+								@item.Business_Area
+							</td>
+							<td>
+								@item.Consistency_Status
+							</td>
+							<td>
+								@item.Manual_Status
+							<td>
 
-
-
+								@{
+									var result = "";
+									if (@item.SAP_Notes != null)
+									{
+										var data = @item.SAP_Notes;
+										result = (data.Length > 6) ? data.Substring(data.Length - 6, 6) : data;
+									}
+									<a href="@item.SAP_Notes">@result</a>
+								}
+							</td>
+							<td>
+								@item.Relevance_Summary
+							</td>
+						</tr>
 					}
-
-				</table>
-			</div>
-			@*<label>Simplification</label>*@
-
-			@*<div id="Chart_Relevant"></div>*@
-			@*<label>Total:238</label>*@
-
+				</tbody>
+			</table>
 		</div>
+		@*<label>Simplification</label>*@
+
+		@*<div id="Chart_Relevant"></div>*@
+		@*<label>Total:238</label>*@
+
+
 
 
 	</div>
@@ -107,98 +107,127 @@
 
 <script type="text/javascript" charset="utf-8">
 	var ctx = document.getElementById("Chart_Relevant").getContext("2d");
-	var randomScalingFactor = function () {
-				return Math.round(Math.random() * 100);
-			};
 	function renderChart(data, labels) {
+			
+		//var randomScalingFactor = function () {
+		//	return Math.round(Math.random() * 100);
+		//};
 
-		var maxval = Math.max.apply(Math,data);
+
+		var maxval = Math.max.apply(Math, data);
 
 		Chart.defaults.global.defaultFontFamily = "Verdana";
 
 
-var gradientStroke_ = ctx.createLinearGradient(500, 0, 100, 0);
-		gradientStroke_.addColorStop(0, "#FDB777");
-gradientStroke_.addColorStop(1, "#FD9346");
+		//var gradientStroke_ = ctx.createLinearGradient(500, 0, 100, 0);
+		//gradientStroke_.addColorStop(0, "#FDB777");
+		//gradientStroke_.addColorStop(1, "#FD9346");
 
-var gradientStroke_2 = ctx.createLinearGradient(500, 0, 100, 0);
-gradientStroke_2.addColorStop(0, "#FB291B");
-gradientStroke_2.addColorStop(1, "#CD1B2D");
+		//var gradientStroke_2 = ctx.createLinearGradient(500, 0, 100, 0);
+		//gradientStroke_2.addColorStop(0, "#FB291B");
+		//gradientStroke_2.addColorStop(1, "#CD1B2D");
 
-var gradientStroke_3 = ctx.createLinearGradient(500, 0, 100, 0);
-gradientStroke_3.addColorStop(0, "#FDB777");
-gradientStroke_3.addColorStop(1, "#FD9346");
+		//var gradientStroke_3 = ctx.createLinearGradient(500, 0, 100, 0);
+		//gradientStroke_3.addColorStop(0, "#FDB777");
+		//gradientStroke_3.addColorStop(1, "#FD9346");
 
-var gradientStroke_4 = ctx.createLinearGradient(500, 0, 100, 0);
-gradientStroke_4.addColorStop(0, "#FB291B");
-gradientStroke_4.addColorStop(1, "#CD1B2D");
+		//var gradientStroke_4 = ctx.createLinearGradient(500, 0, 100, 0);
+		//gradientStroke_4.addColorStop(0, "#FB291B");
+		//gradientStroke_4.addColorStop(1, "#CD1B2D");
 
-var config = {
-	//type: "horizontalBar",
-	type: "bar",
+		var config = {
+			//type: "horizontalBar",
+			type: "bar",
 
-	data: {
-		labels: labels,
-		datasets: [
-			{
+			data: {
+				labels: labels,
+				datasets: [
+					{
 
-				data: data,
-				//backgroundColor: [gradientStroke_, gradientStroke_2],
-				backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850"],
-				borderWidth: 2,
-				label: "Score"
+                        data: data,
+						backgroundColor: [
+                            '#FF6384',
+                            '#36A2EB',
+                            '#FFCE56',
+							'#FF6384',
+                            '#36A2EB',
+                            '#FFCE56',
+							'#FF6384',
+                            '#36A2EB',
+                            '#FFCE56',
+							'#FF6384',
+                            '#36A2EB',
+                            '#FFCE56'
+                        ],
+						//backgroundColor: [gradientStroke_, gradientStroke_2],
+						//backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850","#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850","#8e5ea2"],
+						//borderWidth: 2,
+						//label: "Score"
+					}
+				]
+			},
+			options: {
+
+				responsive: true,
+				legend: {
+					display: false
+				},
+				title: {
+					display: false,
+					text: "Radial gauge chart"
+				},
+				centerPercentage: 60,
+				centerArea: {
+					displayText: true,
+					text: "100%"
+                },
+				plugins: {
+                    labels: {
+                        render: 'value'
+                    }
+                },
+
+				//animation: {
+				//		duration:5000
+				//},
+                scales: {
+                    xAxes: [{
+                        ticks: {
+                            display: false,//this will remove only the label
+                            beginAtZero: true
+                        },
+                        gridLines: {
+                            display: false,
+                            drawBorder: true,
+
+                        }
+                    }],
+                    yAxes: [{
+                        display: false,
+                        ticks: {
+
+                            steps: 10,
+                            stepValue: 5,
+                            max: maxval + 1
+                        }
+                    }]
+
+
+                }
 			}
-		]
-	},
-	options: {
-
-		responsive: true,
-		legend: {
-			display: false
-		},
-		title: {
-			display: false,
-			text: "Radial gauge chart"
-		},
-		centerPercentage: 60,
-		centerArea: {
-			displayText: true,
-			text: "100%"
-		},
-
-		//animation: {
-		//		duration:5000
-		//},
-		scales: {
-			xAxes: [{
-				ticks: {
-					display: false //this will remove only the label
-				}
-			}],
-			yAxes: [{
-							display: true,
-				ticks: {
-					beginAtZero: false,
-					steps: 10,
-					stepValue: 5,
-					max: maxval + 10
-				}
-						}]
-		}
+		};
+		window.myRadialGauge = new Chart(ctx, config);
+		
 	}
-	};
-	window.myRadialGauge = new Chart(ctx, config);
-	}
-
 
 	function Ajax_Call(a) {
 
 		$.ajax({
-				type: "POST",
-				url: '@Url.Action("GetSimplificationReport_Bar")',
-				data: '{LOB: ' + JSON.stringify(a) + '}',
-				dataType: "json",
-				contentType: "application/json; charset=utf-8",
+			type: "POST",
+			url: '@Url.Action("GetSimplificationReport_Bar")',
+			data: '{LOB: ' + JSON.stringify(a) + '}',
+			dataType: "json",
+			contentType: "application/json; charset=utf-8",
 			success: function (Data) {
 
 				var Output = Data._List;
@@ -207,23 +236,23 @@ var config = {
 				for (var i = 0; i < Output.length; i++) {
 					inpName.push(Output[i].Name);
 					inpVal.push(Output[i]._Value);
-					backColor.push()
+					//backColor.push()
 				}
-
+				//debugger;
 				// data_ = [Data.R, Data.RC, Data.RC_NON, Data.R_NON];
 				//labels = ["Relevant", "Relevance to be Checked", "Relevance to be Checked (Non-strategic)", "Relevant (Non-strategic)"];
 				labels = inpName;
 				data_ = inpVal;
 				renderChart(data_, labels);
 
-				},
-				error: function () {
-					alert("Error while inserting data");
+			},
+			error: function () {
+				alert("Error while inserting data");
 			}
 		}).done(function (response) {
-	//chart.data = response;
+			//chart.data = response;
 
-});
+		});
 	}
 
 
@@ -241,81 +270,8 @@ var config = {
 	$("#IDLob").change(function () {
 
 		var a = $('#IDLob option:selected').text();
-
+	  
 		Ajax_Call(a);
+		
 	   });
 </script>
-@*<canvas id="myChart" ></canvas>*@
-@*<script type="text/javascript" charset="utf-8">
-
-
-
-		function renderChart(data, labels) {
-			//debugger;
-
-			var ctx = document.getElementById("Chart_Relevant").getContext('2d');
-			var gradientStroke_ = ctx.createLinearGradient(500, 0, 100, 0);
-				gradientStroke_.addColorStop(0, "#7EFFD4");
-				gradientStroke_.addColorStop(1, "#40846E");
-			var gradientStroke_1 = ctx.createLinearGradient(500, 0, 100, 0);
-				gradientStroke_1.addColorStop(0, "#FB291B");
-			gradientStroke_1.addColorStop(1, "#CD1B2D");
-			var gradientStroke_2 = ctx.createLinearGradient(500, 0, 100, 0);
-				gradientStroke_2.addColorStop(0, "#D391FA");
-			gradientStroke_2.addColorStop(1, "#190087");
-			var gradientStroke_3 = ctx.createLinearGradient(500, 0, 100, 0);
-				gradientStroke_3.addColorStop(0, "#FDB777");
-				gradientStroke_3.addColorStop(1, "#FD9346");
-		var myChart = new Chart(ctx, {
-			type: 'bar',
-			data: {
-				labels: labels,
-				datasets: [{
-					label: 'Relevant',
-					data: data,
-					//backgroundColor: [gradientStroke_],
-					backgroundColor: [gradientStroke_, gradientStroke_1, gradientStroke_2, gradientStroke_3],
-					borderWidth:2,
-				}],
-			},
-			options: {
-						responsive: true,
-						legend: {
-							display: false
-						},
-						title: {
-							display: true,
-							text: "RelevantS"
-						},
-						centerPercentage: 60,
-						centerArea: {
-							displayText: true,
-							text: "60%"
-						}
-					}
-		});
-	}
-		jQuery(document).ready(function ($) {
-			 $.ajax({
-					type: "POST",
-					url: '@Url.Action("GetRelevant")',
-					//data: '{std: ' + JSON.stringify(std) + '}',
-					dataType: "json",
-					contentType: "application/json; charset=utf-8",
-				 success: function (Data) {
-					 //debugger;
-						   //chart_Assessment(Data)
-					 //data: [Re_Result.R, Re_Result.RC, Re_Result.RC_NON, Re_Result.R_NON],
-					 data_ = [Data.R, Data.RC, Data.RC_NON, Data.R_NON];
-			labels =  ["Relevant", "Relevance to be Checked", "Relevance to be Checked (Non-strategic)", "Relevant (Non-strategic)"];
-			renderChart(data_, labels);
-
-					},
-					error: function () {
-						alert("Error while inserting data");
-					}
-				});
-
-
-		});
-	</script>*@

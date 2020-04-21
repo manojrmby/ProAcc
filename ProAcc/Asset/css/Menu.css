@@ -9965,7 +9965,7 @@ a, button, .btn {
 	}
 
 .app-header__logo {
-	padding: 0 1.5rem;
+	/*padding: 0 1.5rem;*/
 	height: 60px;
 	width: 280px;
 	display: flex;
@@ -9977,8 +9977,8 @@ a, button, .btn {
 		/*height: 23px;
 		width: 97px;*/
 		height: 50px;
-		width: 150px;
-		background: url(/Asset/images/Promantus_logo.png)
+		width: 220px;
+		background: url(/Asset/images/resizeimage.png)
 	}
 
 .app-header__menu, .app-header__mobile-menu {

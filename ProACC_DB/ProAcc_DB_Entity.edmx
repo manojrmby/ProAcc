@@ -193,29 +193,6 @@ warning 6013: The table/view 'ProAccDev.dbo.SAPInput_CustomCode' does not have a
           <Property Name="Application Component" Type="nvarchar(max)" />
           <Property Name="Custom Code Note" Type="nvarchar(max)" />
         </EntityType>-->
-        <!--Errors Found During Generation:
-warning 6013: The table/view 'ProAccDev.dbo.SAPInput_FioriApps' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="SAPInput_FioriApps">
-          <Property Name="FileUploadID" Type="uniqueidentifier" />
-          <Property Name="Role" Type="nvarchar" MaxLength="255" />
-          <Property Name="Name" Type="nvarchar" MaxLength="255" />
-          <Property Name="Application Area" Type="nvarchar" MaxLength="255" />
-          <Property Name="Description" Type="nvarchar(max)" />
-        </EntityType>-->
-        <!--Errors Found During Generation:
-warning 6013: The table/view 'ProAccDev.dbo.SAPInput_SimplificationReport' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="SAPInput_SimplificationReport">
-          <Property Name="FileUploadID" Type="uniqueidentifier" />
-          <Property Name="Title" Type="nvarchar" MaxLength="255" />
-          <Property Name="Category" Type="nvarchar" MaxLength="255" />
-          <Property Name="Relevance" Type="nvarchar" MaxLength="255" />
-          <Property Name="LoB/Technology" Type="nvarchar" MaxLength="255" />
-          <Property Name="Business Area" Type="nvarchar" MaxLength="255" />
-          <Property Name="Consistency Status" Type="nvarchar" MaxLength="255" />
-          <Property Name="Manual Status" Type="nvarchar" MaxLength="255" />
-          <Property Name="SAP Notes" Type="nvarchar" MaxLength="255" />
-          <Property Name="Relevance Summary" Type="nvarchar" MaxLength="255" />
-        </EntityType>-->
         <EntityType Name="StageStatus">
           <Key>
             <PropertyRef Name="ID" />
@@ -526,8 +503,6 @@ warning 6013: The table/view 'ProAccDev.dbo.SAPInput_SimplificationReport' does 
           <EntitySet Name="MilestoneDetails" EntityType="ProAccModel.MilestoneDetail" />
           <EntitySet Name="Projects" EntityType="ProAccModel.Project" />
           <EntitySet Name="ProjectDetails" EntityType="ProAccModel.ProjectDetail" />
-          <EntitySet Name="SAPInput_Activities" EntityType="ProAccModel.SAPInput_Activities" />
-          <EntitySet Name="SAPInput_SimplificationReport" EntityType="ProAccModel.SAPInput_SimplificationReport" />
           <EntitySet Name="StageStatus" EntityType="ProAccModel.StageStatu" />
           <EntitySet Name="SubMilestoneConfigs" EntityType="ProAccModel.SubMilestoneConfig" />
           <EntitySet Name="User_Master" EntityType="ProAccModel.User_Master" />
@@ -567,7 +542,6 @@ warning 6013: The table/view 'ProAccDev.dbo.SAPInput_SimplificationReport' does 
             <End Role="StageStatu" EntitySet="StageStatus" />
             <End Role="ProjectDetail" EntitySet="ProjectDetails" />
           </AssociationSet>
-          <EntitySet Name="SAPInput_CustomCode" EntityType="ProAccModel.SAPInput_CustomCode" />
           <EntitySet Name="CustomerProjectConfigs" EntityType="ProAccModel.CustomerProjectConfig" />
           <EntitySet Name="HanaStatus" EntityType="ProAccModel.HanaStatu" />
           <EntitySet Name="ProjectInstanceConfigs" EntityType="ProAccModel.ProjectInstanceConfig" />
@@ -591,6 +565,7 @@ warning 6013: The table/view 'ProAccDev.dbo.SAPInput_SimplificationReport' does 
             <End Role="CustomerProjectConfig" EntitySet="CustomerProjectConfigs" />
           </AssociationSet>
           <EntitySet Name="FileUploadMasters" EntityType="ProAccModel.FileUploadMaster" />
+          <EntitySet Name="SAPInput_Activities" EntityType="ProAccModel.SAPInput_Activities" />
         </EntityContainer>
         <ComplexType Name="SP_ReadinessReport_Result">
           <Property Type="Int32" Name="RC" Nullable="true" />
@@ -727,36 +702,6 @@ warning 6013: The table/view 'ProAccDev.dbo.SAPInput_SimplificationReport' does 
           <NavigationProperty Name="Project" Relationship="ProAccModel.FK_ProjectDetails_Project" FromRole="ProjectDetail" ToRole="Project" />
           <NavigationProperty Name="SubMilestoneConfig" Relationship="ProAccModel.FK_ProjectDetails_MilestoneDetails" FromRole="ProjectDetail" ToRole="SubMilestoneConfig" />
           <NavigationProperty Name="StageStatu" Relationship="ProAccModel.FK_ProjectDetails_StageStatus" FromRole="ProjectDetail" ToRole="StageStatu" />
-        </EntityType>
-        <EntityType Name="SAPInput_Activities">
-          <Key>
-            <PropertyRef Name="S_No" />
-            <PropertyRef Name="FileUploadID" />
-            <PropertyRef Name="Inserted_on" />
-          </Key>
-          <Property Name="S_No" Type="Double" Nullable="false" />
-          <Property Name="Related_Simplification_Items" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Activities" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Phase" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Condition" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Additional_Information" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="FileUploadID" Type="Guid" Nullable="false" />
-          <Property Name="Inserted_on" Type="DateTime" Nullable="false" Precision="3" />
-        </EntityType>
-        <EntityType Name="SAPInput_SimplificationReport">
-          <Key>
-            <PropertyRef Name="S_No" />
-          </Key>
-          <Property Name="S_No" Type="Double" Nullable="false" />
-          <Property Name="Title" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Category" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Relevance" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="LoB_Technology" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Business_Area" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Consistency_Status" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Manual_Status" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="SAP_Notes" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Relevance_Summary" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="StageStatu">
           <Key>
@@ -913,16 +858,6 @@ warning 6013: The table/view 'ProAccDev.dbo.SAPInput_SimplificationReport' does 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="SAPInput_CustomCode">
-          <Key>
-            <PropertyRef Name="S_No" />
-          </Key>
-          <Property Name="S_No" Type="Int32" Nullable="false" />
-          <Property Name="Custom_Code_Topic" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Status" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Application_Component" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Custom_Code_Note" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-        </EntityType>
         <EntityType Name="CustomerProjectConfig">
           <Key>
             <PropertyRef Name="Id" />
@@ -1034,6 +969,19 @@ warning 6013: The table/view 'ProAccDev.dbo.SAPInput_SimplificationReport' does 
           <Property Name="Modified_On" Type="DateTime" Precision="3" />
           <Property Name="Modified_by" Type="Guid" />
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SAPInput_Activities">
+          <Key>
+            <PropertyRef Name="FileUploadID" />
+            <PropertyRef Name="Inserted_on" />
+          </Key>
+          <Property Name="FileUploadID" Type="Guid" Nullable="false" />
+          <Property Name="Related_Simplification_Items" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Activities" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Phase" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Condition" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Additional_Information" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Inserted_on" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1176,19 +1124,6 @@ warning 6013: The table/view 'ProAccDev.dbo.SAPInput_SimplificationReport' does 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="SAPInput_Activities">
-            <EntityTypeMapping TypeName="ProAccModel.SAPInput_Activities">
-              <MappingFragment StoreEntitySet="SAPInput_Activities">
-                <ScalarProperty Name="Inserted_on" ColumnName="Inserted_on" />
-                <ScalarProperty Name="FileUploadID" ColumnName="FileUploadID" />
-                <ScalarProperty Name="Additional_Information" ColumnName="Additional Information" />
-                <ScalarProperty Name="Condition" ColumnName="Condition" />
-                <ScalarProperty Name="Phase" ColumnName="Phase" />
-                <ScalarProperty Name="Activities" ColumnName="Activities" />
-                <ScalarProperty Name="Related_Simplification_Items" ColumnName="Related Simplification Items" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="StageStatus">
             <EntityTypeMapping TypeName="ProAccModel.StageStatu">
               <MappingFragment StoreEntitySet="StageStatus">
@@ -1298,6 +1233,19 @@ warning 6013: The table/view 'ProAccDev.dbo.SAPInput_SimplificationReport' does 
                 <ScalarProperty Name="File_Type" ColumnName="File_Type" />
                 <ScalarProperty Name="InstanceID" ColumnName="InstanceID" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SAPInput_Activities">
+            <EntityTypeMapping TypeName="ProAccModel.SAPInput_Activities">
+              <MappingFragment StoreEntitySet="SAPInput_Activities">
+                <ScalarProperty Name="Inserted_on" ColumnName="Inserted_on" />
+                <ScalarProperty Name="Additional_Information" ColumnName="Additional Information" />
+                <ScalarProperty Name="Condition" ColumnName="Condition" />
+                <ScalarProperty Name="Phase" ColumnName="Phase" />
+                <ScalarProperty Name="Activities" ColumnName="Activities" />
+                <ScalarProperty Name="Related_Simplification_Items" ColumnName="Related Simplification Items" />
+                <ScalarProperty Name="FileUploadID" ColumnName="FileUploadID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
