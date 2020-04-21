@@ -65,10 +65,11 @@
         <div class="form-group">
             @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @id="UserName",@class = "form-control", @onchange="UserCheck()" } })
                 @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
             </div>
         </div>
+        <p id="Status"/>
 
         <div class="form-group">
             @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -206,4 +207,23 @@
     @Html.ActionLink("Back to List", "Index")
 </div>
 
-
+<script>
+    function UserCheck() {
+        //$("#Status").html("Checking");
+        debugger
+        $.post("@Url.Action("CheckUsernameAvailability","Customers")",
+            {
+                userdata: $("#UserName").val()
+            },
+        function (data) {
+            if (data == 0) {
+                $("#Status").html('');
+                $("#UserName").css("border-color", "gray");
+            }
+            else {
+                $("#Status").html('<font color="Red">UserName is Taken</font>');
+                $("#UserName").css("border-color", "Red");
+            }
+        });
+    }
+</script>

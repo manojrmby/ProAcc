@@ -36,6 +36,21 @@ namespace ProAcc.Controllers
             return View(customer);
         }
         
+        public JsonResult CheckUsernameAvailability(string userdata)
+        {
+            System.Threading.Thread.Sleep(100);
+            var SearchData = db.Customers.Where(x => x.UserName == userdata).SingleOrDefault();
+            var SearchDt= db.Consultants.Where(x => x.UserName == userdata).SingleOrDefault();
+            if (SearchData!=null|| SearchDt!=null)
+            {
+                return Json(1);
+            }
+            else
+            {
+                return Json(0);
+            }
+        }
+
         // GET: Customers/Create
         public ActionResult Create()
         {
@@ -53,10 +68,6 @@ namespace ProAcc.Controllers
         {
             if (ModelState.IsValid)
             {
-                //if (customer.UserName != null)
-                //{
-                //    customer.UserName
-                //}
                 customer.Id = Guid.NewGuid();
                 customer.Cre_on = DateTime.Now.Date;
                 db.Customers.Add(customer);

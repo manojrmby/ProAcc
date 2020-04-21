@@ -36,6 +36,21 @@ namespace ProAcc.Controllers
             return View(consultant);
         }
 
+        public JsonResult CheckUsernameAvailability(string userdata)
+        {
+            System.Threading.Thread.Sleep(100);
+            var SearchData = db.Customers.Where(x => x.UserName == userdata).SingleOrDefault();
+            var SearchDt = db.Consultants.Where(x => x.UserName == userdata).SingleOrDefault();
+            if (SearchData != null || SearchDt != null)
+            {
+                return Json(1);
+            }
+            else
+            {
+                return Json(0);
+            }
+        }
+
         // GET: Consultants/Create
         public ActionResult Create()
         {
