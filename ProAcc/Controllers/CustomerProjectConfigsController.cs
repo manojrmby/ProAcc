@@ -17,7 +17,7 @@ namespace ProAcc.Controllers
         // GET: CustomerProjectConfigs
         public ActionResult Index()
         {
-            var customerProjectConfigs = db.CustomerProjectConfigs.Include(c => c.Consultant).Include(c => c.Customer);
+            var customerProjectConfigs = db.CustomerProjectConfigs.Include(c => c.Consultant).Include(c => c.Customer).Where(a=>a.isActive==true);
             return View(customerProjectConfigs.ToList());
         }
 
@@ -122,8 +122,14 @@ namespace ProAcc.Controllers
         public ActionResult DeleteConfirmed(Guid id)
         {
             CustomerProjectConfig customerProjectConfig = db.CustomerProjectConfigs.Find(id);
-            db.CustomerProjectConfigs.Remove(customerProjectConfig);
-            db.SaveChanges();
+            if(customerProjectConfig.Id==id)
+            {
+                customerProjectConfig.isActive = false;
+                customerProjectConfig.IsDeleted = true;
+                db.Entry(customerProjectConfig).State = System.Data.Entity.EntityState.Modified;
+                db.SaveChanges();
+            }
+            
             return RedirectToAction("Index");
         }
 

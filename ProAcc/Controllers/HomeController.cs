@@ -27,10 +27,16 @@ namespace ProAcc.Controllers
                 }
             }
             ViewBag.count = j;
+
+            List<Customer> cust = db.Customers.Where(a => a.isActive == false).ToList();
+            ViewBag.list = cust;
+            
             return View();
         }
         public ActionResult Test()
         {
+            List<Customer> cust = db.Customers.Where(a => a.isActive == false).ToList();
+            ViewBag.list = cust;
             return View();
         }
     }

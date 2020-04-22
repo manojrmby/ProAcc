@@ -4,13 +4,16 @@
     ViewBag.Title = "Create";
     Layout = "~/Views/shared/_Layout.cshtml";
 }
-
+@*@model ProAcc.BL.Model.CustomerModel*@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
 
 <script src="~/Scripts/jquery-1.10.2.js"></script>
 <script src="~/Scripts/jquery.validate.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+<head>
+    
+</head>
 
 
 @using (Html.BeginForm())
@@ -39,7 +42,7 @@
                     </div>
                 </div>
                 <div class="position-relative form-group">
-                    @Html.LabelFor(model => model.Work_Function, htmlAttributes: new { @class = "control-label col-md-5" })
+                    @Html.LabelFor(model => model.Work_Function,"Work Function", htmlAttributes: new { @class = "control-label col-md-5" })
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.Work_Function, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.Work_Function, "", new { @class = "text-danger" })
@@ -48,7 +51,7 @@
                 <div class="position-relative form-group">
                     @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "control-label col-md-5" })
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
                         @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -60,13 +63,14 @@
                     </div>
                 </div>
                 <div class="position-relative form-group">
-                    @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "control-label col-md-5" })
+                    @Html.LabelFor(model => model.UserName,"User Name", htmlAttributes: new { @class = "control-label col-md-5" })
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @id = "UserName", @class = "form-control", @onchange = "UserCheck()" } })
                         @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                        <p id="Status" />
                     </div>
                 </div>
-                <p id="Status" />
+
 
                 <div class="position-relative form-group">
                     @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-5" })
@@ -77,11 +81,11 @@
                 </div>
                 <div class="col-lg-5">
                     <input type="submit" value="Create" class="btn btn-primary" />
-                    </div>
                 </div>
+            </div>
             <div class="col-6 ">
                 <div class="position-relative form-group">
-                    @Html.LabelFor(model => model.UserTypeID, "UserTypeID", htmlAttributes: new { @class = "control-label col-md-5" })
+                    @Html.LabelFor(model => model.UserTypeID, "User Type", htmlAttributes: new { @class = "control-label col-md-5" })
                     <div class="col-md-10">
                         @Html.DropDownList("UserTypeID", null, htmlAttributes: new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.UserTypeID, "", new { @class = "text-danger" })
@@ -89,7 +93,7 @@
                 </div>
 
                 <div class="position-relative form-group">
-                    @Html.LabelFor(model => model.EstimatedSale, htmlAttributes: new { @class = "control-label col-md-5" })
+                    @Html.LabelFor(model => model.EstimatedSale,"Estimated Sale", htmlAttributes: new { @class = "control-label col-md-5" })
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.EstimatedSale, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.EstimatedSale, "", new { @class = "text-danger" })
@@ -99,7 +103,7 @@
                 <div class="position-relative form-group">
                     <label id="lbllastcontact" class="control-label col-md-5">Last Contact Date</label>
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.LastContact_Dt, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+                        @Html.EditorFor(model => model.LastContact_Dt,"Last Contact Date", new { htmlAttributes = new { @class = "form-control", @type = "date" } })
                         @Html.ValidationMessageFor(model => model.LastContact_Dt, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -107,7 +111,7 @@
                 <div class="position-relative form-group">
                     <label id="lblNextAction" class="control-label col-md-5">Next Action Date</label>
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.NextAction_Dt, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+                        @Html.EditorFor(model => model.NextAction_Dt,"Next Action Date", new { htmlAttributes = new { @class = "form-control", @type = "date" } })
                         @Html.ValidationMessageFor(model => model.NextAction_Dt, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -115,7 +119,7 @@
                 <div class="position-relative form-group">
                     <label id="lblNextcontact" class="control-label col-md-5">Next Contact Date</label>
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.NextContact_Dt, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+                        @Html.EditorFor(model => model.NextContact_Dt,"Next Contact Date", new { htmlAttributes = new { @class = "form-control", @type = "date" } })
                         @Html.ValidationMessageFor(model => model.NextContact_Dt, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -123,7 +127,7 @@
                 <div class="position-relative form-group">
                     <label id="lblleadStatus" class="control-label col-md-5">Lead Status</label>
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.LeadStatus, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model.LeadStatus,"Lead Status", new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.LeadStatus, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -131,29 +135,29 @@
                 <div class="position-relative form-group ">
                     <label id="lblleedSource" class="control-label col-md-5">Lead Source</label>
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.LeadSource, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model.LeadSource,"Lead Source", new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.LeadSource, "", new { @class = "text-danger" })
                     </div>
                 </div>
-                
-                    <div class="col-lg-5" style="float:right;">
-                        @Html.ActionLink("Back to List", "Index")
+
+                <div class="col-lg-5" style="float:right;">
+                    @Html.ActionLink("Back to List", "Index")
+                </div>
+            </div>
+            @*<div class="position-relative form-group">
+                    <div class="col-md-offset-2 col-m">
+                        <input type="submit" value="Create" class="btn btn-secondary" />
+
+                            @Html.ActionLink("Back to List", "Index",new {@class = "float-right"});
+
                     </div>
-                </div>
-                @*<div class="position-relative form-group">
-            <div class="col-md-offset-2 col-m">
-                <input type="submit" value="Create" class="btn btn-secondary" />
 
-                    @Html.ActionLink("Back to List", "Index",new {@class = "float-right"});
+                </div>*@
+            <div class="text-md-right">
+
 
             </div>
-
-        </div>*@
-                <div class="text-md-right">
-
-
-                </div>
-            </div>
+        </div>
 
     </div>
 }
@@ -161,8 +165,7 @@
 
 <script>
     function UserCheck() {
-        //$("#Status").html("Checking");
-        //debugger
+       
         $.post("@Url.Action("CheckUsernameAvailability","Customers")",
             {
                 userdata: $("#UserName").val()
@@ -181,6 +184,15 @@
 </script>
 
 
+<script type="text/javascript">
+    $(function () {        
+        var msg = '@ViewBag.Message';
+        if (msg == 'True')
+        {
+        alert("Enter the Details");
+        }
+    });
+</script>
 
 
 
@@ -253,6 +265,8 @@
             </div>
         </div>
     </div>*@
+
+
 
 
 

@@ -31,12 +31,9 @@
             @Html.DisplayNameFor(model => model.EMail)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.isActive)
-        </th>     
-        <th>
             @Html.DisplayNameFor(model => model.User_Master.UserType)
         </th>
-        <th></th>
+        <th>Actions</th>
     </tr>
 
     @foreach (var item in Model)
@@ -60,9 +57,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.EMail)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.isActive)
-            </td>          
+                     
             <td>
                 @Html.DisplayFor(modelItem => item.User_Master.UserType)
             </td>

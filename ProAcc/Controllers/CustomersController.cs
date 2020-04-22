@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using ProAcc.BL.Model;
 using ProACC_DB;
 
 namespace ProAcc.Controllers
@@ -17,7 +18,7 @@ namespace ProAcc.Controllers
         // GET: Customers
         public ActionResult Index()
         {
-            var customers = db.Customers.Include(c => c.User_Master).Include(c => c.Project);
+            var customers = db.Customers.Include(c => c.User_Master).Include(c => c.Project).Where(a => a.isActive == true);
             return View(customers.ToList());
         }
 
@@ -68,11 +69,22 @@ namespace ProAcc.Controllers
         {
             if (ModelState.IsValid)
             {
-                customer.Id = Guid.NewGuid();
-                customer.Cre_on = DateTime.Now.Date;
-                db.Customers.Add(customer);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if(customer.UserName != null && customer.Password != null)
+                {
+                    customer.Id = Guid.NewGuid();
+                    customer.Cre_on = DateTime.Now.Date;
+                    db.Customers.Add(customer);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    ViewBag.UserTypeID = new SelectList(db.User_Master, "Id", "UserType", customer.UserTypeID);
+                    ViewBag.Id = new SelectList(db.Projects, "Id", "Accuracy", customer.Id);
+                    ViewBag.Message = true;
+                    return View();
+                }
+                
             }
 
             ViewBag.UserTypeID = new SelectList(db.User_Master, "Id", "UserType", customer.UserTypeID);
@@ -136,8 +148,14 @@ namespace ProAcc.Controllers
         public ActionResult DeleteConfirmed(Guid id)
         {
             Customer customer = db.Customers.Find(id);
-            db.Customers.Remove(customer);
-            db.SaveChanges();
+            //db.Customers.Remove(customer);
+            if(customer.Id==id)
+            {
+                customer.isActive = false;
+                customer.IsDeleted = true;
+                db.Entry(customer).State = System.Data.Entity.EntityState.Modified;
+                db.SaveChanges();
+            }
             return RedirectToAction("Index");
         }
 

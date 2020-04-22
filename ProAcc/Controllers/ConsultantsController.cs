@@ -17,7 +17,7 @@ namespace ProAcc.Controllers
         // GET: Consultants
         public ActionResult Index()
         {
-            var consultants = db.Consultants.Include(c => c.User_Master);
+            var consultants = db.Consultants.Include(c => c.User_Master).Where(a => a.isActive == true);
             return View(consultants.ToList());
         }
 
@@ -132,8 +132,13 @@ namespace ProAcc.Controllers
         public ActionResult DeleteConfirmed(Guid id)
         {
             Consultant consultant = db.Consultants.Find(id);
-            db.Consultants.Remove(consultant);
-            db.SaveChanges();
+            if(consultant.Id==id)
+            {
+                consultant.isActive = false;
+                consultant.IsDeleted = true;
+                db.Entry(consultant).State = System.Data.Entity.EntityState.Modified;
+                db.SaveChanges();
+            }
             return RedirectToAction("Index");
         }
 

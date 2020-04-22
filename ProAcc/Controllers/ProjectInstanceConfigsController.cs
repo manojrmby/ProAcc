@@ -17,7 +17,7 @@ namespace ProAcc.Controllers
         // GET: ProjectInstanceConfigs
         public ActionResult Index()
         {
-            var projectInstanceConfigs = db.ProjectInstanceConfigs.Include(p => p.CustomerProjectConfig);
+            var projectInstanceConfigs = db.ProjectInstanceConfigs.Include(p => p.CustomerProjectConfig).Where(a => a.isActive == true);
             return View(projectInstanceConfigs.ToList());
         }
 
@@ -36,10 +36,12 @@ namespace ProAcc.Controllers
             return View(projectInstanceConfig);
         }
 
+
         // GET: ProjectInstanceConfigs/Create
         public ActionResult Create()
         {
-            ViewBag.CustProjconfigID = new SelectList(db.CustomerProjectConfigs, "Id", "ProjectName");
+            var val = db.CustomerProjectConfigs.Where(x => x.isActive == true).ToList();
+            ViewBag.CustProjconfigID = new SelectList(val, "Id", "ProjectName");
             return View();
         }
 
@@ -118,6 +120,13 @@ namespace ProAcc.Controllers
         public ActionResult DeleteConfirmed(Guid id)
         {
             ProjectInstanceConfig projectInstanceConfig = db.ProjectInstanceConfigs.Find(id);
+            if(projectInstanceConfig.Id==id)
+            {
+                projectInstanceConfig.isActive = false;
+                projectInstanceConfig.IsDeleted = true;
+                db.Entry(projectInstanceConfig).State = System.Data.Entity.EntityState.Modified;
+                db.SaveChanges();
+            }
             db.ProjectInstanceConfigs.Remove(projectInstanceConfig);
             db.SaveChanges();
             return RedirectToAction("Index");

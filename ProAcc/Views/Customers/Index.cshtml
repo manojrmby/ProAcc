@@ -6,20 +6,26 @@
 }
 
 <h2 class="card-title">CUSTOMER LIST</h2>
+<head>
+    <style>
+       
+        table, tr,th {
+            width: 50%;
+        }
 
+    </style>
+</head>
 <p>
-   
         @Html.ActionLink("Create New", "Create")
-   
 </p>
-<table class="mb-0 table table-bordered">
+<table class="table table-bordered">
     <tr>
-        <th>
+        @*<th>
             @Html.DisplayNameFor(model => model.UserName)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Password)
-        </th>
+        </th>*@
         <th>
             @Html.DisplayNameFor(model => model.Name)
         </th>
@@ -52,24 +58,21 @@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.LeadSource)
-        </th>      
-        <th>
-            @Html.DisplayNameFor(model => model.isActive)
-        </th>      
+        </th>                  
         <th>
             @Html.DisplayNameFor(model => model.User_Master.UserType)
         </th>       
-        <th></th>
+        <th>Actions</th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
-        <td>
+        @*<td>
             @Html.DisplayFor(modelItem => item.UserName)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Password)
-        </td>
+        </td>*@
         <td>
             @Html.DisplayFor(modelItem => item.Name)
         </td>
@@ -102,10 +105,7 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.LeadSource)
-        </td>        
-        <td>
-            @Html.DisplayFor(modelItem => item.isActive)
-        </td>      
+        </td>     
         <td>
             @Html.DisplayFor(modelItem => item.User_Master.UserType)
         </td>       

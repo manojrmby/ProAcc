@@ -21,11 +21,8 @@
         <th>
             @Html.DisplayNameFor(model => model.Customer.UserName)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.isActive)
-        </th>
-
-        <th></th>
+        
+        <th>Actions</th>
     </tr>
 
 @foreach (var item in Model) {
@@ -39,10 +36,7 @@
     <td>
         @Html.DisplayFor(modelItem => item.Customer.UserName)
     </td>    
-    <td>
-        @Html.DisplayFor(modelItem => item.isActive)
-    </td>
-
+    
     <td>
         @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
         @Html.ActionLink("Details", "Details", new { id = item.Id }) |

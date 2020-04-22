@@ -2,6 +2,7 @@
 @{
     ViewBag.Title = "Home";
     Layout = "~/Views/shared/_Layout.cshtml";
+    var mdetails = ViewBag.list;
 }
 <style type="text/css">
     .cs_Closed {
@@ -289,6 +290,17 @@
         opacity: 1;
     }
 </style>
+@*Active Members Style*@ 
+<style>
+    .container {
+        height: 200px;
+        width: 430px;
+        padding 10px;
+        border: 1px solid white;
+        overflow: auto;
+        overflow-x: hidden;
+    }
+</style>
 <script src="~/Asset/Scripts/Chart.js"></script>
 <script src="~/Asset/Scripts/Chart.RadialGauge.umd.js"></script>
 <script src="~/Asset/Scripts/Prograssbarjs.js"></script>
@@ -451,19 +463,20 @@
                 <div class="col-lg-6 card">
                     <div class="card-body">
                         <h5 class="card-title">Active Members</h5>
-                        <ul class="list-group list-group-flush">
 
-                            <shadow>
-
-                                <a class="list-group-item">
-                                    <img width="42" class="rounded-circle" src="/Asset/images/1.jpg">
-                                    <b>Martin Luther</b><b class="fa fa-check" style="float:right;color:cornflowerblue;" aria-hidden="true"></b>
-                                </a>
-                            </shadow>
-                            <shadow><a class="list-group-item"><img width="42" class="rounded-circle" src="/Asset/images/1.jpg"><b>Martin Luther</b><b class="fa fa-check" style="float:right;color:cornflowerblue;" aria-hidden="true"></b></a></shadow>
-                            <shadow><a class="list-group-item"><img width="42" class="rounded-circle" src="/Asset/images/1.jpg"><b>Martin Luther</b><b class="fa fa-check" style="float:right;color:cornflowerblue;" aria-hidden="true"></b></a></shadow>
-                            @*<shadow><a href="javascript:void(0);" class="list-group-item"><b>Martin Luther</b><br />Consultant</a></shadow>*@
-                        </ul>
+                        <div class="container">
+                            <ul class="list-group list-group-flush">
+                                @foreach (var item in ViewBag.list)
+                                {
+                                    <shadow>
+                                        <a class="list-group-item">
+                                            <img width="42" class="rounded-circle" src="/Asset/images/1.jpg">
+                                            <b>@item.Name</b><b class="fa fa-check" style="float:right;color:cornflowerblue;" aria-hidden="true"></b>
+                                        </a>
+                                    </shadow>
+                                }
+                            </ul>
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-6 card">
