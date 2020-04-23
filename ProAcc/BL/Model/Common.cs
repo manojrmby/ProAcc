@@ -20,6 +20,7 @@ namespace ProAcc.BL.Model
             public string Name { get; set; }
 
             public string Value { get; set; }
+            public string linkID { get; set; }
             public int _Value { get; set; }
         }
     }

@@ -31,41 +31,50 @@
 @*<script src="~/Asset/Scripts/utils.js"></script>*@
 
 <div style="padding: 1em;">
-    <ul class="body-tabs body-tabs-layout tabs-animated body-tabs-animated nav">
-        <li class="nav-item">
-            <a role="tab" class="nav-link active" id="tab-0" data-toggle="tab" href="#tab-content-0">
+    @*<ul class="body-tabs body-tabs-layout tabs-animated body-tabs-animated nav">
+        <li class="nav-item" href="@Url.Action("CreateAnalysis", "Assessment")">
+            <a role="tab" class="nav-link active" id="tab-0" data-toggle="tab">
                 <span>Create Analysis</span>
             </a>
         </li>
-        <li class="nav-item">
-            <a role="tab" class="nav-link" id="tab-1" data-toggle="tab" href="#tab-content-1">
+        <li class="nav-item" href="@Url.Action("ReadinessReport", "Assessment")">
+            <a role="tab" class="nav-link" id="tab-1" data-toggle="tab" >
                 <span>Readiness Report</span>
             </a>
         </li>
         <li class="nav-item">
-            <a role="tab" class="nav-link" id="tab-2" data-toggle="tab" href="#tab-content-2">
+            <a role="tab" class="nav-link" id="tab-2" data-toggle="tab" href="@Url.Action("SimplificationReport", "Assessment")">
                 <span>Compatibility Report</span>
             </a>
         </li>
-    </ul>
+    </ul>*@
     <div class="row">
         <div class="card-body col-lg-12 card">
+
             <h5 class="card-title">Create Analysis</h5>
-            <div class="position-relative form-group">
-                <label for="exampleEmail" class="">Customer Name</label>
-                @Html.DropDownList("Customer", (IEnumerable<SelectListItem>)ViewBag.Customer, new { id = "IDCustomer", @class = "form-control" })
-            </div>
+
+            @*<div class="position-relative form-group">
+            <label for="exampleEmail" class="">Customer Name</label>
+            @Html.DropDownList("Customer", (IEnumerable<SelectListItem>)ViewBag.Customer, "- SELECT-", new { id = "IDCustomer", @class = "form-control" })
+        </div>*@
             <div class="position-relative form-group">
                 <label for="exampleEmail" class="">Project Name</label>
-                @Html.DropDownList("Project", (IEnumerable<SelectListItem>)ViewBag.Project, new { id = "IDProject", @class = "form-control" })
+                @Html.DropDownList("Project", (IEnumerable<SelectListItem>)ViewBag.Project, "- SELECT-", new { id = "IDProject", @class = "form-control" })
+                @*@Html.DropDownList("Project", (IEnumerable<SelectListItem>), "- SELECT-", new { id = "IDProject", @class = "form-control" })*@
             </div>
             <div class="position-relative form-group">
                 <label for="exampleEmail" class="">Instance Name</label>
-                <input name="email" id="InstanceID" placeholder="" class="form-control">
+                @Html.DropDownList("Instance", new SelectList(Enumerable.Empty<SelectListItem>(), "IDInstance", "InstanceName"),
+          "Select a Project", new { id = "IDInstance", @class = "form-control" })
+                @*@Html.DropDownList("Instance", (IEnumerable<SelectListItem>), "- SELECT-", new { id = "IDInstance", @class = "form-control" })*@
+                @*<input name="email" id="InstanceID" placeholder="" class="form-control">*@
             </div>
+            <br />
+            <br />
             <div class="row">
 
                 <div class="col-6">
+
                     <div class="position-relative form-group">
                         <div class="mb-2 mr-2 badge badge-primary">Activities</div>
                         <div>
@@ -98,53 +107,57 @@
                 <div class="col-6">
 
                     <div class="position-relative form-group">
-                        <div class="mb-2 mr-2 badge badge-primary">RecommendedFioriApps</div>
+                        <div class="mb-2 mr-2 badge badge-primary">RecommendedFioriApps</div><br />
                         <input type="file" name="files" id="FileUpload5" />
                     </div>
                     <div class="position-relative form-group">
-                        <div class="mb-2 mr-2 badge badge-primary">RelevantSimplificationItems</div>
+                        <div class="mb-2 mr-2 badge badge-primary">RelevantSimplificationItems</div><br />
                         <input type="file" name="files" id="FileUpload6" />
                     </div>
                     <div class="position-relative form-group">
-                        <div class="mb-2 mr-2 badge badge-primary">SAP Readiness Check</div>
+                        <div class="mb-2 mr-2 badge badge-primary">SAP Readiness Check</div><br />
                         <input type="file" name="files" id="FileUpload7" />
                     </div>
                 </div>
 
 
             </div>
+           
+            <br />
             <div class="row">
                 <div class="col-12">
                     <div class="position-relative form-group">
 
-                        <div class="custom-checkbox custom-control">
-                            <input type="checkbox" id="exampleCustomCheckbox" class="custom-control-input">
-                            <label class="custom-control-label" for="exampleCustomCheckbox">I have read the SAP Readiness check Disclaimer and SAP readiness check term of use</label>
-                        </div>
-                        <div class="custom-checkbox custom-control">
-                            <input type="checkbox" id="exampleCustomCheckbox2" class="custom-control-input">
-                            <label class="custom-control-label" for="exampleCustomCheckbox2">
-                                I acknowldge all SAP employees may access and use the SAP Readiness check results for SAP business purposes like support services and marketing
+                        <div class="custom-checkbox custom-control text-md-left" style="font-size:15px;">
+                            <input type="checkbox" id="chkReadiness" class="custom-control-input">
+                            <label class="custom-control-label " for="chkReadiness">
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; I have read the SAP Readiness check Disclaimer and SAP readiness check term of use
                             </label>
                         </div>
-
-
-                    </div>
-                    <div class="row">
+                        <div class="custom-checkbox custom-control text-md-left" style="font-size:15px;">
+                            <input type="checkbox" id="chkAcknowldge" class="custom-control-input">
+                            <label class="custom-control-label" for="chkAcknowldge">
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; I acknowldge all SAP employees may access and use the SAP Readiness check results for SAP business purposes like support services and marketing
+                            </label>
+                        </div>
+                        <br />
+                        @*<div class="row">
                         <div class="col-sm-4">
                             <div id="progressbar-5">
                                 <div class="progress-label">
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="text-center">
-                        <button class="btn-wide mb-2 mr-2 btn btn-primary" id="btnUpload">
-                            Start Analysis
-                        </button>
+                    </div>*@
+                        <div class="text-center">
+                            <button class="btn-wide mb-2 mr-2 btn btn-primary" id="btnUpload">
+                                Start Analysis
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 </div>
@@ -152,61 +165,139 @@
     $(document).ready(function () {
         $('#btnUpload').click(function () {
 
-            var fileUpload1 = $("#FileUpload1").get(0);
-            var fileUpload2 = $("#FileUpload2").get(0);
+            var ProjectID = $("#IDProject").val();
+            var InstanceId = $("#IDInstance").val();
+            var n = $( "input:checked" ).length;
+            //var chkReadiness =$("#chkReadiness").val();
+            //var chkAcknowldge=$("#chkAcknowldge").val();
+           // debugger;
+            if (ProjectID != "" && InstanceId != "" && InstanceId != 0 && n==2) {
+                debugger;
+                var fileUpload1 = $("#FileUpload1").get(0);
+                var fileUpload2 = $("#FileUpload2").get(0);
 
-            var fileUpload3 = $("#FileUpload3").get(0);
-            var fileUpload4 = $("#FileUpload4").get(0);
+                var fileUpload3 = $("#FileUpload3").get(0);
+                var fileUpload4 = $("#FileUpload4").get(0);
 
-            var fileUpload5 = $("#FileUpload5").get(0);
-            var fileUpload6 = $("#FileUpload6").get(0);
+                var fileUpload5 = $("#FileUpload5").get(0);
+                var fileUpload6 = $("#FileUpload6").get(0);
 
-            var fileUpload7 = $("#FileUpload7").get(0);
+                var fileUpload7 = $("#FileUpload7").get(0);
 
-            var Cust_ID = $("select#IDCustomer").val();
-            var IDProject = $("select#IDProject").val();
-            var InstanceID = $("#InstanceID").val();
+                var Cust_ID = $("select#IDCustomer").val();
+                var IDProject = $("select#IDProject").val();
+                var InstanceID = $("#InstanceID").val();
 
-            var files = [
-                fileUpload1.files, fileUpload2.files,
-                fileUpload3.files, fileUpload4.files,
-                fileUpload5.files, fileUpload6.files,
-                fileUpload7.files
-            ];
+                var files = [
+                    fileUpload1.files, fileUpload2.files,
+                    fileUpload3.files, fileUpload4.files,
+                    fileUpload5.files, fileUpload6.files,
+                    fileUpload7.files
+                ];
 
-            var fileData = new FormData();
-            fileData.append("Cust_ID", Cust_ID);
-            fileData.append("IDProject", IDProject);
-            fileData.append("InstanceID", InstanceID);
+                var fileData = new FormData();
+                fileData.append("Cust_ID", Cust_ID);
+                fileData.append("IDProject", IDProject);
+                fileData.append("InstanceID", InstanceID);
 
-            // Looping over all files and add it to FormData object
-            for (var i = 0; i < files.length; i++) {
-                if (files[i][0] != null)
-                    fileData.append(i, files[i][0]);
+                // Looping over all files and add it to FormData object
+                for (var i = 0; i < files.length; i++) {
+                    if (files[i][0] != null)
+                        fileData.append(i, files[i][0]);
+                }
+
+
+                @*$.ajax({
+                    //url: '<%: Url.Action("Upload")%>?Cust_ID=' + Cust_ID + '&IDProject=' + IDProject+'&InstanceID='+InstanceID,
+                    url: '@Url.Action("Upload", "Assessment")',
+                    type: "POST",
+                    contentType: false, // Not to set any content header
+                    processData: false, // Not to process data
+                    data: fileData,
+                    async: false,
+                    success: function (result) {
+                        if (result != "") {
+                            $('#FileBrowse').find("*").prop("disabled", true);
+                            LoadProgressBar(result); //calling LoadProgressBar function to load the progress bar.
+                        }
+                    },
+                    error: function (err) {
+                        alert(err.statusText);
+                    }
+                });*@
+
+            }
+            else {
+                alert("Kindly check input values");
             }
 
 
-            $.ajax({
-                //url: '<%: Url.Action("Upload")%>?Cust_ID=' + Cust_ID + '&IDProject=' + IDProject+'&InstanceID='+InstanceID,
-                url: '@Url.Action("Upload", "Assessment")',
-                type: "POST",
-                contentType: false, // Not to set any content header
-                processData: false, // Not to process data
-                data: fileData,
-                async: false,
-                success: function (result) {
-                    if (result != "") {
-                        $('#FileBrowse').find("*").prop("disabled", true);
-                        LoadProgressBar(result); //calling LoadProgressBar function to load the progress bar.
-                    }
-                },
-                error: function (err) {
-                    alert(err.statusText);
-                }
-            });
-
         });
     });
+</script>
+<script>
+    jQuery(document).ready(function ($) {
+        //$("#IDProject").prop("disabled", true);
+        $("#IDInstance").prop("disabled", true);
+        $('#IDProject').change(function () {
+
+            var id = $(this).val();
+             var select = $("#IDInstance");
+                    select.empty();
+                    select.append($('<option/>', {
+                        value: 0,
+                        text: "Select a Instance"
+                    }));
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("LoadInstance","Assessment")',
+                data: { 'ProjectId' : id},
+                success: function (data) {
+                    var select = $("#IDInstance");
+                    select.empty();
+                    select.append($('<option/>', {
+                        value: 0,
+                        text: "Select a Instance"
+                    }));
+                    $.each(data, function (index, itemData) {
+                        select.append($('<option/>', {
+                            value: itemData.Value,
+                            text: itemData.Text
+                        }));
+                    });
+                    $("#IDInstance").prop("disabled", false);
+                },
+                error: function (a) {
+                    debugger;
+                    alert(a);
+                }
+
+
+            });
+        });
+    });
+</script>
+<script type="text/javascript">
+    //$(document).ready(function () {
+    //    $("#departmentList").change(function () {
+    //        var dID = $(this).val();
+    //        $.getJSON("../Home/LoadPhysiansByDepartment", { deptId: dID },
+    //            function (data) {
+    //                var select = $("#physiciansList");
+    //                select.empty();
+    //                select.append($('<option/>', {
+    //                    value: 0,
+    //                    text: "Select a Physian"
+    //                }));
+    //                $.each(data, function (index, itemData) {
+    //                    select.append($('<option/>', {
+    //                        value: itemData.Value,
+    //                        text: itemData.Text
+    //                    }));
+    //                });
+    //            });
+    //    });
+    //});
 </script>
 @*<div class="col-lg-6">
         <div class="row" style="padding:0em 1em 1em 1em;">

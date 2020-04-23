@@ -11,16 +11,29 @@ using static ProAcc.BL.Model.Common;
 
 namespace ProAcc.Controllers
 {
+    [Authorize(Roles = "Admin,Consultant")]
     public class AssessmentController : Controller
     {
+        ProAccEntities db = new ProAccEntities();
         Base _Base = new Base();
         // GET: Assessment
         public ActionResult CreateAnalysis()
         {
-            Tuple<List<Lis>, List<Lis>> sP_ = _Base.sP_AnalysisDropdowns();
+            //Tuple<List<Lis>, List<Lis>, List<Lis>> sP_ = _Base.sP_AnalysisDropdowns();
 
-            ViewBag.Project = new SelectList(sP_.Item2, "Value", "Name");
-            ViewBag.Customer = new SelectList(sP_.Item1, "Value", "Name");
+            //ViewBag.Project = new SelectList(sP_.Item2, "Value", "Name");
+            //ViewBag.Customer = new SelectList(sP_.Item1, "Value", "Name");
+            //ViewBag.Instance = new SelectList(sP_.Item3, "Value", "Name");
+            List<SelectListItem> Project = new List<SelectListItem>();
+            var query = from u in db.CustomerProjectConfigs select u;
+            if (query.Count() > 0)
+            {
+                foreach (var v in query)
+                {
+                    Project.Add(new SelectListItem { Text = v.ProjectName, Value = v.Id.ToString() });
+                }
+            }
+            ViewBag.Project = Project;
             return View();
         }
 
@@ -214,6 +227,24 @@ namespace ProAcc.Controllers
 
         }
 
+        [HttpPost]
+        public JsonResult LoadInstance(string ProjectId)
+        {
+            List<SelectListItem> Instance = new List<SelectListItem>();
+            if (!String.IsNullOrEmpty(ProjectId))
+            {
+                var ID = Guid.Parse(ProjectId);
+                var query = from u in db.ProjectInstanceConfigs where u.CustProjconfigID == ID select u;
+                if (query.Count() > 0)
+                {
+                    foreach (var v in query)
+                    {
+                        Instance.Add(new SelectListItem { Text = v.InstaceName, Value = v.Id.ToString() });
+                    }
+                }
+            }
+            return Json(Instance, JsonRequestBehavior.AllowGet);
+        }
 
     }
 }
