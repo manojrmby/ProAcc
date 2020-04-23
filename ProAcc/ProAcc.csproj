@@ -436,6 +436,7 @@
     <Compile Include="Controllers\ConsultantsController.cs" />
     <Compile Include="Controllers\CustomerProjectConfigsController.cs" />
     <Compile Include="Controllers\CustomersController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PreConvertionController.cs" />
     <Compile Include="Controllers\ProjectInstanceConfigsController.cs" />
     <Compile Include="Controllers\AssessmentController.cs" />
@@ -478,6 +479,7 @@
     <Content Include="Views\ProjectInstanceConfigs\Edit.cshtml" />
     <Content Include="Views\ProjectInstanceConfigs\Index.cshtml" />
     <Content Include="Views\Assessment\Test.cshtml" />
+    <Content Include="Views\Home\Home.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -489,7 +491,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="Asset\UploadedFiles\" />
     <Folder Include="Content\" />
-    <Folder Include="Views\Home\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
