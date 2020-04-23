@@ -49,18 +49,19 @@
             <div class="col-6 ">
 
                 <div class="position-relative form-group">
-                    @Html.LabelFor(model => model.EMail, htmlAttributes: new { @class = "control-label col-md-5" })
+                    @Html.LabelFor(model => model.EMail,"Email",htmlAttributes: new { @class = "control-label col-md-5" })
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.EMail, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.EMail, "", new { @class = "text-danger" })
                     </div>
-                </div>
+                </div> 
 
                 <div class="position-relative form-group">
-                    @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "control-label col-md-5" })
+                    @Html.LabelFor(model => model.UserName,"User Name", htmlAttributes: new { @class = "control-label col-md-5" })
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @id = "UserName", @class = "form-control", @onchange = "UserCheck()" } })
                         @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                        <p id="Status" />
                     </div>
                 </div>
 
@@ -77,7 +78,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="position-relative form-group">
-                    @Html.LabelFor(model => model.UserTypeID, "UserTypeID", htmlAttributes: new { @class = "control-label col-md-5" })
+                    @Html.LabelFor(model => model.UserTypeID, "User Type", htmlAttributes: new { @class = "control-label col-md-5" })
                     <div class="col-md-11">
                         @Html.DropDownList("UserTypeID", null, htmlAttributes: new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.UserTypeID, "", new { @class = "text-danger" })
@@ -96,8 +97,6 @@
 
 <script>
     function UserCheck() {
-        //$("#Status").html("Checking");
-        //debugger
         $.post("@Url.Action("CheckUsernameAvailability","Consultants")",
             {
                 userdata: $("#UserName").val()

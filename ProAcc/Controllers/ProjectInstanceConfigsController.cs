@@ -78,7 +78,8 @@ namespace ProAcc.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.CustProjconfigID = new SelectList(db.CustomerProjectConfigs, "Id", "ProjectName", projectInstanceConfig.CustProjconfigID);
+            var val = db.CustomerProjectConfigs.Where(x => x.isActive == true).ToList();
+            ViewBag.CustProjconfigID = new SelectList(val, "Id", "ProjectName", projectInstanceConfig.CustProjconfigID);
             return View(projectInstanceConfig);
         }
 

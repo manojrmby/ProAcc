@@ -54,7 +54,8 @@ namespace ProAcc.Controllers
         // GET: Consultants/Create
         public ActionResult Create()
         {
-            ViewBag.UserTypeID = new SelectList(db.User_Master, "Id", "UserType");
+            var val = db.User_Master.Where(x => x.isActive == true).ToList();
+            ViewBag.UserTypeID = new SelectList(val, "Id", "UserType");
             return View();
         }
 

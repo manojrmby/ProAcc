@@ -19,7 +19,7 @@
         @Html.HiddenFor(model => model.Id)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.InstaceName, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.InstaceName,"Instace Name", htmlAttributes: new { @class = "control-label col-md-5" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.InstaceName, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.InstaceName, "", new { @class = "text-danger" })
@@ -27,7 +27,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.CustProjconfigID, "CustProjconfigID", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.CustProjconfigID, "Customer Project config", htmlAttributes: new { @class = "control-label col-md-5" })
             <div class="col-md-10">
                 @Html.DropDownList("CustProjconfigID", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.CustProjconfigID, "", new { @class = "text-danger" })
@@ -35,7 +35,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.LastUpdated_Dt, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.LastUpdated_Dt,"Last Updated Date", htmlAttributes: new { @class = "control-label col-md-5" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.LastUpdated_Dt, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.LastUpdated_Dt, "", new { @class = "text-danger" })
