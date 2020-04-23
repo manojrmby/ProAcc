@@ -13,7 +13,7 @@ namespace ProAcc.BL
     public class Base
     {
 
-        Guid userID = Guid.Empty;
+
         //Graph
         public SP_ReadinessReport_Result sAPInput()
         {
@@ -175,7 +175,6 @@ namespace ProAcc.BL
             return sP_;
         }
 
-
         public GeneralList sP_GetFiori_Bar()
         {
             GeneralList sP_ = new GeneralList();
@@ -319,10 +318,11 @@ namespace ProAcc.BL
             sP_._List = _Lob;
             return sP_;
         }
-        public Tuple<List<Lis>, List<Lis>> sP_AnalysisDropdowns()
+        public Tuple<List<Lis>, List<Lis>, List<Lis>> sP_AnalysisDropdowns()
         {
             List<Lis> list1 = new List<Lis>();
             List<Lis> list2 = new List<Lis>();
+            List<Lis> list3 = new List<Lis>();
             DataSet ds = new DataSet();
             DBHelper dB = new DBHelper("SP_CreateAnalysis", CommandType.StoredProcedure);
             dB.addIn("@Type", "Drp_Project");
@@ -354,7 +354,24 @@ namespace ProAcc.BL
                         {
 
                             Name = dr["ProjectName"].ToString(),
-                            Value = dr["CustProjconfigID"].ToString()
+                            Value = dr["CustProjconfigID"].ToString(),
+                            linkID = dr["CustomerID"].ToString()
+                        });
+
+                    }
+                }
+                if (ds.Tables[2].Rows.Count > 0)
+                {
+                    DataTable dt = new DataTable();
+                    dt = ds.Tables[2];//ProjectName
+                    foreach (DataRow dr in dt.Rows)
+                    {
+                        list3.Add(new Lis
+                        {
+
+                            Name = dr["InstaceName"].ToString(),
+                            Value = dr["ProjectInstanceConfigID"].ToString(),
+                            linkID = dr["CustProjconfigID"].ToString()
                         });
 
                     }
@@ -362,7 +379,7 @@ namespace ProAcc.BL
 
             }
 
-            return Tuple.Create(list1, list2);
+            return Tuple.Create(list1, list2, list3);
         }
 
 
@@ -527,6 +544,48 @@ namespace ProAcc.BL
             status = false;
             return status;
         }
+
+
+        //Login 
+        public LogedUser UserValidation(LogedUser user)
+        {
+            DataSet ds = new DataSet();
+            DBHelper dB = new DBHelper("SP_Login", CommandType.StoredProcedure);
+            dB.addIn("@Type", "Login");
+            dB.addIn("@UserName", user.Username);
+            dB.addIn("@Password", user.Password);
+            ds = dB.ExecuteDataSet();
+            DataTable dt = new DataTable();
+            DataTable dt1 = new DataTable();
+            dt = ds.Tables[0];
+            dt1 = ds.Tables[1];
+            if (dt.Rows.Count == 1)
+            {
+                user.ID = Guid.Parse(dt.Rows[0][0].ToString());
+                user.Type = Convert.ToInt32(dt.Rows[0][1].ToString());
+                user.Name = dt.Rows[0][2].ToString();
+
+                userID = user.ID;
+                User_Name = user.Name;
+                for (int i = 0; i < dt1.Rows.Count; i++)
+                {
+                    if (user.Type == Convert.ToInt32(dt1.Rows[i]["id"]))
+                    {
+                        User_Type = dt1.Rows[0]["UserType"].ToString().ToUpper();
+                        break;
+                    }
+                }
+
+            }
+            return user;
+
+        }
+
+        public Guid userID = Guid.Empty;
+        public string User_Name = "";
+        public string User_Type = "";
+
+
 
     }
 }
