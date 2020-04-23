@@ -7,6 +7,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using ProACC_DB;
+using PagedList;
+using PagedList.Mvc;
 
 namespace ProAcc.Controllers
 {
@@ -15,10 +17,11 @@ namespace ProAcc.Controllers
         private ProAccEntities db = new ProAccEntities();
 
         // GET: Consultants
-        public ActionResult Index()
+        public ActionResult Index(String search, int? i)
         {
-            var consultants = db.Consultants.Include(c => c.User_Master).Where(a => a.isActive == true);
-            return View(consultants.ToList());
+            var consultants = db.Consultants.Where(a => a.isActive == true).Where(x => x.Name.StartsWith(search) || search == null).ToList().ToPagedList(i ?? 1, 5);
+            //var consultants = db.Consultants.Include(c => c.User_Master).Where(a => a.isActive == true);
+            return View(consultants);
         }
 
         // GET: Consultants/Details/5
@@ -91,7 +94,8 @@ namespace ProAcc.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.UserTypeID = new SelectList(db.User_Master, "Id", "UserType", consultant.UserTypeID);
+            var val = db.User_Master.Where(x => x.isActive == true).ToList();
+            ViewBag.UserTypeID = new SelectList(val, "Id", "UserType", consultant.UserTypeID);
             return View(consultant);
         }
 

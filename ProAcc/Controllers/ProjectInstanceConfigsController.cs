@@ -7,6 +7,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using ProACC_DB;
+using PagedList;
+using PagedList.Mvc;
 
 namespace ProAcc.Controllers
 {
@@ -15,10 +17,11 @@ namespace ProAcc.Controllers
         private ProAccEntities db = new ProAccEntities();
 
         // GET: ProjectInstanceConfigs
-        public ActionResult Index()
+        public ActionResult Index(String search, int? i)
         {
-            var projectInstanceConfigs = db.ProjectInstanceConfigs.Include(p => p.CustomerProjectConfig).Where(a => a.isActive == true);
-            return View(projectInstanceConfigs.ToList());
+            var projectInstanceConfigs = db.ProjectInstanceConfigs.Where(a => a.isActive == true).Where(x => x.InstaceName.StartsWith(search) || search == null).ToList().ToPagedList(i ?? 1, 5);
+            //var projectInstanceConfigs = db.ProjectInstanceConfigs.Include(p => p.CustomerProjectConfig).Where(a => a.isActive == true);
+            return View(projectInstanceConfigs);
         }
 
         // GET: ProjectInstanceConfigs/Details/5

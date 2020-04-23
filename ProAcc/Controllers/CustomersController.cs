@@ -8,6 +8,8 @@ using System.Web;
 using System.Web.Mvc;
 using ProAcc.BL.Model;
 using ProACC_DB;
+using PagedList;
+using PagedList.Mvc;
 
 namespace ProAcc.Controllers
 {
@@ -16,10 +18,12 @@ namespace ProAcc.Controllers
         private ProAccEntities db = new ProAccEntities();
 
         // GET: Customers
-        public ActionResult Index()
+        public ActionResult Index(String search, int? i)
         {
-            var customers = db.Customers.Include(c => c.User_Master).Include(c => c.Project).Where(a => a.isActive == true);
-            return View(customers.ToList());
+            var customers = db.Customers.Where(a => a.isActive == true).Where(x => x.Name.StartsWith(search) || search == null).ToList().ToPagedList(i ?? 1, 5);
+            return View(customers);
+            //var customers = db.Customers.Include(c => c.User_Master).Include(c => c.Project);
+            //return View(customers.ToList());
         }
 
         // GET: Customers/Details/5
@@ -55,7 +59,8 @@ namespace ProAcc.Controllers
         // GET: Customers/Create
         public ActionResult Create()
         {
-            ViewBag.UserTypeID = new SelectList(db.User_Master, "Id", "UserType");
+            var val = db.User_Master.Where(a => a.isActive == true);
+            ViewBag.UserTypeID = new SelectList(val, "Id", "UserType");
             ViewBag.Id = new SelectList(db.Projects, "Id", "Accuracy");
             return View();
         }
@@ -104,7 +109,8 @@ namespace ProAcc.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.UserTypeID = new SelectList(db.User_Master, "Id", "UserType", customer.UserTypeID);
+            var val = db.User_Master.Where(a => a.isActive == true);
+            ViewBag.UserTypeID = new SelectList(val, "Id", "UserType", customer.UserTypeID);
             ViewBag.Id = new SelectList(db.Projects, "Id", "Accuracy", customer.Id);
             return View(customer);
         }

@@ -1,4 +1,6 @@
-﻿@model IEnumerable<ProACC_DB.Consultant>
+﻿@using PagedList;
+@using PagedList.Mvc;
+@model IPagedList<ProACC_DB.Consultant>
 
 @{
     ViewBag.Title = "Index";
@@ -7,31 +9,36 @@
 
 <h4 class="card-title">CONSULTANT LIST</h4>
 
+@using (Html.BeginForm("Index", "Consultants", FormMethod.Get))
+{
+    @Html.TextBox("Search")
+    <input type="submit" value="Search" />
+}
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
 <table class="mb-0 table table-bordered">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.UserName)
+        @*<th>
+            @Html.DisplayNameFor(model => model.First().UserName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Password)
+            @Html.DisplayNameFor(model => model.First().Password)
+        </th>*@
+        <th>
+            @Html.DisplayNameFor(model => model.First().Name)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Name)
+            @Html.DisplayNameFor(model => model.First().Designation)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Designation)
+            @Html.DisplayNameFor(model => model.First().Phone)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Phone)
+            @Html.DisplayNameFor(model => model.First().EMail)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.EMail)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.User_Master.UserType)
+            @Html.DisplayNameFor(model => model.First().User_Master.UserType)
         </th>
         <th>Actions</th>
     </tr>
@@ -39,12 +46,12 @@
     @foreach (var item in Model)
     {
         <tr>
-            <td>
+            @*<td>
                 @Html.DisplayFor(modelItem => item.UserName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Password)
-            </td>
+            </td>*@
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
@@ -57,7 +64,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.EMail)
             </td>
-                     
+
             <td>
                 @Html.DisplayFor(modelItem => item.User_Master.UserType)
             </td>
@@ -70,3 +77,5 @@
     }
 
 </table>
+@Html.PagedListPager(Model, i => Url.Action("Index", new { i, search = Request.QueryString["search"] }),
+            new PagedListRenderOptions() { Display = PagedListDisplayMode.IfNeeded, DisplayPageCountAndCurrentLocation = true })

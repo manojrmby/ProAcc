@@ -7,6 +7,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using ProACC_DB;
+using PagedList;
+using PagedList.Mvc;
 
 namespace ProAcc.Controllers
 {
@@ -15,10 +17,11 @@ namespace ProAcc.Controllers
         private ProAccEntities db = new ProAccEntities();
 
         // GET: CustomerProjectConfigs
-        public ActionResult Index()
+        public ActionResult Index(String search, int? i)
         {
-            var customerProjectConfigs = db.CustomerProjectConfigs.Include(c => c.Consultant).Include(c => c.Customer).Where(a=>a.isActive==true);
-            return View(customerProjectConfigs.ToList());
+            var customerProjectConfigs = db.CustomerProjectConfigs.Where(a => a.isActive == true).Where(x => x.ProjectName.StartsWith(search) || search == null).ToList().ToPagedList(i ?? 1, 5);
+           // var customerProjectConfigs = db.CustomerProjectConfigs.Include(c => c.Consultant).Include(c => c.Customer).Where(a=>a.isActive==true);
+            return View(customerProjectConfigs);
         }
 
         // GET: CustomerProjectConfigs/Details/5
@@ -39,8 +42,10 @@ namespace ProAcc.Controllers
         // GET: CustomerProjectConfigs/Create
         public ActionResult Create()
         {
-            ViewBag.ConsultantID = new SelectList(db.Consultants, "Id", "UserName");
-            ViewBag.CustomerID = new SelectList(db.Customers, "Id", "UserName");
+            var val = db.Consultants.Where(a => a.isActive == true);
+            ViewBag.ConsultantID = new SelectList(val, "Id", "UserName");
+            var val1 = db.Customers.Where(a => a.isActive == true);
+            ViewBag.CustomerID = new SelectList(val1, "Id", "UserName");
             return View();
         }
 
@@ -78,8 +83,10 @@ namespace ProAcc.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.ConsultantID = new SelectList(db.Consultants, "Id", "UserName", customerProjectConfig.ConsultantID);
-            ViewBag.CustomerID = new SelectList(db.Customers, "Id", "UserName", customerProjectConfig.CustomerID);
+            var val = db.Consultants.Where(a => a.isActive == true);
+            ViewBag.ConsultantID = new SelectList(val, "Id", "Name", customerProjectConfig.ConsultantID);
+            var val1 = db.Customers.Where(a => a.isActive == true);
+            ViewBag.CustomerID = new SelectList(val1, "Id", "UserName", customerProjectConfig.CustomerID);
             return View(customerProjectConfig);
         }
 

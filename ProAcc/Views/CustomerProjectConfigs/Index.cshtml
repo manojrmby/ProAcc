@@ -1,11 +1,19 @@
-﻿@model IEnumerable<ProACC_DB.CustomerProjectConfig>
+﻿@using PagedList;
+@using PagedList.Mvc;
+@model IPagedList<ProACC_DB.CustomerProjectConfig>
 
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/shared/_Layout.cshtml";
 }
 
-    <h2 class="card-title">CUSTOMER PROJECT LIST</h2>
+<h2 class="card-title">CUSTOMER PROJECT LIST</h2>
+
+@using (Html.BeginForm("Index", "CustomerProjectConfigs", FormMethod.Get))
+{
+    @Html.TextBox("Search")
+    <input type="submit" value="Search" />
+}
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -13,36 +21,39 @@
 <table class="mb-0 table table-bordered">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.ProjectName)
+            @Html.DisplayNameFor(model => model.First().ProjectName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Consultant.UserName)
+            @Html.DisplayNameFor(model => model.First().Consultant.UserName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Customer.UserName)
+            @Html.DisplayNameFor(model => model.First().Customer.UserName)
         </th>
-        
+
         <th>Actions</th>
     </tr>
 
-@foreach (var item in Model) {
-<tr>
-    <td>
-        @Html.DisplayFor(modelItem => item.ProjectName)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Consultant.UserName)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Customer.UserName)
-    </td>    
-    
-    <td>
-        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-    </td>
-</tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProjectName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Consultant.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Customer.UserName)
+            </td>
+
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
 
 </table>
+@Html.PagedListPager(Model, i => Url.Action("Index", new { i, search = Request.QueryString["search"] }),
+            new PagedListRenderOptions() { Display = PagedListDisplayMode.IfNeeded, DisplayPageCountAndCurrentLocation = true })
