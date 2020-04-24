@@ -21,7 +21,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.UserName,"User Name", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DisplayFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @id="Username",@class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -45,23 +45,25 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @id = "txtName", @class = "form-control", @onchange = "ValidateName()" } })
                 @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                <span id="lblName" style="color:red"></span>
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.Designation, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Designation, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Designation, new { htmlAttributes = new { @id = "txtDesignation", @class = "form-control", @onchange = "ValidateDesignation()" } })
                 @Html.ValidationMessageFor(model => model.Designation, "", new { @class = "text-danger" })
+                <span id="lblDesignation" style="color:red"></span>
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Phone, new { htmlAttributes = new {@id = "txtMobId", @class = "form-control", @onchange = "ValidateMobileNumber()" } })
                 @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" ,@type="number"})
             </div>
         </div>
@@ -69,7 +71,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.EMail,"Email", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.EMail, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.EMail, new { htmlAttributes = new { @id="txtEmail",@class = "form-control", @onchange = "ValidateEmail()" } })
                 @Html.ValidationMessageFor(model => model.EMail, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -141,3 +143,54 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
+
+<script>
+    jQuery(document).ready(function ($) {
+            debugger;
+            $("#Username").prop("disabled", true);
+    });
+
+    function ValidateName()
+      {
+          debugger;
+          var name = document.getElementById("txtName").value;
+          var lblName = document.getElementById("lblName");
+          lblName.innerHTML = "";
+          var letters = /^[A-Za-z]+$/;
+          if (!letters.test(name)) {
+            lblName.innerHTML = "Please enter valid Name";
+          }
+    }
+    
+    function ValidateDesignation()
+      {
+          debugger;
+          var Designation = document.getElementById("txtDesignation").value;
+          var lblDesignation = document.getElementById("lblDesignation");
+          lblDesignation.innerHTML = "";
+          var letters = /^[A-Za-z]+$/;
+          if (!letters.test(Designation)) {
+            lblDesignation.innerHTML = "Please enter a valid Designation";
+          }
+    }
+
+    function ValidateEmail() {
+        debugger;
+        var email = document.getElementById("txtEmail").value;
+        var lblEmail = document.getElementById("lblEmail");
+        lblEmail.innerHTML = "";
+        var expr = /^([\w-\.]+)@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+        if (!expr.test(email)) {
+            lblEmail.innerHTML = "Please enter valid email address.";
+        }
+    }
+
+    function ValidateMobileNumber() {
+        var mob = /^[1-9]{1}[0-9]{9}$/;
+        var txtMobile = document.getElementById("txtMobId").value;
+        lblMob.innerHTML = "";
+        if (mob.test(txtMobile) == false) {
+            lblMob.innerHTML = "Please enter valid mobile number.";   
+        }
+    }
+</script>

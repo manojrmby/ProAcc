@@ -41,7 +41,7 @@ namespace ProAcc.Controllers
                
                 //IsValidate = "Login Successfully.";
             }
-
+            Session["Name"] = logedUser.Name;
             return RedirectToAction("Home", "Home");
         }
 

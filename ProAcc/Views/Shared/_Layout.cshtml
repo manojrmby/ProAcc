@@ -2,6 +2,14 @@
 
 <html>
 <head>
+    @{
+        var DashboardName = "0";
+        if (Session["Name"] != null)
+        {
+            DashboardName = Session["Name"].ToString();
+        }
+    }
+
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
     @*<script src="~/Scripts/jquery-3.4.1.min.js"></script>*@
@@ -50,19 +58,16 @@
         .bg-happy-log {
             /*background: linear-gradient(0deg, rgba(48,67,82,1) 0%, rgba(215,210,204,1) 100%) !important;*/
             /*background: linear-gradient(29deg, rgba(211,211,211,1) 0%, rgba(255,255,255,1) 28%, rgba(245,245,245,1) 95%, rgba(211,211,211,1) 100%);*/
-           
-/*background: linear-gradient(90deg, rgba(152,152,152,1) 0%, rgba(133,196,64,1) 100%)*/
-
-background: linear-gradient(90deg, rgba(1,157,208,1) 24%, rgba(7,213,213,1) 64%)!important;
+            /*background: linear-gradient(90deg, rgba(152,152,152,1) 0%, rgba(133,196,64,1) 100%)*/
+            background: linear-gradient(90deg, rgba(1,157,208,1) 24%, rgba(7,213,213,1) 64%) !important;
         }
 
         .bg-main-manu {
             /*background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%) !important;*/
         }
-        .vertical-nav-menu li a:hover
-        {
-            background: linear-gradient(90deg, rgba(1,157,208,1) 24%, rgba(7,213,213,1) 64%)!important;
 
+        .vertical-nav-menu li a:hover {
+            background: linear-gradient(90deg, rgba(1,157,208,1) 24%, rgba(7,213,213,1) 64%) !important;
         }
     </style>
     @*<link href="~/Asset/css/style.css" rel="stylesheet" />*@
@@ -148,6 +153,12 @@ background: linear-gradient(90deg, rgba(1,157,208,1) 24%, rgba(7,213,213,1) 64%)
                                              class="dropdown-menu dropdown-menu-right">
                                             <button type="button"
                                                     tabindex="0"
+                                                    class="dropdown-item" style="font-weight:bold;color:blue;">
+                                                @DashboardName
+                                                
+                                            </button>
+                                            <button type="button"
+                                                    tabindex="0"
                                                     class="dropdown-item">
                                                 User Account
                                             </button>
@@ -164,10 +175,10 @@ background: linear-gradient(90deg, rgba(1,157,208,1) 24%, rgba(7,213,213,1) 64%)
                                             </button>
                                             <div tabindex="-1" class="dropdown-divider"></div>
                                             @*<button type="button"
-                                                        tabindex="0"
-                                                        class="dropdown-item">
-                                                    LogOut
-                                                </button>*@
+                tabindex="0"
+                class="dropdown-item">
+            LogOut
+        </button>*@
                                             @Html.ActionLink("LogOut", "Logout", "login", new { area = "" }, new { @class = "dropdown-item" })
                                         </div>
                                     </div>

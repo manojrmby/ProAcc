@@ -56,6 +56,7 @@ namespace ProAcc.Controllers
             }
         }
 
+       
         // GET: Customers/Create
         public ActionResult Create()
         {
@@ -70,14 +71,15 @@ namespace ProAcc.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,UserName,Password,UserTypeID,Name,Company,Work_Function,Phone,Email,EstimatedSale,LastContact_Dt,NextAction_Dt,NextContact_Dt,LeadStatus,LeadSource,Conv_Cust_Status,isActive,Cre_on,Cre_By,Modified_On,Modified_by,IsDeleted")] Customer customer)
+        public ActionResult Create(Customer customer)
         {
             if (ModelState.IsValid)
             {
                 if(customer.UserName != null && customer.Password != null)
                 {
                     customer.Id = Guid.NewGuid();
-                    customer.Cre_on = DateTime.Now.Date;
+                    customer.Cre_on = DateTime.Now;
+                    customer.isActive = true;
                     db.Customers.Add(customer);
                     db.SaveChanges();
                     return RedirectToAction("Index");
@@ -89,7 +91,6 @@ namespace ProAcc.Controllers
                     ViewBag.Message = true;
                     return View();
                 }
-                
             }
 
             ViewBag.UserTypeID = new SelectList(db.User_Master, "Id", "UserType", customer.UserTypeID);
@@ -120,10 +121,11 @@ namespace ProAcc.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,UserName,Password,UserTypeID,Name,Company,Work_Function,Phone,Email,EstimatedSale,LastContact_Dt,NextAction_Dt,NextContact_Dt,LeadStatus,LeadSource,Conv_Cust_Status,isActive,Cre_on,Cre_By,Modified_On,Modified_by,IsDeleted")] Customer customer)
+        public ActionResult Edit(Customer customer)
         {
             if (ModelState.IsValid)
             {
+                customer.Modified_On = DateTime.Now;
                 db.Entry(customer).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");

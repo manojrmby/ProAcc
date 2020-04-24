@@ -42,10 +42,11 @@ namespace ProAcc.Controllers
         // GET: CustomerProjectConfigs/Create
         public ActionResult Create()
         {
+            
             var val = db.Consultants.Where(a => a.isActive == true);
-            ViewBag.ConsultantID = new SelectList(val, "Id", "UserName");
+            ViewBag.ConsultantID = new SelectList(val, "Id", "Name");
             var val1 = db.Customers.Where(a => a.isActive == true);
-            ViewBag.CustomerID = new SelectList(val1, "Id", "UserName");
+            ViewBag.CustomerID = new SelectList(val1, "Id", "Name");
             return View();
         }
 
@@ -54,20 +55,35 @@ namespace ProAcc.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,ProjectName,CustomerID,ConsultantID,LastUpdated_Dt,isActive,Cre_on,Cre_By,Modified_On,Modified_by,IsDeleted")] CustomerProjectConfig customerProjectConfig)
+        public ActionResult Create(CustomerProjectConfig customerProjectConfig)
         {
             if (ModelState.IsValid)
             {
-                customerProjectConfig.Id = Guid.NewGuid();
-                customerProjectConfig.Cre_on = DateTime.Now.Date;
-                customerProjectConfig.LastUpdated_Dt= DateTime.Now.Date;
-                db.CustomerProjectConfigs.Add(customerProjectConfig);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (customerProjectConfig.ProjectName != null)
+                {
+                    customerProjectConfig.Id = Guid.NewGuid();
+                    customerProjectConfig.Cre_on = DateTime.Now;
+                    customerProjectConfig.LastUpdated_Dt = DateTime.Now;
+                    customerProjectConfig.isActive = true;
+                    db.CustomerProjectConfigs.Add(customerProjectConfig);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    var valid = db.Consultants.Where(a => a.isActive == true);
+                    ViewBag.ConsultantID = new SelectList(valid, "Id", "Name", customerProjectConfig.ConsultantID);
+                    var valid1 = db.Customers.Where(a => a.isActive == true);
+                    ViewBag.CustomerID = new SelectList(valid1, "Id", "Name", customerProjectConfig.CustomerID);
+                    ViewBag.Message = true;
+                    return View();
+                }
             }
 
-            ViewBag.ConsultantID = new SelectList(db.Consultants, "Id", "UserName", customerProjectConfig.ConsultantID);
-            ViewBag.CustomerID = new SelectList(db.Customers, "Id", "UserName", customerProjectConfig.CustomerID);
+            var val = db.Consultants.Where(a => a.isActive == true);
+            ViewBag.ConsultantID = new SelectList(val, "Id", "Name", customerProjectConfig.ConsultantID);
+            var val1 = db.Customers.Where(a => a.isActive == true);
+            ViewBag.CustomerID = new SelectList(val1, "Id", "Name", customerProjectConfig.CustomerID);
             return View(customerProjectConfig);
         }
 
@@ -86,7 +102,7 @@ namespace ProAcc.Controllers
             var val = db.Consultants.Where(a => a.isActive == true);
             ViewBag.ConsultantID = new SelectList(val, "Id", "Name", customerProjectConfig.ConsultantID);
             var val1 = db.Customers.Where(a => a.isActive == true);
-            ViewBag.CustomerID = new SelectList(val1, "Id", "UserName", customerProjectConfig.CustomerID);
+            ViewBag.CustomerID = new SelectList(val1, "Id", "Name", customerProjectConfig.CustomerID);
             return View(customerProjectConfig);
         }
 
@@ -95,16 +111,19 @@ namespace ProAcc.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,ProjectName,CustomerID,ConsultantID,LastUpdated_Dt,isActive,Cre_on,Cre_By,Modified_On,Modified_by,IsDeleted")] CustomerProjectConfig customerProjectConfig)
+        public ActionResult Edit(CustomerProjectConfig customerProjectConfig)
         {
             if (ModelState.IsValid)
             {
+                customerProjectConfig.Modified_On = DateTime.Now;
                 db.Entry(customerProjectConfig).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.ConsultantID = new SelectList(db.Consultants, "Id", "UserName", customerProjectConfig.ConsultantID);
-            ViewBag.CustomerID = new SelectList(db.Customers, "Id", "UserName", customerProjectConfig.CustomerID);
+            var val = db.Consultants.Where(a => a.isActive == true);
+            ViewBag.ConsultantID = new SelectList(val, "Id", "Name", customerProjectConfig.ConsultantID);
+            var val1 = db.Customers.Where(a => a.isActive == true);
+            ViewBag.CustomerID = new SelectList(val1, "Id", "Name", customerProjectConfig.CustomerID);
             return View(customerProjectConfig);
         }
 

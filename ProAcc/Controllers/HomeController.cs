@@ -34,8 +34,8 @@ namespace ProAcc.Controllers
         }
         public ActionResult Test()
         {
-            List<Customer> cust = db.Customers.Where(a => a.isActive == false).ToList();
-            ViewBag.list = cust;
+            //List<Customer> cust = db.Customers.Where(a => a.isActive == true).ToList();
+            //ViewBag.list = cust;
             return View();
         }
     }

@@ -67,15 +67,26 @@ namespace ProAcc.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,UserName,Password,UserTypeID,Name,Designation,Phone,EMail,isActive,Cre_on,Cre_By,Modified_On,Modified_by,IsDeleted")] Consultant consultant)
+        public ActionResult Create(Consultant consultant)
         {
             if (ModelState.IsValid)
             {
-                consultant.Id = Guid.NewGuid();
-                consultant.Cre_on = DateTime.Now.Date;
-                db.Consultants.Add(consultant);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if(consultant.UserName !=null && consultant.Password!=null)
+                {
+                    consultant.Id = Guid.NewGuid();
+                    consultant.Cre_on = DateTime.Now;
+                    consultant.isActive = true;
+                    db.Consultants.Add(consultant);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    ViewBag.UserTypeID = new SelectList(db.User_Master, "Id", "UserType", consultant.UserTypeID);
+                    ViewBag.Message = true;
+                    return View();
+                }
+                
             }
 
             ViewBag.UserTypeID = new SelectList(db.User_Master, "Id", "UserType", consultant.UserTypeID);
@@ -104,10 +115,11 @@ namespace ProAcc.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,UserName,Password,UserTypeID,Name,Designation,Phone,EMail,isActive,Cre_on,Cre_By,Modified_On,Modified_by,IsDeleted")] Consultant consultant)
+        public ActionResult Edit(Consultant consultant)
         {
             if (ModelState.IsValid)
             {
+                consultant.Modified_On = DateTime.Now;
                 db.Entry(consultant).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");

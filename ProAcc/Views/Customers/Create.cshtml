@@ -11,9 +11,6 @@
 <script src="~/Scripts/jquery-1.10.2.js"></script>
 <script src="~/Scripts/jquery.validate.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
-<head>
-    
-</head>
 
 
 @using (Html.BeginForm())
@@ -30,19 +27,21 @@
                 <div class="position-relative form-group">
                     @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-5" })
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @id = "txtName", @class = "form-control", @onchange = "ValidateName()" } })
                         @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                        <span id="lblName" style="color:red"></span>
                     </div>
                 </div>
                 <div class="position-relative form-group">
                     @Html.LabelFor(model => model.Company, htmlAttributes: new { @class = "control-label col-md-5" })
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.Company, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model.Company, new { htmlAttributes = new { @id = "txtComp", @class = "form-control", @onchange = "ValidateComp()" } })
                         @Html.ValidationMessageFor(model => model.Company, "", new { @class = "text-danger" })
+                        <span id="lblComp" style="color:red"></span>
                     </div>
                 </div>
                 <div class="position-relative form-group">
-                    @Html.LabelFor(model => model.Work_Function,"Work Function", htmlAttributes: new { @class = "control-label col-md-5" })
+                    @Html.LabelFor(model => model.Work_Function, "Work Function", htmlAttributes: new { @class = "control-label col-md-5" })
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.Work_Function, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.Work_Function, "", new { @class = "text-danger" })
@@ -51,19 +50,21 @@
                 <div class="position-relative form-group">
                     @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "control-label col-md-5" })
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
+                        @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @id = "txtMobId", @class = "form-control", @onchange = "ValidateMobileNumber()" } })
                         @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+                        <span id="lblMob" style="color:red"></span>
                     </div>
                 </div>
                 <div class="position-relative form-group">
                     @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-5" })
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @id="txtEmail",@class = "form-control", @onchange = "ValidateEmail()" } })
                         @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                        <span id="lblEmail" style="color:red"></span>
                     </div>
                 </div>
                 <div class="position-relative form-group">
-                    @Html.LabelFor(model => model.UserName,"User Name", htmlAttributes: new { @class = "control-label col-md-5" })
+                    @Html.LabelFor(model => model.UserName, "User Name", htmlAttributes: new { @class = "control-label col-md-5" })
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @id = "UserName", @class = "form-control", @onchange = "UserCheck()" } })
                         @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
@@ -93,7 +94,7 @@
                 </div>
 
                 <div class="position-relative form-group">
-                    @Html.LabelFor(model => model.EstimatedSale,"Estimated Sale", htmlAttributes: new { @class = "control-label col-md-5" })
+                    @Html.LabelFor(model => model.EstimatedSale, "Estimated Sale", htmlAttributes: new { @class = "control-label col-md-5" })
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.EstimatedSale, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.EstimatedSale, "", new { @class = "text-danger" })
@@ -103,7 +104,7 @@
                 <div class="position-relative form-group">
                     <label id="lbllastcontact" class="control-label col-md-5">Last Contact Date</label>
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.LastContact_Dt,"Last Contact Date", new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+                        @Html.EditorFor(model => model.LastContact_Dt, "Last Contact Date", new { htmlAttributes = new { @class = "form-control", @type = "date" } })
                         @Html.ValidationMessageFor(model => model.LastContact_Dt, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -111,7 +112,7 @@
                 <div class="position-relative form-group">
                     <label id="lblNextAction" class="control-label col-md-5">Next Action Date</label>
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.NextAction_Dt,"Next Action Date", new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+                        @Html.EditorFor(model => model.NextAction_Dt, "Next Action Date", new { htmlAttributes = new { @class = "form-control", @type = "date" } })
                         @Html.ValidationMessageFor(model => model.NextAction_Dt, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -119,7 +120,7 @@
                 <div class="position-relative form-group">
                     <label id="lblNextcontact" class="control-label col-md-5">Next Contact Date</label>
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.NextContact_Dt,"Next Contact Date", new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+                        @Html.EditorFor(model => model.NextContact_Dt, "Next Contact Date", new { htmlAttributes = new { @class = "form-control", @type = "date" } })
                         @Html.ValidationMessageFor(model => model.NextContact_Dt, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -127,7 +128,7 @@
                 <div class="position-relative form-group">
                     <label id="lblleadStatus" class="control-label col-md-5">Lead Status</label>
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.LeadStatus,"Lead Status", new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model.LeadStatus, "Lead Status", new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.LeadStatus, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -135,7 +136,7 @@
                 <div class="position-relative form-group ">
                     <label id="lblleedSource" class="control-label col-md-5">Lead Source</label>
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.LeadSource,"Lead Source", new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model.LeadSource, "Lead Source", new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.LeadSource, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -165,7 +166,7 @@
 
 <script>
     function UserCheck() {
-       
+
         $.post("@Url.Action("CheckUsernameAvailability","Customers")",
             {
                 userdata: $("#UserName").val()
@@ -173,19 +174,65 @@
         function (data) {
             if (data == 0) {
                 $("#Status").html('');
-                $("#UserName").css("border-color", "gray");
+                //$("#UserName").css("border-color", "gray");
             }
             else {
                 $("#Status").html('<font color="Red">UserName is Taken</font>');
-                $("#UserName").css("border-color", "Red");
+                //$("#UserName").css("border-color", "Red");
             }
         });
     }
+
+    function ValidateName()
+      {
+          debugger;
+          var name = document.getElementById("txtName").value;
+          var lblName = document.getElementById("lblName");
+          lblName.innerHTML = "";
+          var letters = /^[A-Za-z]+$/;
+          if (!letters.test(name)) {
+            lblName.innerHTML = "Please enter valid Name";
+          }
+    }
+    
+    function ValidateComp()
+      {
+          debugger;
+          var Comp = document.getElementById("txtComp").value;
+          var lblComp = document.getElementById("lblComp");
+          lblComp.innerHTML = "";
+          var letters = /^[A-Za-z]+$/;
+          if (!letters.test(Comp)) {
+            lblComp.innerHTML = "Please enter a valid Company Name";
+          }
+    }
+
+    function ValidateEmail() {
+        debugger;
+        var email = document.getElementById("txtEmail").value;
+        var lblEmail = document.getElementById("lblEmail");
+        lblEmail.innerHTML = "";
+        var expr = /^([\w-\.]+)@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+        if (!expr.test(email)) {
+            lblEmail.innerHTML = "Please enter valid email address.";
+        }
+    }
+
+    function ValidateMobileNumber() {
+        var mob = /^[1-9]{1}[0-9]{9}$/;
+        var txtMobile = document.getElementById("txtMobId").value;
+        lblMob.innerHTML = "";
+        if (mob.test(txtMobile) == false) {
+            lblMob.innerHTML = "Please enter valid mobile number.";   
+        }
+    }
+
+
 </script>
 
 
 <script type="text/javascript">
-    $(function () {        
+    $(function () {
         var msg = '@ViewBag.Message';
         if (msg == 'True')
         {
@@ -193,80 +240,3 @@
         }
     });
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-@*<div class="form-group">
-        @Html.LabelFor(model => model.Conv_Cust_Status, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Conv_Cust_Status, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Conv_Cust_Status, "", new { @class = "text-danger" })
-        </div>
-    </div>*@
-
-@*<div class="form-group">
-        @Html.LabelFor(model => model.isActive, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            <div class="checkbox">
-                @Html.EditorFor(model => model.isActive)
-                @Html.ValidationMessageFor(model => model.isActive, "", new { @class = "text-danger" })
-            </div>
-        </div>
-    </div>*@
-
-@*<div class="form-group">
-        @Html.LabelFor(model => model.Cre_on, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Cre_on, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Cre_on, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.Cre_By, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Cre_By, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Cre_By, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.Modified_On, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Modified_On, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Modified_On, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.Modified_by, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Modified_by, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Modified_by, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.IsDeleted, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            <div class="checkbox">
-                @Html.EditorFor(model => model.IsDeleted)
-                @Html.ValidationMessageFor(model => model.IsDeleted, "", new { @class = "text-danger" })
-            </div>
-        </div>
-    </div>*@
-
-
-
-
-

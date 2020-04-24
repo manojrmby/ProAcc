@@ -5,9 +5,6 @@
     Layout = "~/Views/shared/_Layout.cshtml";
 }
 
-
-
-
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
@@ -21,8 +18,9 @@
                     <div class="position-relative form-group">
                         @Html.LabelFor(model => model.InstaceName,"Instace Name", htmlAttributes: new { @class = "control-label col-md-5" })
                         <div class="col-md-10">
-                            @Html.EditorFor(model => model.InstaceName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.EditorFor(model => model.InstaceName, new { htmlAttributes = new { @id = "txtInstName", @class = "form-control", @onchange = "ValidateInstName()" } })
                             @Html.ValidationMessageFor(model => model.InstaceName, "", new { @class = "text-danger" })
+                            <span id="lblInstName" style="color:red"></span>
                         </div>
                     </div>
 
@@ -53,10 +51,30 @@
                 </div>
             </div>
         </div>
-            </div>
+    </div>
+ }
+
+<script>
+    function ValidateInstName() {
+        debugger;
+        var Instname = document.getElementById("txtInstName").value;
+        var lblInstName = document.getElementById("lblInstName");
+        lblInstName.innerHTML = "";
+        var letters = /^[A-Za-z]+$/;
+        if (!letters.test(Instname)) {
+            lblInstName.innerHTML = "Please enter valid Instance Name";
         }
-
-
+    }
+</script>
+<script type="text/javascript">
+    $(function () {
+        var msg = '@ViewBag.Message';
+        if (msg == 'True')
+        {
+        alert("Enter the Details");
+        }
+    });
+</script>
 
         @*<div class="form-group">
             @Html.LabelFor(model => model.isActive, htmlAttributes: new { @class = "control-label col-md-2" })

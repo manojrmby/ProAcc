@@ -53,19 +53,31 @@ namespace ProAcc.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,InstaceName,CustProjconfigID,LastUpdated_Dt,isActive,Cre_on,Cre_By,Modified_On,Modified_by,IsDeleted")] ProjectInstanceConfig projectInstanceConfig)
+        public ActionResult Create(ProjectInstanceConfig projectInstanceConfig)
         {
             if (ModelState.IsValid)
             {
-                projectInstanceConfig.Id = Guid.NewGuid();
-                projectInstanceConfig.LastUpdated_Dt = DateTime.Now.Date;
-                projectInstanceConfig.Cre_on = DateTime.Now.Date;
-                db.ProjectInstanceConfigs.Add(projectInstanceConfig);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (projectInstanceConfig.InstaceName != null)
+                {
+                    projectInstanceConfig.Id = Guid.NewGuid();
+                    projectInstanceConfig.LastUpdated_Dt = DateTime.Now;
+                    projectInstanceConfig.Cre_on = DateTime.Now;
+                    projectInstanceConfig.isActive = true;
+                    db.ProjectInstanceConfigs.Add(projectInstanceConfig);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    var valid = db.CustomerProjectConfigs.Where(x => x.isActive == true).ToList();
+                    ViewBag.CustProjconfigID = new SelectList(valid, "Id", "ProjectName", projectInstanceConfig.CustProjconfigID);
+                    ViewBag.Message = true;
+                    return View();
+                }
             }
 
-            ViewBag.CustProjconfigID = new SelectList(db.CustomerProjectConfigs, "Id", "ProjectName", projectInstanceConfig.CustProjconfigID);
+            var val = db.CustomerProjectConfigs.Where(x => x.isActive == true).ToList();
+            ViewBag.CustProjconfigID = new SelectList(val, "Id", "ProjectName", projectInstanceConfig.CustProjconfigID);
             return View(projectInstanceConfig);
         }
 
@@ -91,15 +103,17 @@ namespace ProAcc.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,InstaceName,CustProjconfigID,LastUpdated_Dt,isActive,Cre_on,Cre_By,Modified_On,Modified_by,IsDeleted")] ProjectInstanceConfig projectInstanceConfig)
+        public ActionResult Edit(ProjectInstanceConfig projectInstanceConfig)
         {
             if (ModelState.IsValid)
             {
+                projectInstanceConfig.Modified_On = DateTime.Now;
                 db.Entry(projectInstanceConfig).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.CustProjconfigID = new SelectList(db.CustomerProjectConfigs, "Id", "ProjectName", projectInstanceConfig.CustProjconfigID);
+            var val = db.CustomerProjectConfigs.Where(a => a.isActive == true);
+            ViewBag.CustProjconfigID = new SelectList(val, "Id", "ProjectName", projectInstanceConfig.CustProjconfigID);
             return View(projectInstanceConfig);
         }
 

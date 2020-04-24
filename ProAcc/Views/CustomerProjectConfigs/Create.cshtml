@@ -19,8 +19,9 @@
         <div class="form-group">
             @Html.LabelFor(model => model.ProjectName,"Project Name", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.ProjectName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.ProjectName, new { htmlAttributes = new { @id = "txtProjName", @class = "form-control", @onchange = "ValidateProjName()" } })
                 @Html.ValidationMessageFor(model => model.ProjectName, "", new { @class = "text-danger" })
+                <span id="lblProjName" style="color:red"></span>
             </div>
         </div>
 
@@ -113,5 +114,26 @@
 <div style="float:right;">
     @Html.ActionLink("Back to List", "Index")
 </div>
+<script>
+    function ValidateProjName()
+      {
+          debugger;
+          var Projname = document.getElementById("txtProjName").value;
+          var lblProjName = document.getElementById("lblProjName");
+          lblProjName.innerHTML = "";
+          var letters = /^[A-Za-z]+$/;
+          if (!letters.test(Projname)) {
+            lblProjName.innerHTML = "Please enter valid Project Name";
+          }
+      }
+</script>
 
-
+<script type="text/javascript">
+    $(function () {
+        var msg = '@ViewBag.Message';
+        if (msg == 'True')
+        {
+        alert("Enter the Details");
+        }
+    });
+</script>
