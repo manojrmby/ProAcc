@@ -88,6 +88,46 @@
         }
     </style>
     @*<link href="~/Asset/css/style.css" rel="stylesheet" />*@
+
+    <style>
+       /*FOR TABLE*/
+	.outer{
+    overflow-y: auto;
+    height:500px;
+    }
+
+.outer table{
+    width: 100%;
+    table-layout: fixed; 
+    border : 1px solid black;
+    border-spacing: 1px;
+}
+
+.outer table th {
+        text-align: left;
+        top:0;
+        position: sticky;
+        background-color: white;  
+}
+
+	tableFixHead          { overflow-y: auto; height: 100px; }
+.tableFixHead thead th { position: sticky; top: 0; }
+
+/* Just common table stuff. Really. */
+table  { border-collapse: collapse; width: 100%; }
+th, td { padding: 8px 16px; }
+th     { background:#eee; }
+
+/* Borders (if you need them) */
+.tableFixHead,
+.tableFixHead td {
+  box-shadow: inset 1px -1px #000;
+}
+.tableFixHead th {
+  box-shadow: inset 1px 1px #000, 0 1px #000;
+}
+
+    </style>
 </head>
 <body>
     <div id="load"><img class="Load_img my-auto" src="~/Asset/images/loading.gif"></div>
@@ -303,6 +343,11 @@
                                                 <li>
                                                     <a href="@Url.Action("SimplificationReport", "Assessment")">
                                                         <i class="metismenu-icon"> </i>Simplification Report
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="@Url.Action("ActivitieReport", "Assessment")">
+                                                        <i class="metismenu-icon"> </i>Activities Report
                                                     </a>
                                                 </li>
                                                 <li>

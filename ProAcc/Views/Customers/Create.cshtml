@@ -32,14 +32,14 @@
                         <span id="lblName" style="color:red"></span>
                     </div>
                 </div>
-                <div class="position-relative form-group">
+                @*<div class="position-relative form-group">
                     @Html.LabelFor(model => model.Company, htmlAttributes: new { @class = "control-label col-md-5" })
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.Company, new { htmlAttributes = new { @id = "txtComp", @class = "form-control", @onchange = "ValidateComp()" } })
                         @Html.ValidationMessageFor(model => model.Company, "", new { @class = "text-danger" })
                         <span id="lblComp" style="color:red"></span>
                     </div>
-                </div>
+                </div>*@
                 <div class="position-relative form-group">
                     @Html.LabelFor(model => model.Work_Function, "Work Function", htmlAttributes: new { @class = "control-label col-md-5" })
                     <div class="col-md-10">
@@ -117,21 +117,21 @@
                     </div>
                 </div>
 
-                <div class="position-relative form-group">
+                @*<div class="position-relative form-group">
                     <label id="lblNextcontact" class="control-label col-md-5">Next Contact Date</label>
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.NextContact_Dt, "Next Contact Date", new { htmlAttributes = new { @class = "form-control", @type = "date" } })
                         @Html.ValidationMessageFor(model => model.NextContact_Dt, "", new { @class = "text-danger" })
                     </div>
-                </div>
+                </div>*@
 
-                <div class="position-relative form-group">
+                @*<div class="position-relative form-group">
                     <label id="lblleadStatus" class="control-label col-md-5">Lead Status</label>
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.LeadStatus, "Lead Status", new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.LeadStatus, "", new { @class = "text-danger" })
                     </div>
-                </div>
+                </div>*@
 
                 <div class="position-relative form-group ">
                     <label id="lblleedSource" class="control-label col-md-5">Lead Source</label>

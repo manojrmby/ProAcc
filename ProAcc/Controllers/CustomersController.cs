@@ -20,7 +20,9 @@ namespace ProAcc.Controllers
         // GET: Customers
         public ActionResult Index(String search, int? i)
         {
-            var customers = db.Customers.Where(a => a.isActive == true).Where(x => x.Name.StartsWith(search) || search == null).ToList().ToPagedList(i ?? 1, 5);
+            var customers = db.Customers
+                .Where(a => a.isActive == true)
+                .Where(x => x.Name.StartsWith(search) || search == null).ToList().ToPagedList(i ?? 1, 5);
             return View(customers);
             //var customers = db.Customers.Include(c => c.User_Master).Include(c => c.Project);
             //return View(customers.ToList());

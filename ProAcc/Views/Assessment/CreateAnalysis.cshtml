@@ -172,9 +172,9 @@
             var n = $( "input:checked" ).length;
             //var chkReadiness =$("#chkReadiness").val();
             //var chkAcknowldge=$("#chkAcknowldge").val();
-           // debugger;
+            //debugger;
             if (ProjectID != "" && InstanceId != "" && InstanceId != 0 && n==2) {
-                debugger;
+               
                 var fileUpload1 = $("#FileUpload1").get(0);
                 var fileUpload2 = $("#FileUpload2").get(0);
 
@@ -186,10 +186,10 @@
 
                 var fileUpload7 = $("#FileUpload7").get(0);
 
-                var Cust_ID = $("select#IDCustomer").val();
+                //var Cust_ID = $("select#IDCustomer").val();
                 var IDProject = $("select#IDProject").val();
-                var InstanceID = $("#InstanceID").val();
-
+                var InstanceID = $("select#IDInstance").val();
+               // debugger;
                 var files = [
                     fileUpload1.files, fileUpload2.files,
                     fileUpload3.files, fileUpload4.files,
@@ -198,7 +198,7 @@
                 ];
 
                 var fileData = new FormData();
-                fileData.append("Cust_ID", Cust_ID);
+                //fileData.append("Cust_ID", Cust_ID);
                 fileData.append("IDProject", IDProject);
                 fileData.append("InstanceID", InstanceID);
 
@@ -217,6 +217,7 @@
                     async: false,
                     success: function (result) {
                         alert(result);
+                        location.reload();
                         //debugger;
                         //if (result != "") {
                         //    //$('#FileBrowse').find("*").prop("disabled", true);
