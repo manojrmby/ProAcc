@@ -123,7 +123,7 @@
           var name = document.getElementById("txtName").value;
           var lblName = document.getElementById("lblName");
           lblName.innerHTML = "";
-          var letters = /^[A-Za-z]+$/;
+          var letters = /^[A-Za-z, ]+$/;
           if (!letters.test(name)) {
             lblName.innerHTML = "Please enter valid Name";
           }
@@ -135,7 +135,7 @@
           var Desc = document.getElementById("txtDesc").value;
           var lblDesc = document.getElementById("lblDesc");
           lblDesc.innerHTML = "";
-          var letters = /^[A-Za-z]+$/;
+          var letters = /^[A-Za-z, ]+$/;
           if (!letters.test(Desc)) {
             lblDesc.innerHTML = "Please enter valid Name";
           }

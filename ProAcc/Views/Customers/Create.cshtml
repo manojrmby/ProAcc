@@ -189,7 +189,7 @@
           var name = document.getElementById("txtName").value;
           var lblName = document.getElementById("lblName");
           lblName.innerHTML = "";
-          var letters = /^[A-Za-z]+$/;
+          var letters = /^[A-Za-z, ]+$/;
           if (!letters.test(name)) {
             lblName.innerHTML = "Please enter valid Name";
           }
@@ -201,7 +201,7 @@
           var Comp = document.getElementById("txtComp").value;
           var lblComp = document.getElementById("lblComp");
           lblComp.innerHTML = "";
-          var letters = /^[A-Za-z]+$/;
+          var letters = /^[A-Za-z, ]+$/;
           if (!letters.test(Comp)) {
             lblComp.innerHTML = "Please enter a valid Company Name";
           }
