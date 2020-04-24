@@ -8,18 +8,23 @@
 <script src="~/Asset/Scripts/chartjs-plugin-labels.min.js"></script>
 
 <div style="padding:1em;">
-    <div class="row">
-        <div class="col-md-12 card">
-            @*<div class="row" style="padding:0em 1em 1em 1em;">
-                    <div class="col-lg-6">
-                        <label>SimplificationReport</label>
-                    </div>
+	<div class="row">
+		<a>SimplificationReport</a>
+		<div class="col-md-6 card" id="Chart123" style="background-color:white!important; min-width:100%;">
+			<div class="row" style="padding:0em 1em 1em 1em;">
+				<div class="col-lg-6">
 
-                </div>*@
-            <canvas id="Chart_Activities"></canvas>
-        </div>
+					@Html.DropDownList("Phase", (IEnumerable<SelectListItem>)ViewBag.Phase, "ALL", new { id = "Phase", @class = "form-control" })
+				</div>
+				<div class="col-lg-6">
 
-    </div>
+
+					@Html.DropDownList("condition", (IEnumerable<SelectListItem>)ViewBag.condition, "ALL", new { id = "condition", @class = "form-control" })
+				</div>
+			</div>
+			<canvas  id="Chart_Activities"></canvas>
+		</div>
+	</div>
     <br />
 
     <div class="row">
@@ -76,11 +81,11 @@
 </div>
 
 <script type="text/javascript" charset="utf-8">
-	function Ajax_Activities_Bar() {
+	function Ajax_Activities_Bar(Phase,condition) {
 		$.ajax({
 			type: "POST",
 			url: '@Url.Action("GetActivitiesReport_Bar")',
-			//data: '{LOB: ' + JSON.stringify(a) + '}',
+			data: '{Phase: ' + JSON.stringify(Phase) + ',condition:'+JSON.stringify(condition)+'}',
 			dataType: "json",
 			contentType: "application/json; charset=utf-8",
             success: function (Data) {
@@ -123,7 +128,11 @@
 		});
 	}
 	function renderBar1Chart(data, labels) {
-
+		$("canvas#Chart_Activities").remove();
+		
+		$("#Chart123").append('<canvas id="Chart_Activities"></canvas>');
+		var ctx = document.getElementById("Chart_Activities").getContext("2d");
+			
 		//Chart.defaults.global.defaultFontFamily = "Verdana";
 		var ctx = document.getElementById("Chart_Activities").getContext("2d");
 
@@ -233,13 +242,30 @@
 
 	jQuery(document).ready(function ($) {
 
+        var Phase = $('#Phase option:selected').text();
+		var condition = $('#condition option:selected').text();
 
-        Ajax_Activities_Bar();
+        Ajax_Activities_Bar(Phase,condition);
+		$("#Phase").change(function () {
 
-		 $('#dtVerticalScrollExample').DataTable({
-            "scrollY": "200px",
-            "scrollCollapse": true,
+		var Phase = $('#Phase option:selected').text();
+		var condition = $('#condition option:selected').text();
+	  
+		 Ajax_Activities_Bar(Phase,condition);
+		
         });
-        $('.dataTables_length').addClass('bs-select');
+		$("#condition").change(function () {
+
+		var Phase = $('#Phase option:selected').text();
+		var condition = $('#condition option:selected').text();
+	  
+		 Ajax_Activities_Bar(Phase,condition);
+		
+	   });
+		 //$('#dtVerticalScrollExample').DataTable({
+   //         "scrollY": "200px",
+   //         "scrollCollapse": true,
+   //     });
+   //     $('.dataTables_length').addClass('bs-select');
 	});
 </script>

@@ -398,14 +398,64 @@ namespace ProAcc.BL
         }
 
         //Activities Report
-        public GeneralList sP_GetActivitiesReport_Bar()
+
+
+        public Tuple<List<Lis>, List<Lis>> sp_GetActivitiesReportDropdown()
         {
-            GeneralList sP_ = new GeneralList();
+            List<Lis> list1 = new List<Lis>();
+            List<Lis> list2 = new List<Lis>();
+            DataSet ds = new DataSet();
+            DBHelper dB = new DBHelper("SP_ActivitiesReport", CommandType.StoredProcedure);
+            dB.addIn("@Type", "GetDropdown");
+            dB.addIn("@InstanceId", InstanceId);
+            ds = dB.ExecuteDataSet();
+            if (ds.Tables.Count > 0)
+            {
+                if (ds.Tables[0].Rows.Count > 0)
+                {
+                    DataTable dt = new DataTable();
+                    dt = ds.Tables[0];
+                    int count = 0;
+                    foreach (DataRow dr in dt.Rows)
+                    {
+                        list1.Add(new Lis
+                        {
+                            Name = dr["Phase"].ToString(),
+                            _Value = count
+                        });
+                        count = count++;
+                    }
+                }
+                if (ds.Tables[1].Rows.Count > 0)
+                {
+                    DataTable dt = new DataTable();
+                    dt = ds.Tables[1];
+                    int count = 0;
+                    foreach (DataRow dr in dt.Rows)
+                    {
+                        list2.Add(new Lis
+                        {
+
+                            Name = dr["Condition"].ToString(),
+                            _Value = count
+                        });
+                        count = count++;
+                    }
+                }
+            }
+
+                return Tuple.Create(list1, list2);
+        }
+        public GeneralList sP_GetActivitiesReport_Bar(string Phase, string condition)
+        {
+            GeneralList sP_ = new GeneralList();//manoj
             DataTable dt = new DataTable();
             DBHelper dB = new DBHelper("SP_ActivitiesReport", CommandType.StoredProcedure);
 
             dB.addIn("@Type", "ALL");
             dB.addIn("@InstanceId", InstanceId);
+            dB.addIn("@Phase", Phase);
+            dB.addIn("@condition", condition);
             dt = dB.ExecuteDataTable();
             if (dt.Rows.Count > 0)
             {

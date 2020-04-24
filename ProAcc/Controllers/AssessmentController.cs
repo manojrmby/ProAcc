@@ -117,15 +117,17 @@ namespace ProAcc.Controllers
         //Start  Readiness
         public ActionResult ActivitieReport()
         {
-            //GeneralList sP_ = _Base.sP_SimplificationReport();
-            //ViewBag.LOB = new SelectList(sP_._List, "_Value", "Name");
+            Tuple<List<Lis>, List<Lis>> sP_ = _Base.sp_GetActivitiesReportDropdown();
+
+            ViewBag.Condition = new SelectList(sP_.Item2, "Value", "Name");
+            ViewBag.Phase = new SelectList(sP_.Item1, "Value", "Name");
             List<BL.Model.SAPInput_Activities> AR = _Base.GetActivitiesReport_Table();
             ViewBag.ARReport = AR;
             return View();
         }
-        public JsonResult GetActivitiesReport_Bar()
+        public JsonResult GetActivitiesReport_Bar(string Phase, string condition)
         {
-            GeneralList sP_ = _Base.sP_GetActivitiesReport_Bar();
+            GeneralList sP_ = _Base.sP_GetActivitiesReport_Bar(Phase, condition);
             return Json(sP_, JsonRequestBehavior.AllowGet);
         }
         public ActionResult Test()
