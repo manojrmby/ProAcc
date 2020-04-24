@@ -14,13 +14,14 @@ namespace ProAcc.BL
     {
 
 
-        //Graph
+        //Graph ReadinessReport
         public SP_ReadinessReport_Result sAPInput()
         {
             SP_ReadinessReport_Result GetRelevant = new SP_ReadinessReport_Result();
             DataTable dt = new DataTable();
             DBHelper dB = new DBHelper("SP_ReadinessReport", CommandType.StoredProcedure);
             dB.addIn("@Type", "Simple_Donut");
+            dB.addIn("@InstanceId", InstanceId);
             dt = dB.ExecuteDataTable();
             if (dt.Rows.Count == 1)
             {
@@ -31,61 +32,6 @@ namespace ProAcc.BL
             }
             return GetRelevant;
         }
-        public GeneralList sP_SimplificationReport()
-        {
-            GeneralList sP_ = new GeneralList();
-            DataTable dt = new DataTable();
-            DBHelper dB = new DBHelper("SP_SimplificationReport", CommandType.StoredProcedure);
-            dB.addIn("@Type", "GetDropdown");
-            dt = dB.ExecuteDataTable();
-            List<Lis> _Lob = new List<Lis>();
-
-            int count = 0;
-            foreach (DataRow dr in dt.Rows)
-            {
-                _Lob.Add(new Lis { Name = dr["LOB"].ToString(), _Value = count });
-                count = count++;
-            }
-
-            sP_._List = _Lob;
-            return sP_;
-        }
-        public GeneralList sP_SimplificationReport_Bar(String Input)
-        {
-            GeneralList sP_ = new GeneralList();
-            DataTable dt = new DataTable();
-            DBHelper dB = new DBHelper("SP_SimplificationReport", CommandType.StoredProcedure);
-            if (Input == "ALL")
-            {
-                dB.addIn("@Type", "ALL");
-            }
-            else
-            {
-                dB.addIn("@Type", "Single");
-                dB.addIn("@Input", Input);
-            }
-            dt = dB.ExecuteDataTable();
-            if (dt.Rows.Count > 0)
-            {
-                List<Lis> _Lob = new List<Lis>();
-                foreach (DataRow dr in dt.Rows)
-                {
-                    _Lob.Add(
-                        new Lis
-                        {
-                            Name = dr["LOB_NAME"].ToString(),
-                            _Value = Convert.ToInt32(dr["_Count"].ToString()
-                            )
-                        });
-
-                }
-
-                sP_._List = _Lob;
-
-
-            }
-            return sP_;
-        }
 
         public GeneralList sP_GetActivities_Bar1()
         {
@@ -94,6 +40,7 @@ namespace ProAcc.BL
             DBHelper dB = new DBHelper("SP_ReadinessReport", CommandType.StoredProcedure);
 
             dB.addIn("@Type", "Activities_Bar1");
+            dB.addIn("@InstanceId", InstanceId);
             dt = dB.ExecuteDataTable();
             if (dt.Rows.Count > 0)
             {
@@ -123,6 +70,7 @@ namespace ProAcc.BL
             DBHelper dB = new DBHelper("SP_ReadinessReport", CommandType.StoredProcedure);
 
             dB.addIn("@Type", "Activities_Bar2");
+            dB.addIn("@InstanceId", InstanceId);
             dt = dB.ExecuteDataTable();
             if (dt.Rows.Count > 0)
             {
@@ -152,6 +100,7 @@ namespace ProAcc.BL
             DBHelper dB = new DBHelper("SP_ReadinessReport", CommandType.StoredProcedure);
 
             dB.addIn("@Type", "Activities_Donut");
+            dB.addIn("@InstanceId", InstanceId);
             dt = dB.ExecuteDataTable();
             if (dt.Rows.Count > 0)
             {
@@ -182,6 +131,7 @@ namespace ProAcc.BL
             DBHelper dB = new DBHelper("SP_ReadinessReport", CommandType.StoredProcedure);
 
             dB.addIn("@Type", "Fiori_Bar");
+            dB.addIn("@InstanceId", InstanceId);
             dt = dB.ExecuteDataTable();
             if (dt.Rows.Count > 0)
             {
@@ -211,6 +161,7 @@ namespace ProAcc.BL
             DBHelper dB = new DBHelper("SP_ReadinessReport", CommandType.StoredProcedure);
 
             dB.addIn("@Type", "CustomCode_Bar");
+            dB.addIn("@InstanceId", InstanceId);
             dt = dB.ExecuteDataTable();
             if (dt.Rows.Count > 0)
             {
@@ -233,12 +184,75 @@ namespace ProAcc.BL
             }
             return sP_;
         }
+
+        //SimplificationReport
+        public GeneralList sP_SimplificationReport()
+        {
+            GeneralList sP_ = new GeneralList();
+            DataTable dt = new DataTable();
+            DBHelper dB = new DBHelper("SP_SimplificationReport", CommandType.StoredProcedure);
+            dB.addIn("@Type", "GetDropdown");
+            dB.addIn("@InstanceId", InstanceId);
+            dt = dB.ExecuteDataTable();
+            List<Lis> _Lob = new List<Lis>();
+
+            int count = 0;
+            foreach (DataRow dr in dt.Rows)
+            {
+                _Lob.Add(new Lis { Name = dr["LOB"].ToString(), _Value = count });
+                count = count++;
+            }
+
+            sP_._List = _Lob;
+            return sP_;
+        }
+        public GeneralList sP_SimplificationReport_Bar(String Input)
+        {
+            GeneralList sP_ = new GeneralList();
+            DataTable dt = new DataTable();
+            DBHelper dB = new DBHelper("SP_SimplificationReport", CommandType.StoredProcedure);
+            if (Input == "ALL")
+            {
+                dB.addIn("@Type", "ALL");
+                dB.addIn("@InstanceId", InstanceId);
+            }
+            else
+            {
+                dB.addIn("@Type", "Single");
+                dB.addIn("@Input", Input);
+                dB.addIn("@InstanceId", InstanceId);
+            }
+            dt = dB.ExecuteDataTable();
+            if (dt.Rows.Count > 0)
+            {
+                List<Lis> _Lob = new List<Lis>();
+                foreach (DataRow dr in dt.Rows)
+                {
+                    _Lob.Add(
+                        new Lis
+                        {
+                            Name = dr["LOB_NAME"].ToString(),
+                            _Value = Convert.ToInt32(dr["_Count"].ToString()
+                            )
+                        });
+
+                }
+
+                sP_._List = _Lob;
+
+
+            }
+            return sP_;
+        }
+
+
         public List<SAPInput_SimplificationReport> SAPInput_Simplification()
         {
             List<SAPInput_SimplificationReport> SR = new List<SAPInput_SimplificationReport>();
             DataTable dt = new DataTable();
             DBHelper dB = new DBHelper("SP_SimplificationReport", CommandType.StoredProcedure);
             dB.addIn("@Type", "SR_Table");
+            dB.addIn("@InstanceId", InstanceId);
             dt = dB.ExecuteDataTable();
             //  List<DataRow> list = new List<DataRow>(dt.Select());
             int i = 0;
@@ -270,6 +284,7 @@ namespace ProAcc.BL
             DataTable dt = new DataTable();
             DBHelper dB = new DBHelper("SP_CustomCode", CommandType.StoredProcedure);
             dB.addIn("@Type", "CustomTable");
+            dB.addIn("@InstanceId", InstanceId);
             dt = dB.ExecuteDataTable();
             //  List<DataRow> list = new List<DataRow>(dt.Select());
             int i = 0;
@@ -580,11 +595,6 @@ namespace ProAcc.BL
             return user;
 
         }
-
-        public Guid userID = Guid.Empty;
-        public string User_Name = "";
-        public string User_Type = "";
-
 
 
     }

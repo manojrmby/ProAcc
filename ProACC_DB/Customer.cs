@@ -25,17 +25,18 @@ namespace ProACC_DB
         public string Password { get; set; }
         public int UserTypeID { get; set; }
         public string Name { get; set; }
-        public string Company { get; set; }
         public string Work_Function { get; set; }
         public string Phone { get; set; }
+        public string AlternatePhone { get; set; }
         public string Email { get; set; }
+        public string AlternateEmail { get; set; }
         public Nullable<decimal> EstimatedSale { get; set; }
         public Nullable<System.DateTime> LastContact_Dt { get; set; }
         public Nullable<System.DateTime> NextAction_Dt { get; set; }
-        public Nullable<System.DateTime> NextContact_Dt { get; set; }
-        public string LeadStatus { get; set; }
         public string LeadSource { get; set; }
+        public Nullable<int> LeadStatus { get; set; }
         public string Conv_Cust_Status { get; set; }
+        public string Comments { get; set; }
         public bool isActive { get; set; }
         public System.DateTime Cre_on { get; set; }
         public System.Guid Cre_By { get; set; }
@@ -43,9 +44,10 @@ namespace ProACC_DB
         public Nullable<System.Guid> Modified_by { get; set; }
         public bool IsDeleted { get; set; }
     
-        public virtual User_Master User_Master { get; set; }
-        public virtual Project Project { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CustomerProjectConfig> CustomerProjectConfigs { get; set; }
+        public virtual leadStatus_Master leadStatus_Master { get; set; }
+        public virtual User_Master User_Master { get; set; }
+        public virtual Project Project { get; set; }
     }
 }

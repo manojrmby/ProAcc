@@ -28,7 +28,6 @@ namespace ProACC_DB
         }
     
         public virtual DbSet<Consultant> Consultants { get; set; }
-        public virtual DbSet<Customer> Customers { get; set; }
         public virtual DbSet<Milestone> Milestones { get; set; }
         public virtual DbSet<MilestoneDetail> MilestoneDetails { get; set; }
         public virtual DbSet<Project> Projects { get; set; }
@@ -41,17 +40,24 @@ namespace ProACC_DB
         public virtual DbSet<ProjectInstanceConfig> ProjectInstanceConfigs { get; set; }
         public virtual DbSet<FileUploadMaster> FileUploadMasters { get; set; }
         public virtual DbSet<SAPInput_Activities> SAPInput_Activities { get; set; }
+        public virtual DbSet<FileMaster> FileMasters { get; set; }
+        public virtual DbSet<Customer> Customers { get; set; }
+        public virtual DbSet<leadStatus_Master> leadStatus_Master { get; set; }
     
-        public virtual ObjectResult<SP_ReadinessReport_Result> SP_ReadinessReport(string type)
+        public virtual ObjectResult<SP_ReadinessReport_Result> SP_ReadinessReport(string type, string instanceId)
         {
             var typeParameter = type != null ?
                 new ObjectParameter("Type", type) :
                 new ObjectParameter("Type", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_ReadinessReport_Result>("SP_ReadinessReport", typeParameter);
+            var instanceIdParameter = instanceId != null ?
+                new ObjectParameter("InstanceId", instanceId) :
+                new ObjectParameter("InstanceId", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_ReadinessReport_Result>("SP_ReadinessReport", typeParameter, instanceIdParameter);
         }
     
-        public virtual ObjectResult<string> SP_SimplificationReport(string type, string input)
+        public virtual ObjectResult<string> SP_SimplificationReport(string type, string input, string instanceId)
         {
             var typeParameter = type != null ?
                 new ObjectParameter("Type", type) :
@@ -61,16 +67,24 @@ namespace ProACC_DB
                 new ObjectParameter("Input", input) :
                 new ObjectParameter("Input", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("SP_SimplificationReport", typeParameter, inputParameter);
+            var instanceIdParameter = instanceId != null ?
+                new ObjectParameter("InstanceId", instanceId) :
+                new ObjectParameter("InstanceId", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("SP_SimplificationReport", typeParameter, inputParameter, instanceIdParameter);
         }
     
-        public virtual ObjectResult<SP_CustomCode_Result> SP_CustomCode(string type)
+        public virtual ObjectResult<SP_CustomCode_Result> SP_CustomCode(string type, string instanceId)
         {
             var typeParameter = type != null ?
                 new ObjectParameter("Type", type) :
                 new ObjectParameter("Type", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_CustomCode_Result>("SP_CustomCode", typeParameter);
+            var instanceIdParameter = instanceId != null ?
+                new ObjectParameter("InstanceId", instanceId) :
+                new ObjectParameter("InstanceId", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_CustomCode_Result>("SP_CustomCode", typeParameter, instanceIdParameter);
         }
     
         public virtual ObjectResult<SP_CreateAnalysis_Result> SP_CreateAnalysis(string type)

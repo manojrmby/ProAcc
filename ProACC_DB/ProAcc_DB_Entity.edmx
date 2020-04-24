@@ -33,17 +33,18 @@
           <Property Name="Password" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="UserTypeID" Type="int" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Company" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Work_Function" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Phone" Type="nvarchar" MaxLength="10" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="20" />
+          <Property Name="AlternatePhone" Type="nvarchar" MaxLength="20" />
           <Property Name="Email" Type="nvarchar" MaxLength="50" />
+          <Property Name="AlternateEmail" Type="nvarchar" MaxLength="50" />
           <Property Name="EstimatedSale" Type="money" />
           <Property Name="LastContact_Dt" Type="datetime" />
           <Property Name="NextAction_Dt" Type="datetime" />
-          <Property Name="NextContact_Dt" Type="datetime" />
-          <Property Name="LeadStatus" Type="nvarchar" MaxLength="50" />
           <Property Name="LeadSource" Type="nvarchar" MaxLength="50" />
+          <Property Name="LeadStatus" Type="int" />
           <Property Name="Conv_Cust_Status" Type="nvarchar" MaxLength="50" />
+          <Property Name="Comments" Type="nvarchar" MaxLength="250" />
           <Property Name="isActive" Type="bit" Nullable="false" />
           <Property Name="Cre_on" Type="datetime" Nullable="false" />
           <Property Name="Cre_By" Type="uniqueidentifier" Nullable="false" />
@@ -67,6 +68,19 @@
           <Property Name="Modified_by" Type="uniqueidentifier" />
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="FileMaster">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="File" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="isActive" Type="bit" Nullable="false" />
+          <Property Name="Cre_on" Type="datetime" Nullable="false" />
+          <Property Name="Cre_By" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Modified_On" Type="datetime" />
+          <Property Name="Modified_by" Type="uniqueidentifier" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="FileUploadMaster">
           <Key>
             <PropertyRef Name="Id" />
@@ -75,6 +89,7 @@
           <Property Name="InstanceID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="File_Type" Type="nvarchar" MaxLength="50" />
           <Property Name="_FileName" Type="nvarchar" MaxLength="50" />
+          <Property Name="FileType" Type="int" Nullable="false" />
           <Property Name="isActive" Type="bit" Nullable="false" />
           <Property Name="Cre_on" Type="datetime" Nullable="false" />
           <Property Name="Cre_By" Type="uniqueidentifier" Nullable="false" />
@@ -89,6 +104,19 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="HanaStatus" Type="varchar" MaxLength="50" />
           <Property Name="IsActive" Type="bit" />
+        </EntityType>
+        <EntityType Name="leadStatus_Master">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StatusName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="isActive" Type="bit" Nullable="false" />
+          <Property Name="Cre_on" Type="datetime" Nullable="false" />
+          <Property Name="Cre_By" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Modified_On" Type="datetime" />
+          <Property Name="Modified_by" Type="uniqueidentifier" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Milestone">
           <Key>
@@ -184,15 +212,6 @@ warning 6002: The table/view 'ProAccDev.dbo.SAPInput_Activities' does not have a
           <Property Name="Additional Information" Type="nvarchar(max)" />
           <Property Name="Inserted_on" Type="datetime" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6013: The table/view 'ProAccDev.dbo.SAPInput_CustomCode' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="SAPInput_CustomCode">
-          <Property Name="FileUploadID" Type="uniqueidentifier" />
-          <Property Name="Custom Code Topic" Type="nvarchar(max)" />
-          <Property Name="Status" Type="nvarchar(max)" />
-          <Property Name="Application Component" Type="nvarchar(max)" />
-          <Property Name="Custom Code Note" Type="nvarchar(max)" />
-        </EntityType>-->
         <EntityType Name="StageStatus">
           <Key>
             <PropertyRef Name="ID" />
@@ -268,6 +287,18 @@ warning 6013: The table/view 'ProAccDev.dbo.SAPInput_CustomCode' does not have a
             </Principal>
             <Dependent Role="CustomerProjectConfig">
               <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Customer_leadStatus_Master">
+          <End Role="leadStatus_Master" Type="Self.leadStatus_Master" Multiplicity="0..1" />
+          <End Role="Customer" Type="Self.Customer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="leadStatus_Master">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Customer">
+              <PropertyRef Name="LeadStatus" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -396,20 +427,25 @@ warning 6013: The table/view 'ProAccDev.dbo.SAPInput_CustomCode' does not have a
         </Function>
         <Function Name="SP_CustomCode" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Type" Type="varchar" Mode="In" />
+          <Parameter Name="InstanceId" Type="varchar" Mode="In" />
         </Function>
         <Function Name="SP_ReadinessReport" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Type" Type="varchar" Mode="In" />
+          <Parameter Name="InstanceId" Type="varchar" Mode="In" />
         </Function>
         <Function Name="SP_SimplificationReport" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Type" Type="varchar" Mode="In" />
           <Parameter Name="Input" Type="varchar" Mode="In" />
+          <Parameter Name="InstanceId" Type="varchar" Mode="In" />
         </Function>
         <EntityContainer Name="ProAccModelStoreContainer">
           <EntitySet Name="Consultant" EntityType="Self.Consultant" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CustomerProjectConfig" EntityType="Self.CustomerProjectConfig" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FileMaster" EntityType="Self.FileMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FileUploadMaster" EntityType="Self.FileUploadMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HanaStatus" EntityType="Self.HanaStatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="leadStatus_Master" EntityType="Self.leadStatus_Master" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Milestone" EntityType="Self.Milestone" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MilestoneDetails" EntityType="Self.MilestoneDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Project" EntityType="Self.Project" Schema="dbo" store:Type="Tables" />
@@ -440,6 +476,10 @@ warning 6013: The table/view 'ProAccDev.dbo.SAPInput_CustomCode' does not have a
           <AssociationSet Name="FK_Customer_CustomerProjectConfig" Association="Self.FK_Customer_CustomerProjectConfig">
             <End Role="Customer" EntitySet="Customer" />
             <End Role="CustomerProjectConfig" EntitySet="CustomerProjectConfig" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Customer_leadStatus_Master" Association="Self.FK_Customer_leadStatus_Master">
+            <End Role="leadStatus_Master" EntitySet="leadStatus_Master" />
+            <End Role="Customer" EntitySet="Customer" />
           </AssociationSet>
           <AssociationSet Name="FK_Customer_User_Master" Association="Self.FK_Customer_User_Master">
             <End Role="User_Master" EntitySet="User_Master" />
@@ -488,17 +528,19 @@ warning 6013: The table/view 'ProAccDev.dbo.SAPInput_CustomCode' does not have a
       <Schema Namespace="ProAccModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="ProAccEntities" annotation:LazyLoadingEnabled="true">
           <FunctionImport Name="SP_ReadinessReport" ReturnType="Collection(ProAccModel.SP_ReadinessReport_Result)" >
-          <Parameter Name="Type" Mode="In" Type="String" />
+            <Parameter Name="Type" Mode="In" Type="String" />
+            <Parameter Name="InstanceId" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="SP_SimplificationReport" ReturnType="Collection(String)">
             <Parameter Name="Type" Mode="In" Type="String" />
             <Parameter Name="Input" Mode="In" Type="String" />
+            <Parameter Name="InstanceId" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="SP_CustomCode" ReturnType="Collection(ProAccModel.SP_CustomCode_Result)">
-          <Parameter Name="Type" Mode="In" Type="String" />
+            <Parameter Name="Type" Mode="In" Type="String" />
+            <Parameter Name="InstanceId" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="Consultants" EntityType="ProAccModel.Consultant" />
-          <EntitySet Name="Customers" EntityType="ProAccModel.Customer" />
           <EntitySet Name="Milestones" EntityType="ProAccModel.Milestone" />
           <EntitySet Name="MilestoneDetails" EntityType="ProAccModel.MilestoneDetail" />
           <EntitySet Name="Projects" EntityType="ProAccModel.Project" />
@@ -509,14 +551,6 @@ warning 6013: The table/view 'ProAccDev.dbo.SAPInput_CustomCode' does not have a
           <AssociationSet Name="FK_Consultant_User_Master" Association="ProAccModel.FK_Consultant_User_Master">
             <End Role="User_Master" EntitySet="User_Master" />
             <End Role="Consultant" EntitySet="Consultants" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Customer_User_Master" Association="ProAccModel.FK_Customer_User_Master">
-            <End Role="User_Master" EntitySet="User_Master" />
-            <End Role="Customer" EntitySet="Customers" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Project_Customer" Association="ProAccModel.FK_Project_Customer">
-            <End Role="Customer" EntitySet="Customers" />
-            <End Role="Project" EntitySet="Projects" />
           </AssociationSet>
           <AssociationSet Name="FK_MilestoneDetails_Milestone" Association="ProAccModel.FK_MilestoneDetails_Milestone">
             <End Role="Milestone" EntitySet="Milestones" />
@@ -560,12 +594,27 @@ warning 6013: The table/view 'ProAccDev.dbo.SAPInput_CustomCode' does not have a
             <End Role="Consultant" EntitySet="Consultants" />
             <End Role="CustomerProjectConfig" EntitySet="CustomerProjectConfigs" />
           </AssociationSet>
+          <EntitySet Name="FileUploadMasters" EntityType="ProAccModel.FileUploadMaster" />
+          <EntitySet Name="SAPInput_Activities" EntityType="ProAccModel.SAPInput_Activities" />
+          <EntitySet Name="FileMasters" EntityType="ProAccModel.FileMaster" />
+          <EntitySet Name="Customers" EntityType="ProAccModel.Customer" />
+          <EntitySet Name="leadStatus_Master" EntityType="ProAccModel.leadStatus_Master" />
           <AssociationSet Name="FK_Customer_CustomerProjectConfig" Association="ProAccModel.FK_Customer_CustomerProjectConfig">
             <End Role="Customer" EntitySet="Customers" />
             <End Role="CustomerProjectConfig" EntitySet="CustomerProjectConfigs" />
           </AssociationSet>
-          <EntitySet Name="FileUploadMasters" EntityType="ProAccModel.FileUploadMaster" />
-          <EntitySet Name="SAPInput_Activities" EntityType="ProAccModel.SAPInput_Activities" />
+          <AssociationSet Name="FK_Customer_leadStatus_Master" Association="ProAccModel.FK_Customer_leadStatus_Master">
+            <End Role="leadStatus_Master" EntitySet="leadStatus_Master" />
+            <End Role="Customer" EntitySet="Customers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Customer_User_Master" Association="ProAccModel.FK_Customer_User_Master">
+            <End Role="User_Master" EntitySet="User_Master" />
+            <End Role="Customer" EntitySet="Customers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Project_Customer" Association="ProAccModel.FK_Project_Customer">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="Project" EntitySet="Projects" />
+          </AssociationSet>
         </EntityContainer>
         <ComplexType Name="SP_ReadinessReport_Result">
           <Property Type="Int32" Name="RC" Nullable="true" />
@@ -597,36 +646,6 @@ warning 6013: The table/view 'ProAccDev.dbo.SAPInput_CustomCode' does not have a
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="User_Master" Relationship="ProAccModel.FK_Consultant_User_Master" FromRole="Consultant" ToRole="User_Master" />
           <NavigationProperty Name="CustomerProjectConfigs" Relationship="ProAccModel.FK_COnsultant_CustomerProjectConfig" FromRole="Consultant" ToRole="CustomerProjectConfig" />
-        </EntityType>
-        <EntityType Name="Customer">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Guid" Nullable="false" />
-          <Property Name="UserName" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="Password" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="UserTypeID" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Company" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Work_Function" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Phone" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="EstimatedSale" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="LastContact_Dt" Type="DateTime" Precision="3" />
-          <Property Name="NextAction_Dt" Type="DateTime" Precision="3" />
-          <Property Name="NextContact_Dt" Type="DateTime" Precision="3" />
-          <Property Name="LeadStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="LeadSource" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Conv_Cust_Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="isActive" Type="Boolean" Nullable="false" />
-          <Property Name="Cre_on" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Cre_By" Type="Guid" Nullable="false" />
-          <Property Name="Modified_On" Type="DateTime" Precision="3" />
-          <Property Name="Modified_by" Type="Guid" />
-          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="User_Master" Relationship="ProAccModel.FK_Customer_User_Master" FromRole="Customer" ToRole="User_Master" />
-          <NavigationProperty Name="Project" Relationship="ProAccModel.FK_Project_Customer" FromRole="Customer" ToRole="Project" />
-          <NavigationProperty Name="CustomerProjectConfigs" Relationship="ProAccModel.FK_Customer_CustomerProjectConfig" FromRole="Customer" ToRole="CustomerProjectConfig" />
         </EntityType>
         <EntityType Name="Milestone">
           <Key>
@@ -676,10 +695,10 @@ warning 6013: The table/view 'ProAccDev.dbo.SAPInput_CustomCode' does not have a
           <Property Name="Modified_On" Type="DateTime" Precision="3" />
           <Property Name="Modified_by" Type="Guid" />
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Customer" Relationship="ProAccModel.FK_Project_Customer" FromRole="Project" ToRole="Customer" />
           <NavigationProperty Name="MilestoneDetails" Relationship="ProAccModel.FK_MilestoneDetails_Project" FromRole="Project" ToRole="MilestoneDetail" />
           <NavigationProperty Name="ProjectDetails" Relationship="ProAccModel.FK_ProjectDetails_Project" FromRole="Project" ToRole="ProjectDetail" />
           <NavigationProperty Name="ProjectInstanceConfig" Relationship="ProAccModel.FK_Project_ProjInstanceConfig1" FromRole="Project" ToRole="ProjectInstanceConfig" />
+          <NavigationProperty Name="Customer" Relationship="ProAccModel.FK_Project_Customer" FromRole="Project" ToRole="Customer" />
         </EntityType>
         <EntityType Name="ProjectDetail">
           <Key>
@@ -759,30 +778,6 @@ warning 6013: The table/view 'ProAccDev.dbo.SAPInput_CustomCode' does not have a
             </Principal>
             <Dependent Role="Consultant">
               <PropertyRef Name="UserTypeID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Customer_User_Master">
-          <End Type="ProAccModel.User_Master" Role="User_Master" Multiplicity="1" />
-          <End Type="ProAccModel.Customer" Role="Customer" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User_Master">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Customer">
-              <PropertyRef Name="UserTypeID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Project_Customer">
-          <End Type="ProAccModel.Customer" Role="Customer" Multiplicity="1" />
-          <End Type="ProAccModel.Project" Role="Project" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="Customer">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Project">
-              <PropertyRef Name="Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -943,18 +938,6 @@ warning 6013: The table/view 'ProAccDev.dbo.SAPInput_CustomCode' does not have a
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Customer_CustomerProjectConfig">
-          <End Type="ProAccModel.Customer" Role="Customer" Multiplicity="0..1" />
-          <End Type="ProAccModel.CustomerProjectConfig" Role="CustomerProjectConfig" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Customer">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="CustomerProjectConfig">
-              <PropertyRef Name="CustomerID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="FileUploadMaster">
           <Key>
             <PropertyRef Name="Id" />
@@ -969,6 +952,7 @@ warning 6013: The table/view 'ProAccDev.dbo.SAPInput_CustomCode' does not have a
           <Property Name="Modified_On" Type="DateTime" Precision="3" />
           <Property Name="Modified_by" Type="Guid" />
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <Property Name="FileType" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="SAPInput_Activities">
           <Key>
@@ -983,6 +967,113 @@ warning 6013: The table/view 'ProAccDev.dbo.SAPInput_CustomCode' does not have a
           <Property Name="Additional_Information" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Inserted_on" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
+        <EntityType Name="FileMaster">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="File" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="isActive" Type="Boolean" Nullable="false" />
+          <Property Name="Cre_on" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Cre_By" Type="Guid" Nullable="false" />
+          <Property Name="Modified_On" Type="DateTime" Precision="3" />
+          <Property Name="Modified_by" Type="Guid" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="UserTypeID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Work_Function" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="AlternatePhone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AlternateEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EstimatedSale" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="LastContact_Dt" Type="DateTime" Precision="3" />
+          <Property Name="NextAction_Dt" Type="DateTime" Precision="3" />
+          <Property Name="LeadSource" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LeadStatus" Type="Int32" />
+          <Property Name="Conv_Cust_Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Comments" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="isActive" Type="Boolean" Nullable="false" />
+          <Property Name="Cre_on" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Cre_By" Type="Guid" Nullable="false" />
+          <Property Name="Modified_On" Type="DateTime" Precision="3" />
+          <Property Name="Modified_by" Type="Guid" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="CustomerProjectConfigs" Relationship="ProAccModel.FK_Customer_CustomerProjectConfig" FromRole="Customer" ToRole="CustomerProjectConfig" />
+          <NavigationProperty Name="leadStatus_Master" Relationship="ProAccModel.FK_Customer_leadStatus_Master" FromRole="Customer" ToRole="leadStatus_Master" />
+          <NavigationProperty Name="User_Master" Relationship="ProAccModel.FK_Customer_User_Master" FromRole="Customer" ToRole="User_Master" />
+          <NavigationProperty Name="Project" Relationship="ProAccModel.FK_Project_Customer" FromRole="Customer" ToRole="Project" />
+        </EntityType>
+        <EntityType Name="leadStatus_Master">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StatusName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="isActive" Type="Boolean" Nullable="false" />
+          <Property Name="Cre_on" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Cre_By" Type="Guid" Nullable="false" />
+          <Property Name="Modified_On" Type="DateTime" Precision="3" />
+          <Property Name="Modified_by" Type="Guid" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Customers" Relationship="ProAccModel.FK_Customer_leadStatus_Master" FromRole="leadStatus_Master" ToRole="Customer" />
+        </EntityType>
+        <Association Name="FK_Customer_CustomerProjectConfig">
+          <End Type="ProAccModel.Customer" Role="Customer" Multiplicity="0..1" />
+          <End Type="ProAccModel.CustomerProjectConfig" Role="CustomerProjectConfig" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CustomerProjectConfig">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Customer_leadStatus_Master">
+          <End Type="ProAccModel.leadStatus_Master" Role="leadStatus_Master" Multiplicity="0..1" />
+          <End Type="ProAccModel.Customer" Role="Customer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="leadStatus_Master">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Customer">
+              <PropertyRef Name="LeadStatus" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Customer_User_Master">
+          <End Type="ProAccModel.User_Master" Role="User_Master" Multiplicity="1" />
+          <End Type="ProAccModel.Customer" Role="Customer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User_Master">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Customer">
+              <PropertyRef Name="UserTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Project_Customer">
+          <End Type="ProAccModel.Customer" Role="Customer" Multiplicity="1" />
+          <End Type="ProAccModel.Project" Role="Project" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Project">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1020,34 +1111,6 @@ warning 6013: The table/view 'ProAccDev.dbo.SAPInput_CustomCode' does not have a
                 <ScalarProperty Name="EMail" ColumnName="EMail" />
                 <ScalarProperty Name="Phone" ColumnName="Phone" />
                 <ScalarProperty Name="Designation" ColumnName="Designation" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="UserTypeID" ColumnName="UserTypeID" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Customers">
-            <EntityTypeMapping TypeName="ProAccModel.Customer">
-              <MappingFragment StoreEntitySet="Customer">
-                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
-                <ScalarProperty Name="Modified_by" ColumnName="Modified_by" />
-                <ScalarProperty Name="Modified_On" ColumnName="Modified_On" />
-                <ScalarProperty Name="Cre_By" ColumnName="Cre_By" />
-                <ScalarProperty Name="Cre_on" ColumnName="Cre_on" />
-                <ScalarProperty Name="isActive" ColumnName="isActive" />
-                <ScalarProperty Name="Conv_Cust_Status" ColumnName="Conv_Cust_Status" />
-                <ScalarProperty Name="LeadSource" ColumnName="LeadSource" />
-                <ScalarProperty Name="LeadStatus" ColumnName="LeadStatus" />
-                <ScalarProperty Name="NextContact_Dt" ColumnName="NextContact_Dt" />
-                <ScalarProperty Name="NextAction_Dt" ColumnName="NextAction_Dt" />
-                <ScalarProperty Name="LastContact_Dt" ColumnName="LastContact_Dt" />
-                <ScalarProperty Name="EstimatedSale" ColumnName="EstimatedSale" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Phone" ColumnName="Phone" />
-                <ScalarProperty Name="Work_Function" ColumnName="Work_Function" />
-                <ScalarProperty Name="Company" ColumnName="Company" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="UserTypeID" ColumnName="UserTypeID" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
@@ -1223,6 +1286,7 @@ warning 6013: The table/view 'ProAccDev.dbo.SAPInput_CustomCode' does not have a
           <EntitySetMapping Name="FileUploadMasters">
             <EntityTypeMapping TypeName="ProAccModel.FileUploadMaster">
               <MappingFragment StoreEntitySet="FileUploadMaster">
+                <ScalarProperty Name="FileType" ColumnName="FileType" />
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
                 <ScalarProperty Name="Modified_by" ColumnName="Modified_by" />
                 <ScalarProperty Name="Modified_On" ColumnName="Modified_On" />
@@ -1246,6 +1310,63 @@ warning 6013: The table/view 'ProAccDev.dbo.SAPInput_CustomCode' does not have a
                 <ScalarProperty Name="Activities" ColumnName="Activities" />
                 <ScalarProperty Name="Related_Simplification_Items" ColumnName="Related Simplification Items" />
                 <ScalarProperty Name="FileUploadID" ColumnName="FileUploadID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FileMasters">
+            <EntityTypeMapping TypeName="ProAccModel.FileMaster">
+              <MappingFragment StoreEntitySet="FileMaster">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="Modified_by" ColumnName="Modified_by" />
+                <ScalarProperty Name="Modified_On" ColumnName="Modified_On" />
+                <ScalarProperty Name="Cre_By" ColumnName="Cre_By" />
+                <ScalarProperty Name="Cre_on" ColumnName="Cre_on" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+                <ScalarProperty Name="File" ColumnName="File" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Customers">
+            <EntityTypeMapping TypeName="ProAccModel.Customer">
+              <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="Modified_by" ColumnName="Modified_by" />
+                <ScalarProperty Name="Modified_On" ColumnName="Modified_On" />
+                <ScalarProperty Name="Cre_By" ColumnName="Cre_By" />
+                <ScalarProperty Name="Cre_on" ColumnName="Cre_on" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+                <ScalarProperty Name="Comments" ColumnName="Comments" />
+                <ScalarProperty Name="Conv_Cust_Status" ColumnName="Conv_Cust_Status" />
+                <ScalarProperty Name="LeadStatus" ColumnName="LeadStatus" />
+                <ScalarProperty Name="LeadSource" ColumnName="LeadSource" />
+                <ScalarProperty Name="NextAction_Dt" ColumnName="NextAction_Dt" />
+                <ScalarProperty Name="LastContact_Dt" ColumnName="LastContact_Dt" />
+                <ScalarProperty Name="EstimatedSale" ColumnName="EstimatedSale" />
+                <ScalarProperty Name="AlternateEmail" ColumnName="AlternateEmail" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="AlternatePhone" ColumnName="AlternatePhone" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Work_Function" ColumnName="Work_Function" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="UserTypeID" ColumnName="UserTypeID" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="leadStatus_Master">
+            <EntityTypeMapping TypeName="ProAccModel.leadStatus_Master">
+              <MappingFragment StoreEntitySet="leadStatus_Master">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="Modified_by" ColumnName="Modified_by" />
+                <ScalarProperty Name="Modified_On" ColumnName="Modified_On" />
+                <ScalarProperty Name="Cre_By" ColumnName="Cre_By" />
+                <ScalarProperty Name="Cre_on" ColumnName="Cre_on" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+                <ScalarProperty Name="StatusName" ColumnName="StatusName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

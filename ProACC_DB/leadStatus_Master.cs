@@ -12,20 +12,16 @@ namespace ProACC_DB
     using System;
     using System.Collections.Generic;
     
-    public partial class Project
+    public partial class leadStatus_Master
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Project()
+        public leadStatus_Master()
         {
-            this.MilestoneDetails = new HashSet<MilestoneDetail>();
-            this.ProjectDetails = new HashSet<ProjectDetail>();
+            this.Customers = new HashSet<Customer>();
         }
     
-        public System.Guid Id { get; set; }
-        public System.Guid projectinstanceid { get; set; }
-        public System.DateTime Start_Dt { get; set; }
-        public System.DateTime End_Dt { get; set; }
-        public string Accuracy { get; set; }
+        public int Id { get; set; }
+        public string StatusName { get; set; }
         public bool isActive { get; set; }
         public System.DateTime Cre_on { get; set; }
         public System.Guid Cre_By { get; set; }
@@ -34,10 +30,6 @@ namespace ProACC_DB
         public bool IsDeleted { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<MilestoneDetail> MilestoneDetails { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ProjectDetail> ProjectDetails { get; set; }
-        public virtual ProjectInstanceConfig ProjectInstanceConfig { get; set; }
-        public virtual Customer Customer { get; set; }
+        public virtual ICollection<Customer> Customers { get; set; }
     }
 }

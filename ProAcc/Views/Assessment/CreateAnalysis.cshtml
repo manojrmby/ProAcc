@@ -30,33 +30,35 @@
 
 @*<script src="~/Asset/Scripts/utils.js"></script>*@
 
+
 <div style="padding: 1em;">
     @*<ul class="body-tabs body-tabs-layout tabs-animated body-tabs-animated nav">
-        <li class="nav-item" href="@Url.Action("CreateAnalysis", "Assessment")">
-            <a role="tab" class="nav-link active" id="tab-0" data-toggle="tab">
-                <span>Create Analysis</span>
-            </a>
-        </li>
-        <li class="nav-item" href="@Url.Action("ReadinessReport", "Assessment")">
-            <a role="tab" class="nav-link" id="tab-1" data-toggle="tab" >
-                <span>Readiness Report</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a role="tab" class="nav-link" id="tab-2" data-toggle="tab" href="@Url.Action("SimplificationReport", "Assessment")">
-                <span>Compatibility Report</span>
-            </a>
-        </li>
-    </ul>*@
+            <li class="nav-item" href="@Url.Action("CreateAnalysis", "Assessment")">
+                <a role="tab" class="nav-link active" id="tab-0" data-toggle="tab">
+                    <span>Create Analysis</span>
+                </a>
+            </li>
+            <li class="nav-item" href="@Url.Action("ReadinessReport", "Assessment")">
+                <a role="tab" class="nav-link" id="tab-1" data-toggle="tab" >
+                    <span>Readiness Report</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a role="tab" class="nav-link" id="tab-2" data-toggle="tab" href="@Url.Action("SimplificationReport", "Assessment")">
+                    <span>Compatibility Report</span>
+                </a>
+            </li>
+        </ul>*@
+
     <div class="row">
         <div class="card-body col-lg-12 card">
 
             <h5 class="card-title">Create Analysis</h5>
 
             @*<div class="position-relative form-group">
-            <label for="exampleEmail" class="">Customer Name</label>
-            @Html.DropDownList("Customer", (IEnumerable<SelectListItem>)ViewBag.Customer, "- SELECT-", new { id = "IDCustomer", @class = "form-control" })
-        </div>*@
+                    <label for="exampleEmail" class="">Customer Name</label>
+                    @Html.DropDownList("Customer", (IEnumerable<SelectListItem>)ViewBag.Customer, "- SELECT-", new { id = "IDCustomer", @class = "form-control" })
+                </div>*@
             <div class="position-relative form-group">
                 <label for="exampleEmail" class="">Project Name</label>
                 @Html.DropDownList("Project", (IEnumerable<SelectListItem>)ViewBag.Project, "- SELECT-", new { id = "IDProject", @class = "form-control" })
@@ -122,7 +124,7 @@
 
 
             </div>
-           
+
             <br />
             <div class="row">
                 <div class="col-12">
@@ -141,14 +143,14 @@
                             </label>
                         </div>
                         <br />
-                        @*<div class="row">
-                        <div class="col-sm-4">
-                            <div id="progressbar-5">
-                                <div class="progress-label">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div id="progressbar-5">
+                                    <div class="progress-label">
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>*@
                         <div class="text-center">
                             <button class="btn-wide mb-2 mr-2 btn btn-primary" id="btnUpload">
                                 Start Analysis
@@ -205,9 +207,7 @@
                     if (files[i][0] != null)
                         fileData.append(i, files[i][0]);
                 }
-
-
-                @*$.ajax({
+                $.ajax({
                     //url: '<%: Url.Action("Upload")%>?Cust_ID=' + Cust_ID + '&IDProject=' + IDProject+'&InstanceID='+InstanceID,
                     url: '@Url.Action("Upload", "Assessment")',
                     type: "POST",
@@ -216,15 +216,17 @@
                     data: fileData,
                     async: false,
                     success: function (result) {
-                        if (result != "") {
-                            $('#FileBrowse').find("*").prop("disabled", true);
-                            LoadProgressBar(result); //calling LoadProgressBar function to load the progress bar.
-                        }
+                        alert(result);
+                        //debugger;
+                        //if (result != "") {
+                        //    //$('#FileBrowse').find("*").prop("disabled", true);
+                        //    LoadProgressBar(result); //calling LoadProgressBar function to load the progress bar.
+                        //}
                     },
                     error: function (err) {
                         alert(err.statusText);
                     }
-                });*@
+                });
 
             }
             else {
@@ -235,6 +237,43 @@
         });
     });
 </script>
+@*<script type="text/javascript">
+        function LoadProgressBar(result) {
+            debugger;
+            var progressbar = $("#progressbar-5");
+            var progressLabel = $(".progress-label");
+            progressbar.show();
+            $("#progressbar-5").progressbar({
+                //value: false,
+
+                change: function () {
+                    debugger;
+                    progressLabel.text(
+                        progressbar.progressbar("value") + "%");  // Showing the progress increment value in progress bar
+                },
+                complete: function () {
+                    debugger;
+                    progressLabel.text("Loading Completed!");
+                    progressbar.progressbar("value", 0);  //Reinitialize the progress bar value 0
+                    progressLabel.text("");
+                    progressbar.hide(); //Hiding the progress bar
+                    var markup = "<tr><td>" + result + "</td><td><a href='#' onclick='DeleteFile(\"" + result + "\")'><span class='glyphicon glyphicon-remove red'></span></a></td></tr>"; // Binding the file name
+                    $("#ListofFiles tbody").append(markup);
+                    $('#Files').val('');
+                    $('#FileBrowse').find("*").prop("disabled", false);
+                }
+            });
+            function progress() {
+                debugger;
+                var val = progressbar.progressbar("value") || 0;
+                progressbar.progressbar("value", val + 1);
+                if (val < 99) {
+                    setTimeout(progress, 25);
+                }
+            }
+            setTimeout(progress, 100);
+        }
+    </script>*@
 <script>
     jQuery(document).ready(function ($) {
         //$("#IDProject").prop("disabled", true);
@@ -277,28 +316,7 @@
         });
     });
 </script>
-<script type="text/javascript">
-    //$(document).ready(function () {
-    //    $("#departmentList").change(function () {
-    //        var dID = $(this).val();
-    //        $.getJSON("../Home/LoadPhysiansByDepartment", { deptId: dID },
-    //            function (data) {
-    //                var select = $("#physiciansList");
-    //                select.empty();
-    //                select.append($('<option/>', {
-    //                    value: 0,
-    //                    text: "Select a Physian"
-    //                }));
-    //                $.each(data, function (index, itemData) {
-    //                    select.append($('<option/>', {
-    //                        value: itemData.Value,
-    //                        text: itemData.Text
-    //                    }));
-    //                });
-    //            });
-    //    });
-    //});
-</script>
+
 @*<div class="col-lg-6">
         <div class="row" style="padding:0em 1em 1em 1em;">
             <div class="col-lg-6 card text-center">

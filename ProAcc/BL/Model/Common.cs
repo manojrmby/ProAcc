@@ -23,5 +23,10 @@ namespace ProAcc.BL.Model
             public string linkID { get; set; }
             public int _Value { get; set; }
         }
+
+        public static Guid userID;
+        public static string User_Name;
+        public static string User_Type;
+        public static Guid InstanceId;
     }
 }

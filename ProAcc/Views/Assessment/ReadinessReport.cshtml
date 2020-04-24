@@ -24,44 +24,48 @@
 
 			</div>
 		</div>
-		
-		<div class="col-lg-12 ">
-			<a class="card-title">Activities Related Simplification Items</a>
+		<br />
+		<br />
+		<a class="card-title">Activities Related Simplification Items</a>
+		<div class="col-lg-12 card ">
+
 			<div class="row ">
-				<div class="col-lg-6 card">
 
-					<canvas id="Chart_Activities_Bar1"></canvas>
-				</div>
-				<div class="col-lg-6 card">
-
+				<div style="padding-left:175px;" class="col-md-8 ">
 					<canvas id="Chart_Activities_Donut"></canvas>
 				</div>
 				@*<div class="col-lg-4">
-				<label></label>
+					<label></label>
 
-				<canvas id="Chart_Activities_Bar2"></canvas>
-			</div>*@
+					<canvas id="Chart_Activities_Bar2"></canvas>
+				</div>*@
 			</div>
 		</div>
-
+		<br />
+		<br />
 		<div class="col-lg-12">
 
 			<div class="row">
 				<div class="col-lg-6 card">
-					@*<label></label>*@
-					<canvas id="Chart_Activities_Bar2"></canvas>
-
+					<canvas id="Chart_Activities_Bar1"></canvas>
 				</div>
-
 				<div class="col-lg-6 card">
-					<a class="card-title">Recommended SAP Fiori Apps</a>
-					<canvas id="Chart_Fiori_Bar1"></canvas>
+					<canvas id="Chart_Activities_Bar2"></canvas>
 				</div>
-
 			</div>
 		</div>
+		<br />
+		<br />
+		<a class="card-title">Recommended SAP Fiori Apps</a>
+		<div class="col-lg-12 card">
+			<div class="row">
+				<div style="padding-left:200px;" class="col-md-8 ">
+					<canvas id="Chart_Fiori_Bar1"></canvas>
+				</div>
+			
+			</div>
 
-	</div>
+		</div>
 </div>
 <script type="text/javascript">
 
@@ -97,7 +101,7 @@
 	}
 	function renderChart(data, labels) {
 
-		Chart.defaults.global.defaultFontFamily = "Verdana";
+		//Chart.defaults.global.defaultFontFamily = "Verdana";
 		var ctx = document.getElementById("Chart_Relevant").getContext("2d");
 
 		
@@ -211,7 +215,7 @@
 	}
 	function renderBar1Chart(data, labels) {
 
-		Chart.defaults.global.defaultFontFamily = "Verdana";
+		//Chart.defaults.global.defaultFontFamily = "Verdana";
 		var ctx = document.getElementById("Chart_Activities_Bar1").getContext("2d");
 
 		
@@ -257,9 +261,9 @@
 					display: true,
 					text: "Activities (Move to HANA)"
 				},
-				hover: {
-					animationDuration: 0
-                },
+				//hover: {
+				//	animationDuration: 0
+    //            },
 				 plugins: {
                     labels: {
                          render: 'value'
@@ -364,7 +368,7 @@
 	}
 	function renderBar2Chart(data, labels) {
 		var maxval = Math.max.apply(Math, data);
-		Chart.defaults.global.defaultFontFamily = "Verdana";
+		//Chart.defaults.global.defaultFontFamily = "Verdana";
 		var ctx = document.getElementById("Chart_Activities_Bar2").getContext("2d");
 
 		//var gradientStroke_ = ctx.createLinearGradient(500, 0, 100, 0);
@@ -460,23 +464,46 @@
 				//		}));
 				//	}
 				//},
-
-				scales: {
-                    xAxes: [{
-                        display: false,
+				 scales: {
+					xAxes: [{
 						ticks: {
-							display: false //this will remove only the label
-						}
+                            display: false,//this will remove only the label
+							beginAtZero: true
+						},
+                        gridLines: {
+                            display: false,
+                            drawBorder: true,
+                            
+                        }
 					}],
-                    yAxes: [{
-                        display: false,
-                        ticks: {
-                            beginAtZero: true,
-							steps: 10,
-							stepValue: 5,
-							max: maxval +5						}
+					yAxes: [{
+						ticks: {
+                            display: false,//this will remove only the label
+							beginAtZero: true
+						},
+                        gridLines: {
+                            display: false,
+                            drawBorder: false,
+                        }
 					}]
 				}
+
+				//scales: {
+    //                xAxes: [{
+    //                    display: false,
+				//		ticks: {
+				//			display: false //this will remove only the label
+				//		}
+				//	}],
+    //                yAxes: [{
+    //                    display: false,
+    //                    ticks: {
+    //                        beginAtZero: true,
+				//			steps: 10,
+				//			stepValue: 5,
+				//			max: maxval +5						}
+				//	}]
+				//}
 			}
 		};
 		window.myRadialGauge = new Chart(ctx, config);
@@ -671,7 +698,7 @@
 	}
 	function renderFioriBar1Chart(data, labels) {
 
-		Chart.defaults.global.defaultFontFamily = "Verdana";
+		//Chart.defaults.global.defaultFontFamily = "Verdana";
 		var ctx = document.getElementById("Chart_Fiori_Bar1").getContext("2d");
 
 		
@@ -759,22 +786,23 @@
 				scales: {
 					xAxes: [{
 						ticks: {
-							display: false //this will remove only the label
+                            display: false,//this will remove only the label
+							beginAtZero: true
 						},
                         gridLines: {
                             display: false,
-                            drawBorder: false,
-                            beginAtZero: true,
+                            drawBorder: true,
+                            
                         }
 					}],
 					yAxes: [{
 						ticks: {
-							display: false //this will remove only the label
+                            display: false,//this will remove only the label
+							beginAtZero: true
 						},
                         gridLines: {
                             display: false,
                             drawBorder: false,
-                            beginAtZero: true,
                         }
 					}]
 				}
@@ -817,7 +845,7 @@
 	}
 	function renderCustomBarChart(data, labels) {
 
-		Chart.defaults.global.defaultFontFamily = "Verdana";
+		//Chart.defaults.global.defaultFontFamily = "Verdana";
 		var ctx = document.getElementById("Chart_CustomCode").getContext("2d");
 
 		
