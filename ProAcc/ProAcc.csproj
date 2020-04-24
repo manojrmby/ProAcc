@@ -137,6 +137,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Asset\css\bootstrap.min.css" />
+    <Content Include="Asset\css\main.css" />
     <Content Include="Asset\css\Menu.css" />
     <Content Include="Asset\css\main_Login.css" />
     <Content Include="Asset\css\style.css" />
@@ -149,6 +150,7 @@
     <Content Include="Asset\images\1Promantus_logo.png" />
     <Content Include="Asset\images\22.png" />
     <Content Include="Asset\images\3rwerwr.jpg" />
+    <Content Include="Asset\images\appheader.png" />
     <Content Include="Asset\images\icons\favicon.ico" />
     <Content Include="Asset\images\img-01.png" />
     <Content Include="Asset\images\loading.gif" />

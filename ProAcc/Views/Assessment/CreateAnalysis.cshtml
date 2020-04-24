@@ -28,8 +28,18 @@
 <link href="~/Asset/css/Demo.css" rel="stylesheet" />
 
 
-@*<script src="~/Asset/Scripts/utils.js"></script>*@
 
+@*<script src="~/Asset/Scripts/utils.js"></script>*@
+<script>
+    function OnFileuploadChange(Comp) {
+        console.log(Comp);
+        var Onsuccess = Comp.Value;
+        if (Onsuccess != String.empty) {
+            Comp.css("background-color", "#3ac47d");
+        }
+    }
+
+</script>
 
 <div style="padding: 1em;">
     @*<ul class="body-tabs body-tabs-layout tabs-animated body-tabs-animated nav">
@@ -53,28 +63,31 @@
     <div class="row">
         <div class="card-body col-lg-12 card">
 
-            <h5 class="card-title">Create Analysis</h5>
-
-            @*<div class="position-relative form-group">
-                    <label for="exampleEmail" class="">Customer Name</label>
-                    @Html.DropDownList("Customer", (IEnumerable<SelectListItem>)ViewBag.Customer, "- SELECT-", new { id = "IDCustomer", @class = "form-control" })
-                </div>*@
-            <div class="position-relative form-group">
-                <label for="exampleEmail" class="">Project Name</label>
-                @Html.DropDownList("Project", (IEnumerable<SelectListItem>)ViewBag.Project, "- SELECT-", new { id = "IDProject", @class = "form-control" })
-                @*@Html.DropDownList("Project", (IEnumerable<SelectListItem>), "- SELECT-", new { id = "IDProject", @class = "form-control" })*@
-            </div>
-            <div class="position-relative form-group">
-                <label for="exampleEmail" class="">Instance Name</label>
-                @Html.DropDownList("Instance", new SelectList(Enumerable.Empty<SelectListItem>(), "IDInstance", "InstanceName"),
-          "Select a Project", new { id = "IDInstance", @class = "form-control" })
-                @*@Html.DropDownList("Instance", (IEnumerable<SelectListItem>), "- SELECT-", new { id = "IDInstance", @class = "form-control" })*@
-                @*<input name="email" id="InstanceID" placeholder="" class="form-control">*@
-            </div>
-            <br />
-            <br />
-            <div class="row">
-
+            <h2>Create Analysis</h2>
+            <div class="form-row">
+                @*<div class="position-relative form-group">
+                <label for="exampleEmail" class="">Customer Name</label>
+                @Html.DropDownList("Customer", (IEnumerable<SelectListItem>)ViewBag.Customer, "- SELECT-", new { id = "IDCustomer", @class = "form-control" })
+            </div>*@
+                <div class="col-md-6">
+                    <div class="position-relative form-group">
+                        <label for="exampleEmail" class=""><h5>Project Name <strong style="color:red">*</strong></h5></label>
+                        @Html.DropDownList("Project", (IEnumerable<SelectListItem>)ViewBag.Project, "- SELECT-", new { id = "IDProject", @class = "form-control" })
+                        @*@Html.DropDownList("Project", (IEnumerable<SelectListItem>), "- SELECT-", new { id = "IDProject", @class = "form-control" })*@
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="position-relative form-group">
+                        <label for="exampleEmail" class=""><h5>Instance Name <strong style="color:red">*</strong></h5></label>
+                        @Html.DropDownList("Instance", new SelectList(Enumerable.Empty<SelectListItem>(), "IDInstance", "InstanceName"),
+                  "Select a Project", new { id = "IDInstance", @class = "form-control" })
+                        @*@Html.DropDownList("Instance", (IEnumerable<SelectListItem>), "- SELECT-", new { id = "IDInstance", @class = "form-control" })*@
+                        @*<input name="email" id="InstanceID" placeholder="" class="form-control">*@
+                    </div>
+                </div>
+                <br />
+                <br />
+                @*<div class="row">
                 <div class="col-6">
 
                     <div class="position-relative form-group">
@@ -107,7 +120,6 @@
                     </div>
                 </div>
                 <div class="col-6">
-
                     <div class="position-relative form-group">
                         <div class="mb-2 mr-2 badge badge-primary">RecommendedFioriApps</div><br />
                         <input type="file" name="files" id="FileUpload5" />
@@ -123,43 +135,139 @@
                 </div>
 
 
-            </div>
+            </div>*@
+                <div class="row" style="text-align:left !important;margin:auto !important;">
+                    <div class="main-card mb-3 card" >
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="mb-0 table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th> SAP READINESS CHECK FILES</th>
+                                            <th>UPLOAD</th>
+                                        </tr>
+                                    </thead>
+                                    <tr>
+                                        <td>
+                                            1.
+                                        </td>
+                                        <td>
+                                            Activities
+                                        </td>
+                                        <td>
+                                            <input class="mb-2 mr-2 btn btn-info" type="file" name="files" id="FileUpload1" onchange="OnFileuploadChange(this);" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            2.
+                                        </td>
+                                        <td>
+                                            BW Extractors
+                                        </td>
+                                        <td>
+                                            <input type="file" class="mb-2 mr-2 btn btn-info" name="files" id="FileUpload2" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            3.
+                                        </td>
+                                        <td>
+                                            Custom Code Analysis
+                                        </td>
+                                        <td>
+                                            <input type="file" class="mb-2 mr-2 btn btn-info" name="files" id="FileUpload3" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            4.
+                                        </td>
+                                        <td>
+                                            HANA Database Tables
+                                        </td>
+                                        <td>
+                                            <input type="file"  class="mb-2 mr-2 btn btn-info" name="files" id="FileUpload4" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            5.
+                                        </td>
+                                        <td>
+                                            Recommended Fiori Apps
+                                        </td>
+                                        <td>
+                                            <input type="file" class="mb-2 mr-2 btn btn-info" name="files" id="FileUpload5" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            6.
+                                        </td>
+                                        <td>
+                                            Relevant Simplification Items
+                                        </td>
+                                        <td>
+                                            <input type="file" class="mb-2 mr-2 btn btn-info" name="files" id="FileUpload6" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            7.
+                                        </td>
+                                        <td>
+                                            SAP Readiness Check
+                                        </td>
+                                        <td>
+                                            <input type="file" class="mb-2 mr-2 btn btn-info" name="files" id="FileUpload7" />
+                                        </td>
+                                    </tr>
+                                </table>
 
-            <br />
-            <div class="row">
-                <div class="col-12">
-                    <div class="position-relative form-group">
-
-                        <div class="custom-checkbox custom-control text-md-left" style="font-size:15px;">
-                            <input type="checkbox" id="chkReadiness" class="custom-control-input">
-                            <label class="custom-control-label " for="chkReadiness">
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; I have read the SAP Readiness check Disclaimer and SAP readiness check term of use
-                            </label>
-                        </div>
-                        <div class="custom-checkbox custom-control text-md-left" style="font-size:15px;">
-                            <input type="checkbox" id="chkAcknowldge" class="custom-control-input">
-                            <label class="custom-control-label" for="chkAcknowldge">
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; I acknowldge all SAP employees may access and use the SAP Readiness check results for SAP business purposes like support services and marketing
-                            </label>
-                        </div>
-                        <br />
-                        <div class="row">
-                            <div class="col-sm-4">
-                                <div id="progressbar-5">
-                                    <div class="progress-label">
-                                    </div>
-                                </div>
                             </div>
-                        </div>
-                        <div class="text-center">
-                            <button class="btn-wide mb-2 mr-2 btn btn-primary" id="btnUpload">
-                                Start Analysis
-                            </button>
                         </div>
                     </div>
                 </div>
-            </div>
 
+                <br />
+                <div class="row">
+                    <div class="col-12">
+                        <div class="position-relative form-group">
+
+                            <div class="custom-checkbox custom-control text-md-left" style="font-size:15px;">
+                                <input type="checkbox" id="chkReadiness" class="custom-control-input">
+                                <label class="custom-control-label " for="chkReadiness">
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; I have read the SAP Readiness check Disclaimer and SAP readiness check term of use
+                                </label>
+                            </div>
+                            <div class="custom-checkbox custom-control text-md-left" style="font-size:15px;">
+                                <input type="checkbox" id="chkAcknowldge" class="custom-control-input">
+                                <label class="custom-control-label" for="chkAcknowldge">
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; I acknowldge all SAP employees may access and use the SAP Readiness check results for SAP business purposes like support services and marketing
+                                </label>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div id="progressbar-5">
+                                        <div class="progress-label">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <button class="btn-wide mb-2 mr-2 btn btn-primary" id="btnUpload">
+                                    Start Analysis
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
 </div>
@@ -174,7 +282,7 @@
             //var chkAcknowldge=$("#chkAcknowldge").val();
             //debugger;
             if (ProjectID != "" && InstanceId != "" && InstanceId != 0 && n==2) {
-               
+
                 var fileUpload1 = $("#FileUpload1").get(0);
                 var fileUpload2 = $("#FileUpload2").get(0);
 
