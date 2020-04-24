@@ -7,13 +7,13 @@
 <script src="~/Asset/Scripts/Chart.RadialGauge.umd.js"></script>
 <script src="~/Asset/Scripts/chartjs-plugin-labels.min.js"></script>
 @*<style>
-		.app-main__outer {
-			padding-left:290px!important;
+		html {
+			overflow-x:hidden!important;
 		}
 	</style>*@
 <div style="padding:1em;">
 	<div class="row">
-		<div class="col-md-6 card">
+		<div class="col-md-6 card" id="Chart123" style="background-color:white!important; min-width:100%;">
 			<div class="row" style="padding:0em 1em 1em 1em;">
 				<div class="col-lg-6">
 					<a>SimplificationReport</a>
@@ -23,75 +23,76 @@
 					@Html.DropDownList("LOB", (IEnumerable<SelectListItem>)ViewBag.LOB, "ALL", new { id = "IDLob", @class = "form-control" })
 				</div>
 			</div>
-			<canvas id="Chart_Relevant"></canvas>
+			<canvas class="col-md-6" id="Chart_Relevant"></canvas>
 		</div>
 
 	</div>
 	<h4>Show Database value in DataTable</h4>
-	<div class="row">
+	<div class="row" >
 		<div class="col-lg-12 card">
-			<table id="t01" class="table table-bordered table-hover">
-				<thead>
+			@*<table id="t01" class="table table-bordered table-hover tableFixHead outer table-striped" style="width:100% !important;">*@
+			<table class="tableFixHead outer table-striped" style="z-index:999;">
+			<thead>
+				<tr>
+					<th>S.NO</th>
+					<th>Title</th>
+					<th>Category</th>
+					<th>Relevance</th>
+					<th>LoB/Technology</th>
+					<th>Business Area</th>
+					<th>Consistency Status</th>
+					<th>Manual Status</th>
+					<th>SAP Notes</th>
+					<th>Relevance Summary</th>
+				</tr>
+
+			</thead>
+			<tbody>
+				@foreach (var item in ViewBag.SRReport)
+				{
+
 					<tr>
-						<th>S.NO</th>
-						<th>Title</th>
-						<th>Category</th>
-						<th>Relevance</th>
-						<th>LoB/Technology</th>
-						<th>Business Area</th>
-						<th>Consistency Status</th>
-						<th>Manual Status</th>
-						<th>SAP Notes</th>
-						<th>Relevance Summary</th>
-					</tr>
+						<td class="text-center">
+							@item.S_No.
+						</td>
+						<td>
+							@item.Title
+						</td>
+						<td>
+							@item.Category
+						</td>
+						<td>
+							@item.Relevance
+						</td>
+						<td>
+							@item.LoB_Technology
+						</td>
+						<td>
+							@item.Business_Area
+						</td>
+						<td>
+							@item.Consistency_Status
+						</td>
+						<td>
+							@item.Manual_Status
+						<td>
 
-				</thead>
-				<tbody>
-					@foreach (var item in ViewBag.SRReport)
-					{
-
-						<tr>
-							<td class="text-center">
-								@item.S_No.
-							</td>
-							<td>
-								@item.Title
-							</td>
-							<td>
-								@item.Category
-							</td>
-							<td>
-								@item.Relevance
-							</td>
-							<td>
-								@item.LoB_Technology
-							</td>
-							<td>
-								@item.Business_Area
-							</td>
-							<td>
-								@item.Consistency_Status
-							</td>
-							<td>
-								@item.Manual_Status
-							<td>
-
-								@{
-									var result = "";
-									if (@item.SAP_Notes != null)
-									{
-										var data = @item.SAP_Notes;
-										result = (data.Length > 6) ? data.Substring(data.Length - 6, 6) : data;
-									}
-									<a href="@item.SAP_Notes">@result</a>
+							@{
+								var result = "";
+								if (@item.SAP_Notes != null)
+								{
+									var data = @item.SAP_Notes;
+									result = (data.Length > 6) ? data.Substring(data.Length - 6, 6) : data;
 								}
-							</td>
-							<td>
-								@item.Relevance_Summary
-							</td>
-						</tr>
-					}
-				</tbody>
+								<a href="@item.SAP_Notes">@result</a>
+							}
+						</td>
+						<td>
+							@item.Relevance_Summary
+						</td>
+					</tr>
+				}
+			</tbody>
 			</table>
 		</div>
 		@*<label>Simplification</label>*@
@@ -106,8 +107,12 @@
 </div>
 
 <script type="text/javascript" charset="utf-8">
-	var ctx = document.getElementById("Chart_Relevant").getContext("2d");
-	function renderChart(data, labels) {
+	
+    function renderChart(data, labels) {
+        $("canvas#Chart_Relevant").remove();
+		
+		$("#Chart123").append('<canvas id="Chart_Relevant" class="animated fadeIn" height="150"></canvas>');
+		var ctx = document.getElementById("Chart_Relevant").getContext("2d");
 			
 		//var randomScalingFactor = function () {
 		//	return Math.round(Math.random() * 100);
@@ -204,11 +209,13 @@
                     }],
                     yAxes: [{
                         display: false,
-                        ticks: {
 
+                        ticks: {
+							beginAtZero: true,
                             steps: 10,
                             stepValue: 5,
-                            max: maxval + 1
+							//stepSize:.5,
+                            max: maxval +5
                         }
                     }]
 
