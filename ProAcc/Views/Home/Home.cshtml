@@ -290,7 +290,7 @@
         opacity: 1;
     }
 </style>
-@*Active Members Style*@ 
+@*Active Members Style*@
 <style>
     .container {
         height: 200px;
@@ -345,46 +345,46 @@
                         <h5 class="card-title">S4 Hana System Conversion</h5>
                         <form class="">
                             @if (ViewBag.count != null)
-                                    {
-                                        int i = ViewBag.count;
-                                        string progress = "noUi-origin noUi-background1";
-                                        string progress1 = "noUi-origin noUi-background1";
-                                        string progress2 = "noUi-origin noUi-background1";
-                                        string color = "black";
-                                        string color1 = "black";
-                                        string color2 = "black";
-                                        string color3 = "black";
-                                        if (i == 1)
-                                        {
-                                            //progress = "noUi-origin noUi-connect";
-                                            color = "Green";
-                                        }
-                                        else if (i == 2)
-                                        {
-                                            progress = "noUi-origin noUi-connect";
-                                           // progress1 = "noUi-origin noUi-connect";
-                                            color = "Green";
-                                            color1 = "Green";
-                                        }
-                                        else if (i == 3)
-                                        {
-                                            progress = "noUi-origin noUi-connect";
-                                            progress1 = "noUi-origin noUi-connect";
-                                           // progress2 = "noUi-origin noUi-connect";
-                                            color = "Green";
-                                            color1 = "Green";
-                                            color2 = "Green";
-                                        }
-                                        else if (i == 4)
-                                        {
-                                            progress = "noUi-origin noUi-connect";
-                                            progress1 = "noUi-origin noUi-connect";
-                                            progress2 = "noUi-origin noUi-connect";
-                                            color = "Green";
-                                            color1 = "Green";
-                                            color2 = "Green";
-                                            color3 = "Green";
-                                        }
+                            {
+                                int i = ViewBag.count;
+                                string progress = "noUi-origin noUi-background1";
+                                string progress1 = "noUi-origin noUi-background1";
+                                string progress2 = "noUi-origin noUi-background1";
+                                string color = "black";
+                                string color1 = "black";
+                                string color2 = "black";
+                                string color3 = "black";
+                                if (i == 1)
+                                {
+                                    //progress = "noUi-origin noUi-connect";
+                                    color = "Green";
+                                }
+                                else if (i == 2)
+                                {
+                                    progress = "noUi-origin noUi-connect";
+                                    // progress1 = "noUi-origin noUi-connect";
+                                    color = "Green";
+                                    color1 = "Green";
+                                }
+                                else if (i == 3)
+                                {
+                                    progress = "noUi-origin noUi-connect";
+                                    progress1 = "noUi-origin noUi-connect";
+                                    // progress2 = "noUi-origin noUi-connect";
+                                    color = "Green";
+                                    color1 = "Green";
+                                    color2 = "Green";
+                                }
+                                else if (i == 4)
+                                {
+                                    progress = "noUi-origin noUi-connect";
+                                    progress1 = "noUi-origin noUi-connect";
+                                    progress2 = "noUi-origin noUi-connect";
+                                    color = "Green";
+                                    color1 = "Green";
+                                    color2 = "Green";
+                                    color3 = "Green";
+                                }
 
 
                                 <div id="nouislider_range_example" class="noUi-target noUi-ltr noUi-horizontal" style="margin-top: 25px;">
@@ -417,43 +417,43 @@
                                     </div>
                                 </div>
                             }
-                                @if (ViewBag.count != null)
+                            @if (ViewBag.count != null)
+                            {
+                                int i = ViewBag.count;
+                                int value = 0;
+                                if (i == 1)
                                 {
-                                    int i = ViewBag.count;
-                                    int value = 0;
-                                    if (i == 1)
-                                    {
-                                        value = 10;
-                                    }
-                                    else if (i == 2)
-                                    {
-                                        value = 35;
-                                    }
-                                    else if (i == 3)
-                                    {
-                                        value = 70;
-                                    }
-                                    else if (i == 4)
-                                    {
-                                        value = 100;
-                                    }
-                                    <fieldset class="position-relative form-group" style="top: 50px;">
-                                        <monkey-bar min="0" max="100" now=@value class="prograss_Bar" labeled striped></monkey-bar>
-                                    </fieldset>
+                                    value = 10;
                                 }
-                                @*<div class="position-relative form-check">
-                <label class="form-check-label"><input name="radio1" type="radio" class="form-check-input"> Option one is this and that—be sure to include why it's great</label>
-            </div>
-            <div class="position-relative form-check">
-                <label class="form-check-label">
-                    <input name="radio1" type="radio" class="form-check-input"> Option two can be something else and selecting it will deselect option
-                    one
-                </label>
-            </div>
-            <div class="position-relative form-check disabled"><label class="form-check-label"><input name="radio1" disabled="" type="radio" class="form-check-input"> Option three is disabled</label></div>*@
+                                else if (i == 2)
+                                {
+                                    value = 35;
+                                }
+                                else if (i == 3)
+                                {
+                                    value = 70;
+                                }
+                                else if (i == 4)
+                                {
+                                    value = 100;
+                                }
+                                <fieldset class="position-relative form-group" style="top: 50px;">
+                                    <monkey-bar min="0" max="100" now=@value class="prograss_Bar" labeled striped></monkey-bar>
+                                </fieldset>
+                            }
+                            @*<div class="position-relative form-check">
+                                    <label class="form-check-label"><input name="radio1" type="radio" class="form-check-input"> Option one is this and that—be sure to include why it's great</label>
+                                </div>
+                                <div class="position-relative form-check">
+                                    <label class="form-check-label">
+                                        <input name="radio1" type="radio" class="form-check-input"> Option two can be something else and selecting it will deselect option
+                                        one
+                                    </label>
+                                </div>
+                                <div class="position-relative form-check disabled"><label class="form-check-label"><input name="radio1" disabled="" type="radio" class="form-check-input"> Option three is disabled</label></div>*@
 
-                                @*<div class="position-relative form-check"><label class="form-check-label"><input type="checkbox" class="form-check-input"> Check me out</label></div>*@
-                            </form>
+                            @*<div class="position-relative form-check"><label class="form-check-label"><input type="checkbox" class="form-check-input"> Check me out</label></div>*@
+                        </form>
                     </div>
                 </div>
             </div>
@@ -481,34 +481,51 @@
                 </div>
                 <div class="col-lg-6 card">
                     <div class="card-body" style="height:284px">
-                        <table class="table">
-                            <thead>
-                                <h5 class="card-title">To Do List</h5>
-                            </thead>
-                            <tbody>
-                                <tr id="addRow">
-                                    <td class="col-xs-5">
-                                        <input class="form-control addMain" type="text" placeholder="What do you need to do today?" style="width:100%" />
-                                    </td>
+                        <div class="position-relative form-group">
+                            <label for="exampleEmail" class="">Project Name</label>
+                            @Html.DropDownList("Project", (IEnumerable<SelectListItem>)ViewBag.Project, "- SELECT-", new { id = "IDProject", @class = "form-control" })
+                            @*@Html.DropDownList("Project", (IEnumerable<SelectListItem>), "- SELECT-", new { id = "IDProject", @class = "form-control" })*@
+                        </div>
+                        <div class="position-relative form-group">
+                            <label for="exampleEmail" class="">Instance Name</label>
+                            @Html.DropDownList("Instance", new SelectList(Enumerable.Empty<SelectListItem>(), "IDInstance", "InstanceName"),
+                      "Select a Project", new { id = "IDInstance", @class = "form-control" })
+                            @*@Html.DropDownList("Instance", (IEnumerable<SelectListItem>), "- SELECT-", new { id = "IDInstance", @class = "form-control" })*@
+                            @*<input name="email" id="InstanceID" placeholder="" class="form-control">*@
+                        </div>
+                        <div class="position-relative form-group">
+                            <button class="btn-wide mb-2 mr-2 btn btn-primary" id="SubmitInstance">
+                                Submit Instance
+                            </button>
+                        </div>
+                        @*<table class="table">
+                                <thead>
+                                    <h5 class="card-title">To Do List</h5>
+                                </thead>
+                                <tbody>
+                                    <tr id="addRow">
+                                        <td class="col-xs-5">
+                                            <input class="form-control addMain" type="text" placeholder="What do you need to do today?" style="width:100%" />
+                                        </td>
 
-                                    <td class="col-xs-1 text-center">
-                                        <span class="addBtn">
-                                            <i class="fa fa-plus-circle"></i>
-                                        </span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="col-xs-3"><label>Convert Customers Vendors to BP</label></td>
+                                        <td class="col-xs-1 text-center">
+                                            <span class="addBtn">
+                                                <i class="fa fa-plus-circle"></i>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="col-xs-3"><label>Convert Customers Vendors to BP</label></td>
 
-                                    <td class="col-xs-1 text-center"><a href="#" onClick="deleteRow(this)"><i class="fa fa-times-circle" style="color:red" aria-hidden="true" /></a></td>
-                                </tr>
-                                <tr>
-                                    <td class="col-xs-3"><label>Activate Material Leadger</label></td>
+                                        <td class="col-xs-1 text-center"><a href="#" onClick="deleteRow(this)"><i class="fa fa-times-circle" style="color:red" aria-hidden="true" /></a></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="col-xs-3"><label>Activate Material Leadger</label></td>
 
-                                    <td class="col-xs-1 text-center"><a href="#" onClick="deleteRow(this)"><i class="fa fa-times-circle" style="color:red" aria-hidden="true" /></a></td>
-                                </tr>
-                            </tbody>
-                        </table>
+                                        <td class="col-xs-1 text-center"><a href="#" onClick="deleteRow(this)"><i class="fa fa-times-circle" style="color:red" aria-hidden="true" /></a></td>
+                                    </tr>
+                                </tbody>
+                            </table>*@
                     </div>
                 </div>
             </div>
@@ -809,4 +826,70 @@
         </script>
 
     </div>
+    <script>
+        jQuery(document).ready(function ($) {
+        //$("#IDProject").prop("disabled", true);
+        $("#IDInstance").prop("disabled", true);
+        $('#IDProject').change(function () {
+
+            var id = $(this).val();
+             var select = $("#IDInstance");
+                    select.empty();
+                    select.append($('<option/>', {
+                        value: 0,
+                        text: "Select a Instance"
+                    }));
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("LoadInstance","Assessment")',
+                data: { 'ProjectId' : id},
+                success: function (data) {
+                    var select = $("#IDInstance");
+                    select.empty();
+                    select.append($('<option/>', {
+                        value: 0,
+                        text: "Select a Instance"
+                    }));
+                    $.each(data, function (index, itemData) {
+                        select.append($('<option/>', {
+                            value: itemData.Value,
+                            text: itemData.Text
+                        }));
+                    });
+                    $("#IDInstance").prop("disabled", false);
+                },
+                error: function (a) {
+                    debugger;
+                    alert(a);
+                }
+
+
+            });
+        });
+    });
+    </script>
+
 </div>
+<script>
+    $('#SubmitInstance').click(function () {
+        var IDInstance = $("#IDInstance").val();
+         $.ajax({
+                    //url: '<%: Url.Action("Upload")%>?Cust_ID=' + Cust_ID + '&IDProject=' + IDProject+'&InstanceID='+InstanceID,
+                 url: '@Url.Action("SubmitInstance", "Home")',
+                 type: "POST",
+                 data: { 'IDInstance': IDInstance },
+                 success: function (result) {
+                     alert("New Live Instance updated");
+                     //    if (result != "") {
+                     //        $('#FileBrowse').find("*").prop("disabled", true);
+                     //        LoadProgressBar(result); //calling LoadProgressBar function to load the progress bar.
+                     //    }
+                     //},
+                     //error: function (err) {
+                     //    alert(err.statusText);
+                     //}
+                 }
+                });
+    });
+
+</script>

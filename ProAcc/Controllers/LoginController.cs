@@ -26,23 +26,50 @@ namespace ProAcc.Controllers
             return RedirectToAction("Login");
         }
         [HttpPost]
-        public ActionResult Login(UserModel user)
+        public ActionResult Validate(UserModel user, string returnUrl)
         {
             //ViewBag.Message = message;
             LogedUser logedUser = new LogedUser();
             logedUser.Username = user.Username;
             logedUser.Password = user.Password;
-
-            logedUser = _Base.UserValidation(logedUser);
-            if (logedUser.ID != Guid.Empty)
+            string decodedUrl = "";
+            if (!string.IsNullOrEmpty(returnUrl))
+                decodedUrl = Server.UrlDecode(returnUrl);
+            try
             {
-                FormsAuthentication.SetAuthCookie(logedUser.Username, false);
-                Session["loginid"] = logedUser.ID.ToString();
-               
-                //IsValidate = "Login Successfully.";
+                if (!String.IsNullOrEmpty(user.Username))
+                {
+                    logedUser = _Base.UserValidation(logedUser);
+                    if (logedUser.ID != Guid.Empty)
+                    {
+                        FormsAuthentication.SetAuthCookie(logedUser.Username, false);
+                        Session["loginid"] = logedUser.ID.ToString();
+                        //if (!string.IsNullOrEmpty(Request.Form["ReturnUrl"]))
+                        //{
+                        //    var a = Server.UrlDecode(Request.Form["ReturnUrl"]);
+                        //    return RedirectToAction(Request.Form["ReturnUrl"].Split('/')[0]);
+                        //}
+                        //else
+                        //{
+                        return RedirectToAction("Home", "Home");
+                        //}
+
+
+
+                        //IsValidate = "Login Successfully.";
+                    }
+                }
+                else
+                {
+                    TempData["Message"] = "User name or password supplied doesn't exist.";
+                }
             }
-            Session["Name"] = logedUser.Name;
-            return RedirectToAction("Home", "Home");
+            catch (Exception ex)
+            {
+
+                TempData["Message"] = "Login failed.Error - " + ex.Message;
+            }
+            return RedirectToAction("Login", "Login");
         }
 
         //public JsonResult ValidateUser(LogedUser user)

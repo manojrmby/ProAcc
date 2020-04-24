@@ -14,6 +14,7 @@ namespace ProAcc.Controllers
     [Authorize(Roles = "Admin,Consultant")]
     public class AssessmentController : Controller
     {
+
         ProAccEntities db = new ProAccEntities();
         Base _Base = new Base();
         // GET: Assessment
