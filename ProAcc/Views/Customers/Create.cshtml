@@ -32,7 +32,15 @@ Consultant: @Html.RadioButton("UserType", "Consultant")
         var val = $('[name="UserType"]:checked').val()
         if (val == "Customer") {
             $("#customer").show();
-             $("#consultant").hide();
+            $("#consultant").hide();
+        }
+        else {
+            $("#customer").hide();
+            $("#consultant").show();
+        }
+
+    });
+    
 </script>
 
 
