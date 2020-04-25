@@ -1,4 +1,4 @@
-﻿@model ProACC_DB.Customer
+﻿@model ProAcc.BL.Model.CreateViewModel
 
 @{
     ViewBag.Title = "Create";
@@ -12,231 +12,36 @@
 <script src="~/Scripts/jquery.validate.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
 
-
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-
-    <div class="card-body">
-        <h4 class="card-title">New Customer</h4>
-        <hr />
-        <div class="row">
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            <div class="col-6 ">
-
-                <div class="position-relative form-group">
-                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-5" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @id = "txtName", @class = "form-control", @onchange = "ValidateName()" } })
-                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-                        <span id="lblName" style="color:red"></span>
-                    </div>
-                </div>
-                <div class="position-relative form-group">
-                    @Html.LabelFor(model => model.Company, htmlAttributes: new { @class = "control-label col-md-5" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.Company, new { htmlAttributes = new { @id = "txtComp", @class = "form-control", @onchange = "ValidateComp()" } })
-                        @Html.ValidationMessageFor(model => model.Company, "", new { @class = "text-danger" })
-                        <span id="lblComp" style="color:red"></span>
-                    </div>
-                </div>
-                <div class="position-relative form-group">
-                    @Html.LabelFor(model => model.Work_Function, "Work Function", htmlAttributes: new { @class = "control-label col-md-5" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.Work_Function, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.Work_Function, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="position-relative form-group">
-                    @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "control-label col-md-5" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @id = "txtMobId", @class = "form-control", @onchange = "ValidateMobileNumber()" } })
-                        @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
-                        <span id="lblMob" style="color:red"></span>
-                    </div>
-                </div>
-                <div class="position-relative form-group">
-                    @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-5" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @id="txtEmail",@class = "form-control", @onchange = "ValidateEmail()" } })
-                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-                        <span id="lblEmail" style="color:red"></span>
-                    </div>
-                </div>
-                <div class="position-relative form-group">
-                    @Html.LabelFor(model => model.UserName, "User Name", htmlAttributes: new { @class = "control-label col-md-5" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @id = "UserName", @class = "form-control", @onchange = "UserCheck()" } })
-                        @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
-                        <p id="Status" />
-                    </div>
-                </div>
-
-
-                <div class="position-relative form-group">
-                    @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-5" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", @type = "password" } })
-                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="col-lg-5">
-                    <input type="submit" value="Create" class="btn btn-primary" />
-                </div>
-            </div>
-            <div class="col-6 ">
-                <div class="position-relative form-group">
-                    @Html.LabelFor(model => model.UserTypeID, "User Type", htmlAttributes: new { @class = "control-label col-md-5" })
-                    <div class="col-md-10">
-                        @Html.DropDownList("UserTypeID", null, htmlAttributes: new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.UserTypeID, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="position-relative form-group">
-                    @Html.LabelFor(model => model.EstimatedSale, "Estimated Sale", htmlAttributes: new { @class = "control-label col-md-5" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.EstimatedSale, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.EstimatedSale, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="position-relative form-group">
-                    <label id="lbllastcontact" class="control-label col-md-5">Last Contact Date</label>
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.LastContact_Dt, "Last Contact Date", new { htmlAttributes = new { @class = "form-control", @type = "date" } })
-                        @Html.ValidationMessageFor(model => model.LastContact_Dt, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="position-relative form-group">
-                    <label id="lblNextAction" class="control-label col-md-5">Next Action Date</label>
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.NextAction_Dt, "Next Action Date", new { htmlAttributes = new { @class = "form-control", @type = "date" } })
-                        @Html.ValidationMessageFor(model => model.NextAction_Dt, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="position-relative form-group">
-                    <label id="lblNextcontact" class="control-label col-md-5">Next Contact Date</label>
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.NextContact_Dt, "Next Contact Date", new { htmlAttributes = new { @class = "form-control", @type = "date" } })
-                        @Html.ValidationMessageFor(model => model.NextContact_Dt, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="position-relative form-group">
-                    <label id="lblleadStatus" class="control-label col-md-5">Lead Status</label>
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.LeadStatus, "Lead Status", new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.LeadStatus, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="position-relative form-group ">
-                    <label id="lblleedSource" class="control-label col-md-5">Lead Source</label>
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.LeadSource, "Lead Source", new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.LeadSource, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="col-lg-5" style="float:right;">
-                    @Html.ActionLink("Back to List", "Index")
-                </div>
-            </div>
-            @*<div class="position-relative form-group">
-                    <div class="col-md-offset-2 col-m">
-                        <input type="submit" value="Create" class="btn btn-secondary" />
-
-                            @Html.ActionLink("Back to List", "Index",new {@class = "float-right"});
-
-                    </div>
-
-                </div>*@
-            <div class="text-md-right">
-
-
-            </div>
-        </div>
-
-    </div>
-}
-
-
-<script>
-    function UserCheck() {
-
-        $.post("@Url.Action("CheckUsernameAvailability","Customers")",
-            {
-                userdata: $("#UserName").val()
-            },
-        function (data) {
-            if (data == 0) {
-                $("#Status").html('');
-                //$("#UserName").css("border-color", "gray");
-            }
-            else {
-                $("#Status").html('<font color="Red">UserName is Taken</font>');
-                //$("#UserName").css("border-color", "Red");
-            }
-        });
-    }
-
-    function ValidateName()
-      {
-          //debugger;
-          var name = document.getElementById("txtName").value;
-          var lblName = document.getElementById("lblName");
-          lblName.innerHTML = "";
-          var letters = /^[A-Za-z, ]+$/;
-          if (!letters.test(name)) {
-            lblName.innerHTML = "Please enter valid Name";
-          }
-    }
-    
-    function ValidateComp()
-      {
-          //debugger;
-          var Comp = document.getElementById("txtComp").value;
-          var lblComp = document.getElementById("lblComp");
-          lblComp.innerHTML = "";
-          var letters = /^[A-Za-z, ]+$/;
-          if (!letters.test(Comp)) {
-            lblComp.innerHTML = "Please enter a valid Company Name";
-          }
-    }
-
-    function ValidateEmail() {
-        //debugger;
-        var email = document.getElementById("txtEmail").value;
-        var lblEmail = document.getElementById("lblEmail");
-        lblEmail.innerHTML = "";
-        var expr = /^([\w-\.]+)@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
-        if (!expr.test(email)) {
-            lblEmail.innerHTML = "Please enter valid email address.";
-        }
-    }
-
-    function ValidateMobileNumber() {
-        var mob = /^[1-9]{1}[0-9]{9}$/;
-        var txtMobile = document.getElementById("txtMobId").value;
-        lblMob.innerHTML = "";
-        if (mob.test(txtMobile) == false) {
-            lblMob.innerHTML = "Please enter valid mobile number.";   
-        }
-    }
-
-
-</script>
-
+Customer:   @Html.RadioButton("UserType", "Customer")
+Consultant: @Html.RadioButton("UserType", "Consultant")
+<div id="customer">
+   
+    @Html.Partial("_Customercreate",Model.customer)
+</div>
+<div id="consultant">
+    @Html.Partial("_Consultantcreate", Model.consultant)
+</div>
 
 <script type="text/javascript">
-    $(function () {
-        var msg = '@ViewBag.Message';
-        if (msg == 'True')
-        {
-        alert("Enter the Details");
-        }
+    $(document).ready(function () {
+        $("#customer").hide();
+        $("#consultant").hide();
     });
+    $('[name="UserType"]').on('change', function () {
+        var val = $('[name="UserType"]:checked').val()
+        if (val == "Customer") {
+            $("#customer").show();
+             $("#consultant").hide();
+        }
+        else {
+             $("#customer").hide();
+        $("#consultant").show();
+        }
+    //alert($('[name="UserType"]:checked').val());
+
+});
 </script>
+
+
+
+

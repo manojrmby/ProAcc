@@ -71,9 +71,10 @@ namespace ProAcc.Controllers
         {
             if (ModelState.IsValid)
             {
-                if(consultant.UserName !=null && consultant.Password!=null)
+                if (consultant.Name != null && consultant.UserName !=null && consultant.Password!=null)
                 {
                     consultant.Id = Guid.NewGuid();
+                    consultant.Cre_By = @ProAcc.BL.Model.Common.userID;
                     consultant.Cre_on = DateTime.Now;
                     consultant.isActive = true;
                     db.Consultants.Add(consultant);
@@ -120,6 +121,8 @@ namespace ProAcc.Controllers
             if (ModelState.IsValid)
             {
                 consultant.Modified_On = DateTime.Now;
+                consultant.Cre_on = DateTime.Now;
+                consultant.isActive = true;
                 db.Entry(consultant).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");

@@ -22,8 +22,6 @@ namespace ProAcc.Controllers
         {
             var customers = db.Customers.Where(a => a.isActive == true).Where(x => x.Name.StartsWith(search) || search == null).ToList().ToPagedList(i ?? 1, 5);
             return View(customers);
-            //var customers = db.Customers.Include(c => c.User_Master).Include(c => c.Project);
-            //return View(customers.ToList());
         }
 
         // GET: Customers/Details/5
@@ -62,8 +60,13 @@ namespace ProAcc.Controllers
         {
             var val = db.User_Master.Where(a => a.isActive == true);
             ViewBag.UserTypeID = new SelectList(val, "Id", "UserType");
+            var status = db.leadStatus_Master.Where(a => a.isActive == true);
+            ViewBag.LeadStatus = new SelectList(status, "Id", "StatusName");
             ViewBag.Id = new SelectList(db.Projects, "Id", "Accuracy");
-            return View();
+            CreateViewModel model = new CreateViewModel();
+            model.customer = new Customer();
+            model.consultant = new Consultant();
+            return View(model);
         }
 
         // POST: Customers/Create
@@ -75,10 +78,11 @@ namespace ProAcc.Controllers
         {
             if (ModelState.IsValid)
             {
-                if(customer.UserName != null && customer.Password != null)
+                if (customer.UserName != null && customer.Password != null)
                 {
                     customer.Id = Guid.NewGuid();
                     customer.Cre_on = DateTime.Now;
+                    customer.Cre_By = @ProAcc.BL.Model.Common.userID;
                     customer.isActive = true;
                     db.Customers.Add(customer);
                     db.SaveChanges();
@@ -88,14 +92,19 @@ namespace ProAcc.Controllers
                 {
                     ViewBag.UserTypeID = new SelectList(db.User_Master, "Id", "UserType", customer.UserTypeID);
                     ViewBag.Id = new SelectList(db.Projects, "Id", "Accuracy", customer.Id);
+                    ViewBag.LeadStatus = new SelectList(db.leadStatus_Master, "Id", "StatusName", customer.Id);
                     ViewBag.Message = true;
                     return View();
                 }
             }
 
-            ViewBag.UserTypeID = new SelectList(db.User_Master, "Id", "UserType", customer.UserTypeID);
-            ViewBag.Id = new SelectList(db.Projects, "Id", "Accuracy", customer.Id);
-            return View(customer);
+            ViewBag.UserTypeID = new SelectList(db.User_Master.Where(a => a.isActive == true), "Id", "UserType", customer.UserTypeID);
+            ViewBag.Id = new SelectList(db.Projects.Where(a => a.isActive == true), "Id", "Accuracy", customer.Id);
+            ViewBag.LeadStatus = new SelectList(db.leadStatus_Master.Where(a => a.isActive == true), "Id", "StatusName", customer.Id);
+            CreateViewModel model = new CreateViewModel();
+            model.consultant = new Consultant();
+            model.customer = customer;
+            return View(model);
         }
 
         // GET: Customers/Edit/5
@@ -113,6 +122,8 @@ namespace ProAcc.Controllers
             var val = db.User_Master.Where(a => a.isActive == true);
             ViewBag.UserTypeID = new SelectList(val, "Id", "UserType", customer.UserTypeID);
             ViewBag.Id = new SelectList(db.Projects, "Id", "Accuracy", customer.Id);
+            var status = db.leadStatus_Master.Where(a => a.isActive == true);
+            ViewBag.LeadStatus = new SelectList(status, "Id", "StatusName", customer.Id);
             return View(customer);
         }
 
@@ -126,13 +137,19 @@ namespace ProAcc.Controllers
             if (ModelState.IsValid)
             {
                 customer.Modified_On = DateTime.Now;
+                customer.Cre_on = DateTime.Now;
+                customer.Modified_by= @ProAcc.BL.Model.Common.userID;
+                customer.isActive = true;
                 db.Entry(customer).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
             ViewBag.UserTypeID = new SelectList(db.User_Master, "Id", "UserType", customer.UserTypeID);
             ViewBag.Id = new SelectList(db.Projects, "Id", "Accuracy", customer.Id);
+            var status = db.leadStatus_Master.Where(a => a.isActive == true);
+            ViewBag.LeadStatus = new SelectList(status, "Id", "StatusName", customer.Id);
             return View(customer);
+
         }
 
         // GET: Customers/Delete/5
