@@ -19,7 +19,9 @@ namespace ProAcc.Controllers
         // GET: ProjectInstanceConfigs
         public ActionResult Index(String search, int? i)
         {
-            var projectInstanceConfigs = db.ProjectInstanceConfigs.Where(a => a.isActive == true).Where(x => x.InstaceName.StartsWith(search) || search == null).ToList().ToPagedList(i ?? 1, 5);
+            var projectInstanceConfigs = db.ProjectInstanceConfigs.Where(a => a.isActive == true)
+                .OrderByDescending(x => x.Cre_on)
+                .Where(x => x.InstaceName.StartsWith(search) || search == null).ToList().ToPagedList(i ?? 1, 5);
             //var projectInstanceConfigs = db.ProjectInstanceConfigs.Include(p => p.CustomerProjectConfig).Where(a => a.isActive == true);
             return View(projectInstanceConfigs);
         }

@@ -60,7 +60,7 @@
         var Instname = document.getElementById("txtInstName").value;
         var lblInstName = document.getElementById("lblInstName");
         lblInstName.innerHTML = "";
-        var letters = /^[A-Za-z]+$/;
+        var letters = /^[A-Za-z, ]+$/;
         if (!letters.test(Instname)) {
             lblInstName.innerHTML = "Please enter valid Instance Name";
         }

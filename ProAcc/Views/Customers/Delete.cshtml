@@ -36,13 +36,13 @@
             @Html.DisplayFor(model => model.Name)
         </dd>
 
-        <dt>
+        @*<dt>
             @Html.DisplayNameFor(model => model.Company)
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.Company)
-        </dd>
+        </dd>*@
 
         <dt>
             @Html.DisplayNameFor(model => model.Work_Function)
@@ -61,11 +61,27 @@
         </dd>
 
         <dt>
+            @Html.DisplayNameFor(model => model.AlternatePhone)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AlternatePhone)
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(model => model.Email)
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AlternateEmail)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AlternateEmail)
         </dd>
 
         <dt>
@@ -92,13 +108,13 @@
             @Html.DisplayFor(model => model.NextAction_Dt)
         </dd>
 
-        <dt>
+        @*<dt>
             @Html.DisplayNameFor(model => model.NextContact_Dt)
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.NextContact_Dt)
-        </dd>
+        </dd>*@
 
         <dt>
             @Html.DisplayNameFor(model => model.LeadStatus)
@@ -124,6 +140,13 @@
             @Html.DisplayFor(model => model.Conv_Cust_Status)
         </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.Comments)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Comments)
+        </dd>
         @*<dt>
             @Html.DisplayNameFor(model => model.isActive)
         </dt>

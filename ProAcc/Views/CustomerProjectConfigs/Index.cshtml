@@ -8,52 +8,73 @@
 }
 
 <h2 class="card-title">CUSTOMER PROJECT LIST</h2>
-
+<script>
+    $("search").click(function () {
+        $("Search").remove();
+    });
+</script>
 @using (Html.BeginForm("Index", "CustomerProjectConfigs", FormMethod.Get))
 {
-    @Html.TextBox("Search")
+    <input class=""
+           id="Search"
+           name="Search"
+           type="text"
+           value="" />
+    @*@Html.TextBox("Search")*@
     <input type="submit" value="Search" />
 }
 
-<p>
+@*<p>
     @Html.ActionLink("Create New", "Create")
-</p>
-<table class="mb-0 table table-bordered">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.First().ProjectName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.First().Consultant.UserName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.First().Customer.UserName)
-        </th>
+</p>*@
 
-        <th>Actions</th>
-    </tr>
+<div class="row" style="text-align:left !important;margin:auto !important;">
+    <div class="main-card mb-3 card" style="width: 100%;">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="mb-0 table table-hover">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.First().ProjectName)
+                            </th>
+                            <th>
+                                Consultant Name
+                                @*@Html.DisplayNameFor(model => model.First().Consultant.Name)*@
+                            </th>
+                            <th>
+                                Customer Name
+                                @*@Html.DisplayNameFor(model => model.First().Customer.Name)*@
+                            </th>
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProjectName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Consultant.UserName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Customer.UserName)
-            </td>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ProjectName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Consultant.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Customer.Name)
+                            </td>
 
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-            </td>
-        </tr>
-    }
+                            <td>
+                                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                            </td>
+                        </tr>
+                    }
+                </table>
 
-</table>
+            </div>
+        </div>
+    </div>
+</div>
 @Html.PagedListPager(Model, i => Url.Action("Index", new { i, search = Request.QueryString["search"] }),
             new PagedListRenderOptions() { Display = PagedListDisplayMode.IfNeeded, DisplayPageCountAndCurrentLocation = true })

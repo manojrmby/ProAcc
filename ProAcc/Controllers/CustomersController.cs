@@ -22,6 +22,7 @@ namespace ProAcc.Controllers
         {
             var customers = db.Customers
                 .Where(a => a.isActive == true)
+                .OrderByDescending(x => x.Cre_on)
                 .Where(x => x.Name.StartsWith(search) || search == null).ToList().ToPagedList(i ?? 1, 5);
             return View(customers);
         }
@@ -85,6 +86,7 @@ namespace ProAcc.Controllers
                     customer.Id = Guid.NewGuid();
                     customer.Cre_on = DateTime.Now;
                     customer.Cre_By = ProAcc.BL.Model.Common.User_ID;
+                    customer.UserTypeID = 3;
                     customer.isActive = true;
                     db.Customers.Add(customer);
                     db.SaveChanges();

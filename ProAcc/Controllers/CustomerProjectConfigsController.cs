@@ -19,7 +19,9 @@ namespace ProAcc.Controllers
         // GET: CustomerProjectConfigs
         public ActionResult Index(String search, int? i)
         {
-            var customerProjectConfigs = db.CustomerProjectConfigs.Where(a => a.isActive == true).Where(x => x.ProjectName.StartsWith(search) || search == null).ToList().ToPagedList(i ?? 1, 5);
+            var customerProjectConfigs = db.CustomerProjectConfigs.Where(a => a.isActive == true)
+                .OrderByDescending(x => x.Cre_on)
+                .Where(x => x.ProjectName.StartsWith(search) || search == null).ToList().ToPagedList(i ?? 1, 5);
            // var customerProjectConfigs = db.CustomerProjectConfigs.Include(c => c.Consultant).Include(c => c.Customer).Where(a=>a.isActive==true);
             return View(customerProjectConfigs);
         }

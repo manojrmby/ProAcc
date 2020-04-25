@@ -2,9 +2,15 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
 
+<style>
+    .required::after {
+        content: "*";
+        font-weight: bold;
+        color: red;
+    }
+</style>
 
-
-@using (Html.BeginForm("Create","Consultants",FormMethod.Post,new { }))
+@using (Html.BeginForm("Create", "Consultants", FormMethod.Post, new { }))
 {
     @Html.AntiForgeryToken()
 
@@ -16,7 +22,7 @@
             <div class="col-6 ">
 
                 <div class="position-relative form-group">
-                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-5" })
+                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-5 required" })
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @id = "txtName1", @class = "form-control", @onchange = "ValidateNa()" } })
                         @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
@@ -25,7 +31,7 @@
                 </div>
 
                 <div class="position-relative form-group">
-                    @Html.LabelFor(model => model.Designation, htmlAttributes: new { @class = "control-label col-md-5" })
+                    @Html.LabelFor(model => model.Designation, htmlAttributes: new { @class = "control-label col-md-5 required" })
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.Designation, new { htmlAttributes = new { @id = "txtDesc", @class = "form-control", @onchange = "ValidateDesc()" } })
                         @Html.ValidationMessageFor(model => model.Designation, "", new { @class = "text-danger" })
@@ -34,7 +40,7 @@
                 </div>
 
                 <div class="position-relative form-group">
-                    @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "control-label col-md-5" })
+                    @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "control-label col-md-5 required" })
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @id = "txtMob", @class = "form-control", @onchange = "ValidateNu()" } })
                         @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
@@ -46,7 +52,7 @@
             <div class="col-6 ">
 
                 <div class="position-relative form-group">
-                    @Html.LabelFor(model => model.EMail, "Email", htmlAttributes: new { @class = "control-label col-md-5" })
+                    @Html.LabelFor(model => model.EMail, "Email", htmlAttributes: new { @class = "control-label col-md-5 required" })
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.EMail, new { htmlAttributes = new { @id = "txtEmail", @class = "form-control", @onchange = "ValidateEmail()" } })
                         @Html.ValidationMessageFor(model => model.EMail, "", new { @class = "text-danger" })
@@ -55,7 +61,7 @@
                 </div>
 
                 <div class="position-relative form-group">
-                    @Html.LabelFor(model => model.UserName, "User Name", htmlAttributes: new { @class = "control-label col-md-5" })
+                    @Html.LabelFor(model => model.UserName, "User Name", htmlAttributes: new { @class = "control-label col-md-5 required" })
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @id = "UserName", @class = "form-control", @onchange = "UserCheck()" } })
                         @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
@@ -64,7 +70,7 @@
                 </div>
 
                 <div class="position-relative form-group">
-                    @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-5" })
+                    @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-5 required" })
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", @type = "password" } })
                         @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
@@ -76,7 +82,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="position-relative form-group">
-                    @Html.LabelFor(model => model.UserTypeID, "User Type", htmlAttributes: new { @class = "control-label col-md-5" })
+                    @Html.LabelFor(model => model.UserTypeID, "User Type", htmlAttributes: new { @class = "control-label col-md-5 required" })
                     <div class="col-md-11">
                         @Html.DropDownList("UserTypeID", null, htmlAttributes: new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.UserTypeID, "", new { @class = "text-danger" })

@@ -19,7 +19,9 @@ namespace ProAcc.Controllers
         // GET: Consultants
         public ActionResult Index(String search, int? i)
         {
-            var consultants = db.Consultants.Where(a => a.isActive == true).Where(x => x.Name.StartsWith(search) || search == null).ToList().ToPagedList(i ?? 1, 5);
+            var consultants = db.Consultants.Where(a => a.isActive == true)
+                .OrderByDescending(x=>x.Cre_on)
+                .Where(x => x.Name.StartsWith(search) || search == null).ToList().ToPagedList(i ?? 1, 5);
             //var consultants = db.Consultants.Include(c => c.User_Master).Where(a => a.isActive == true);
             return View(consultants);
         }
@@ -57,7 +59,8 @@ namespace ProAcc.Controllers
         // GET: Consultants/Create
         public ActionResult Create()
         {
-            var val = db.User_Master.Where(x => x.isActive == true).ToList();
+            var val = db.User_Master.Where(x => x.isActive == true)
+                .Where(x=>x.Id==2).ToList();
             ViewBag.UserTypeID = new SelectList(val, "Id", "UserType");
             return View();
         }
