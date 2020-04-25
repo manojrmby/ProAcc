@@ -61,7 +61,7 @@
             @Html.DisplayNameFor(model => model.First().NextContact_Dt)
         </th>*@
         <th>
-            @Html.DisplayNameFor(model => model.First().LeadStatus)
+            @Html.DisplayNameFor(model => model.First().leadStatus_Master.StatusName)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.First().LeadSource)
@@ -109,7 +109,7 @@
                 @Html.DisplayFor(modelItem => item.NextContact_Dt)
             </td>*@
             <td>
-                @Html.DisplayFor(modelItem => item.LeadStatus)
+                @Html.DisplayFor(modelItem => item.leadStatus_Master.StatusName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.LeadSource)

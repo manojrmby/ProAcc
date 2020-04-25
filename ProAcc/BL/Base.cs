@@ -507,6 +507,100 @@ namespace ProAcc.BL
             return AR;
         }
 
+
+        //FioriApps Report
+        public GeneralList sp_GetFioriAppsReportDropdown()
+        {
+            GeneralList sP_ = new GeneralList();
+            DataSet ds = new DataSet();
+            DBHelper dB = new DBHelper("SP_FioriAppsReport", CommandType.StoredProcedure);
+            dB.addIn("@Type", "GetDropdown");
+            dB.addIn("@InstanceId", InstanceId);
+            ds = dB.ExecuteDataSet();
+            List<Lis> _Lob = new List<Lis>();
+            if (ds.Tables.Count > 0)
+            {
+                DataTable dt = new DataTable();
+                dt = ds.Tables[0];
+                int count = 0;
+                foreach (DataRow dr in dt.Rows)
+                {
+                    _Lob.Add(new Lis
+                    {
+                        Name = dr["Roles"].ToString(),
+                        _Value = count
+                    });
+                    count = count++;
+                }
+            }
+
+
+            sP_._List = _Lob;
+            return sP_;
+        }
+
+        public  List<SAPFioriAppsModel> sp_GetSAPFioriAppsTable()
+        {
+            List<SAPFioriAppsModel> FiR = new List<SAPFioriAppsModel>();
+            DataTable dt = new DataTable();
+            DBHelper dB = new DBHelper("SP_FioriAppsReport", CommandType.StoredProcedure);
+            dB.addIn("@Type", "FioriApps_Table");
+            dB.addIn("@InstanceId", InstanceId);
+            dt = dB.ExecuteDataTable();
+            //  List<DataRow> list = new List<DataRow>(dt.Select());
+            int i = 0;
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow dr in dt.Rows)
+                {
+                    i += 1;
+                    SAPFioriAppsModel data = new SAPFioriAppsModel();
+                    data.S_No = i;
+                    data.Role = dr["Role"].ToString();
+                    data.Name = dr["Name"].ToString();
+                    data.Application_Area = dr["Application Area"].ToString();
+                    data.Description = dr["Description"].ToString();
+
+                    FiR.Add(data);
+                }
+            }
+            return FiR;
+        }
+
+        public GeneralList sP_GetSAPFioriAppsReport_Bar(string Input)
+        {
+            GeneralList sP_ = new GeneralList();//manoj
+            DataTable dt = new DataTable();
+            DBHelper dB = new DBHelper("SP_FioriAppsReport", CommandType.StoredProcedure);
+
+            dB.addIn("@Type", "ALL");
+            dB.addIn("@InstanceId", InstanceId);
+            dB.addIn("@Input", Input);
+            dt = dB.ExecuteDataTable();
+            if (dt.Rows.Count > 0)
+            {
+                List<Lis> _Lob = new List<Lis>();
+                foreach (DataRow dr in dt.Rows)
+                {
+                    _Lob.Add(
+                        new Lis
+                        {
+                            Name = dr["Roles"].ToString(),
+                            _Value = Convert.ToInt32(dr["_Count"].ToString()
+                            )
+                        });
+
+                }
+
+                sP_._List = _Lob;
+
+
+            }
+            return sP_;
+        }
+
+        //public li
+
         //FileUpload
         public Boolean Upload_Activities(DataTable CustomTable, string fileName, Guid Instance_ID)
         {
@@ -521,7 +615,7 @@ namespace ProAcc.BL
             dB.addIn("@FileUploadID", Guid.NewGuid());
             dB.addIn("@instanceId", Instance_ID);
             dB.addIn("@fileName", fileName);
-            dB.addIn("@Createdby", userID);
+            dB.addIn("@Createdby", User_ID);
 
             dB.ExecuteScalar();
             status = true;
@@ -541,7 +635,7 @@ namespace ProAcc.BL
             dB.addIn("@FileUploadID", Guid.NewGuid());
             dB.addIn("@instanceId", Instance_ID);
             dB.addIn("@fileName", fileName);
-            dB.addIn("@Createdby", userID);
+            dB.addIn("@Createdby", User_ID);
 
             dB.ExecuteScalar();
             status = true;
@@ -561,7 +655,7 @@ namespace ProAcc.BL
             dB.addIn("@FileUploadID", Guid.NewGuid());
             dB.addIn("@instanceId", Instance_ID);
             dB.addIn("@fileName", fileName);
-            dB.addIn("@Createdby", userID);
+            dB.addIn("@Createdby", User_ID);
 
             dB.ExecuteScalar();
             status = true;
@@ -582,7 +676,7 @@ namespace ProAcc.BL
             dB.addIn("@FileUploadID", Guid.NewGuid());
             dB.addIn("@instanceId", Instance_ID);
             dB.addIn("@fileName", fileName);
-            dB.addIn("@Createdby", userID);
+            dB.addIn("@Createdby", User_ID);
 
             dB.ExecuteScalar();
             status = true;
@@ -603,7 +697,7 @@ namespace ProAcc.BL
             dB.addIn("@FileUploadID", Guid.NewGuid());
             dB.addIn("@instanceId", Instance_ID);
             dB.addIn("@fileName", fileName);
-            dB.addIn("@Createdby", userID);
+            dB.addIn("@Createdby", User_ID);
 
             dB.ExecuteScalar();
             status = true;
@@ -623,7 +717,7 @@ namespace ProAcc.BL
             dB.addIn("@FileUploadID", Guid.NewGuid());
             dB.addIn("@instanceId", Instance_ID);
             dB.addIn("@fileName", fileName);
-            dB.addIn("@Createdby", userID);
+            dB.addIn("@Createdby", User_ID);
 
             dB.ExecuteScalar();
             status = true;
@@ -643,7 +737,7 @@ namespace ProAcc.BL
             dB.addIn("@FileUploadID", Guid.NewGuid());
             dB.addIn("@instanceId", Instance_ID);
             dB.addIn("@fileName", fileName);
-            dB.addIn("@Createdby", userID);
+            dB.addIn("@Createdby", User_ID);
 
             dB.ExecuteScalar();
             status = true;
@@ -688,7 +782,7 @@ namespace ProAcc.BL
                 user.Type = Convert.ToInt32(dt.Rows[0][1].ToString());
                 user.Name = dt.Rows[0][2].ToString();
 
-                userID = user.ID;
+                User_ID = user.ID;
                 User_Name = user.Name;
                 for (int i = 0; i < dt1.Rows.Count; i++)
                 {

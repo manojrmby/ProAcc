@@ -8,20 +8,6 @@
 <script src="~/Asset/Scripts/Chart.RadialGauge.umd.js"></script>
 <script src="~/Asset/Scripts/chartjs-plugin-labels.min.js"></script>
 
-<style>
-	table,
-	thead,
-	tr,
-	tbody,
-	th,
-	td {
-		text-align: left;
-	}
-
-	.table td {
-		text-align: left;
-	}
-</style>
 <h5>
 	Custom Code Analysis
 </h5>
@@ -30,63 +16,63 @@
 		<div class="col-md-6 card">
 			<canvas id="Chart_CustomCode"></canvas>
 		</div>
-
 	</div>
-	<br />
-
 	<div class="row">
-		<div class="col-lg-12 card">
-			
-
-			<table id="t01" class="table table-bordered table-hover tableFixHead outer table-striped">
-				<thead>
-					<tr>
-						<th>S.NO</th>
-						<th>Custom Code Topic</th>
-						<th>Status</th>
-						<th>Application Component</th>
-						<th>Custom Code Note</th>
-					</tr>
-				</thead>
-				<tbody class="">
-					@foreach (var item in ViewBag.CRReport)
-					{
-
+		<div class="col-lg-12 card" style="min-height:600px;">
+			<h4>
+				Show Database value in DataTable
+			</h4>
+			<div class="tableFixHead outer table-striped">
+				<table>
+					<thead>
 						<tr>
-							<td class="text-center">
-								@item.S_No.
-							</td>
-							<td>
-								@item.Custom_Code_Topic
-							</td>
-							<td>
-								@item.Status
-							</td>
-							<td>
-								@item.Application_Component
-							</td>
-							<td>
-
-								@{
-									var result = "";
-									if (@item.Custom_Code_Note != null)
-									{
-										var data = @item.Custom_Code_Note;
-										result = (data.Length > 6) ? data.Substring(data.Length - 6, 6) : data;
-									}
-									<a href="@item.Custom_Code_Note">@result</a>
-								}
-							</td>
-
+							<th>S.NO</th>
+							<th>Custom Code Topic</th>
+							<th>Status</th>
+							<th>Application Component</th>
+							<th>Custom Code Note</th>
 						</tr>
+					</thead>
+					<tbody>
+						@foreach (var item in ViewBag.CRReport)
+						{
+
+							<tr>
+								<td class="text-center">
+									@item.S_No.
+								</td>
+								<td>
+									@item.Custom_Code_Topic
+								</td>
+								<td>
+									@item.Status
+								</td>
+								<td>
+									@item.Application_Component
+								</td>
+								<td>
+
+									@{
+										var result = "";
+										if (@item.Custom_Code_Note != null)
+										{
+											var data = @item.Custom_Code_Note;
+											result = (data.Length > 6) ? data.Substring(data.Length - 6, 6) : data;
+										}
+										<a href="@item.Custom_Code_Note">@result</a>
+									}
+								</td>
+
+							</tr>
 
 
 
-					}
-				</tbody>
-			</table>
+						}
+					</tbody>
+				</table>
+			</div>
+
 		</div>
-
 	</div>
 </div>
 
