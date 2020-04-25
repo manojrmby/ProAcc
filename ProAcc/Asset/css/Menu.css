@@ -10742,14 +10742,16 @@ a, button, .btn {
 }
 
 .closed-sidebar.fixed-footer .app-footer__inner {
-    margin-left: 0 !important
+    margin-left: 0 !important;
+
 }
 
 .app-main {
     flex: 1;
     display: flex;
     z-index: 8;
-    position: relative
+    position: relative;
+   
 }
 
     .app-main .app-main__outer {
@@ -10791,7 +10793,7 @@ a, button, .btn {
 
     .app-footer .app-footer__inner {
         padding: 0 1.5rem 0 .75rem;
-        height: 60px;
+        height: 40px;
         display: flex;
         align-content: center;
         align-items: center

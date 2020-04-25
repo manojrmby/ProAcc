@@ -25,7 +25,7 @@
 <script src="~/Asset/Scripts/Chart.js"></script>
 <script src="~/Asset/Scripts/Chart.RadialGauge.umd.js"></script>
 <link href="~/Asset/css/jBox.all.css" rel="stylesheet" />
-<link href="~/Asset/css/Demo.css" rel="stylesheet" />
+
 
 
 
@@ -62,8 +62,8 @@
 
     <div class="row">
         <div class="card-body col-lg-12 card">
-
-            <h2>Create Analysis</h2>
+            <h4 class="card-title">Create Analysis</h4>
+         <hr />
             <div class="form-row">
                 @*<div class="position-relative form-group">
                 <label for="exampleEmail" class="">Customer Name</label>
@@ -71,14 +71,14 @@
             </div>*@
                 <div class="col-md-6">
                     <div class="position-relative form-group">
-                        <label for="exampleEmail" class=""><h5>Project Name <strong style="color:red">*</strong></h5></label>
+                        <label for="exampleEmail" class="">Project Name <strong style="color:red">*</strong></label>
                         @Html.DropDownList("Project", (IEnumerable<SelectListItem>)ViewBag.Project, "- SELECT-", new { id = "IDProject", @class = "form-control" })
                         @*@Html.DropDownList("Project", (IEnumerable<SelectListItem>), "- SELECT-", new { id = "IDProject", @class = "form-control" })*@
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="position-relative form-group">
-                        <label for="exampleEmail" class=""><h5>Instance Name <strong style="color:red">*</strong></h5></label>
+                        <label for="exampleEmail" class="">Instance Name <strong style="color:red">*</strong></label>
                         @Html.DropDownList("Instance", new SelectList(Enumerable.Empty<SelectListItem>(), "IDInstance", "InstanceName"),
                   "Select a Project", new { id = "IDInstance", @class = "form-control" })
                         @*@Html.DropDownList("Instance", (IEnumerable<SelectListItem>), "- SELECT-", new { id = "IDInstance", @class = "form-control" })*@
@@ -137,7 +137,7 @@
 
             </div>*@
                 <div class="row" style="text-align:left !important;margin:auto !important;">
-                    <div class="main-card mb-3 card" >
+                    <div class="main-card mb-3 card">
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="mb-0 table table-hover">
@@ -189,7 +189,7 @@
                                             HANA Database Tables
                                         </td>
                                         <td>
-                                            <input type="file"  class="mb-2 mr-2 btn btn-info" name="files" id="FileUpload4" />
+                                            <input type="file" class="mb-2 mr-2 btn btn-info" name="files" id="FileUpload4" />
                                         </td>
                                     </tr>
                                     <tr>
