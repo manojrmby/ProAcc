@@ -4,7 +4,7 @@
     ViewBag.Title = "Create";
     Layout = "~/Views/shared/_Layout.cshtml";
 }
-@*@model ProAcc.BL.Model.CustomerModel*@
+
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
 
@@ -22,6 +22,7 @@ Consultant: @Html.RadioButton("UserType", "Consultant")
     @Html.Partial("_Consultantcreate", Model.consultant)
 </div>
 
+
 <script type="text/javascript">
     $(document).ready(function () {
         $("#customer").hide();
@@ -32,14 +33,6 @@ Consultant: @Html.RadioButton("UserType", "Consultant")
         if (val == "Customer") {
             $("#customer").show();
              $("#consultant").hide();
-        }
-        else {
-             $("#customer").hide();
-        $("#consultant").show();
-        }
-    //alert($('[name="UserType"]:checked').val());
-
-});
 </script>
 
 

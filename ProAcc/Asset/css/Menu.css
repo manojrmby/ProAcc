@@ -9930,7 +9930,9 @@ a, button, .btn {
         align-content: center;
         flex: 1;
         padding: 0 1.5rem;
-        height: 60px
+        height: 60px;
+        /*DK - #63a09e*/
+        background: #12ce9b  !important;
     }
 
         .app-header .app-header__content .app-header-left {
@@ -9976,22 +9978,28 @@ a, button, .btn {
     .app-header__logo .logo-src {
         /*height: 23px;
 		width: 97px;*/
-        height: 50px;
+        /*height: 50px;*/
         width: 220px;
-        background: url(../images/resizeimage.png);
+        /*background: url(../images/ProACCTool.png);*/       
+        /*background-color: white !important;*/
     }
 
 .app-header__menu, .app-header__mobile-menu {
     display: none;
     padding: 0 1.5rem;
     height: 60px;
-    align-items: center
+    align-items: center;
+
 }
 
 .fixed-header .app-header {
     position: fixed;
+    background-repeat: no-repeat;
+    background-position-x: right;
     width: 100%;
-    top: 0
+    height: 100px;
+    top: 0;
+  
 }
 
 .fixed-header .app-header .app-header__logo {
@@ -23985,7 +23993,8 @@ a.fc-more {
             background: #fff;
             border-radius: 50px;
             padding: 0 10px;
-            overflow: hidden
+            overflow: hidden;
+        
         }
 
             .app-header .app-header__content .header-btn-lg {

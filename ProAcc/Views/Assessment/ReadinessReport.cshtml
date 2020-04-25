@@ -71,16 +71,18 @@
 
 
 
-	jQuery(document).ready(function ($) {
+    jQuery(document).ready(function ($) {
 
-		Ajax_SimplificationDonut();
+        Ajax_SimplificationDonut();
 
-		Ajax_Activities_Bar1();
-		Ajax_Activities_Bar2();
-		Ajax_Activities_Donut();
-		Ajax_Fiori_Bar();
-		Ajax_CustomCode_Bar();
-	});
+        Ajax_Activities_Bar1();
+        Ajax_Activities_Bar2();
+        Ajax_Activities_Donut();
+        Ajax_Fiori_Bar();
+        Ajax_CustomCode_Bar();
+
+       
+    });
 	function Ajax_SimplificationDonut() {
 		$.ajax({
 				type: "POST",
@@ -115,9 +117,10 @@
 					data: data,
 					//backgroundColor: [gradientStroke_, gradientStroke_2],
 					backgroundColor: [
-                            '#FF6384',
-                            '#36A2EB',
-                            '#FFCE56'
+                            '#71c989',//'#FF6384',
+                            '#74abe2',
+                            '#FFCE56',
+                            '#f08956'
                         ],
 					borderWidth: 2,
 					label: "Score"
@@ -232,9 +235,10 @@
 					label:"",
 					
 					backgroundColor: [
-                            '#FF6384',
+                            '#71c989',
                             '#36A2EB',
-                            '#FFCE56'
+                        '#FFCE56',
+                            '#f08956'
                         ],
 					
 				}]
@@ -398,9 +402,10 @@
 					data: data,
 					//backgroundColor: [gradientStroke_, gradientStroke_2],
 					backgroundColor: [
-                            '#FF6384',
+                            '#71c989',
                             '#36A2EB',
-                            '#FFCE56'
+                        '#FFCE56',
+                            '#f08956'
                         ],
 					//borderWidth: 2,
 					//label: "Score"
@@ -589,7 +594,7 @@
 
                     data: data,
 					backgroundColor: [
-                            '#FF6384',
+                            '#71c989',
                             '#36A2EB',
                             '#FFCE56'
                         ],
@@ -713,9 +718,10 @@
 
                     data: data,
 					backgroundColor: [
-                            '#FF6384',
+                            '#71c989',
                             '#36A2EB',
-                            '#FFCE56'
+                        '#FFCE56',
+                        '#f08956'
                         ],
 					////backgroundColor: [gradientStroke_, gradientStroke_2],
 					//backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850"],
@@ -860,7 +866,7 @@
 
                     data: data,
 					backgroundColor: [
-                            '#FF6384',
+                            '#f08956',
                             '#36A2EB',
                             '#FFCE56'
                         ],
@@ -950,14 +956,24 @@
 
 
 
+	$("#Chart_Activities_Donut").click(
+	function (evt) {
+		window.location.href = "@Url.Action("ActivitieReport","Assessment")";
+	}
+    );
+	$("#Chart_Activities_Bar1").click(
+	function (evt) {
+		window.location.href = "@Url.Action("ActivitieReport","Assessment")";
+	}
+    );
+	$("#Chart_Activities_Bar2").click(
+	function (evt) {
+		window.location.href = "@Url.Action("ActivitieReport","Assessment")";
+	}
+    );
 	$("#Chart_Relevant").click(
 	function (evt) {
-		//alert(evt);
-		//debugger;
 		window.location.href = "@Url.Action("SimplificationReport","Assessment")";
-		//var activePoints = myNewChart.getSegmentsAtEvent(evt);
-		//var url = "http://example.com/?label=" + activePoints[0].label + "&value=" + activePoints[0].value;
-		//alert(url);
 	}
 	);
 	$("#Chart_CustomCode").click(

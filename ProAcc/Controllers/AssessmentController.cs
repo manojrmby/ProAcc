@@ -114,6 +114,22 @@ namespace ProAcc.Controllers
         }
         //END Custom Code
 
+        //Start  Readiness
+        public ActionResult ActivitieReport()
+        {
+            Tuple<List<Lis>, List<Lis>> sP_ = _Base.sp_GetActivitiesReportDropdown();
+
+            ViewBag.Condition = new SelectList(sP_.Item2, "Value", "Name");
+            ViewBag.Phase = new SelectList(sP_.Item1, "Value", "Name");
+            List<BL.Model.SAPInput_Activities> AR = _Base.GetActivitiesReport_Table();
+            ViewBag.ARReport = AR;
+            return View();
+        }
+        public JsonResult GetActivitiesReport_Bar(string Phase, string condition)
+        {
+            GeneralList sP_ = _Base.sP_GetActivitiesReport_Bar(Phase, condition);
+            return Json(sP_, JsonRequestBehavior.AllowGet);
+        }
         public ActionResult Test()
         {
             return View();
@@ -122,7 +138,7 @@ namespace ProAcc.Controllers
         [HttpPost]
         public ActionResult Upload()
         {
-            string Cust_ID = Request.Params["Cust_ID"].ToString();
+            //string Cust_ID = Request.Params["Cust_ID"].ToString();
             string IDProject = Request.Params["IDProject"].ToString();
             string InstanceName = Request.Params["InstanceID"].ToString();
 
@@ -136,7 +152,7 @@ namespace ProAcc.Controllers
                             Result_Process_CustomCode = false, Result_Processup_HanaDatabaseTables = false,
                             Result_Process_FioriApps = false, Result_Process_Simplification = false,
                             Result_Process_SAPReadinessCheck = false, Result_Instance = false;
-                        Guid Instance_ID = Guid.NewGuid();
+                        Guid Instance_ID = Guid.Parse(InstanceName);
                         //  Get all files from Request object  
                         HttpFileCollectionBase files = Request.Files;
                         for (int i = 0; i < files.Count; i++)
@@ -196,17 +212,17 @@ namespace ProAcc.Controllers
 
                         }
 
-                        if (Result_Process_Bwextractors & Result_Process_Bwextractors &
-                            Result_Process_CustomCode & Result_Processup_HanaDatabaseTables &
-                            Result_Process_FioriApps & Result_Process_Simplification &
-                            Result_Process_SAPReadinessCheck)
-                        {
+                        //if (Result_Process_Bwextractors & Result_Process_Bwextractors &
+                        //    Result_Process_CustomCode & Result_Processup_HanaDatabaseTables &
+                        //    Result_Process_FioriApps & Result_Process_Simplification &
+                        //    Result_Process_SAPReadinessCheck)
+                        //{
 
-                            Result_Instance = _Base.AddInstance(IDProject, InstanceName, Instance_ID);
+                        //    Result_Instance = _Base.AddInstance(IDProject, InstanceName, Instance_ID);
 
-                            return Json("File Uploaded Successfully!");
-                        }
-                        return Json("File Uploaded Incomplete");
+                        //    return Json("File Uploaded Successfully!");
+                        //}
+                        return Json("File Uploaded Successfully!");
                         // Returns message that successfully uploaded  
 
                     }

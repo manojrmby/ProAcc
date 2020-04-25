@@ -70,22 +70,82 @@
             background: linear-gradient(90deg, rgba(1,157,208,1) 24%, rgba(7,213,213,1) 64%) !important;
         }
     </style>
+    <style>
+        #load {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            z-index: 9999;
+            text-align: center;
+            /*background: url("https://www.creditmutuel.fr/cmne/fr/banques/webservices/nswr/images/loading.gif") no-repeat center center rgba(0,0,0,0.25)*/
+            background: rgba(0,0,0,0.25);
+            display: none;
+        }
+
+        .Load_img {
+            top: 50%;
+            width: 500px;
+        }
+    </style>
     @*<link href="~/Asset/css/style.css" rel="stylesheet" />*@
+
+    <style>
+       /*FOR TABLE*/
+	.outer{
+    overflow-y: auto;
+    height:500px;
+    }
+
+.outer table{
+    width: 100%;
+    table-layout: fixed; 
+    border : 1px solid black;
+    border-spacing: 1px;
+}
+
+.outer table th {
+        text-align: left;
+        top:0;
+        position: sticky;
+        background-color: white;  
+}
+
+	tableFixHead          { overflow-y: auto; height: 100px; }
+.tableFixHead thead th { position: sticky; top: 0; }
+
+/* Just common table stuff. Really. */
+table  { border-collapse: collapse; width: 100%; }
+th, td { padding: 8px 16px; }
+th     { background:#eee; }
+
+/* Borders (if you need them) */
+.tableFixHead,
+.tableFixHead td {
+  box-shadow: inset 1px -1px #000;
+}
+.tableFixHead th {
+  box-shadow: inset 1px 1px #000, 0 1px #000;
+}
+
+    </style>
 </head>
 <body>
-
+    <div id="load"><img class="Load_img my-auto" src="~/Asset/images/loading.gif"></div>
     <div class="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header">
-        <div class="app-header header-shadow  sidebar-text-dark bg-happy-log">
+        <div class="app-header header-shadow  sidebar-text-dark " style="background-color:white!important;">
             @*<div class="app-header header-shadow">*@
             <div class="app-header__logo ">
-                <div class="logo-src"></div>
+
+                <div class="logo-src">
+                    <img src="~/Asset/images/ProACCTool.png" style="width:250px;height:100px;" />
+                </div>
                 <div class="header__pane ml-auto ">
                     <div>
                         <button type="button"
                                 class="hamburger close-sidebar-btn hamburger--elastic"
                                 data-class="closed-sidebar">
                             <span class="hamburger-box">
-                                <span class="hamburger-inner"></span>
+                                <span class="hamburger-inner" style="color:green;"></span>
                             </span>
                         </button>
                     </div>
@@ -156,7 +216,7 @@
                                                     tabindex="0"
                                                     class="dropdown-item" style="font-weight:bold;color:blue;">
                                                 @DashboardName
-                                                
+
                                             </button>
                                             <button type="button"
                                                     tabindex="0"
@@ -176,10 +236,10 @@
                                             </button>
                                             <div tabindex="-1" class="dropdown-divider"></div>
                                             @*<button type="button"
-                tabindex="0"
-                class="dropdown-item">
-            LogOut
-        </button>*@
+                                                        tabindex="0"
+                                                        class="dropdown-item">
+                                                    LogOut
+                                                </button>*@
                                             @Html.ActionLink("LogOut", "Logout", "login", new { area = "" }, new { @class = "dropdown-item" })
                                         </div>
                                     </div>
@@ -205,7 +265,7 @@
             </div>
         </div>
 
-        <div class="app-main">
+        <div class="app-main" style="padding-top:110px !important;">
             <div class="app-sidebar sidebar-shadow app-theme-white">
                 <div class="app-header__logo">
                     <div class="logo-src"></div>
@@ -289,6 +349,11 @@
                                                     </a>
                                                 </li>
                                                 <li>
+                                                    <a href="@Url.Action("ActivitieReport", "Assessment")">
+                                                        <i class="metismenu-icon"> </i>Activities Report
+                                                    </a>
+                                                </li>
+                                                <li>
                                                     <a href="@Url.Action("CustomReport", "Assessment")">
                                                         <i class="metismenu-icon"> </i>Custom code Analysis
                                                     </a>
@@ -300,8 +365,8 @@
                                                 <i class="metismenu-icon pe-7s-car"></i>
                                                 Compatability Report
                                                 <!-- <i
-                                          class="metismenu-state-icon pe-7s-angle-down caret-left"
-                                        ></i> -->
+                                                  class="metismenu-state-icon pe-7s-angle-down caret-left"
+                                                ></i> -->
                                                 <i class="metismenu-state-icon fa fa-caret-down caret-left"></i>
                                             </a>
                                             <ul>
@@ -346,6 +411,7 @@
                                         Validation
                                     </a>
                                 </li>
+
                                 @if (User.IsInRole("Consultant"))
                                 {
                                     <li>
@@ -459,7 +525,8 @@
                 <div class="app-wrapper-footer">
                     <div class="app-footer">
                         <div class="app-footer__inner ">
-                            <footer style="text-indent: 1em;">Copyrights 2020 <a style="color:forestgreen">Promantus</a> All Rights Reserved</footer>
+                            <img src="~/Asset/images/resizeimage.png" style="width:150px;"/><br />
+                            <footer style="text-indent: 1em;"><a style="color:gray !important;">©Copyright 2020 Promantus Inc.,All Rights Reserved</a></footer>
                         </div>
                     </div>
                 </div>
@@ -471,6 +538,14 @@
     </div>
     <script src="~/Asset/Scripts/bootstrap.min.js"></script>
     <script>
+        $(document).ready(function () {
+            $(document).ajaxStart(function () {
+                $("#load").css("display", "block");
+            });
+            $(document).ajaxComplete(function () {
+                $("#load").css("display", "none");
+            });
+        });
         $(".vertical-nav-menu a").each(function () {
 
             if ((window.location.pathname.indexOf($(this).attr('href'))) > -1) {
