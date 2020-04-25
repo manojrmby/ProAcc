@@ -439,6 +439,7 @@
     <Compile Include="BL\FileUpload.cs" />
     <Compile Include="BL\Model\CreateViewModel.cs" />
     <Compile Include="BL\Model\LogedUser.cs" />
+    <Compile Include="BL\Model\SAPFioriAppsModel.cs" />
     <Compile Include="BL\Model\SAPInput_Activities.cs" />
     <Compile Include="BL\Model\SAPInput_CustomCode.cs" />
     <Compile Include="BL\Model\SAPInput_SimplificationReport.cs" />
@@ -490,12 +491,10 @@
     <Content Include="Views\ProjectInstanceConfigs\Edit.cshtml" />
     <Content Include="Views\ProjectInstanceConfigs\Index.cshtml" />
     <Content Include="Views\Home\Home.cshtml" />
-
     <Content Include="Views\Customers\_Customercreate.cshtml" />
     <Content Include="Views\Customers\_Consultantcreate.cshtml" />
-
     <Content Include="Views\Assessment\ActivitieReport.cshtml" />
-
+    <Content Include="Views\Assessment\FioriAppsReport.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

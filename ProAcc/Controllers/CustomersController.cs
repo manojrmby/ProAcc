@@ -84,7 +84,7 @@ namespace ProAcc.Controllers
                 {
                     customer.Id = Guid.NewGuid();
                     customer.Cre_on = DateTime.Now;
-                    customer.Cre_By = @ProAcc.BL.Model.Common.userID;
+                    customer.Cre_By = ProAcc.BL.Model.Common.User_ID;
                     customer.isActive = true;
                     db.Customers.Add(customer);
                     db.SaveChanges();
@@ -140,7 +140,7 @@ namespace ProAcc.Controllers
             {
                 customer.Modified_On = DateTime.Now;
                 customer.Cre_on = DateTime.Now;
-                customer.Modified_by= @ProAcc.BL.Model.Common.userID;
+                customer.Modified_by= @ProAcc.BL.Model.Common.User_ID;
                 customer.isActive = true;
                 db.Entry(customer).State = EntityState.Modified;
                 db.SaveChanges();

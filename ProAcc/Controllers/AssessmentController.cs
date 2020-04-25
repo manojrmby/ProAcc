@@ -263,5 +263,20 @@ namespace ProAcc.Controllers
             return Json(Instance, JsonRequestBehavior.AllowGet);
         }
 
+
+
+        public ActionResult FioriAppsReport()
+        {
+            GeneralList sP_ = _Base.sp_GetFioriAppsReportDropdown();
+            ViewBag.Roles = new SelectList(sP_._List, "_Value", "Name");
+            List<SAPFioriAppsModel> FiR = _Base.sp_GetSAPFioriAppsTable();
+            ViewBag.FiRReport = FiR;
+            return View();
+        }
+        public JsonResult GetFioriAppsReportt_Bar(string Input)
+        {
+            GeneralList sP_ = _Base.sP_GetSAPFioriAppsReport_Bar(Input);
+            return Json(sP_, JsonRequestBehavior.AllowGet);
+        }
     }
 }

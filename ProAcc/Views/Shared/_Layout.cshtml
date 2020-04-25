@@ -358,6 +358,11 @@ th     { background:#eee; }
                                                         <i class="metismenu-icon"> </i>Custom code Analysis
                                                     </a>
                                                 </li>
+                                                <li>
+                                                    <a href="@Url.Action("FioriAppsReport", "Assessment")">
+                                                        <i class="metismenu-icon"> </i>FioriApps Report
+                                                    </a>
+                                                </li>
                                             </ul>
                                         </li>
                                         <li>
@@ -412,7 +417,7 @@ th     { background:#eee; }
                                     </a>
                                 </li>
 
-                                @if (User.IsInRole("Consultant"))
+                                @if (User.IsInRole("Consultant")||User.IsInRole("Admin"))
                                 {
                                     <li>
                                         <a href="dashboard-boxes.html">

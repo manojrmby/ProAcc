@@ -74,7 +74,7 @@ namespace ProAcc.Controllers
                 if (consultant.Name != null && consultant.UserName !=null && consultant.Password!=null)
                 {
                     consultant.Id = Guid.NewGuid();
-                    consultant.Cre_By = @ProAcc.BL.Model.Common.userID;
+                    consultant.Cre_By = ProAcc.BL.Model.Common.User_ID;
                     consultant.Cre_on = DateTime.Now;
                     consultant.isActive = true;
                     db.Consultants.Add(consultant);
