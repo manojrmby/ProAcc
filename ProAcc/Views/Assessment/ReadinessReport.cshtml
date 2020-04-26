@@ -11,36 +11,38 @@
 <div style="padding:1em;">
 	
 	<div class="row">
-		<a class="card-title">Readiness Report</a>
-		<div class="col-lg-12 ">
-			<div class="row">
-				<div class="col-lg-6 text-center card ">
-					<canvas id="Chart_Relevant"></canvas>
-				</div>
-				<div class="col-lg-6 text-center card">
+		<a class="card-title">SAP Readiness Report</a>
+        <div class="col-lg-12 ">
+            <div class="row">
+                <div class="col-lg-6 text-center card ">
+                    <canvas id="Chart_Relevant"></canvas>
+                </div>
+                <div class="col-lg-6 text-center card">
 
-					<canvas id="Chart_CustomCode"></canvas>
-				</div>
+                    <canvas id="Chart_CustomCode"></canvas>
+                </div>
 
-			</div>
-		</div>
+            </div>
+        </div>
 		<br />
 		<br />
-		<a class="card-title">Activities Related Simplification Items</a>
-		<div class="col-lg-12 card ">
+		
+        <div class="col-lg-12 card ">
+            <div class="row">
+                <a class="card-title" style="margin-top:30px;text-align:center !important;">Activities Related to Simplification Items</a><hr />
+            </div>
+            <div class="row ">
 
-			<div class="row ">
+                <div style="padding-left:175px;" class="col-md-8 ">
+                    <canvas id="Chart_Activities_Donut"></canvas>
+                </div>
+                @*<div class="col-lg-4">
+                <label></label>
 
-				<div style="padding-left:175px;" class="col-md-8 ">
-					<canvas id="Chart_Activities_Donut"></canvas>
-				</div>
-				@*<div class="col-lg-4">
-					<label></label>
-
-					<canvas id="Chart_Activities_Bar2"></canvas>
-				</div>*@
-			</div>
-		</div>
+                <canvas id="Chart_Activities_Bar2"></canvas>
+            </div>*@
+            </div>
+        </div>
 		<br />
 		<br />
 		<div class="col-lg-12">
@@ -56,14 +58,19 @@
 		</div>
 		<br />
 		<br />
-		<a class="card-title">Recommended SAP Fiori Apps</a>
+		<hr />
 		<div class="col-lg-12 card">
-			<div class="row">
-				<div style="padding-left:200px;" class="col-md-8 ">
-					<canvas id="Chart_Fiori_Bar1"></canvas>
-				</div>
-			
-			</div>
+            <div class="row">
+                <a class="card-title" style="margin-top:30px;text-align:center !important;">Recommended SAP Fiori Apps</a><hr />
+            </div>
+            <div class="row">
+                
+                <div style="padding-left:200px;" class="col-md-8 ">
+                    <canvas id="Chart_Fiori_Bar1"></canvas>
+                    <div id="legendfiori"></div>
+                </div>
+
+            </div>
 
 		</div>
 </div>
@@ -130,8 +137,9 @@
 
 				responsive: true,
                 legend: {
-                    display: false
-					//position: 'bottom'
+                    display: false,
+                    position: 'bottom',
+                    fullWidth: true
 				},
 				title: {
 					display: true,
@@ -611,12 +619,10 @@
 				}
 			},
 				responsive: true,
-				legend: {
-
-                    display: false,
-					position: 'right',
-                    maxWidth: 100,
-					onClick: null
+			    legend: {
+                    display: true,
+                    position: 'bottom',
+                    fullWidth: true
 				},
                 title: {
                     display: true,
@@ -732,8 +738,10 @@
 			options: {
 
 				responsive: true,
-				legend: {
-					display: false
+                legend: {
+                    display: false,
+                    position: 'right',
+                    fullWidth: true
 				},
 				title: {
 					display: true,
@@ -749,7 +757,7 @@
                          render: 'value'
 						
                     }
-                },
+                },            
 				//scales: {
 				//	xAxes: [{
 				//		stacked: true
@@ -811,10 +819,12 @@
                             drawBorder: false,
                         }
 					}]
-				}
+                }
+                   
 			}
 		};
-		window.myRadialGauge = new Chart(ctx, config);
+        window.myRadialGauge = new Chart(ctx, config);
+        
 		}
 
 	function Ajax_CustomCode_Bar() {
@@ -863,7 +873,7 @@
 			data: {
 				labels: labels,
 				datasets: [{
-
+                  
                     data: data,
 					backgroundColor: [
                             '#f08956',
@@ -877,8 +887,8 @@
 
 			options: {
 
-				legend: {
-					display: false,
+                legend: {
+                    display: false,
 					position: "bottom"
                 },
 				plugins: {
