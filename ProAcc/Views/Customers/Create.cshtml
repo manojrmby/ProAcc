@@ -15,18 +15,7 @@
 Customer:   @Html.RadioButton("UserType", "Customer")
 Consultant: @Html.RadioButton("UserType", "Consultant")
 <div id="customer">
-    @if (Model.customer != null)
-    {
         @Html.Partial("_Customercreate", Model.customer)
-    }
-    else
-    {
-        <script type="text/javascript">
-
-            alert("Please Enter the Details");
-           
-        </script>
-    }
 </div>
 <div id="consultant">
     @Html.Partial("_Consultantcreate", Model.consultant)
@@ -51,8 +40,4 @@ Consultant: @Html.RadioButton("UserType", "Consultant")
 
     });
 
-        </script>
-
-
-
-
+</script>

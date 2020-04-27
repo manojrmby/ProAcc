@@ -50,9 +50,7 @@ namespace ProAcc.Controllers
             return View();
         }
 
-        // POST: ProjectInstanceConfigs/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+       
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(ProjectInstanceConfig projectInstanceConfig)
@@ -100,9 +98,7 @@ namespace ProAcc.Controllers
             return View(projectInstanceConfig);
         }
 
-        // POST: ProjectInstanceConfigs/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+       
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(ProjectInstanceConfig projectInstanceConfig)
@@ -110,6 +106,7 @@ namespace ProAcc.Controllers
             if (ModelState.IsValid)
             {
                 projectInstanceConfig.Modified_On = DateTime.Now;
+                projectInstanceConfig.isActive = true;
                 db.Entry(projectInstanceConfig).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");

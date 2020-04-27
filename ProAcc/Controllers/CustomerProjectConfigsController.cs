@@ -52,9 +52,7 @@ namespace ProAcc.Controllers
             return View();
         }
 
-        // POST: CustomerProjectConfigs/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+       
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(CustomerProjectConfig customerProjectConfig)
@@ -65,6 +63,7 @@ namespace ProAcc.Controllers
                 {
                     customerProjectConfig.Id = Guid.NewGuid();
                     customerProjectConfig.Cre_on = DateTime.Now;
+                    customerProjectConfig.Cre_By= ProAcc.BL.Model.Common.User_ID;
                     customerProjectConfig.LastUpdated_Dt = DateTime.Now;
                     customerProjectConfig.isActive = true;
                     db.CustomerProjectConfigs.Add(customerProjectConfig);
@@ -108,9 +107,7 @@ namespace ProAcc.Controllers
             return View(customerProjectConfig);
         }
 
-        // POST: CustomerProjectConfigs/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(CustomerProjectConfig customerProjectConfig)
@@ -118,6 +115,8 @@ namespace ProAcc.Controllers
             if (ModelState.IsValid)
             {
                 customerProjectConfig.Modified_On = DateTime.Now;
+                customerProjectConfig.Modified_by= ProAcc.BL.Model.Common.User_ID;
+                customerProjectConfig.isActive = true;
                 db.Entry(customerProjectConfig).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");

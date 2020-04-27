@@ -61,7 +61,7 @@ namespace ProAcc.Controllers
         // GET: Customers/Create
         public ActionResult Create()
         {
-            var val = db.User_Master.Where(a => a.isActive == true);
+            var val = db.User_Master.Where(a=>a.isActive).Where(a => a.Id ==1 || a.Id==2);
             ViewBag.UserTypeID = new SelectList(val, "Id", "UserType");
             var status = db.leadStatus_Master.Where(a => a.isActive == true);
             ViewBag.LeadStatus = new SelectList(status, "Id", "StatusName");
@@ -72,9 +72,7 @@ namespace ProAcc.Controllers
             return View(model);
         }
 
-        // POST: Customers/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(Customer customer)
@@ -131,9 +129,7 @@ namespace ProAcc.Controllers
             return View(customer);
         }
 
-        // POST: Customers/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+     
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Customer customer)
@@ -142,6 +138,7 @@ namespace ProAcc.Controllers
             {
                 customer.Modified_On = DateTime.Now;
                 customer.Cre_on = DateTime.Now;
+                customer.UserTypeID = 3;
                 customer.Modified_by= @ProAcc.BL.Model.Common.User_ID;
                 customer.isActive = true;
                 db.Entry(customer).State = EntityState.Modified;

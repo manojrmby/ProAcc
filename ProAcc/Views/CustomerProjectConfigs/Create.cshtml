@@ -8,18 +8,18 @@
 
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div>
         <h4 class="card-title">Customer Project Configuration</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
-            @Html.LabelFor(model => model.ProjectName,"Project Name", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.ProjectName, "Project Name", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.ProjectName, new { htmlAttributes = new { @id = "txtProjName", @class = "form-control", @onchange = "ValidateProjName()" } })
+                @Html.EditorFor(model => model.ProjectName, new { htmlAttributes = new { @id = "txtProjName", @class = "form-control", @onchange="ValidateProjName();" } })
                 @Html.ValidationMessageFor(model => model.ProjectName, "", new { @class = "text-danger" })
                 <span id="lblProjName" style="color:red"></span>
             </div>
@@ -28,84 +28,24 @@
         <div class="form-group">
             @Html.LabelFor(model => model.CustomerID, "Customer Name", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("CustomerID", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.CustomerID, "", new { @class = "text-danger" })
+                @*@Html.DropDownList("CustomerID", null, htmlAttributes: new { @class = "form-control", onchange = "SelectedIndexChanged()" });*@
+                @Html.DropDownList("CustomerID", (IEnumerable<SelectListItem>)ViewBag.CustomerID,"--select--", htmlAttributes: new { @class = "form-control", onchange = "SelectedIndexChanged()" })
+                
+                    @Html.ValidationMessageFor(model => model.CustomerID, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.ConsultantID, "Consultant Name", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("ConsultantID", null, htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownList("ConsultantID", (IEnumerable<SelectListItem>)ViewBag.ConsultantID,"--select--", htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.ConsultantID, "", new { @class = "text-danger" })
             </div>
         </div>
 
-
-
-        @*<div class="form-group">
-            @Html.LabelFor(model => model.isActive, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.isActive)
-                    @Html.ValidationMessageFor(model => model.isActive, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>*@
-
-        @*<div class="form-group">
-            @Html.LabelFor(model => model.LastUpdated_Dt, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.LastUpdated_Dt, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.LastUpdated_Dt, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Cre_on, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Cre_on, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Cre_on, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Cre_By, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Cre_By, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Cre_By, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Modified_On, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Modified_On, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Modified_On, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Modified_by, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Modified_by, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Modified_by, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.IsDeleted, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.IsDeleted)
-                    @Html.ValidationMessageFor(model => model.IsDeleted, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>*@
-
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-secondary" />
+                <input type="submit" id="createcustproj" value="Create" class="btn btn-secondary" />
             </div>
         </div>
     </div>
@@ -115,17 +55,22 @@
     @Html.ActionLink("Back to List", "Index")
 </div>
 <script>
-    function ValidateProjName()
-      {
-          debugger;
-          var Projname = document.getElementById("txtProjName").value;
-          var lblProjName = document.getElementById("lblProjName");
-          lblProjName.innerHTML = "";
-          var letters = /^[A-Za-z]+$/;
-          if (!letters.test(Projname)) {
+    function ValidateProjName() {
+        debugger;
+        var Projname = document.getElementById("txtProjName").value;
+        var lblProjName = document.getElementById("lblProjName");
+        lblProjName.innerHTML = "";
+        var letters = /^[a-zA-Z0-9, ,-]+$/;
+        if (!letters.test(Projname)) {
             lblProjName.innerHTML = "Please enter valid Project Name";
-          }
-      }
+            $("#createcustproj").prop("disabled", true);
+        }
+        else {
+             $("#createcustproj").prop("disabled", false);
+        }
+    }
+
+    jQuery(document).ready(function ($) {         var Projname = document.getElementById("txtProjName").value;        var CustomerID = $("#CustomerID").val();        var ConsultantID = $("#ConsultantID").val();                if (CustomerID != "" && ConsultantID != "") {            $("#createcustproj").prop("disabled", false);        } else {            $("#createcustproj").prop("disabled", true);        }         $('#CustomerID').change(function () {             debugger;            CustomerID = $("#CustomerID").val();            ConsultantID = $("#ConsultantID").val();            if (CustomerID != "" && ConsultantID != ""&&Projname!=null) {                $("#createcustproj").prop("disabled", false);            }        });    });
 </script>
 
 <script type="text/javascript">
@@ -137,3 +82,4 @@
         }
     });
 </script>
+

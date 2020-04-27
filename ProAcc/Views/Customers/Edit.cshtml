@@ -5,12 +5,20 @@
     Layout = "~/Views/shared/_Layout.cshtml";
 }
 
+    <style>
+        .required::after {
+            content: "*";
+            font-weight: bold;
+            color: red;
+        }
+    </style>
+
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>Edit Customer</h4>
+        <h4>Update Customer</h4>
         <hr />
         <div class="row">
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -34,16 +42,16 @@
                     </div>
                 </div>
 
-                <div class="form-group">
+                @*<div class="form-group">
                     @Html.LabelFor(model => model.UserTypeID, "User Type", htmlAttributes: new { @class = "control-label col-md-5" })
                     <div class="col-md-10">
                         @Html.DropDownList("UserTypeID", null, htmlAttributes: new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.UserTypeID, "", new { @class = "text-danger" })
                     </div>
-                </div>
+                </div>*@
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-5" })
+                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-5 required" })
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @id = "txtName", @class = "form-control", @onchange = "ValidateName()" } })
                         @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
@@ -52,15 +60,16 @@
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.Work_Function, "Work Function", htmlAttributes: new { @class = "control-label col-md-5" })
+                    @Html.LabelFor(model => model.Work_Function, "Industry Sector", htmlAttributes: new { @class = "control-label col-md-5 required" })
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.Work_Function, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model.Work_Function, new { htmlAttributes = new { @id = "txtwork1", @class = "form-control", @onchange = "ValidateWork1()" } })
                         @Html.ValidationMessageFor(model => model.Work_Function, "", new { @class = "text-danger" })
+                        <span id="lblwork1" style="color:red"></span>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "control-label col-md-5" })
+                    @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "control-label col-md-5 required" })
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @id = "txtMobId", @class = "form-control", @onchange = "ValidateMobileNumber()" } })
                         @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
@@ -78,7 +87,7 @@
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-5" })
+                    @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-5 required" })
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @id = "txtEmail", @class = "form-control", @onchange = "ValidateEmail()" } })
                         @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
@@ -137,13 +146,13 @@
                     </div>
                 </div>
 
-                <div class="form-group">
+                @*<div class="form-group">
                     <label id="lblcuststatus" class="control-label col-md-5">Customer Status</label>
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.Conv_Cust_Status, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.Conv_Cust_Status, "", new { @class = "text-danger" })
                     </div>
-                </div>
+                </div>*@
 
                 <div class="position-relative form-group ">
                     @Html.LabelFor(model => model.Comments, htmlAttributes: new { @class = "control-label col-md-5" })
@@ -155,7 +164,7 @@
 
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Save" class="btn btn-secondary" />
+                        <input type="submit" id="savecstmr" value="Save" class="btn btn-secondary" onclick="Savecustomer()" />
                     </div>
                 </div>
                 <div class="col-lg-5" style="float:right;">
@@ -169,15 +178,14 @@
     }
 
     <script>
-        //jQuery(document).ready(function ($) {
-        //    debugger;
-        //    $("#Username").prop("disabled", true);
-        //});
         $("#Username").prop("readonly", true);
+
+        $("#txtPassword").prop("readonly", true);
     </script>
     
     <script>       
 
+        var result = "success";
         function ValidateName()
       {
           debugger;
@@ -185,22 +193,47 @@
           var lblName = document.getElementById("lblName");
           lblName.innerHTML = "";
           var letters = /^[A-Za-z, ]+$/;
-          if (!letters.test(name)) {
-            lblName.innerHTML = "Please enter valid Name";
-          }
+            if (!letters.test(name)) {
+                lblName.innerHTML = "Please enter valid Name";
+                result = "error";
+            }
+            else {
+                result = "success";
+            }
+            validateSave();
     }
-    
-    function ValidateComp()
-      {
-          debugger;
-          var Comp = document.getElementById("txtComp").value;
-          var lblComp = document.getElementById("lblComp");
-          lblComp.innerHTML = "";
+
+        function ValidateWork1() {
+            debugger;
+          var work1 = document.getElementById("txtwork1").value;
+          var lblwork1 = document.getElementById("lblwork1");
+          lblwork1.innerHTML = "";
           var letters = /^[A-Za-z, ]+$/;
-          if (!letters.test(Comp)) {
-            lblComp.innerHTML = "Please enter a valid Company Name";
-          }
-    }
+        if (!letters.test(work1)) {
+            lblwork1.innerHTML = "Please enter a valid Company Name";
+            result = "error";
+        }
+        else {
+            result = "success";
+            }
+            validateSave();
+        }
+        //function ValidateComp()
+        //{
+        //      debugger;
+        //      var Comp = document.getElementById("txtComp").value;
+        //      var lblComp = document.getElementById("lblComp");
+        //      lblComp.innerHTML = "";
+        //      var letters = /^[A-Za-z, ]+$/;
+        //    if (!letters.test(Comp)) {
+        //        lblComp.innerHTML = "Please enter a valid Company Name";
+        //        result = "error";
+        //    }
+        //    else {
+        //        result = "success";
+        //    }
+        //    validateSave();
+        //}
 
         function ValidateEmail() {
         debugger;
@@ -208,9 +241,13 @@
         var lblEmail = document.getElementById("lblEmail");
         lblEmail.innerHTML = "";
         var expr = /^([\w-\.]+)@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
-        if (!expr.test(email)) {
-            lblEmail.innerHTML = "Please enter valid email address.";
-        }
+            if (!expr.test(email)) {
+                lblEmail.innerHTML = "Please enter valid email address.";
+                result = "error";
+            } else {
+                result = "success";
+            }
+            validateSave();
     }
 
     function ValidateMobileNumber() {
@@ -218,8 +255,13 @@
         var txtMobile = document.getElementById("txtMobId").value;
         lblMob.innerHTML = "";
         if (mob.test(txtMobile) == false) {
-            lblMob.innerHTML = "Please enter valid mobile number.";   
+            lblMob.innerHTML = "Please enter valid mobile number.";
+            result = "error";
         }
+        else {
+            result = "success";
+        }
+        validateSave();
     }
 
         function ValidateAltPhone() {
@@ -228,12 +270,17 @@
         var txtAltMobile = document.getElementById("txtAltMobId").value;
         var lblAltMob= document.getElementById("lblAltMob");
         lblAltMob.innerHtml = "";
-        if (txtAltMobile == "") {
-            lblAltMob.innerHTML = "";
-        }
-        else if (!mob.test(txtAltMobile) && txtAltMobile != "") {
-            lblAltMob.innerHTML = "Please enter valid mobile number.";
-        }
+            if (txtAltMobile == "") {
+                lblAltMob.innerHTML = "";
+            }
+            else if (!mob.test(txtAltMobile) && txtAltMobile != "") {
+                lblAltMob.innerHTML = "Please enter valid mobile number.";
+                result = "error";
+            }
+            else {
+                result = "success";
+            }
+            validateSave();
         }
 
         function ValidateAltEmai() {
@@ -242,13 +289,46 @@
         var lblAltEmail = document.getElementById("lblAltEmail");
         lblAltEmail.innerHTML = "";
         var expr = /^([\w-\.]+)@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
-        if(Altemail == "") {
-            lblAltEmail.innerHTML = "";
+            if (Altemail == "") {
+                lblAltEmail.innerHTML = "";
+            }
+            else if (!expr.test(Altemail) && Altemail != "") {
+                lblAltEmail.innerHTML = "Please enter valid email address.";
+                result = "error";
+            }
+            else {
+                result = "success";
+            }
+            validateSave();
         }
-        else if (!expr.test(Altemail) && Altemail!="") {
-            lblAltEmail.innerHTML = "Please enter valid email address.";
+
+        function validateSave() {
+        if (result == "error") {
+            $("#savecstmr").prop("disabled", true);
         }
-       
+        else {
+            $("#savecstmr").prop("disabled", false);
+        }
+        }   
+
+        function Savecustomer() {
+        debugger;
+        var Name = $("#txtName").val();
+        var Work = $("#txtwork1").val();
+        var Mobile = $("#txtMobId").val();
+        var Email = $("#txtEmail").val();
+        
+        var lblName = $("#lblName").text(); 
+        var lblwork = $("#lblwork1").text();
+        var lblMob = $("#lblMob").text();
+        
+
+        if (Name.length > 0 && Work.length > 0 && Mobile.length > 0 && Email.length > 0 && lblName =="" && lblwork== "" && lblMob=="") {
+            $("#savecstmr").prop("disabled", false);
+        }
+        else {
+            $("#savecstmr").prop("disabled", true);
+        }
     }
 
     </script>

@@ -65,9 +65,6 @@ namespace ProAcc.Controllers
             return View();
         }
 
-        // POST: Consultants/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(Consultant consultant)
@@ -114,9 +111,6 @@ namespace ProAcc.Controllers
             return View(consultant);
         }
 
-        // POST: Consultants/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Consultant consultant)
@@ -124,7 +118,7 @@ namespace ProAcc.Controllers
             if (ModelState.IsValid)
             {
                 consultant.Modified_On = DateTime.Now;
-                consultant.Cre_on = DateTime.Now;
+                //consultant.Cre_on = DateTime.Now;
                 consultant.isActive = true;
                 db.Entry(consultant).State = EntityState.Modified;
                 db.SaveChanges();
