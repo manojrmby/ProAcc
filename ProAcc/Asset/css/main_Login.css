@@ -209,21 +209,20 @@ iframe {
 }
 
 .wrap-login100 {
-  width: 960px;
-  background: #fff;
-  /* background-image: url("/images/Login_Img.png");
+    width: 960px;
+    background: #f0f5f7;
+    /* background-image: url("/images/Login_Img.png");
   background-repeat: no-repeat; */
-  border-radius: 10px;
-  overflow: hidden;
-
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  padding: 130px 130px 33px 95px;
+    border-radius: 10px;
+    overflow: hidden;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 130px 130px 33px 95px;
 }
 
 /*------------------------------------------------------------------

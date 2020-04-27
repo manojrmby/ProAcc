@@ -21,6 +21,7 @@
         visibility: hidden;
         position: absolute;
     }
+    
 </style>
 <script src="~/Asset/Scripts/Chart.js"></script>
 <script src="~/Asset/Scripts/Chart.RadialGauge.umd.js"></script>
@@ -31,13 +32,21 @@
 
 @*<script src="~/Asset/Scripts/utils.js"></script>*@
 <script>
-    function OnFileuploadChange(Comp) {
-        console.log(Comp);
-        var Onsuccess = Comp.Value;
-        if (Onsuccess != String.empty) {
-            Comp.css("background-color", "#3ac47d");
+
+
+    $(document).ready(function () {
+    $("#FileUpload1").on('blur', function () {       
+        if (this.files.length > 0) {
+            $(this).css("background-color", "#3ac47d");
+            $(this).addClass('active')           
         }
-    }
+        else {
+            $(this).removeClass('active');
+            $(this).css("background-color", "#0090e2");
+        }
+ })
+  
+});
 
 </script>
 
@@ -156,7 +165,7 @@
                                             Activities
                                         </td>
                                         <td>
-                                            <input class="mb-2 mr-2 btn btn-info" type="file" name="files" id="FileUpload1" onchange="OnFileuploadChange(this);" />
+                                            <input class="mb-2 mr-2 btn btn-info" type="file" name="files" id="FileUpload1" />
                                         </td>
                                     </tr>
                                     <tr>
