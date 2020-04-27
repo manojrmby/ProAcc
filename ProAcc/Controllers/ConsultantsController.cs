@@ -59,8 +59,7 @@ namespace ProAcc.Controllers
         // GET: Consultants/Create
         public ActionResult Create()
         {
-            var val = db.User_Master.Where(x => x.isActive == true)
-                .Where(x=>x.Id==2).ToList();
+            var val = db.User_Master.Where(x => x.isActive == true).ToList();
             ViewBag.UserTypeID = new SelectList(val, "Id", "UserType");
             return View();
         }
@@ -106,7 +105,7 @@ namespace ProAcc.Controllers
             {
                 return HttpNotFound();
             }
-            var val = db.User_Master.Where(x => x.isActive == true).ToList();
+            var val = db.User_Master.Where(a => a.isActive).Where(a => a.Id == 1 || a.Id == 2);
             ViewBag.UserTypeID = new SelectList(val, "Id", "UserType", consultant.UserTypeID);
             return View(consultant);
         }

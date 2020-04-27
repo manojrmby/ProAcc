@@ -16,7 +16,7 @@
 
     <div class="card-body">
         <h4 class="card-title">New Consultant</h4>
-        
+        <p style="color:red"> All Fields are mandatory</p>
         <hr />
         <div class="row">
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -49,6 +49,14 @@
                     </div>
                 </div>
 
+                <div class="position-relative form-group">
+                    @Html.LabelFor(model => model.UserTypeID, "User Type", htmlAttributes: new { @class = "control-label col-md-5 required" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("UserTypeID", null, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.UserTypeID, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
             </div>
             <div class="col-6 ">
 
@@ -73,21 +81,24 @@
                 <div class="position-relative form-group">
                     @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-5 required" })
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @id="Passwd",@class = "form-control", @type = "password" } })
+                        @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @id = "Passwd", @class = "form-control", @type = "password" } })
                         @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="position-relative form-group">
+                    <label class="control-label col-md-5 required">Confirm Password</label>
+                    <div class="col-md-10">
+                        <input type="password" class="form-control required" onchange="validateConsPwd()" id="txtConsCnfmPassword" />
+                        <span id="lblAltConsPwd" style="color:red"></span>
+
                     </div>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-lg-12">
-                <div class="position-relative form-group">
-                    @Html.LabelFor(model => model.UserTypeID, "User Type", htmlAttributes: new { @class = "control-label col-md-5 required" })
-                    <div class="col-md-11">
-                        @Html.DropDownList("UserTypeID", null, htmlAttributes: new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.UserTypeID, "", new { @class = "text-danger" })
-                    </div>
-                </div>
+                
                 <div class="col-md-offset-2 col-md-12">
                     <input type="submit" id="createconsultant" value="Create" class="btn btn-primary" onclick="SubmitConsultant();" />
                     <div class="col-lg-3" style="float:right;">
@@ -138,6 +149,8 @@
 </script>
 
 <script>
+
+    
         var result = "Success";
       function ValidateNa()
       {
@@ -188,6 +201,22 @@
         validateSave();
     }
 
+    function validateConsPwd() {
+        debugger;
+        var Passwd = document.getElementById("Passwd").value;
+        var txtConsCnfmPassword = document.getElementById("txtConsCnfmPassword").value; 
+        var lblAltConsPwd = document.getElementById("lblAltConsPwd");
+        lblAltConsPwd.innerHTML = "";
+        if (Passwd != txtConsCnfmPassword) {
+            lblAltConsPwd.innerHTML = "password does not match";
+            result = "error";
+        }
+        else {
+            result = "Success";
+        }
+        validateSave();
+    }
+
     function ValidateNu() {
          var mob = /^[1-9]{1}[0-9]{9}$/;
         var txtMobile = document.getElementById("txtMob").value;
@@ -221,17 +250,17 @@
         var Email1 = $("#txtEmail1").val();
         var ConsultantUserName = $("#ConsultantUserName").val();
         var Passwd = $("#Passwd").val();
-        //var ConfirmPassword = $("#txtConfirmPassword").val();
+        //var txtConsCnfmPassword = $("#txtConsCnfmPassword").val();
 
         var lblName1 = $("#lblName1").text(); // val();
         var lblDesc = $("#lblDesc").text();
         var lblMob1 = $("#lblMob1").text();
         var lblEmail1 = $("#lblEmail1").text();       
-        var Status = "";
-        //var lblAltPwd = $("#lblAltPwd").text();
+        var Status1 = "";
+        var lblAltConsPwd = $("#lblAltConsPwd").text();
 
-        if (Name1.length > 0 && Desc.length > 0 && Mob.length > 0 && Email1.length > 0 && ConsultantUserName.length > 0 && Passwd.length > 0 &&
-            lblName1 =="" && lblDesc== "" && lblMob1=="" && lblEmail1== "" && Status=="") {
+        if (Name1.length > 0 && Desc.length > 0 && Mob.length > 0 && Email1.length > 0 && ConsultantUserName.length > 0 && Passwd.length > 0 && 
+            lblName1 =="" && lblDesc== "" && lblMob1=="" && lblEmail1== "" && Status1=="" && lblAltConsPwd=="") {
 
             $("#createconsultant").prop("disabled", false);
         }

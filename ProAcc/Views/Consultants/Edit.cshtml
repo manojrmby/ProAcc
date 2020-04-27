@@ -31,13 +31,15 @@
         </div>
     </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @id = "pswd", @class = "form-control", @type = "password" } })
-            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
-        </div>
-    </div>
+    @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @id = "pswd" } })
+
+    @*<div class="form-group">
+            @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @id = "pswd", @class = "form-control", @type = "password" } })
+                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
 
     <div class="form-group">
         @Html.LabelFor(model => model.UserTypeID, "User Type", htmlAttributes: new { @class = "control-label col-md-2" })
@@ -83,7 +85,7 @@
         </div>
     </div>
 
-    @Html.EditorFor(model => model.Cre_on, new { htmlAttributes = new { @id="conslntCre_on",@class = "form-control" } })
+    @Html.EditorFor(model => model.Cre_on, new { htmlAttributes = new { @id = "conslntCre_on", @class = "form-control" } })
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
@@ -106,6 +108,8 @@
     $("#Username").prop("readonly", true);
     $("#pswd").prop("readonly", true);
     $('#conslntCre_on').hide();
+    $('#pswd').hide();
+    
 
     var result = "Success";
 

@@ -34,21 +34,23 @@
                     </div>
                 </div>
 
-                <div class="position-relative form-group">
-                    @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-5" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @id = "txtPassword", @class = "form-control", @type = "password" } })
-                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
-                    </div>
-                </div>
+                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @id = "txtPassword" } })
+                @Html.EditorFor(model => model.Cre_on, new { htmlAttributes = new { @id = "txtcust_cre_on" } })
+
+                @*<div class="position-relative form-group">
+            @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-5" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @id = "txtPassword", @class = "form-control", @type = "password" } })
+            </div>
+        </div>*@
 
                 @*<div class="form-group">
-                    @Html.LabelFor(model => model.UserTypeID, "User Type", htmlAttributes: new { @class = "control-label col-md-5" })
-                    <div class="col-md-10">
-                        @Html.DropDownList("UserTypeID", null, htmlAttributes: new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.UserTypeID, "", new { @class = "text-danger" })
-                    </div>
-                </div>*@
+            @Html.LabelFor(model => model.UserTypeID, "User Type", htmlAttributes: new { @class = "control-label col-md-5" })
+            <div class="col-md-10">
+                @Html.DropDownList("UserTypeID", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.UserTypeID, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
 
                 <div class="form-group">
                     @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-5 required" })
@@ -147,12 +149,12 @@
                 </div>
 
                 @*<div class="form-group">
-                    <label id="lblcuststatus" class="control-label col-md-5">Customer Status</label>
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.Conv_Cust_Status, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.Conv_Cust_Status, "", new { @class = "text-danger" })
-                    </div>
-                </div>*@
+            <label id="lblcuststatus" class="control-label col-md-5">Customer Status</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Conv_Cust_Status, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Conv_Cust_Status, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
 
                 <div class="position-relative form-group ">
                     @Html.LabelFor(model => model.Comments, htmlAttributes: new { @class = "control-label col-md-5" })
@@ -180,7 +182,8 @@
     <script>
         $("#Username").prop("readonly", true);
 
-        $("#txtPassword").prop("readonly", true);
+        $("#txtPassword").hide();
+        $("#txtcust_cre_on").hide();
     </script>
     
     <script>       

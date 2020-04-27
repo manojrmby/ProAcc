@@ -111,8 +111,9 @@
                 <div class="position-relative form-group">
                     @Html.LabelFor(model => model.EstimatedSale, "Estimated Sale", htmlAttributes: new { @class = "control-label col-md-5" })
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.EstimatedSale, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model.EstimatedSale, new { htmlAttributes = new { @id = "EstimatedSale", @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.EstimatedSale, "", new { @class = "text-danger" })
+                        <span id="lblEstimatedSale" style="color:red"></span>
                     </div>
                 </div>
 
@@ -211,23 +212,35 @@
 </script>
 
 <script>
-   
+
+    $(document).ready(function () {
+      $("#EstimatedSale").keypress(function (e) {
+         if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+            $("#lblEstimatedSale").html("Money Only").show().fadeOut("slow");
+                  return false;
+         }
+       });
+    });
+
+
     var result = "success";
 
     function ValidateName()
       {
-          //debugger;
+          debugger;
           var name = document.getElementById("txtName").value;
           var lblName = document.getElementById("lblName");
           lblName.innerHTML = "";
-          var letters = /^[A-Za-z, ]+$/;
-        if (name = "" || !letters.test(name)) {
+          var letters = /^[A-Za-z, ,&]+$/;
+        if (name == ""|| name == "&" || name==" "||!letters.test(name)) {
             lblName.innerHTML = "Please enter valid Name";
-            result = "error";
+            //result = "error";
+            $("#create").prop("disabled", true);
         } else {
-             result = "Success";
+            $("#create").prop("disabled", false);
+             //result = "Success";
         }
-        validateSave();
+        //validateSave();
     }
    
 
@@ -237,34 +250,36 @@
           var work = document.getElementById("txtwork").value;
           var lblwork = document.getElementById("lblwork");
           lblwork.innerHTML = "";
-          var letters = /^[A-Za-z, ]+$/;
+          var letters = /^[A-Za-z, ,&]+$/;
         if (work == "" || !letters.test(work)) {
             lblwork.innerHTML = "Please enter valid Industry Name";
-            result = "error";
+            //result = "error";
+            $("#create").prop("disabled", true);
         }
         else {
-            result = "Success";
+            $("#create").prop("disabled", false);
+            //result = "Success";
         }
-        validateSave();
+       // validateSave();
     }
 
-    function ValidateComp()
-      {
-          //debugger;
-          var Comp = document.getElementById("txtComp").value;
-          var lblComp = document.getElementById("lblComp");
-          lblComp.innerHTML = "";
-          var letters = /^[A-Za-z, ]+$/;
-        if (Comp == "" || !letters.test(Comp)) {
-            lblComp.innerHTML = "Please enter a valid Company Name";
-            result = "error"
-        }
-        else {
-            result = "Success";
-        }
-        validateSave();
+    //function ValidateComp()
+    //  {
+    //      //debugger;
+    //      var Comp = document.getElementById("txtComp").value;
+    //      var lblComp = document.getElementById("lblComp");
+    //      lblComp.innerHTML = "";
+    //      var letters = /^[A-Za-z, ]+$/;
+    //    if (Comp == "" || !letters.test(Comp)) {
+    //        lblComp.innerHTML = "Please enter a valid Company Name";
+    //        result = "error"
+    //    }
+    //    else {
+    //        result = "Success";
+    //    }
+    //    validateSave();
         
-    }
+    //}
 
     function ValidateEmail() {
         debugger;
@@ -274,12 +289,14 @@
         var expr = /^([\w-\.]+)@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
         if (email == "" || !expr.test(email)) {
             lblEmail.innerHTML = "Please enter valid email address.";
-            result = "error";
+            //result = "error";
+            $("#create").prop("disabled", true);
         }
         else {
-            result = "Success";
+            //result = "Success";
+            $("#create").prop("disabled", false);
         }
-        validateSave();
+        //validateSave();
     }
 
     function ValidateAltEmail() {
@@ -290,15 +307,19 @@
         var expr = /^([\w-\.]+)@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
         if (Altemail == "") {
             lblAltEmail.innerHTML = "";
+            $("#create").prop("disabled", false);
         }
         else if (!expr.test(Altemail) && Altemail != "") {
             lblAltEmail.innerHTML = "Please enter valid email address.";
-            result = "error";
+            //result = "error";
+            $("#create").prop("disabled", true);
         }
         else {
-            result = "Success";
+
+            $("#create").prop("disabled", false);
+            //result = "Success";
         }
-        validateSave();
+        //validateSave();
     }
 
     function validatePwd() {
@@ -309,12 +330,14 @@
         lblAltPwd.innerHTML = "";
         if (password != confirmPassword) {
             lblAltPwd.innerHTML = "password does not match";
-            result = "error";
+            //result = "error";
+            $("#create").prop("disabled", true);
         }
         else {
-            result = "Success";
+            //result = "Success";
+            $("#create").prop("disabled", false);
         }
-        validateSave();
+       // validateSave();
     }
 
     function ValidatePhoneNumber() {
@@ -325,12 +348,14 @@
         lblMob.innerHTML = "";
         if (mob.test(txtMobile) == false) {
             lblMob.innerHTML = "Please enter valid mobile number.";
-            result = "error";
+            //result = "error";
+            $("#create").prop("disabled", true);
         }
         else {
-            result = "Success";
+            //result = "Success";
+            $("#create").prop("disabled", false);
         }
-        validateSave();
+        //validateSave();
     }
 
     function ValidateAltPhoneNumber() {
@@ -341,15 +366,18 @@
         lblAltMob.innerHtml = "";
         if (txtAltMobile == "") {
             lblAltMob.innerHTML = "";
+            $("#create").prop("disabled", false);
         }
         else if (mob.test(txtAltMobile) == false) {
             lblAltMob.innerHTML = "Please enter valid mobile number.";
-            result = "error";
+            //result = "error";
+            $("#create").prop("disabled", true);
         }
         else {
-            result = "Success";
+            //result = "Success";
+            $("#create").prop("disabled", false);
         }
-        validateSave();
+       // validateSave();
     }
 
     function Submit() {
@@ -370,6 +398,7 @@
         var Status = "";
         var lblAltPwd = $("#lblAltPwd").text();
 
+        
         if (Name.length > 0 && Work.length > 0 && Mobile.length > 0 && Email.length > 0 && CustomerUserName.length > 0 && Password.length > 0 &&
             ConfirmPassword.length > 0 && lblName =="" && lblwork== "" && lblMob=="" && lblEmail== "" && Status=="" && lblAltPwd=="") {
 
@@ -380,7 +409,8 @@
         }
     }
 
-     function validateSave() {
+    function validateSave() {
+        debugger;
         if (result == "error") {
             $("#create").prop("disabled", true);
         }
@@ -402,60 +432,3 @@
 
 
 
-@*<script>
-    jQuery(document).ready(function($)  {
-        debugger;
-        var Name = $("#txtName").val();
-        var Work = $("#txtwork").val();
-        var Mobile = $("#txtMobId").val();
-        var Email = $("#txtEmail").val();
-        var CustomerUserName = $("#CustomerUserName").val();
-        var Password = $("#txtPassword").val();
-        var ConfirmPassword = $("#txtConfirmPassword").val();
-
-        var lblName = $("#lblName").val();
-        var lblwork = $("#lblwork").val();
-        var lblMob = $("#lblMob").val();
-        var lblEmail = $("#lblEmail").val();        
-        var Status = $("#Status").val();
-        var lblAltPwd = $("#lblAltPwd").val();
-        
-        
-        
-        //if (Name != "" && Work != "" &&Mobile!="" && Email!=""&&CustomerUserName!=null&& Password!=null&&ConfirmPassword!=null ) {
-        if (Name != "" && Work != "") {
-            $("#create").prop("disabled", false);
-        }
-        //else if (lblName != null && lblwork != null && lblMob != null && lblEmail !== null && Status != null && lblAltPwd != null) {
-        //    else if(lblName!=null && lblwork!=null){
-        //    $("#create").prop("disabled", true);
-        //}
-        else {
-            $("#create").prop("disabled", true);
-
-        }
-    });
-</script>*@
-
-
-@*<script>
-    jQuery(document).ready(function  {
-        var ProjectID = $("#IDProject").val();
-        var IDInstance = $("#IDInstance").val();
-        
-        if (ProjectID != "" && IDInstance != "") {
-            $("#btnUpload").prop("disabled", false);
-        } else {
-            $("#btnUpload").prop("disabled", true);
-
-        }
-        $('#IDInstance').change(function () {
-            
-            ProjectID = $("#IDProject").val();
-            IDInstance = $("#IDInstance").val();
-            if (ProjectID != "" && IDInstance != "") {
-                $("#btnUpload").prop("disabled", false);
-            }
-        });
-    });
-</script>*@

@@ -137,7 +137,7 @@ namespace ProAcc.Controllers
             if (ModelState.IsValid)
             {
                 customer.Modified_On = DateTime.Now;
-                customer.Cre_on = DateTime.Now;
+                //customer.Cre_on = DateTime.Now;
                 customer.UserTypeID = 3;
                 customer.Modified_by= @ProAcc.BL.Model.Common.User_ID;
                 customer.isActive = true;
