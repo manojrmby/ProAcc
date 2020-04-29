@@ -2,13 +2,14 @@
 
 <html>
 <head>
-    @{
+    
+    @*@{
         var DashboardName = "0";
         if (Session["Name"] != null)
         {
             DashboardName = Session["Name"].ToString();
         }
-    }
+    }*@
 
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
@@ -32,6 +33,7 @@
         .app-header__logo {
             height: 45px;
         }
+       
         /*.app-header__logo{
                     width: 225px;
                 }*/
@@ -69,6 +71,11 @@
         .vertical-nav-menu li a:hover {
             background: linear-gradient(90deg, rgba(1,157,208,1) 24%, rgba(7,213,213,1) 64%) !important;
         }
+        .scrollable-menu {
+    height: auto;
+    max-height: 200px;
+    overflow-x: hidden;
+}
     </style>
     <style>
         #load {
@@ -99,19 +106,19 @@
 .outer table{
     width: 100%;
     table-layout: fixed; 
-    border : 1px solid black;
-    border-spacing: 1px;
+    /*border : 1px solid black;
+    border-spacing: 1px;*/
 }
 
 .outer table th {
         text-align: left;
         top:0;
-        position: sticky;
+        /*position: sticky;*/
         background-color: white;  
 }
 
 	tableFixHead          { overflow-y: auto; height: 100px; }
-.tableFixHead thead th { position: sticky; top: 0; }
+.tableFixHead thead th { position: sticky; top: 0;  }
 
 /* Just common table stuff. Really. */
 table  { border-collapse: collapse; width: 100%; }
@@ -121,10 +128,10 @@ th     { background:#eee; }
 /* Borders (if you need them) */
 .tableFixHead,
 .tableFixHead td {
-  box-shadow: inset 1px -1px #000;
+  box-shadow: inset 1px -1px #d9d9d9;
 }
 .tableFixHead th {
-  box-shadow: inset 1px 1px #000, 0 1px #000;
+  box-shadow: inset 1px 1px #d9d9d9, 0 1px #d9d9d9;
 }
 
     </style>
@@ -202,23 +209,23 @@ th     { background:#eee; }
                                            aria-expanded="false"
                                            class="p-0 btn">
                                             @*<img width="30"
-                                                 class="rounded-circle"
-                                                 src="~/Asset/images/ManojPass.jpg"
-                                                 alt="" />*@
-                                            <i id="UserName">@ProAcc.BL.Model.Common.User_Name</i>
+                                                class="rounded-circle"
+                                                src="~/Asset/images/ManojPass.jpg"
+                                                alt="" />*@
+                                            <i id="UserName">@Session["UserName"].ToString()</i>
                                             <i class="fa fa-angle-down ml-2 opacity-8"></i>
                                         </a>
                                         <div tabindex="-1"
                                              role="menu"
                                              aria-hidden="true"
                                              class="dropdown-menu dropdown-menu-right">
-                                            <button type="button"
+                                            @*<button type="button"
                                                     tabindex="0"
                                                     class="dropdown-item" style="font-weight:bold;color:blue;">
                                                 @DashboardName
 
-                                            </button>
-                                            <button type="button"
+                                            </button>*@
+                                            @*<button type="button"
                                                     tabindex="0"
                                                     class="dropdown-item">
                                                 User Account
@@ -233,7 +240,7 @@ th     { background:#eee; }
                                                     tabindex="0"
                                                     class="dropdown-item">
                                                 Actions
-                                            </button>
+                                            </button>*@
                                             <div tabindex="-1" class="dropdown-divider"></div>
                                             @*<button type="button"
                                                         tabindex="0"
@@ -324,12 +331,15 @@ th     { background:#eee; }
                                         <i class="metismenu-state-icon fa fa-caret-down caret-left"></i>
                                     </a>
                                     <ul>
-                                        <li>
-                                            <a href="@Url.Action("CreateAnalysis", "Assessment")">
-                                                <i class="metismenu-icon pe-7s-diamond"></i>
-                                                Create Analysis
-                                            </a>
-                                        </li>
+                                        @if (User.IsInRole("Consultant") || User.IsInRole("Admin"))
+                                        {
+                                            <li>
+                                                <a href="@Url.Action("CreateAnalysis", "Assessment")">
+                                                    <i class="metismenu-icon pe-7s-diamond"></i>
+                                                    Create Analysis
+                                                </a>
+                                            </li>
+                                        }
                                         <li>
                                             <a href="#">
                                                 <i class="metismenu-icon pe-7s-car"></i>
@@ -370,8 +380,8 @@ th     { background:#eee; }
                                                 <i class="metismenu-icon pe-7s-car"></i>
                                                 Compatability Report
                                                 <!-- <i
-                                                  class="metismenu-state-icon pe-7s-angle-down caret-left"
-                                                ></i> -->
+                      class="metismenu-state-icon pe-7s-angle-down caret-left"
+                    ></i> -->
                                                 <i class="metismenu-state-icon fa fa-caret-down caret-left"></i>
                                             </a>
                                             <ul>
@@ -417,7 +427,7 @@ th     { background:#eee; }
                                     </a>
                                 </li>
 
-                                @if (User.IsInRole("Consultant")||User.IsInRole("Admin"))
+                                @if (User.IsInRole("Admin"))
                                 {
                                     <li>
                                         <a href="dashboard-boxes.html">
@@ -448,26 +458,29 @@ th     { background:#eee; }
                                         </ul>
                                     </li>
                                     @*<li>
-                                        <a href="dashboard-boxes.html">
-                                            <i class="metismenu-icon fa fa-user"></i>
-                                            Consultant
-                                            <i class="metismenu-state-icon fa fa-caret-down caret-left"></i>
-                                        </a>
-                                        <ul>
-                                            <li>
-                                                <a href="@Url.Action("Create", "Consultants")">
-                                                    <i class="metismenu-icon pe-7s-diamond"></i>
-                                                    Create Consultant
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="@Url.Action("Index", "Consultants")">
-                                                    <i class="metismenu-icon pe-7s-diamond"></i>
-                                                    Consultant List
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </li>*@
+                <a href="dashboard-boxes.html">
+                    <i class="metismenu-icon fa fa-user"></i>
+                    Consultant
+                    <i class="metismenu-state-icon fa fa-caret-down caret-left"></i>
+                </a>
+                <ul>
+                    <li>
+                        <a href="@Url.Action("Create", "Consultants")">
+                            <i class="metismenu-icon pe-7s-diamond"></i>
+                            Create Consultant
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Index", "Consultants")">
+                            <i class="metismenu-icon pe-7s-diamond"></i>
+                            Consultant List
+                        </a>
+                    </li>
+                </ul>
+            </li>*@
+                                }
+                                @if (User.IsInRole("Admin"))
+                                {
                                     <li>
                                         <a href="dashboard-boxes.html">
                                             <i class="metismenu-icon fa fa-briefcase"></i>
@@ -478,7 +491,7 @@ th     { background:#eee; }
                                             <li>
                                                 <a href="@Url.Action("Create", "CustomerProjectConfigs")">
                                                     <i class="metismenu-icon pe-7s-diamond"></i>
-                                                    Project Customer Config
+                                                    Customer Project  Config
                                                 </a>
                                             </li>
                                             <li>
@@ -530,7 +543,7 @@ th     { background:#eee; }
                 <div class="app-wrapper-footer">
                     <div class="app-footer">
                         <div class="app-footer__inner ">
-                            <img src="~/Asset/images/resizeimage.png" style="width:150px;"/><br />
+                            <img src="~/Asset/images/resizeimage.png" style="width: 150px;" /><br />
                             <footer style="text-indent: 1em;"><a style="color:gray !important;">©Copyright 2020 Promantus Inc.,All Rights Reserved</a></footer>
                         </div>
                     </div>
@@ -542,6 +555,9 @@ th     { background:#eee; }
         </div>
     </div>
     <script src="~/Asset/Scripts/bootstrap.min.js"></script>
+    <link href="~/Asset/Jquery/jquery-ui.css" rel="stylesheet" />
+    <script src="~/Asset/Jquery/jquery-1.12.4.js"></script>
+    <script src="~/Asset/Jquery/jquery-ui.js"></script>
     <script>
         $(document).ready(function () {
             $(document).ajaxStart(function () {

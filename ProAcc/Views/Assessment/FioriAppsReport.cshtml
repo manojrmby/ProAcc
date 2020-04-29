@@ -4,7 +4,7 @@
     Layout = "~/Views/shared/_Layout.cshtml";
 }
 
-<h2>FioriAppsReport</h2>
+<h5>Fiori Apps Report</h5>
 
 <script src="~/Asset/Scripts/Chart.js"></script>
 <script src="~/Asset/Scripts/Chart.RadialGauge.umd.js"></script>
@@ -14,7 +14,7 @@
 		<div class="col-md-12 card" id="Chart123">
 			<div class="row" style="padding:0em 1em 1em 1em;">
 				<div class="col-lg-6">
-					<a>SimplificationReport</a>
+					
 				</div>
 				<div class="col-lg-6">
 
@@ -25,17 +25,15 @@
 		</div>
 		<canvas id="Chart_FioriApps"></canvas>
 	</div>
-    
+    <br />
     <div class="row">
-        <div class="col-lg-12 card" style="min-height:600px;">
-            <h4>
-                Show Database value in DataTable
-            </h4>
-			<div class="tableFixHead outer table-striped">
+        <div class="col-lg-12 card" style="padding:0px;">
+            
+			<div class="tableFixHead outer table-striped table-hover">
 				<table>
 					<thead>
 						<tr>
-							<th>S.NO</th>
+							<th style="width:70px;padding:8px;">S.NO</th>
 							<th>Role</th>
 							<th>Name</th>
 							<th>Application Area</th>
@@ -72,6 +70,37 @@
             
         </div>
     </div>
+</div>
+<div>
+	@Html.Hidden("RedirectTo", Url.Action("Home", "Home"))
+	<div style="visibility:hidden">
+		<div id="dialog-message" title="Info">
+			<p>
+				<span class="ui-icon ui-icon-circle-check" style="float:left; margin:0 7px 50px 0;"></span>
+				@ViewBag.Message
+			</p>
+		</div>
+	</div>
+
+	@if (ViewBag.Message != null)
+	{
+		<script type="text/javascript">
+			$(function () {
+
+				$("#dialog-message").dialog({
+					modal: true,
+					buttons: {
+						Ok: function () {
+							$(this).dialog("close");
+							var url = $("#RedirectTo").val();
+							location.href = url;
+						}
+					}
+				});
+			});
+		</script>
+
+	}
 </div>
 
 <script type="text/javascript" charset="utf-8">
@@ -213,16 +242,19 @@
 
 	jQuery(document).ready(function ($) {
 
-		var a = $('#IDRoles option:selected').text();
-		Ajax_Call(a);
-
+        var a = $('#IDRoles option:selected').text();
+		var Ses_InstanceId = '@Session["InstanceId"]';
+        if (Ses_InstanceId != "") {
+            Ajax_Call(a);
+        }
 
 	});
 	$("#IDRoles").change(function () {
 
 		var a = $('#IDRoles option:selected').text();
-
-		Ajax_Call(a);
-
+		var Ses_InstanceId = '@Session["InstanceId"]';
+        if (Ses_InstanceId != "") {
+            Ajax_Call(a);
+        }
 	   });
 </script>

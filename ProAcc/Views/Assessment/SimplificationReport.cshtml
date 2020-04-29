@@ -6,17 +6,13 @@
 <script src="~/Asset/Scripts/Chart.js"></script>
 <script src="~/Asset/Scripts/Chart.RadialGauge.umd.js"></script>
 <script src="~/Asset/Scripts/chartjs-plugin-labels.min.js"></script>
-@*<style>
-		html {
-			overflow-x:hidden!important;
-		}
-	</style>*@
+<h5><b>Simplification Report</b></h5>
 <div style="padding:1em;">
 	<div class="row">
 		<div class="col-md-6 card" id="Chart123" style="background-color:white!important; min-width:100%;">
-			<div class="row" style="padding:0em 1em 1em 1em;">
+			<div class="row">
 				<div class="col-lg-6">
-					<a>SimplificationReport</a>
+
 				</div>
 				<div class="col-lg-6">
 
@@ -27,26 +23,24 @@
 		</div>
 
 	</div>
-	
+	<br />
+
 	<div class="row">
-		<div class="col-lg-12 card" style="min-height:600px;">
-			<h4>
-				Show Database value in DataTable
-			</h4>
-			<div class="tableFixHead outer table-striped">
+		<div class="col-lg-12 card" style="padding:0px;">
+			<div class="table-responsive tableFixHead outer">
 				@*<table id="t01" class="table table-bordered table-hover tableFixHead outer table-striped" style="width:100% !important;">*@
-				<table>
-					<thead>
+				<table class="mb-0 table table-striped table-hover">
+					<thead class="thead-light">
 						<tr>
-							<th style="width:20px;">S.NO</th>
-							<th>Title</th>
-							<th>Category</th>
-							<th>Relevance</th>
-							<th>LoB/Technology</th>
+							<th style="width:52px;">S.NO</th>
+							<th style="width:81px;">Title</th>
+							<th style="width:93px;">Category</th>
+							<th style="width:85px;">Relevance</th>
+							<th style="width:118px;">LoB/Technology</th>
 							<th>Business Area</th>
-							<th>Consistency Status</th>
-							<th>Manual Status</th>
-							<th>SAP Notes</th>
+							<th style="width:118px;">Consistency Status</th>
+							<th style="width:65px;">Manual Status</th>
+							<th style="width:65px;">SAP Notes</th>
 							<th>Relevance Summary</th>
 						</tr>
 
@@ -99,25 +93,49 @@
 					</tbody>
 				</table>
 			</div>
-			@*<label>Simplification</label>*@
-
-			@*<div id="Chart_Relevant"></div>*@
-			@*<label>Total:238</label>*@
-
-
-
-
 		</div>
 	</div>
 </div>
+<div>
+	@Html.Hidden("RedirectTo", Url.Action("Home", "Home"))
+	<div style="visibility:hidden">
+		<div id="dialog-message" title="Info">
+			<p>
+				<span class="ui-icon ui-icon-circle-check" style="float:left; margin:0 7px 50px 0;"></span>
+				@ViewBag.Message
+			</p>
+		</div>
+	</div>
+
+	@if (ViewBag.Message != null)
+	{
+		<script type="text/javascript">
+			$(function () {
+
+				$("#dialog-message").dialog({
+					modal: true,
+					buttons: {
+						Ok: function () {
+							$(this).dialog("close");
+							var url = $("#RedirectTo").val();
+							location.href = url;
+						}
+					}
+				});
+			});
+		</script>
+
+	}
+</div>
+
 <script type="text/javascript" charset="utf-8">
-	
+
     function renderChart(data, labels) {
         $("canvas#Chart_Relevant").remove();
-		
-		$("#Chart123").append('<canvas id="Chart_Relevant" class="animated fadeIn" height="150"></canvas>');
+
+		$("#Chart123").append('<canvas id="Chart_Relevant" class="animated fadeIn"></canvas>');
 		var ctx = document.getElementById("Chart_Relevant").getContext("2d");
-			
+
 		//var randomScalingFactor = function () {
 		//	return Math.round(Math.random() * 100);
 		//};
@@ -228,7 +246,7 @@
 			}
 		};
 		window.myRadialGauge = new Chart(ctx, config);
-		
+
 	}
 
 	function Ajax_Call(a) {
@@ -273,16 +291,22 @@
 
 	jQuery(document).ready(function ($) {
 
-		var a = $('#IDLob option:selected').text();
-		Ajax_Call(a);
+        var a = $('#IDLob option:selected').text();
+		var Ses_InstanceId = '@Session["InstanceId"]';
+       if (Ses_InstanceId != "") {
+
+			Ajax_Call(a);
+        }
+
 
 
 	});
 	$("#IDLob").change(function () {
 
-		var a = $('#IDLob option:selected').text();
-	  
-		Ajax_Call(a);
-		
+        var a = $('#IDLob option:selected').text();
+		var Ses_InstanceId = '@Session["InstanceId"]';
+        if (Ses_InstanceId!= "") {
+            Ajax_Call(a);
+        }
 	   });
 </script>

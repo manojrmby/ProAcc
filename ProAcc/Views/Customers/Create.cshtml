@@ -5,15 +5,33 @@
     Layout = "~/Views/shared/_Layout.cshtml";
 }
 
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+@*<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>*@
 
-<script src="~/Scripts/jquery-1.10.2.js"></script>
-<script src="~/Scripts/jquery.validate.js"></script>
-<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+<h4><b>Create</b></h4>
+<div class="container">
+    <ul class="body-tabs body-tabs-layout tabs-animated body-tabs-animated nav">
+        <li class="nav-item">
+            <a role="tab" class="nav-link show active" id="Menu_customer" data-toggle="tab" href="#tab-content-0" aria-selected="true">
+                <span>Customer</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a role="tab" class="nav-link show" id="Menu_consultant" data-toggle="tab" href="#tab-content-1" aria-selected="false">
+                <span>Consultant</span>
+            </a>
+        </li>
+        @*<li class="nav-item">
+            <a role="tab" class="nav-link show" id="tab-2" data-toggle="tab" href="#tab-content-2" aria-selected="false">
+                <span>Basic</span>
+            </a>
+        </li>*@
+    </ul>
+</div>
 
-Customer:   @Html.RadioButton("UserType", "Customer")
-Consultant: @Html.RadioButton("UserType", "Consultant")
+
+@*Customer:   @Html.RadioButton("UserType", "Customer")
+Consultant: @Html.RadioButton("UserType", "Consultant")*@
 <div id="customer">
         @Html.Partial("_Customercreate", Model.customer)
 </div>
@@ -23,21 +41,32 @@ Consultant: @Html.RadioButton("UserType", "Consultant")
 
 
 <script type="text/javascript">
+
     $(document).ready(function () {
-        $("#customer").hide();
+        //$("#customer").hide();
         $("#consultant").hide();
     });
-    $('[name="UserType"]').on('change', function () {
-        var val = $('[name="UserType"]:checked').val()
-        if (val == "Customer") {
-            $("#customer").show();
-            $("#consultant").hide();
-        }
-        else {
-            $("#customer").hide();
-            $("#consultant").show();
-        }
+    $('#Menu_consultant').click(function () {
+        $("#customer").hide();
+        $("#consultant").show();
+    }
+    );
+     $('#Menu_customer').click(function () {
+         $("#customer").show();
+         $("#consultant").hide();
+    }
+    );
+    //$('[name="UserType"]').on('change', function () {
+    //    var val = $('[name="UserType"]:checked').val()
+    //    if (val == "Customer") {
+    //        $("#customer").show();
+    //        $("#consultant").hide();
+    //    }
+    //    else {
+    //        $("#customer").hide();
+    //        $("#consultant").show();
+    //    }
 
-    });
+    //});
 
 </script>

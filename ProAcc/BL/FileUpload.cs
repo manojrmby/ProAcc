@@ -11,6 +11,7 @@ namespace ProAcc.BL
     public class FileUpload
     {
         Base _Base = new Base();
+
         public Boolean Process_Activities(string FilePath, string fileName, Guid Instance_ID)
         {
             Boolean Status = false;
@@ -27,9 +28,9 @@ namespace ProAcc.BL
                 //Specify what are all the Columns you need to get from Excel
                 var dataList = new List<string[]>
                  {
-                     table.DataRange.Rows().Select(tableRow =>tableRow.Field("Related Simplification Items").GetString()).ToArray(),
-                     table.DataRange.Rows().Select(tableRow => tableRow.Field("Activities").GetString()).ToArray(),
-                     table.DataRange.Rows().Select(tableRow => tableRow.Field("Phase").GetString()).ToArray(),
+                    table.DataRange.Rows().Select(tableRow =>tableRow.Field("Related Simplification Items").GetString()).ToArray(),
+                    table.DataRange.Rows().Select(tableRow => tableRow.Field("Activities").GetString()).ToArray(),
+                    table.DataRange.Rows().Select(tableRow => tableRow.Field("Phase").GetString()).ToArray(),
                     table.DataRange.Rows().Select(tableRow => tableRow.Field("Condition").GetString()).ToArray(),
                     table.DataRange.Rows().Select(tableRow => tableRow.Field("Additional Information").GetString()).ToArray()
                  };
@@ -76,7 +77,72 @@ namespace ProAcc.BL
             return table;
         }
 
-        ///
+        public Boolean Process_Bwextractors(string FilePath, string fileName, Guid Instance_ID)
+        {
+            Boolean Status = false;
+
+            using (XLWorkbook workbook = new XLWorkbook(FilePath))
+            {
+                var workSheet = workbook.Worksheet(1);
+                var firstRowUsed = workSheet.FirstRowUsed();
+                var firstPossibleAddress = workSheet.Row(firstRowUsed.RowNumber()).FirstCell().Address;
+                var lastPossibleAddress = workSheet.LastCellUsed().Address;
+                var range = workSheet.Range(firstPossibleAddress, lastPossibleAddress).AsRange(); //.RangeUsed();
+                                                                                                  // Treat the range as a table (to be able to use the column names)
+                var table = range.AsTable();
+                //Specify what are all the Columns you need to get from Excel
+                var dataList = new List<string[]>
+                 {
+                     table.DataRange.Rows().Select(tableRow =>tableRow.Field("Extractor Name").GetString()).ToArray(),
+                     table.DataRange.Rows().Select(tableRow => tableRow.Field("Application Area").GetString()).ToArray(),
+                     table.DataRange.Rows().Select(tableRow => tableRow.Field("Related Simplification Items").GetString()).ToArray(),
+                    table.DataRange.Rows().Select(tableRow => tableRow.Field("Additional Information").GetString()).ToArray(),
+                    //table.DataRange.Rows().Select(tableRow => tableRow.Field("Additional Information").GetString()).ToArray()
+                 };
+                //Convert List to DataTable
+                DataTable dataTable = ConvertListToDataTable_Bwextractors(dataList);
+                Status = _Base.Upload_CustomCode(dataTable, fileName, Instance_ID);
+                //To get unique column values, to avoid duplication
+                //var uniqueCols = dataTable.DefaultView.ToTable(true, "Solution Number");
+
+                ////Remove Empty Rows or any specify rows as per your requirement
+                //for (var i = uniqueCols.Rows.Count - 1; i >= 0; i--)
+                //{
+                //    var dr = uniqueCols.Rows[i];
+                //    if (dr != null && ((string)dr["Solution Number"] == "None" || (string)dr["Title"] == ""))
+                //        dr.Delete();
+                //}
+                //Console.WriteLine("Total number of unique solution number in Excel : " + uniqueCols.Rows.Count);
+            }
+
+
+            return Status;
+        }
+        private static DataTable ConvertListToDataTable_Bwextractors(IReadOnlyList<string[]> list)
+        {
+            var table = new DataTable("Bwextractors");
+            var rows = list.Select(array => array.Length).Concat(new[] { 0 }).Max();
+
+            table.Columns.Add("Extractor Name");
+            table.Columns.Add("Application Area");
+            table.Columns.Add("Related Simplification Items");
+            table.Columns.Add("Additional Information");
+            //table.Columns.Add("Additional Information");
+
+            for (var j = 0; j < rows; j++)
+            {
+                var row = table.NewRow();
+                row["Extractor Name"] = list[0][j];
+                row["Application Area"] = list[1][j];
+                row["Related Simplification Items"] = list[2][j];
+                row["Additional Information"] = list[3][j];
+                //row["Additional Information"] = list[4][j];
+                table.Rows.Add(row);
+            }
+            return table;
+        }
+
+
         public Boolean Process_CustomCode(string FilePath, string fileName, Guid Instance_ID)
         {
             Boolean Status = false;

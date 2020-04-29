@@ -152,15 +152,21 @@
     <Content Include="Asset\images\3rwerwr.jpg" />
     <Content Include="Asset\images\appheader.png" />
     <Content Include="Asset\images\icons\favicon.ico" />
+    <Content Include="Asset\images\image_2020_04_26T06_25_25_806Z.png" />
     <Content Include="Asset\images\img-01.png" />
     <Content Include="Asset\images\loading.gif" />
     <Content Include="Asset\images\Loginimage.png" />
     <Content Include="Asset\images\Login_Img.png" />
     <Content Include="Asset\images\ManojPass.jpg" />
+    <Content Include="Asset\images\ProACCTool.png" />
     <Content Include="Asset\images\promantus-new-logo.png" />
     <Content Include="Asset\images\Promantus_logo.png" />
     <Content Include="Asset\images\Promantus_logo_.png" />
     <Content Include="Asset\images\resizeimage.png" />
+    <Content Include="Asset\Jquery\jquery-1.12.4.js" />
+    <Content Include="Asset\Jquery\jquery-ui.css" />
+    <Content Include="Asset\Jquery\jquery-ui.js" />
+    <Content Include="Asset\Log\04-28-2020.txt" />
     <Content Include="Asset\Scripts\1bootstrap.min.js" />
     <Content Include="Asset\Scripts\bootstrap.min.js" />
     <Content Include="Asset\Scripts\Chart.RadialGauge.umd.js" />
@@ -181,10 +187,6 @@
     <Content Include="bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll" />
     <Content Include="bin\Microsoft.Web.Infrastructure.dll" />
     <Content Include="bin\Newtonsoft.Json.dll" />
-    <Content Include="bin\ProAcc.dll" />
-    <Content Include="bin\ProAcc.pdb" />
-    <Content Include="bin\ProACC_DB.dll" />
-    <Content Include="bin\ProACC_DB.pdb" />
     <Content Include="bin\Release\Publish\Asset\css\main_Login.css" />
     <Content Include="bin\Release\Publish\Asset\css\Menu.css" />
     <Content Include="bin\Release\Publish\Asset\fonts\fa-solid-900.svg" />
@@ -427,6 +429,7 @@
     <Content Include="bin\roslyn\vbc.exe.config" />
     <Content Include="bin\roslyn\vbc.rsp" />
     <Content Include="bin\roslyn\VBCSCompiler.exe.config" />
+    <Content Include="Asset\UploadedFiles\04c60c46-f3ff-4635-a8b0-4ad85379d571.xlsx" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Web.config" />
     <Content Include="Views\shared\_Layout.cshtml" />
@@ -437,6 +440,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="BL\FileUpload.cs" />
+    <Compile Include="BL\LogHelper.cs" />
     <Compile Include="BL\Model\CreateViewModel.cs" />
     <Compile Include="BL\Model\LogedUser.cs" />
     <Compile Include="BL\Model\SAPFioriAppsModel.cs" />
@@ -504,7 +508,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Asset\UploadedFiles\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

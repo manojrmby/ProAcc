@@ -25,8 +25,10 @@ namespace ProAcc.BL.Model
         }
 
         public static Guid User_ID;
-        public static string User_Name;
         public static string User_Type;
+        public static string User_Name;
         public static Guid InstanceId;
+        public static string Instance_Name;
+        public static string Project_Name;
     }
 }

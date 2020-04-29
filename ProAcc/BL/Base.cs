@@ -10,10 +10,12 @@ using static ProAcc.BL.Model.Common;
 
 namespace ProAcc.BL
 {
-    public class Base
+    public class Base:Common
     {
-
-
+        private ProAccEntities db = new ProAccEntities();
+        
+        //private string User_ID = HttpContext.Current.Session["UserName"].ToString();
+        //private string InstanceId = HttpContext.Current.Session["UserName"].ToString();
         //Graph ReadinessReport
         public SP_ReadinessReport_Result sAPInput()
         {
@@ -798,6 +800,47 @@ namespace ProAcc.BL
 
         }
 
+        public GeneralList GetInstanceDropdown(string projectID)
+        {
+            GeneralList sP_ = new GeneralList();
+            DataSet ds = new DataSet();
+            Guid ID = Guid.Parse(projectID);
+            DBHelper dB = new DBHelper("SP_Instance", CommandType.StoredProcedure);
+            dB.addIn("@Type", "GetInstance");
+            dB.addIn("@Id", ID);
+            ds = dB.ExecuteDataSet();
+            List<Lis> _Lob = new List<Lis>();
+            if (ds.Tables.Count > 0)
+            {
+                DataTable dt = new DataTable();
+                dt = ds.Tables[0];
+                int count = 0;
+                foreach (DataRow dr in dt.Rows)
+                {
+                    _Lob.Add(new Lis
+                    {
+                        Name = dr["InstaceName"].ToString(),
+                        Value = dr["Id"].ToString()
+                    });
+                    count = count++;
+                }
+            }
 
+
+            sP_._List = _Lob;
+           return sP_;
+        }
+
+        public bool AddInstance(string IDInstance)
+        {
+            bool status = false;
+            InstanceId = Guid.Parse(IDInstance);
+            Guid ProjectID = Guid.Empty;
+            Guid IDInstanceID = Guid.Parse(IDInstance);
+            Instance_Name = db.ProjectInstanceConfigs.FirstOrDefault(x => x.Id == IDInstanceID).InstaceName;
+            ProjectID = db.ProjectInstanceConfigs.FirstOrDefault(x => x.Id == IDInstanceID).CustProjconfigID;
+            Project_Name = db.CustomerProjectConfigs.FirstOrDefault(x => x.Id == ProjectID).ProjectName;
+            return status;
+        }
     }
 }

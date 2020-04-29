@@ -19,9 +19,10 @@ namespace ProAcc.Controllers
         // GET: Consultants
         public ActionResult Index(String search, int? i)
         {
+            Guid AdminUser = Guid.Parse("42DC1071-CAAE-4585-AB73-9ADCBE85FDD5");
             var consultants = db.Consultants.Where(a => a.isActive == true)
                 .OrderByDescending(x=>x.Cre_on)
-                .Where(x => x.Name.StartsWith(search) || search == null).ToList().ToPagedList(i ?? 1, 5);
+                .Where(x => x.Name.StartsWith(search) || search == null).Where(x => x.Id != AdminUser).ToList().ToPagedList(i ?? 1, 5);
             //var consultants = db.Consultants.Include(c => c.User_Master).Where(a => a.isActive == true);
             return View(consultants);
         }
@@ -73,7 +74,7 @@ namespace ProAcc.Controllers
                 if (consultant.Name != null && consultant.UserName !=null && consultant.Password!=null)
                 {
                     consultant.Id = Guid.NewGuid();
-                    consultant.Cre_By = ProAcc.BL.Model.Common.User_ID;
+                    consultant.Cre_By = Guid.Parse(Session["loginid"].ToString());
                     consultant.Cre_on = DateTime.Now;
                     consultant.isActive = true;
                     db.Consultants.Add(consultant);

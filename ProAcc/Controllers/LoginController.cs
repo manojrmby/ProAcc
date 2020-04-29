@@ -44,6 +44,8 @@ namespace ProAcc.Controllers
                     {
                         FormsAuthentication.SetAuthCookie(logedUser.Username, false);
                         Session["loginid"] = logedUser.ID.ToString();
+                        Session["UserName"]= logedUser.Name.ToString();
+                        
                         //if (!string.IsNullOrEmpty(Request.Form["ReturnUrl"]))
                         //{
                         //    var a = Server.UrlDecode(Request.Form["ReturnUrl"]);

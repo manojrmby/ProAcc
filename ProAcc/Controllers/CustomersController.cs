@@ -20,6 +20,7 @@ namespace ProAcc.Controllers
         // GET: Customers
         public ActionResult Index(String search, int? i)
         {
+           
             var customers = db.Customers
                 .Where(a => a.isActive == true)
                 .OrderByDescending(x => x.Cre_on)
@@ -83,7 +84,7 @@ namespace ProAcc.Controllers
                 {
                     customer.Id = Guid.NewGuid();
                     customer.Cre_on = DateTime.Now;
-                    customer.Cre_By = ProAcc.BL.Model.Common.User_ID;
+                    customer.Cre_By = Guid.Parse(Session["loginid"].ToString());
                     customer.UserTypeID = 3;
                     customer.isActive = true;
                     db.Customers.Add(customer);
@@ -139,7 +140,7 @@ namespace ProAcc.Controllers
                 customer.Modified_On = DateTime.Now;
                 //customer.Cre_on = DateTime.Now;
                 customer.UserTypeID = 3;
-                customer.Modified_by= @ProAcc.BL.Model.Common.User_ID;
+                customer.Modified_by= Guid.Parse(Session["loginid"].ToString());
                 customer.isActive = true;
                 db.Entry(customer).State = EntityState.Modified;
                 db.SaveChanges();

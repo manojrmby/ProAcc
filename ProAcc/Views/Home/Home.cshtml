@@ -304,10 +304,22 @@
 <script src="~/Asset/Scripts/Chart.js"></script>
 <script src="~/Asset/Scripts/Chart.RadialGauge.umd.js"></script>
 <script src="~/Asset/Scripts/Prograssbarjs.js"></script>
+<style>
+    /*.wrapper{
+
+max-height: 300px;
+overflow:auto;
+}*/
+</style>
 
 @*<script src="~/Asset/Scripts/utils.js"></script>*@
 <div style="padding:1em;">
     <div class="row">
+        <div class="col-12">
+            <a>Project Name :<b> @ProAcc.BL.Model.Common.Project_Name</b></a>
+            <a class="float-lg-right">Instance Name :<b> @ProAcc.BL.Model.Common.Instance_Name</b></a>
+        </div>
+        <br />
         <div class="col-lg-12">
             <div class="row" style="padding:0em 1em 1em 1em;">
                 <div class="col-lg-3 card text-center">
@@ -462,87 +474,111 @@
             <div class="row" style="padding:0em 1em 1em 1em;">
                 <div class="col-lg-6 card">
                     <div class="card-body">
-                        <h5 class="card-title">Active Members</h5>
+                        <h5 class="card-title">Storage</h5>
 
-                        <div class="container">
-                            <ul class="list-group list-group-flush">
-                                @foreach (var item in ViewBag.list)
-                                {
-                                    <shadow>
-                                        <a class="list-group-item">
-                                            <img width="42" class="rounded-circle" src="/Asset/images/1.jpg">
-                                            <b>@item.Name</b><b class="fa fa-check" style="float:right;color:cornflowerblue;" aria-hidden="true"></b>
-                                        </a>
-                                    </shadow>
-                                }
-                            </ul>
-                        </div>
+                        <canvas id="chart-Storage"></canvas>
+
+                        <label style="padding-left:135px;">
+                            <a style="float:left;">8.50 GB Free<br /><b>30%</b> </a>
+                            <a style="padding-left:10px;float:right;">1.20 TB Filled<br /><b>70%</b> </a>
+
+                        </label>
+                        @*<br />
+                <label style="padding-left:135px;" class="toast-title">Storage size<br /><a class="text-md-center">2.05 TB</a></label>*@
+
+
+                        @*<h5 class="card-title">Active Members</h5>*@
+
+                        @*<div class="container">
+                    <ul class="list-group list-group-flush">
+                        @foreach (var item in ViewBag.list)
+                        {
+                            <shadow>
+                                <a class="list-group-item">
+                                    <img width="42" class="rounded-circle" src="/Asset/images/1.jpg">
+                                    <b>@item.Name</b><b class="fa fa-check" style="float:right;color:cornflowerblue;" aria-hidden="true"></b>
+                                </a>
+                            </shadow>
+                        }
+                    </ul>
+                </div>*@
                     </div>
                 </div>
+                
                 <div class="col-lg-6 card">
-                    <div class="card-body" style="height:284px">
+                    <h5 class="card-title">Select Instance</h5>
+                    <div>
+
+                        @*<div class="wrapper">*@
+
+                        @if (User.IsInRole("Consultant") || User.IsInRole("Admin"))
+                        {
+                            <div class="position-relative form-group">
+                                <label for="exampleEmail" class="">Customer Name</label>
+                                @Html.DropDownList("Customer", (IEnumerable<SelectListItem>)ViewBag.Customer, "-Select-", new { id = "IDCustomer", @class = "form-control" })
+
+                            </div>
+                        }
                         <div class="position-relative form-group">
                             <label for="exampleEmail" class="">Project Name</label>
-                            @Html.DropDownList("Project", (IEnumerable<SelectListItem>)ViewBag.Project, "- SELECT-", new { id = "IDProject", @class = "form-control" })
+                            @Html.DropDownList("Project", (IEnumerable<SelectListItem>)ViewBag.Project, "-Select-",
+                           new { id = "IDProject", @class = "form-control" })
+
+                            @*@Html.DropDownList("Project", (IEnumerable<SelectListItem>)ViewBag.Project, "- SELECT-",
+                new { id = "IDProject", @class = "form-control", onfocus = "this.size=5;", @onblur = "this.size=1;", onchange = "this.size=1; this.blur();" })*@
+
+
                             @*@Html.DropDownList("Project", (IEnumerable<SelectListItem>), "- SELECT-", new { id = "IDProject", @class = "form-control" })*@
                         </div>
                         <div class="position-relative form-group">
                             <label for="exampleEmail" class="">Instance Name</label>
-                            @Html.DropDownList("Instance", new SelectList(Enumerable.Empty<SelectListItem>(), "IDInstance", "InstanceName"),
-                      "Select a Project", new { id = "IDInstance", @class = "form-control" })
+                            @Html.DropDownList("Instance", new SelectList(Enumerable.Empty<SelectListItem>(), "IDInstance", "InstanceName"), "Select a Project",
+                           new { id = "IDInstance", @class = "form-control" })
                             @*@Html.DropDownList("Instance", (IEnumerable<SelectListItem>), "- SELECT-", new { id = "IDInstance", @class = "form-control" })*@
                             @*<input name="email" id="InstanceID" placeholder="" class="form-control">*@
                         </div>
                         <div class="position-relative form-group">
                             <button class="btn-wide mb-2 mr-2 btn btn-primary" id="SubmitInstance">
-                                Submit Instance
+                                Select Instance
                             </button>
                         </div>
+                        @*</div>*@
                         @*<table class="table">
-                                <thead>
-                                    <h5 class="card-title">To Do List</h5>
-                                </thead>
-                                <tbody>
-                                    <tr id="addRow">
-                                        <td class="col-xs-5">
-                                            <input class="form-control addMain" type="text" placeholder="What do you need to do today?" style="width:100%" />
-                                        </td>
+                <thead>
+                    <h5 class="card-title">To Do List</h5>
+                </thead>
+                <tbody>
+                    <tr id="addRow">
+                        <td class="col-xs-5">
+                            <input class="form-control addMain" type="text" placeholder="What do you need to do today?" style="width:100%" />
+                        </td>
 
-                                        <td class="col-xs-1 text-center">
-                                            <span class="addBtn">
-                                                <i class="fa fa-plus-circle"></i>
-                                            </span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="col-xs-3"><label>Convert Customers Vendors to BP</label></td>
+                        <td class="col-xs-1 text-center">
+                            <span class="addBtn">
+                                <i class="fa fa-plus-circle"></i>
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-xs-3"><label>Convert Customers Vendors to BP</label></td>
 
-                                        <td class="col-xs-1 text-center"><a href="#" onClick="deleteRow(this)"><i class="fa fa-times-circle" style="color:red" aria-hidden="true" /></a></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="col-xs-3"><label>Activate Material Leadger</label></td>
+                        <td class="col-xs-1 text-center"><a href="#" onClick="deleteRow(this)"><i class="fa fa-times-circle" style="color:red" aria-hidden="true" /></a></td>
+                    </tr>
+                    <tr>
+                        <td class="col-xs-3"><label>Activate Material Leadger</label></td>
 
-                                        <td class="col-xs-1 text-center"><a href="#" onClick="deleteRow(this)"><i class="fa fa-times-circle" style="color:red" aria-hidden="true" /></a></td>
-                                    </tr>
-                                </tbody>
-                            </table>*@
+                        <td class="col-xs-1 text-center"><a href="#" onClick="deleteRow(this)"><i class="fa fa-times-circle" style="color:red" aria-hidden="true" /></a></td>
+                    </tr>
+                </tbody>
+            </table>*@
                     </div>
                 </div>
             </div>
         </div>
         <div class="col-lg-12">
             <div class="row" style="padding:0em 1em 1em 1em;">
-                <div class="col-lg-3 card ">
-                    <label>Storage</label>
-                    <canvas id="chart-Storage"></canvas>
-                    <label class="text-center">Storage size<br />2.05 TB</label>
-                    <label>
-                        <a style="float:left">8.50 GB Free<br /><b>30%</b> </a>
-                        <a style="float:right">1.20 TB Filled<br /><b>70%</b> </a>
-                    </label>
-
-                </div>
-                <div class="col-lg-9 card">
+               
+                <div class="col-lg-12 card">
                     <div class="card-body">
                         <h5 class="card-title">Recent Updates</h5>
                         <table class="mb-0 table table-hover">
@@ -598,257 +634,41 @@
                 </div>
             </div>
         </div>
-        <script type="text/javascript">
-            //var randomScalingFactor = function () {
-            //    return Math.round(Math.random() * 100);
-            //};
 
-            Chart.defaults.global.defaultFontFamily = "Verdana";
-
-            var ctx = document.getElementById("chart-Assessment").getContext("2d");
-            var ctx1 = document.getElementById("chart-Pre_Conversion").getContext("2d");
-            var ctx2 = document.getElementById("chart-Conversion").getContext("2d");
-            var ctx3 = document.getElementById("chart-Post_Conversion").getContext("2d");
-            var ctx4 = document.getElementById("chart-Validation").getContext("2d");
-
-            var ctx5 = document.getElementById("chart-Storage").getContext("2d");
-
-            window.onload = function () {
-                var ctx = document.getElementById("chart-Assessment").getContext("2d");
-                window.myRadialGauge = new Chart(ctx, config);
-
-                var ctx1 = document.getElementById("chart-Pre_Conversion").getContext("2d");
-                window.myRadialGauge = new Chart(ctx1, config1);
-
-                var ctx2 = document.getElementById("chart-Conversion").getContext("2d");
-                window.myRadialGauge = new Chart(ctx2, config2);
-
-                var ctx3 = document.getElementById("chart-Post_Conversion").getContext("2d");
-                window.myRadialGauge = new Chart(ctx3, config3);
-
-                var ctx4 = document.getElementById("chart-Validation").getContext("2d");
-                window.myRadialGauge = new Chart(ctx4, config4);
-
-                var ctx5 = document.getElementById("chart-Storage").getContext("2d");
-                window.myRadialGauge = new Chart(ctx5, config5);
-            };
-
-            var gradientStroke_ = ctx.createLinearGradient(500, 0, 100, 0);
-            gradientStroke_.addColorStop(0, "#FDB777");
-            gradientStroke_.addColorStop(1, "#FD9346");
-
-            var gradientStroke_1 = ctx1.createLinearGradient(500, 0, 100, 0);
-            gradientStroke_1.addColorStop(0, "#FDB777");
-            gradientStroke_1.addColorStop(1, "#FD9346");
-
-            var gradientStroke_2 = ctx2.createLinearGradient(500, 0, 100, 0);
-            gradientStroke_2.addColorStop(0, "#FB291B");
-            gradientStroke_2.addColorStop(1, "#CD1B2D");
-
-            var gradientStroke_3 = ctx3.createLinearGradient(500, 0, 100, 0);
-            gradientStroke_3.addColorStop(0, "#FDB777");
-            gradientStroke_3.addColorStop(1, "#FD9346");
-
-            var gradientStroke_4 = ctx4.createLinearGradient(500, 0, 100, 0);
-            gradientStroke_4.addColorStop(0, "#FB291B");
-            gradientStroke_4.addColorStop(1, "#CD1B2D");
-
-            var gradientStroke_5 = ctx5.createLinearGradient(500, 0, 100, 0);
-            gradientStroke_5.addColorStop(0, "#FDB777");
-            gradientStroke_5.addColorStop(1, "#FD9346");
-
-            var config = {
-                type: "radialGauge",
-                data: {
-                    labels: ["In Progress"],
-                    datasets: [
-                        {
-                            data: [60],
-                            backgroundColor: [gradientStroke_],
-                            borderWidth: 0,
-                            label: "Score"
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    legend: {},
-                    title: {
-                        display: false,
-                        text: "Radial gauge chart"
-                    },
-                    centerPercentage: 60,
-                    centerArea: {
-                        displayText: true,
-                        text: "60%"
-                    }
-                }
-            };
-
-            var config1 = {
-                type: "radialGauge",
-                data: {
-                    labels: ["Closed"],
-                    datasets: [
-                        {
-                            data: [40],
-                            backgroundColor: [gradientStroke_1],
-                            borderWidth: 0,
-                            label: "Score"
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    legend: {},
-                    title: {
-                        display: false,
-                        text: "Radial gauge chart"
-                    },
-                    centerPercentage: 60,
-                    centerArea: {
-                        displayText: true,
-                        text: "40%"
-                    }
-                }
-            };
-            var config2 = {
-                type: "radialGauge",
-                data: {
-                    labels: ["In Progress"],
-                    datasets: [
-                        {
-                            data: [60],
-                            backgroundColor: [gradientStroke_2],
-                            borderWidth: 0,
-                            label: "Score"
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    legend: {},
-                    title: {
-                        display: false,
-                        text: "Radial gauge chart"
-                    },
-                    centerPercentage: 60,
-                    centerArea: {
-                        displayText: true,
-                        text: "60%"
-                    }
-                }
-            };
-
-            var config3 = {
-                type: "radialGauge",
-                data: {
-                    labels: ["Closed"],
-                    datasets: [
-                        {
-                            data: [40],
-                            backgroundColor: [gradientStroke_3],
-                            borderWidth: 0,
-                            label: "Score"
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    legend: {},
-                    title: {
-                        display: false,
-                        text: "Radial gauge chart"
-                    },
-                    centerPercentage: 60,
-                    centerArea: {
-                        displayText: true,
-                        text: "40%"
-                    }
-                }
-            };
-
-            var config4 = {
-                type: "radialGauge",
-                data: {
-                    labels: ["In Progress"],
-                    datasets: [
-                        {
-                            data: [60],
-                            backgroundColor: [gradientStroke_4],
-                            borderWidth: 0,
-                            label: "Score"
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    legend: {},
-                    title: {
-                        display: false,
-                        text: "Radial gauge chart"
-                    },
-                    centerPercentage: 60,
-                    centerArea: {
-                        displayText: true,
-                        text: "60%"
-                    }
-                }
-            };
-
-            var config5 = {
-                type: "radialGauge",
-                data: {
-                    labels: ["In Progress"],
-                    datasets: [
-                        {
-                            data: [60],
-                            backgroundColor: [gradientStroke_5],
-                            borderWidth: 0,
-                            label: "Score"
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    legend: {},
-                    title: {
-                        display: false,
-                        text: "Radial gauge chart"
-                    },
-                    centerPercentage: 40,
-                    centerArea: {
-                        displayText: false,
-                        text: "60%"
-                    }
-                }
-            };
-        </script>
 
     </div>
-    <script>
-        jQuery(document).ready(function ($) {
-        //$("#IDProject").prop("disabled", true);
-        $("#IDInstance").prop("disabled", true);
-        $('#IDProject').change(function () {
 
+
+</div>
+<script>
+	//This Project & Instance
+    $("#chart-Assessment").click(
+	function (evt) {
+		window.location.href = "@Url.Action("ReadinessReport","Assessment")";
+	}
+	);
+		jQuery(document).ready(function ($) {
+            $("#IDInstance").prop("disabled", true);
+            $('#SubmitInstance').prop("disabled", true);
+            $('#IDCustomer').change(function () {
+            $("#IDInstance").prop("disabled", false);
             var id = $(this).val();
-             var select = $("#IDInstance");
+             var select = $("#IDProject");
                     select.empty();
                     select.append($('<option/>', {
                         value: 0,
-                        text: "Select a Instance"
+                        text: "Select a Project"
                     }));
             $.ajax({
                 type: "POST",
-                url: '@Url.Action("LoadInstance","Assessment")',
-                data: { 'ProjectId' : id},
+                url: '@Url.Action("LoadProject","Assessment")',
+                data: { 'CustomerId' : id},
                 success: function (data) {
-                    var select = $("#IDInstance");
+                    var select = $("#IDProject");
                     select.empty();
                     select.append($('<option/>', {
                         value: 0,
-                        text: "Select a Instance"
+                        text: "Select a Project"
                     }));
                     $.each(data, function (index, itemData) {
                         select.append($('<option/>', {
@@ -856,7 +676,10 @@
                             text: itemData.Text
                         }));
                     });
-                    $("#IDInstance").prop("disabled", false);
+                    $("#IDProject").prop("disabled", false);
+                    $("#IDInstance").prop("disabled", true);
+                    $('#SubmitInstance').prop("disabled", true);
+                    
                 },
                 error: function (a) {
                     debugger;
@@ -866,11 +689,55 @@
 
             });
         });
-    });
-    </script>
+            $('#IDProject').change(function () {
 
-</div>
-<script>
+            var id = $(this).val();
+			$('#SubmitInstance').prop("disabled", true);
+             var select = $("#IDInstance");
+                    select.empty();
+                    select.append($('<option/>', {
+                        value: 0,
+                        text: "Select a Instance"
+                    }));
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("LoadInstance","Home")',
+                data: { 'ProjectId' : id},
+                success: function (data) {
+                    var select = $("#IDInstance");
+                    select.empty();
+                    select.append($('<option/>', {
+                        value: 0,
+                        text: "Select a Instance"
+                    }));
+                    if (data.length > 0) {
+                        $.each(data, function (index, itemData) {
+                            select.append($('<option/>', {
+                                value: itemData.Value,
+                                text: itemData.Text
+                            }));
+                        });
+                        $("#IDInstance").prop("disabled", false);
+                    }
+                    else {
+                        $("#IDInstance").prop("disabled", true);
+						$('#SubmitInstance').prop("disabled", true);
+                    }
+                },
+                error: function (a) {
+                    alert(a);
+                }
+            });
+            });
+            $('#IDInstance').change(function () {
+                var id = $(this).val();
+                if (id == ""||id =="0") {
+                     $('#SubmitInstance').prop("disabled", true);
+                } else {
+					$('#SubmitInstance').prop("disabled", false);
+                }
+            });
+    });
     $('#SubmitInstance').click(function () {
         var IDInstance = $("#IDInstance").val();
          $.ajax({
@@ -880,16 +747,235 @@
                  data: { 'IDInstance': IDInstance },
                  success: function (result) {
                      alert("New Live Instance updated");
-                     //    if (result != "") {
-                     //        $('#FileBrowse').find("*").prop("disabled", true);
-                     //        LoadProgressBar(result); //calling LoadProgressBar function to load the progress bar.
-                     //    }
-                     //},
-                     //error: function (err) {
-                     //    alert(err.statusText);
-                     //}
+                     location.reload();
                  }
                 });
     });
 
+</script>
+<script type="text/javascript">
+    //var randomScalingFactor = function () {
+    //    return Math.round(Math.random() * 100);
+    //};
+
+    Chart.defaults.global.defaultFontFamily = "Verdana";
+
+    var ctx = document.getElementById("chart-Assessment").getContext("2d");
+    var ctx1 = document.getElementById("chart-Pre_Conversion").getContext("2d");
+    var ctx2 = document.getElementById("chart-Conversion").getContext("2d");
+    var ctx3 = document.getElementById("chart-Post_Conversion").getContext("2d");
+    var ctx4 = document.getElementById("chart-Validation").getContext("2d");
+
+    var ctx5 = document.getElementById("chart-Storage").getContext("2d");
+
+    window.onload = function () {
+        var ctx = document.getElementById("chart-Assessment").getContext("2d");
+        window.myRadialGauge = new Chart(ctx, config);
+
+        var ctx1 = document.getElementById("chart-Pre_Conversion").getContext("2d");
+        window.myRadialGauge = new Chart(ctx1, config1);
+
+        var ctx2 = document.getElementById("chart-Conversion").getContext("2d");
+        window.myRadialGauge = new Chart(ctx2, config2);
+
+        var ctx3 = document.getElementById("chart-Post_Conversion").getContext("2d");
+        window.myRadialGauge = new Chart(ctx3, config3);
+
+        var ctx4 = document.getElementById("chart-Validation").getContext("2d");
+        window.myRadialGauge = new Chart(ctx4, config4);
+
+        var ctx5 = document.getElementById("chart-Storage").getContext("2d");
+        window.myRadialGauge = new Chart(ctx5, config5);
+    };
+
+    var gradientStroke_ = ctx.createLinearGradient(500, 0, 100, 0);
+    gradientStroke_.addColorStop(0, "#FDB777");
+    gradientStroke_.addColorStop(1, "#FD9346");
+
+    var gradientStroke_1 = ctx1.createLinearGradient(500, 0, 100, 0);
+    gradientStroke_1.addColorStop(0, "#FDB777");
+    gradientStroke_1.addColorStop(1, "#FD9346");
+
+    var gradientStroke_2 = ctx2.createLinearGradient(500, 0, 100, 0);
+    gradientStroke_2.addColorStop(0, "#FB291B");
+    gradientStroke_2.addColorStop(1, "#CD1B2D");
+
+    var gradientStroke_3 = ctx3.createLinearGradient(500, 0, 100, 0);
+    gradientStroke_3.addColorStop(0, "#FDB777");
+    gradientStroke_3.addColorStop(1, "#FD9346");
+
+    var gradientStroke_4 = ctx4.createLinearGradient(500, 0, 100, 0);
+    gradientStroke_4.addColorStop(0, "#FB291B");
+    gradientStroke_4.addColorStop(1, "#CD1B2D");
+
+    var gradientStroke_5 = ctx5.createLinearGradient(500, 0, 100, 0);
+    gradientStroke_5.addColorStop(0, "#FDB777");
+    gradientStroke_5.addColorStop(1, "#FD9346");
+
+    var config = {
+        type: "radialGauge",
+        data: {
+            labels: ["In Progress"],
+            datasets: [
+                {
+                    data: [60],
+                    backgroundColor: [gradientStroke_],
+                    borderWidth: 0,
+                    label: "Score"
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            legend: {},
+            title: {
+                display: false,
+                text: "Radial gauge chart"
+            },
+            centerPercentage: 60,
+            centerArea: {
+                displayText: true,
+                text: "60%"
+            }
+        }
+    };
+
+    var config1 = {
+        type: "radialGauge",
+        data: {
+            labels: ["Closed"],
+            datasets: [
+                {
+                    data: [40],
+                    backgroundColor: [gradientStroke_1],
+                    borderWidth: 0,
+                    label: "Score"
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            legend: {},
+            title: {
+                display: false,
+                text: "Radial gauge chart"
+            },
+            centerPercentage: 60,
+            centerArea: {
+                displayText: true,
+                text: "40%"
+            }
+        }
+    };
+    var config2 = {
+        type: "radialGauge",
+        data: {
+            labels: ["In Progress"],
+            datasets: [
+                {
+                    data: [60],
+                    backgroundColor: [gradientStroke_2],
+                    borderWidth: 0,
+                    label: "Score"
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            legend: {},
+            title: {
+                display: false,
+                text: "Radial gauge chart"
+            },
+            centerPercentage: 60,
+            centerArea: {
+                displayText: true,
+                text: "60%"
+            }
+        }
+    };
+
+    var config3 = {
+        type: "radialGauge",
+        data: {
+            labels: ["Closed"],
+            datasets: [
+                {
+                    data: [40],
+                    backgroundColor: [gradientStroke_3],
+                    borderWidth: 0,
+                    label: "Score"
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            legend: {},
+            title: {
+                display: false,
+                text: "Radial gauge chart"
+            },
+            centerPercentage: 60,
+            centerArea: {
+                displayText: true,
+                text: "40%"
+            }
+        }
+    };
+
+    var config4 = {
+        type: "radialGauge",
+        data: {
+            labels: ["In Progress"],
+            datasets: [
+                {
+                    data: [60],
+                    backgroundColor: [gradientStroke_4],
+                    borderWidth: 0,
+                    label: "Score"
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            legend: {},
+            title: {
+                display: false,
+                text: "Radial gauge chart"
+            },
+            centerPercentage: 60,
+            centerArea: {
+                displayText: true,
+                text: "60%"
+            }
+        }
+    };
+
+    var config5 = {
+        type: "radialGauge",
+        data: {
+            labels: ["In Progress"],
+            datasets: [
+                {
+                    data: [60],
+                    backgroundColor: [gradientStroke_5],
+                    borderWidth: 0,
+                    label: "Score"
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            legend: {},
+            title: {
+                display: false,
+                text: "Radial gauge chart"
+            },
+            centerPercentage: 40,
+            centerArea: {
+                displayText: true,
+                text: "2.05 TB"
+            }
+        }
+    };
 </script>

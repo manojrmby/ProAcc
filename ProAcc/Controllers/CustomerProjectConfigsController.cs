@@ -63,7 +63,7 @@ namespace ProAcc.Controllers
                 {
                     customerProjectConfig.Id = Guid.NewGuid();
                     customerProjectConfig.Cre_on = DateTime.Now;
-                    customerProjectConfig.Cre_By= ProAcc.BL.Model.Common.User_ID;
+                    customerProjectConfig.Cre_By = Guid.Parse(Session["loginid"].ToString());
                     customerProjectConfig.LastUpdated_Dt = DateTime.Now;
                     customerProjectConfig.isActive = true;
                     db.CustomerProjectConfigs.Add(customerProjectConfig);
@@ -115,7 +115,7 @@ namespace ProAcc.Controllers
             if (ModelState.IsValid)
             {
                 customerProjectConfig.Modified_On = DateTime.Now;
-                customerProjectConfig.Modified_by= ProAcc.BL.Model.Common.User_ID;
+                customerProjectConfig.Modified_by= Guid.Parse(Session["loginid"].ToString());
                 customerProjectConfig.isActive = true;
                 db.Entry(customerProjectConfig).State = EntityState.Modified;
                 db.SaveChanges();

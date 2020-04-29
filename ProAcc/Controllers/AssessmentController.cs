@@ -3,6 +3,7 @@ using ProAcc.BL.Model;
 using ProACC_DB;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -11,20 +12,35 @@ using static ProAcc.BL.Model.Common;
 
 namespace ProAcc.Controllers
 {
-    [Authorize(Roles = "Admin,Consultant")]
+    [Authorize(Roles = "Admin,Consultant,Customer")]
     public class AssessmentController : Controller
     {
-
+       
         ProAccEntities db = new ProAccEntities();
         Base _Base = new Base();
+        LogHelper _logHelper = new LogHelper();
         // GET: Assessment
+        [Authorize(Roles = "Admin,Consultant")]
         public ActionResult CreateAnalysis()
         {
+
+
             //Tuple<List<Lis>, List<Lis>, List<Lis>> sP_ = _Base.sP_AnalysisDropdowns();
 
             //ViewBag.Project = new SelectList(sP_.Item2, "Value", "Name");
             //ViewBag.Customer = new SelectList(sP_.Item1, "Value", "Name");
             //ViewBag.Instance = new SelectList(sP_.Item3, "Value", "Name");
+            List<SelectListItem> Customer = new List<SelectListItem>();
+            var query1 = from u in db.Customers select u;
+            if (query1.Count() > 0)
+            {
+                foreach (var v in query1)
+                {
+                    Customer.Add(new SelectListItem { Text = v.Name, Value = v.Id.ToString() });
+                }
+            }
+            ViewBag.Customer = Customer;
+
             List<SelectListItem> Project = new List<SelectListItem>();
             var query = from u in db.CustomerProjectConfigs select u;
             if (query.Count() > 0)
@@ -41,6 +57,54 @@ namespace ProAcc.Controllers
         //Start  Readiness
         public ActionResult ReadinessReport()
         {
+            if (InstanceId == Guid.Empty)
+            {
+                ViewBag.Message = String.Format("Hello {0},\n Kindly Select Instance", Session["UserName"].ToString());
+                //return RedirectToAction("Home", "Home");
+            }
+            else
+            {
+
+            }
+            List<SelectListItem> Customer = new List<SelectListItem>();
+            var query1 = from u in db.Customers select u;
+            if (query1.Count() > 0)
+            {
+                foreach (var v in query1)
+                {
+                    Customer.Add(new SelectListItem { Text = v.Name, Value = v.Id.ToString() });
+                }
+            }
+            ViewBag.Customer = Customer;
+            List<SelectListItem> Project = new List<SelectListItem>();
+
+            if (User.IsInRole("Customer"))
+            {
+                Guid customerId = Guid.Parse(Session["loginid"].ToString());
+                var query = from u in db.CustomerProjectConfigs where (u.CustomerID == customerId) select u;
+                if (query.Count() > 0)
+                {
+                    foreach (var v in query)
+                    {
+                        Project.Add(new SelectListItem { Text = v.ProjectName, Value = v.Id.ToString() });
+                    }
+                }
+            }
+            else
+            {
+
+                var query = from u in db.CustomerProjectConfigs select u;
+                if (query.Count() > 0)
+                {
+                    foreach (var v in query)
+                    {
+                        Project.Add(new SelectListItem { Text = v.ProjectName, Value = v.Id.ToString() });
+                    }
+                }
+            }
+
+
+            ViewBag.Project = Project;
             return View();
         }
         [HttpPost]
@@ -85,10 +149,16 @@ namespace ProAcc.Controllers
         //START Simplification
         public ActionResult SimplificationReport()
         {
+            if (InstanceId == Guid.Empty)
+            {
+                ViewBag.Message = String.Format("Hello {0},\n Kindly Select Instance", Session["UserName"].ToString()).Replace("\n",Environment.NewLine);
+              
+            }
             GeneralList sP_ = _Base.sP_SimplificationReport();
             ViewBag.LOB = new SelectList(sP_._List, "_Value", "Name");
             List<SAPInput_SimplificationReport> SR = _Base.SAPInput_Simplification();
             ViewBag.SRReport = SR;
+
             return View();
         }
 
@@ -106,6 +176,11 @@ namespace ProAcc.Controllers
         //START Custom Code
         public ActionResult CustomReport()
         {
+            if (InstanceId == Guid.Empty)
+            {
+                ViewBag.Message = String.Format("Hello {0},\n Kindly Select Instance", Session["UserName"].ToString()).Replace("\n", Environment.NewLine);
+
+            }
             GeneralList sP_ = _Base.sP_SimplificationReport();
             ViewBag.LOB = new SelectList(sP_._List, "_Value", "Name");
             List<SAPInput_CustomCode> CR = _Base.SAPInput_CustomCodeReport();
@@ -117,6 +192,11 @@ namespace ProAcc.Controllers
         //Start  Readiness
         public ActionResult ActivitieReport()
         {
+            if (InstanceId == Guid.Empty)
+            {
+                ViewBag.Message = String.Format("Hello {0},\n Kindly Select Instance", Session["UserName"].ToString()).Replace("\n", Environment.NewLine);
+
+            }
             Tuple<List<Lis>, List<Lis>> sP_ = _Base.sp_GetActivitiesReportDropdown();
 
             ViewBag.Condition = new SelectList(sP_.Item2, "Value", "Name");
@@ -130,12 +210,28 @@ namespace ProAcc.Controllers
             GeneralList sP_ = _Base.sP_GetActivitiesReport_Bar(Phase, condition);
             return Json(sP_, JsonRequestBehavior.AllowGet);
         }
-        public ActionResult Test()
+        public ActionResult FioriAppsReport()
         {
+            if (InstanceId == Guid.Empty)
+            {
+                ViewBag.Message = String.Format("Hello {0},\n Kindly Select Instance", Session["UserName"].ToString()).Replace("\n", Environment.NewLine);
+
+            }
+            GeneralList sP_ = _Base.sp_GetFioriAppsReportDropdown();
+            ViewBag.Roles = new SelectList(sP_._List, "_Value", "Name");
+            List<SAPFioriAppsModel> FiR = _Base.sp_GetSAPFioriAppsTable();
+            ViewBag.FiRReport = FiR;
             return View();
         }
+        public JsonResult GetFioriAppsReportt_Bar(string Input)
+        {
+            GeneralList sP_ = _Base.sP_GetSAPFioriAppsReport_Bar(Input);
+            return Json(sP_, JsonRequestBehavior.AllowGet);
+        }
+
 
         [HttpPost]
+        [Authorize(Roles = "Admin,Consultant")]
         public ActionResult Upload()
         {
             //string Cust_ID = Request.Params["Cust_ID"].ToString();
@@ -178,13 +274,13 @@ namespace ProAcc.Controllers
                             String _fname = NewID + ext;
                             FileUpload _fileUpload = new FileUpload();
                             // Get the complete folder path and store the file inside it.  
-                            fname = Path.Combine(Server.MapPath("~/Asset/UploadedFiles/"), _fname);
+                            fname = Path.Combine(Server.MapPath(ConfigurationManager.AppSettings["Upload_filePath"].ToString()), _fname);
                             file.SaveAs(fname);
                             if (FileCount == 1)
                             {
                                 Result_Process_Activities = _fileUpload.Process_Activities(fname, NewID, Instance_ID);
                             }
-                            if (FileCount == 2)
+                            else if (FileCount == 2)
                             {
                                 Result_Process_Bwextractors = _Base.Upload_Bwextractors(NewID, Instance_ID);
                             }
@@ -192,7 +288,7 @@ namespace ProAcc.Controllers
                             {
                                 Result_Process_CustomCode = _fileUpload.Process_CustomCode(fname, NewID, Instance_ID);
                             }
-                            if (FileCount == 4)
+                            else if (FileCount == 4)
                             {
                                 Result_Processup_HanaDatabaseTables = _Base.Upload_HanaDatabaseTables(NewID, Instance_ID);
                             }
@@ -218,7 +314,7 @@ namespace ProAcc.Controllers
                         //    Result_Process_SAPReadinessCheck)
                         //{
 
-                        //    Result_Instance = _Base.AddInstance(IDProject, InstanceName, Instance_ID);
+                        //    //Result_Instance = _Base.AddInstance(IDProject, InstanceName, Instance_ID);
 
                         //    return Json("File Uploaded Successfully!");
                         //}
@@ -228,6 +324,36 @@ namespace ProAcc.Controllers
                     }
                     catch (Exception ex)
                     {
+                        _logHelper.createLog(ex);
+                        String msg = ex.Message;
+                        if (msg.Contains("Activities"))
+                        {
+
+                        }
+                        else if(msg.Contains("Activities"))
+                        {
+
+                        }
+                        else if (msg.Contains("Activities"))
+                        {
+
+                        }
+                        else if (msg.Contains("Activities"))
+                        {
+
+                        }
+                        else if (msg.Contains("Activities"))
+                        {
+
+                        }
+                        else if (msg.Contains("Activities"))
+                        {
+
+                        }
+                        else if (msg.Contains("Activities"))
+                        {
+
+                        }
                         return Json("Error occurred. Error details: " + ex.Message);
                     }
                 }
@@ -245,38 +371,38 @@ namespace ProAcc.Controllers
         }
 
         [HttpPost]
-        public JsonResult LoadInstance(string ProjectId)
+        public JsonResult LoadProject(string CustomerId)
         {
-            List<SelectListItem> Instance = new List<SelectListItem>();
-            if (!String.IsNullOrEmpty(ProjectId))
+            Guid IDCustomer = Guid.Parse(CustomerId);
+            List<SelectListItem> Project = new List<SelectListItem>();
+            var query = from u in db.CustomerProjectConfigs where (u.CustomerID == IDCustomer) select u;
+            if (query.Count() > 0)
             {
-                var ID = Guid.Parse(ProjectId);
-                var query = from u in db.ProjectInstanceConfigs where u.CustProjconfigID == ID select u;
-                if (query.Count() > 0)
+                foreach (var v in query)
                 {
-                    foreach (var v in query)
-                    {
-                        Instance.Add(new SelectListItem { Text = v.InstaceName, Value = v.Id.ToString() });
-                    }
+                    Project.Add(new SelectListItem { Text = v.ProjectName, Value = v.Id.ToString() });
                 }
             }
-            return Json(Instance, JsonRequestBehavior.AllowGet);
+            
+
+
+
+            //GeneralList sP_ = _Base.GetInstanceDropdown(ProjectId);
+            //SelectList items = new SelectList(sP_._List, "Value", "Name");
+            return Json(Project, JsonRequestBehavior.AllowGet);
         }
 
 
-
-        public ActionResult FioriAppsReport()
+        [HttpPost]
+        public JsonResult LoadInstance(string ProjectId)
         {
-            GeneralList sP_ = _Base.sp_GetFioriAppsReportDropdown();
-            ViewBag.Roles = new SelectList(sP_._List, "_Value", "Name");
-            List<SAPFioriAppsModel> FiR = _Base.sp_GetSAPFioriAppsTable();
-            ViewBag.FiRReport = FiR;
-            return View();
+            GeneralList sP_ = _Base.GetInstanceDropdown(ProjectId);
+            SelectList items = new SelectList(sP_._List, "Value", "Name");
+            return Json(items, JsonRequestBehavior.AllowGet);
         }
-        public JsonResult GetFioriAppsReportt_Bar(string Input)
-        {
-            GeneralList sP_ = _Base.sP_GetSAPFioriAppsReport_Bar(Input);
-            return Json(sP_, JsonRequestBehavior.AllowGet);
-        }
+
+
+
+        
     }
 }

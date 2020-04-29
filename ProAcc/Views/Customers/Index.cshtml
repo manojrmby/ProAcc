@@ -7,33 +7,27 @@
     Layout = "~/Views/shared/_Layout.cshtml";
 }
 
-<h2 class="card-title">CUSTOMER LIST</h2>
-<script>
-    $("search").click(function () {
-        $("Search").remove();
-    });
-</script>
+<style>
+    .row {
+        margin-right: 0px;
+    }
+</style>
+<h4><b>Customer List</b></h4>
 @using (Html.BeginForm("Index", "Customers", FormMethod.Get))
 {
-<div class="row">
-    <input class=""
-           id="Search"
-           name="Search"
-           type="text"
-           value="" />
-    @*@Html.TextBox("Search")*@
-    @*<input type="submit" value="Search" />*@
-    <input type="submit" id="Search" value="Search" class="btn btn-primary" />
-</div>
+
+    <div class="row" style="padding-left:17px;">
+        <input id="Search" name="Search" type="text" value="" />
+        @*@Html.TextBox("Search")*@
+        @*<input type="submit" value="Search" />*@
+        <input type="submit" id="Search" value="Search" class="btn btn-primary" />
+    </div>
 }
-@*<p>
-        @Html.ActionLink("Create New", "Create")
-    </p>*@
-<div class="row" style="text-align:left !important;margin:auto !important;">
+<div class="row" style="text-align:left !important;margin:auto !important;padding:10px 0px 0px 0px;">
     <div class="main-card mb-3 card">
         <div class="card-body">
-            <div class="table-responsive">
-                <table class="mb-0 table table-hover">
+            <div class="table-responsive tableFixHead outer" style="height:auto!important;">
+                <table class="mb-0 table table-striped table-hover">
                     <thead>
                         <tr>
                             @*<th>
@@ -42,6 +36,7 @@
                                 <th>
                                     @Html.DisplayNameFor(model => model.Password)
                                 </th>*@
+
                             <th>
                                 @Html.DisplayNameFor(model => model.First().Name)
                             </th>
@@ -82,6 +77,7 @@
                             <th>Actions</th>
                         </tr>
                     </thead>
+
                     @foreach (var item in Model) //.OrderBy(c => c.Id)
                     {
                         <tr>
@@ -143,3 +139,8 @@
 @Html.PagedListPager(Model, i => Url.Action("Index", new { i, search = Request.QueryString["search"] }),
             new PagedListRenderOptions() { Display = PagedListDisplayMode.IfNeeded, DisplayPageCountAndCurrentLocation = true })
 
+<script>
+    $("search").click(function () {
+        $("Search").remove();
+    });
+</script>

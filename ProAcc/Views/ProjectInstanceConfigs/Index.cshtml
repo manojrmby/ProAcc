@@ -6,67 +6,72 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/shared/_Layout.cshtml";
 }
+<style>
+   
+    .row {
+        margin-right: 0px;
+    }
+</style>
 
-<h2 class="card-title">PROJECT INSTANCE CONFIGURATION</h2>
 <script>
     $("search").click(function () {
         $("Search").remove();
     });
 </script>
+<h4><b>Project Instance Configuration</b></h4>
 @using (Html.BeginForm("Index", "ProjectInstanceConfigs", FormMethod.Get))
 {
-    <input class=""
-           id="Search"
-           name="Search"
-           type="text"
-           value="" />
+<div class="row" style="padding-left:17px;">
+    <input id="Search" name="Search" type="text" value="" />
     @*@Html.TextBox("Search")*@
-    <input type="submit" value="Search" />
-}
+    @*<input type="submit" value="Search" />*@
+    <input type="submit" id="Search" value="Search" class="btn btn-primary" />
+</div>
+        }
 
-@*<p>
-    @Html.ActionLink("Create New", "Create")
-</p>*@
+        @*<p>
+                @Html.ActionLink("Create New", "Create")
+            </p>*@
 
-<div class="row" style="text-align:left !important;margin:auto !important;">
-    <div class="main-card mb-3 card" style="width: 100%;">
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="mb-0 table table-hover">
-                    <thead>
-                        <tr>
-                            <th>
-                                @Html.DisplayNameFor(model => model.First().InstaceName)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.First().CustomerProjectConfig.ProjectName)
-                            </th>
+        <div class="row" style="text-align: left !important; margin: auto !important; padding: 10px 0px 0px 0px;">
+            <div class="main-card mb-3 card" style="width: 100%;">
+                <div class="card-body">
+                    <div class="table-responsive tableFixHead outer" style="height:auto!important;">
+                        <table class="mb-0 table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.First().InstaceName)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.First().CustomerProjectConfig.ProjectName)
+                                    </th>
 
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.InstaceName)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.CustomerProjectConfig.ProjectName)
-                            </td>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.InstaceName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.CustomerProjectConfig.ProjectName)
+                                    </td>
 
-                            <td>
-                                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                            </td>
-                        </tr>
-                    }
-                </table>
+                                    <td>
+                                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                                        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                                    </td>
+                                </tr>
+                            }
+                        </table>
 
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
-@Html.PagedListPager(Model, i => Url.Action("Index", new { i, search = Request.QueryString["search"] }),
-            new PagedListRenderOptions() { Display = PagedListDisplayMode.IfNeeded, DisplayPageCountAndCurrentLocation = true })
+        @Html.PagedListPager(Model, i => Url.Action("Index", new { i, search = Request.QueryString["search"] }),
+                    new PagedListRenderOptions() { Display = PagedListDisplayMode.IfNeeded, DisplayPageCountAndCurrentLocation = true })

@@ -1,6 +1,6 @@
 ﻿@model ProACC_DB.Consultant
 @*<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>*@
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>*@
 
 <style>
     .required::after {
@@ -13,10 +13,9 @@
 @using (Html.BeginForm("Create", "Consultants", FormMethod.Post, new { }))
 {
     @Html.AntiForgeryToken()
-
-    <div class="card-body">
-        <h4 class="card-title">New Consultant</h4>
-        <p style="color:red"> All Fields are mandatory</p>
+    <h4><b>New Consultant</b></h4>
+    <div style="padding:1em;" class="col-lg-12">
+        <p style="color:red;float:right;margin-right:100px;">*  All Fields are mandatory</p>
         <hr />
         <div class="row">
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -43,7 +42,7 @@
                 <div class="position-relative form-group">
                     @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "control-label col-md-5 required" })
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @id = "txtMob", @class = "form-control", @onchange = "ValidateNu()" } })
+                        @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @id = "txtMob", @class = "form-control", @onchange = "ValidateNu()", @maxlength = "10" } })
                         @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
                         <span id="lblMob1" style="color:red"></span>
                     </div>
@@ -98,7 +97,7 @@
         </div>
         <div class="row">
             <div class="col-lg-12">
-                
+
                 <div class="col-md-offset-2 col-md-12">
                     <input type="submit" id="createconsultant" value="Create" class="btn btn-primary" onclick="SubmitConsultant();" />
                     <div class="col-lg-3" style="float:right;">
@@ -114,7 +113,7 @@
     $(document).ready(function () {
 
         $('#ConsultantUserName').on('change', function () {
-            debugger;
+            //debugger;
             $.ajax({
                 type: "POST",
                 url:'@Url.Action("CheckUsernameAvailability", "Consultants")',
@@ -127,11 +126,19 @@
                 }
             });
         });
+         $("#txtMob").keypress(function (e) {
+            //if the letter is not digit then display error and don't type anything
+            if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                //display error message
+                $("#lblMob1").html("Numbers Only").show().fadeOut("slow");
+                return false;
+            }
+        });
     });
     //function OnSuccess
     function OnSuccess(response) {
         var msg = $("#Status1");
-        debugger;
+        //debugger;
         switch (response) {
             case 1:
                 msg.show();
@@ -150,32 +157,30 @@
 
 <script>
 
-    
-        var result = "Success";
-      function ValidateNa()
-      {
-          debugger;
-          var name1 = document.getElementById("txtName1").value;
-          var lblName1 = document.getElementById("lblName1");
-          lblName1.innerHTML = "";
-          var letters = /^[A-Za-z, ]+$/;
-          if (!letters.test(name1)) {
-              lblName1.innerHTML = "Please enter valid Name";
-              result = "error";
-          }
-          else {
-              result = "Success";
-          }
-          validateSave();
-      }
 
-    function ValidateDesc()
-      {
-          debugger;
-          var Desc = document.getElementById("txtDesc").value;
-          var lblDesc = document.getElementById("lblDesc");
-          lblDesc.innerHTML = "";
-          var letters = /^[A-Za-z, ]+$/;
+    var result = "Success";
+    function ValidateNa() {
+        //debugger;
+        var name1 = document.getElementById("txtName1").value;
+        var lblName1 = document.getElementById("lblName1");
+        lblName1.innerHTML = "";
+        var letters = /^[A-Za-z, ]+$/;
+        if (!letters.test(name1)) {
+            lblName1.innerHTML = "Please enter valid Name";
+            result = "error";
+        }
+        else {
+            result = "Success";
+        }
+        validateSave();
+    }
+
+    function ValidateDesc() {
+        //debugger;
+        var Desc = document.getElementById("txtDesc").value;
+        var lblDesc = document.getElementById("lblDesc");
+        lblDesc.innerHTML = "";
+        var letters = /^[A-Za-z, ]+$/;
         if (Desc = "" || !letters.test(Desc)) {
             lblDesc.innerHTML = "Please enter valid Name";
             result = "error";
@@ -184,9 +189,9 @@
             result = "Success";
         }
         validateSave();
-      }
+    }
     function ValidateEmail1() {
-        debugger;
+        //debugger;
         var email1 = document.getElementById("txtEmail1").value;
         var lblEmail1 = document.getElementById("lblEmail1");
         lblEmail1.innerHTML = "";
@@ -202,9 +207,9 @@
     }
 
     function validateConsPwd() {
-        debugger;
+        //debugger;
         var Passwd = document.getElementById("Passwd").value;
-        var txtConsCnfmPassword = document.getElementById("txtConsCnfmPassword").value; 
+        var txtConsCnfmPassword = document.getElementById("txtConsCnfmPassword").value;
         var lblAltConsPwd = document.getElementById("lblAltConsPwd");
         lblAltConsPwd.innerHTML = "";
         if (Passwd != txtConsCnfmPassword) {
@@ -218,7 +223,7 @@
     }
 
     function ValidateNu() {
-         var mob = /^[1-9]{1}[0-9]{9}$/;
+        var mob = /^[1-9]{1}[0-9]{9}$/;
         var txtMobile = document.getElementById("txtMob").value;
         var lblMob1 = document.getElementById("lblMob1");
         lblMob1.innerHTML = "";
@@ -242,7 +247,7 @@
     }
 
     function SubmitConsultant() {
-        debugger;
+        //debugger;
         //alert("HI");
         var Name1 = $("#txtName1").val();
         var Desc = $("#txtDesc").val();
@@ -255,12 +260,12 @@
         var lblName1 = $("#lblName1").text(); // val();
         var lblDesc = $("#lblDesc").text();
         var lblMob1 = $("#lblMob1").text();
-        var lblEmail1 = $("#lblEmail1").text();       
+        var lblEmail1 = $("#lblEmail1").text();
         var Status1 = "";
         var lblAltConsPwd = $("#lblAltConsPwd").text();
 
-        if (Name1.length > 0 && Desc.length > 0 && Mob.length > 0 && Email1.length > 0 && ConsultantUserName.length > 0 && Passwd.length > 0 && 
-            lblName1 =="" && lblDesc== "" && lblMob1=="" && lblEmail1== "" && Status1=="" && lblAltConsPwd=="") {
+        if (Name1.length > 0 && Desc.length > 0 && Mob.length > 0 && Email1.length > 0 && ConsultantUserName.length > 0 && Passwd.length > 0 &&
+            lblName1 == "" && lblDesc == "" && lblMob1 == "" && lblEmail1 == "" && Status1 == "" && lblAltConsPwd == "") {
 
             $("#createconsultant").prop("disabled", false);
         }
