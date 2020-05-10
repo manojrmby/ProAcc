@@ -12,7 +12,7 @@
         margin-right: 0px;
     }
 </style>
-<h4><b>Customer List</b></h4>
+<a class="card-title">Customer List</a>
 @using (Html.BeginForm("Index", "Customers", FormMethod.Get))
 {
 
@@ -54,13 +54,16 @@
                                 @Html.DisplayNameFor(model => model.First().Email)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.First().EstimatedSale)
+                                Estimated Sale
+                                @*@Html.DisplayNameFor(model => model.First().EstimatedSale)*@
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.First().LastContact_Dt)
+                                Last Contact
+                                @*@Html.DisplayNameFor(model => model.First().LastContact_Dt)*@
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.First().NextAction_Dt)
+                                Next Action
+                                @*@Html.DisplayNameFor(model => model.First().NextAction_Dt)*@
                             </th>
                             @*<th>
                                     @Html.DisplayNameFor(model => model.First().NextContact_Dt)
@@ -69,7 +72,8 @@
                                 Lead Status
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.First().LeadSource)
+                                Lead Source
+                                @*@Html.DisplayNameFor(model => model.First().LeadSource)*@
                             </th>
                             @*<th>
                                     @Html.DisplayNameFor(model => model.First().User_Master.UserType)

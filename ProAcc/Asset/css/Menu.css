@@ -10094,7 +10094,7 @@ a, button, .btn {
 }
 
 .app-header.header-text-light .app-header__logo .logo-src {
-    background: url(/Asset/images/Promantus_logo.png)
+    background: url(../images/Promantus_logo.png)
 }
 
 .app-header.header-text-light .app-header__mobile-menu .hamburger-inner, .app-header.header-text-light .app-header__mobile-menu .hamburger-inner::before, .app-header.header-text-light .app-header__mobile-menu .hamburger-inner::after {
@@ -10177,7 +10177,7 @@ a, button, .btn {
 }
 
 .app-header.header-text-dark .app-header__logo .logo-src {
-    background: url(/Asset/images/Promantus_logo.png)
+    background: url(../images/Promantus_logo.png)
 }
 
 .app-sidebar {
@@ -15753,8 +15753,8 @@ legend {
     font-family: 'Font Awesome 5 Free';
     font-style: normal;
     font-weight: 900;
-    src: url(/Asset/fonts/fa-solid-900.eot);
-    src: url(/Asset/fonts/fa-solid-900.eot?#iefix) format("embedded-opentype"), url(/Asset/fonts/fa-solid-900.woff2) format("woff2"), url(/Asset/fa-solid-900.woff) format("woff"), url(/Asset/fonts/fa-solid-900.ttf) format("truetype"), url(/Asset/fonts/fa-solid-900.svg#fontawesome) format("svg")
+    src: url(../fonts/fa-solid-900.eot);
+    src: url(../fonts/fa-solid-900.eot?#iefix) format("embedded-opentype"), url(../fonts/fa-solid-900.woff2) format("woff2"), url(../fa-solid-900.woff) format("woff"), url(../fonts/fa-solid-900.ttf) format("truetype"), url(../fonts/fa-solid-900.svg#fontawesome) format("svg")
 }
 
 .fa, .fas {

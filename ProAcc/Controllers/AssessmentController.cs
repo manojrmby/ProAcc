@@ -17,46 +17,49 @@ namespace ProAcc.Controllers
     {
        
         ProAccEntities db = new ProAccEntities();
-        Base _Base = new Base();
         LogHelper _logHelper = new LogHelper();
+        Base _Base = new Base();
+        private Guid InstanceId = Guid.Empty;
+        //private Guid InstanceId = Guid.Parse(System.Web.HttpContext.Current.Session["InstanceId"].ToString());
         // GET: Assessment
         [Authorize(Roles = "Admin,Consultant")]
         public ActionResult CreateAnalysis()
         {
 
 
-            //Tuple<List<Lis>, List<Lis>, List<Lis>> sP_ = _Base.sP_AnalysisDropdowns();
-
-            //ViewBag.Project = new SelectList(sP_.Item2, "Value", "Name");
-            //ViewBag.Customer = new SelectList(sP_.Item1, "Value", "Name");
-            //ViewBag.Instance = new SelectList(sP_.Item3, "Value", "Name");
-            List<SelectListItem> Customer = new List<SelectListItem>();
-            var query1 = from u in db.Customers select u;
-            if (query1.Count() > 0)
+            int userType = 0;
+            if (User.IsInRole("Admin"))
             {
-                foreach (var v in query1)
-                {
-                    Customer.Add(new SelectListItem { Text = v.Name, Value = v.Id.ToString() });
-                }
+                userType = 1;
             }
-            ViewBag.Customer = Customer;
-
-            List<SelectListItem> Project = new List<SelectListItem>();
-            var query = from u in db.CustomerProjectConfigs select u;
-            if (query.Count() > 0)
+            else if (User.IsInRole("Consultant"))
             {
-                foreach (var v in query)
-                {
-                    Project.Add(new SelectListItem { Text = v.ProjectName, Value = v.Id.ToString() });
-                }
+                userType = 2;
             }
-            ViewBag.Project = Project;
+            else if (User.IsInRole("Customer"))
+            {
+                userType = 3;
+            }
+            GeneralList sP_ = _Base.spCustomerDropdown(Session["loginid"].ToString(), userType);
+            ViewBag.Customer = new SelectList(sP_._List, "Value", "Name");
+
+            //List<SelectListItem> Project = new List<SelectListItem>();
+            //var query = from u in db.CustomerProjectConfigs where (u.isActive == true) select u;
+            //if (query.Count() > 0)
+            //{
+            //    foreach (var v in query)
+            //    {
+            //        Project.Add(new SelectListItem { Text = v.ProjectName, Value = v.Id.ToString() });
+            //    }
+            //}
+            //ViewBag.Project = Project;
             return View();
         }
 
         //Start  Readiness
         public ActionResult ReadinessReport()
         {
+            InstanceId = Guid.Parse(Session["InstanceId"].ToString());
             if (InstanceId == Guid.Empty)
             {
                 ViewBag.Message = String.Format("Hello {0},\n Kindly Select Instance", Session["UserName"].ToString());
@@ -66,22 +69,29 @@ namespace ProAcc.Controllers
             {
 
             }
-            List<SelectListItem> Customer = new List<SelectListItem>();
-            var query1 = from u in db.Customers select u;
-            if (query1.Count() > 0)
+            int userType = 0;
+            if (User.IsInRole("Admin"))
             {
-                foreach (var v in query1)
-                {
-                    Customer.Add(new SelectListItem { Text = v.Name, Value = v.Id.ToString() });
-                }
+                userType = 1;
             }
-            ViewBag.Customer = Customer;
+            else if(User.IsInRole("Consultant"))
+            {
+                userType = 2;
+            }
+            else if (User.IsInRole("Customer"))
+            {
+                userType = 3;
+            }
+            GeneralList sP_ = _Base.spCustomerDropdown(Session["loginid"].ToString(), userType);
+            ViewBag.Customer = new SelectList(sP_._List, "Value", "Name");
+
+
             List<SelectListItem> Project = new List<SelectListItem>();
 
             if (User.IsInRole("Customer"))
             {
                 Guid customerId = Guid.Parse(Session["loginid"].ToString());
-                var query = from u in db.CustomerProjectConfigs where (u.CustomerID == customerId) select u;
+                var query = from u in db.CustomerProjectConfigs where (u.CustomerID == customerId && u.isActive == true) select u;
                 if (query.Count() > 0)
                 {
                     foreach (var v in query)
@@ -93,7 +103,7 @@ namespace ProAcc.Controllers
             else
             {
 
-                var query = from u in db.CustomerProjectConfigs select u;
+                var query = from u in db.CustomerProjectConfigs where(u.isActive ==true) select u;
                 if (query.Count() > 0)
                 {
                     foreach (var v in query)
@@ -110,36 +120,42 @@ namespace ProAcc.Controllers
         [HttpPost]
         public JsonResult GetSimplificationReport()
         {
-            SP_ReadinessReport_Result GetRelevant = _Base.sAPInput();
+            InstanceId = Guid.Parse(Session["InstanceId"].ToString());
+            SP_ReadinessReport_Result GetRelevant = _Base.sAPInput(InstanceId);
             return Json(GetRelevant, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult GetActivities_Bar1()
         {
-            GeneralList sP_ = _Base.sP_GetActivities_Bar1();
+            InstanceId = Guid.Parse(Session["InstanceId"].ToString());
+            GeneralList sP_ = _Base.sP_GetActivities_Bar1(InstanceId);
             return Json(sP_, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult GetActivities_Bar2()
         {
-            GeneralList sP_ = _Base.sP_GetActivities_Bar2();
+            InstanceId = Guid.Parse(Session["InstanceId"].ToString());
+            GeneralList sP_ = _Base.sP_GetActivities_Bar2(InstanceId);
             return Json(sP_, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult GetActivities_Donut()
         {
-            GeneralList sP_ = _Base.sP_GetActivities_Donut();
+            InstanceId = Guid.Parse(Session["InstanceId"].ToString());
+            GeneralList sP_ = _Base.sP_GetActivities_Donut(InstanceId);
             return Json(sP_, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult GetFiori_Bar()
         {
-            GeneralList sP_ = _Base.sP_GetFiori_Bar();
+            InstanceId = Guid.Parse(Session["InstanceId"].ToString());
+            GeneralList sP_ = _Base.sP_GetFiori_Bar(InstanceId);
             return Json(sP_, JsonRequestBehavior.AllowGet);
         }
         public JsonResult GetCustomCode_Bar()
         {
-            GeneralList sP_ = _Base.sP_GetCustomCode_Bar();
+            InstanceId = Guid.Parse(Session["InstanceId"].ToString());
+            GeneralList sP_ = _Base.sP_GetCustomCode_Bar(InstanceId);
             return Json(sP_, JsonRequestBehavior.AllowGet);
         }
 
@@ -149,14 +165,16 @@ namespace ProAcc.Controllers
         //START Simplification
         public ActionResult SimplificationReport()
         {
+            InstanceId = Guid.Parse(Session["InstanceId"].ToString());
             if (InstanceId == Guid.Empty)
             {
                 ViewBag.Message = String.Format("Hello {0},\n Kindly Select Instance", Session["UserName"].ToString()).Replace("\n",Environment.NewLine);
               
             }
-            GeneralList sP_ = _Base.sP_SimplificationReport();
+            InstanceId = Guid.Parse(Session["InstanceId"].ToString());
+            GeneralList sP_ = _Base.sP_SimplificationReport(InstanceId);
             ViewBag.LOB = new SelectList(sP_._List, "_Value", "Name");
-            List<SAPInput_SimplificationReport> SR = _Base.SAPInput_Simplification();
+            List<SAPInput_SimplificationReport> SR = _Base.SAPInput_Simplification(InstanceId);
             ViewBag.SRReport = SR;
 
             return View();
@@ -167,7 +185,8 @@ namespace ProAcc.Controllers
         [HttpPost]
         public JsonResult GetSimplificationReport_Bar(string LOB)
         {
-            GeneralList sP_ = _Base.sP_SimplificationReport_Bar(LOB);
+            InstanceId = Guid.Parse(Session["InstanceId"].ToString());
+            GeneralList sP_ = _Base.sP_SimplificationReport_Bar(LOB, InstanceId);
 
             return Json(sP_, JsonRequestBehavior.AllowGet);
         }
@@ -176,14 +195,15 @@ namespace ProAcc.Controllers
         //START Custom Code
         public ActionResult CustomReport()
         {
+            InstanceId = Guid.Parse(Session["InstanceId"].ToString());
             if (InstanceId == Guid.Empty)
             {
                 ViewBag.Message = String.Format("Hello {0},\n Kindly Select Instance", Session["UserName"].ToString()).Replace("\n", Environment.NewLine);
 
             }
-            GeneralList sP_ = _Base.sP_SimplificationReport();
+            GeneralList sP_ = _Base.sP_SimplificationReport(InstanceId);
             ViewBag.LOB = new SelectList(sP_._List, "_Value", "Name");
-            List<SAPInput_CustomCode> CR = _Base.SAPInput_CustomCodeReport();
+            List<SAPInput_CustomCode> CR = _Base.SAPInput_CustomCodeReport(InstanceId);
             ViewBag.CRReport = CR;
             return View();
         }
@@ -192,40 +212,43 @@ namespace ProAcc.Controllers
         //Start  Readiness
         public ActionResult ActivitieReport()
         {
+            InstanceId = Guid.Parse(Session["InstanceId"].ToString());
             if (InstanceId == Guid.Empty)
             {
                 ViewBag.Message = String.Format("Hello {0},\n Kindly Select Instance", Session["UserName"].ToString()).Replace("\n", Environment.NewLine);
 
             }
-            Tuple<List<Lis>, List<Lis>> sP_ = _Base.sp_GetActivitiesReportDropdown();
-
+            Tuple<List<Lis>, List<Lis>> sP_ = _Base.sp_GetActivitiesReportDropdown(InstanceId);
             ViewBag.Condition = new SelectList(sP_.Item2, "Value", "Name");
             ViewBag.Phase = new SelectList(sP_.Item1, "Value", "Name");
-            List<BL.Model.SAPInput_Activities> AR = _Base.GetActivitiesReport_Table();
+            List<BL.Model.SAPInput_Activities> AR = _Base.GetActivitiesReport_Table(InstanceId);
             ViewBag.ARReport = AR;
             return View();
         }
         public JsonResult GetActivitiesReport_Bar(string Phase, string condition)
         {
-            GeneralList sP_ = _Base.sP_GetActivitiesReport_Bar(Phase, condition);
+            InstanceId = Guid.Parse(Session["InstanceId"].ToString());
+            GeneralList sP_ = _Base.sP_GetActivitiesReport_Bar(Phase, condition, InstanceId);
             return Json(sP_, JsonRequestBehavior.AllowGet);
         }
         public ActionResult FioriAppsReport()
         {
+            InstanceId = Guid.Parse(Session["InstanceId"].ToString());
             if (InstanceId == Guid.Empty)
             {
                 ViewBag.Message = String.Format("Hello {0},\n Kindly Select Instance", Session["UserName"].ToString()).Replace("\n", Environment.NewLine);
 
             }
-            GeneralList sP_ = _Base.sp_GetFioriAppsReportDropdown();
+            GeneralList sP_ = _Base.sp_GetFioriAppsReportDropdown(InstanceId);
             ViewBag.Roles = new SelectList(sP_._List, "_Value", "Name");
-            List<SAPFioriAppsModel> FiR = _Base.sp_GetSAPFioriAppsTable();
+            List<SAPFioriAppsModel> FiR = _Base.sp_GetSAPFioriAppsTable(InstanceId);
             ViewBag.FiRReport = FiR;
             return View();
         }
         public JsonResult GetFioriAppsReportt_Bar(string Input)
         {
-            GeneralList sP_ = _Base.sP_GetSAPFioriAppsReport_Bar(Input);
+            InstanceId = Guid.Parse(Session["InstanceId"].ToString());
+            GeneralList sP_ = _Base.sP_GetSAPFioriAppsReport_Bar(Input, InstanceId);
             return Json(sP_, JsonRequestBehavior.AllowGet);
         }
 
@@ -247,8 +270,9 @@ namespace ProAcc.Controllers
                         bool Result_Process_Activities = false, Result_Process_Bwextractors = false,
                             Result_Process_CustomCode = false, Result_Processup_HanaDatabaseTables = false,
                             Result_Process_FioriApps = false, Result_Process_Simplification = false,
-                            Result_Process_SAPReadinessCheck = false, Result_Instance = false;
+                            Result_Process_SAPReadinessCheck = false;
                         Guid Instance_ID = Guid.Parse(InstanceName);
+                        Guid User_Id = Guid.Parse(Session["loginid"].ToString());
                         //  Get all files from Request object  
                         HttpFileCollectionBase files = Request.Files;
                         for (int i = 0; i < files.Count; i++)
@@ -273,36 +297,37 @@ namespace ProAcc.Controllers
                             }
                             String _fname = NewID + ext;
                             FileUpload _fileUpload = new FileUpload();
-                            // Get the complete folder path and store the file inside it.  
-                            fname = Path.Combine(Server.MapPath(ConfigurationManager.AppSettings["Upload_filePath"].ToString()), _fname);
+                            string Folder_Path = Server.MapPath(ConfigurationManager.AppSettings["Upload_filePath"].ToString());
+                            _Base.CreateIfMissing(Folder_Path);
+                            fname = Path.Combine(Folder_Path, _fname);
                             file.SaveAs(fname);
                             if (FileCount == 1)
                             {
-                                Result_Process_Activities = _fileUpload.Process_Activities(fname, NewID, Instance_ID);
+                                Result_Process_Activities = _fileUpload.Process_Activities(fname, NewID, Instance_ID, User_Id);
                             }
                             else if (FileCount == 2)
                             {
-                                Result_Process_Bwextractors = _Base.Upload_Bwextractors(NewID, Instance_ID);
+                                Result_Process_Bwextractors = _Base.Upload_Bwextractors(NewID, Instance_ID, User_Id);
                             }
                             else if (FileCount == 3)
                             {
-                                Result_Process_CustomCode = _fileUpload.Process_CustomCode(fname, NewID, Instance_ID);
+                                Result_Process_CustomCode = _fileUpload.Process_CustomCode(fname, NewID, Instance_ID, User_Id);
                             }
                             else if (FileCount == 4)
                             {
-                                Result_Processup_HanaDatabaseTables = _Base.Upload_HanaDatabaseTables(NewID, Instance_ID);
+                                Result_Processup_HanaDatabaseTables = _Base.Upload_HanaDatabaseTables(NewID, Instance_ID, User_Id);
                             }
                             else if (FileCount == 5)
                             {
-                                Result_Process_FioriApps = _fileUpload.Process_FioriApps(fname, NewID, Instance_ID);
+                                Result_Process_FioriApps = _fileUpload.Process_FioriApps(fname, NewID, Instance_ID, User_Id);
                             }
                             else if (FileCount == 6)
                             {
-                                Result_Process_Simplification = _fileUpload.Process_Simplification(fname, NewID, Instance_ID);
+                                Result_Process_Simplification = _fileUpload.Process_Simplification(fname, NewID, Instance_ID, User_Id);
                             }
                             else if (FileCount == 7)
                             {
-                                Result_Process_SAPReadinessCheck = _Base.Upload_SAPReadinessCheck(NewID, Instance_ID);
+                                Result_Process_SAPReadinessCheck = _Base.Upload_SAPReadinessCheck(NewID, Instance_ID, User_Id);
                             }
 
 
@@ -373,22 +398,20 @@ namespace ProAcc.Controllers
         [HttpPost]
         public JsonResult LoadProject(string CustomerId)
         {
-            Guid IDCustomer = Guid.Parse(CustomerId);
+            
             List<SelectListItem> Project = new List<SelectListItem>();
-            var query = from u in db.CustomerProjectConfigs where (u.CustomerID == IDCustomer) select u;
-            if (query.Count() > 0)
+            if (!string.IsNullOrEmpty(CustomerId))
             {
-                foreach (var v in query)
+                Guid IDCustomer = Guid.Parse(CustomerId);
+                var query = from u in db.CustomerProjectConfigs where (u.CustomerID == IDCustomer && u.isActive == true) select u;
+                if (query.Count() > 0)
                 {
-                    Project.Add(new SelectListItem { Text = v.ProjectName, Value = v.Id.ToString() });
+                    foreach (var v in query)
+                    {
+                        Project.Add(new SelectListItem { Text = v.ProjectName, Value = v.Id.ToString() });
+                    }
                 }
             }
-            
-
-
-
-            //GeneralList sP_ = _Base.GetInstanceDropdown(ProjectId);
-            //SelectList items = new SelectList(sP_._List, "Value", "Name");
             return Json(Project, JsonRequestBehavior.AllowGet);
         }
 

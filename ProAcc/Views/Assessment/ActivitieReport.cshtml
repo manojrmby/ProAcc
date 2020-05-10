@@ -3,110 +3,109 @@
 	ViewBag.Title = "ActivitieReport";
 	Layout = "~/Views/shared/_Layout.cshtml";
 }
-
-<h5><b>Activities Report</b></h5>
-<script src="~/Asset/Scripts/chartjs-plugin-labels.min.js"></script>
-<div style="padding:1em;">
-	<div class="row">
-		<div class="col-md-6 card" id="Chart123" style="min-width: 100%; ">
+	<a class="card-title">Activities Report</a>
+		
+		<script src="~/Asset/Scripts/chartjs-plugin-labels.min.js"></script>
+		<div style="padding:1em;">
 			<div class="row">
-				<div class="col-lg-6">
-					<label> By Phase</label>
-					@Html.DropDownList("Phase", (IEnumerable<SelectListItem>)ViewBag.Phase, "ALL", new { id = "Phase", @class = "form-control" })
-				</div>
-				<div class="col-lg-6">
+				<div class="col-md-6 card" id="Chart123" style="min-width: 100%; ">
+					<div class="row">
+						<div class="col-lg-6">
+							<label> By Phase</label>
+							@Html.DropDownList("Phase", (IEnumerable<SelectListItem>)ViewBag.Phase, "ALL", new { id = "Phase", @class = "form-control" })
+						</div>
+						<div class="col-lg-6">
 
-					<label> By condition</label>
-					@Html.DropDownList("condition", (IEnumerable<SelectListItem>)ViewBag.condition, "ALL", new { id = "condition", @class = "form-control" })
+							<label> By condition</label>
+							@Html.DropDownList("condition", (IEnumerable<SelectListItem>)ViewBag.condition, "ALL", new { id = "condition", @class = "form-control" })
+						</div>
+						<canvas class="col-md-auto" id="Chart_Activities"></canvas>
+					</div>
+
 				</div>
-				<canvas class="col-md-auto" id="Chart_Activities"></canvas>
+			</div>
+			<br />
+
+			<div class="row">
+				<div class="col-lg-12 card" style="padding:0px;">
+					@*<table id="t01" class="table table-bordered table-hover">*@
+					<div class="tableFixHead outer table-striped table-hover">
+						<table>
+							<thead>
+								<tr>
+									<th style="width:60px; padding:8px;">S.NO</th>
+									<th>Related Simplification Items</th>
+									<th>Activities</th>
+									<th>Phase</th>
+									<th>Condition</th>
+									<th>Additional Information</th>
+								</tr>
+							</thead>
+							<tbody>
+								@foreach (var item in ViewBag.ARReport)
+								{
+
+									<tr>
+										<td class="text-center">
+											@item.S_No.
+										</td>
+										<td>
+											@item.Related_Simplification_Items
+										</td>
+										<td>
+											@item.Activities
+										</td>
+										<td>
+											@item.Phase
+										</td>
+										<td>
+											@item.Condition
+										</td>
+										<td>
+											@item.Additional_Information
+										</td>
+									</tr>
+								}
+							</tbody>
+						</table>
+					</div>
+
+				</div>
+
+			</div>
+		</div>
+
+		<div>
+			@Html.Hidden("RedirectTo", Url.Action("Home", "Home"))
+			<div style="visibility:hidden">
+				<div id="dialog-message" title="Info">
+					<p>
+						<span class="ui-icon ui-icon-circle-check" style="float:left; margin:0 7px 50px 0;"></span>
+						@ViewBag.Message
+					</p>
+				</div>
 			</div>
 
+			@if (ViewBag.Message != null)
+			{
+				<script type="text/javascript">
+					$(function () {
+
+						$("#dialog-message").dialog({
+							modal: true,
+							buttons: {
+								Ok: function () {
+									$(this).dialog("close");
+									var url = $("#RedirectTo").val();
+									location.href = url;
+								}
+							}
+						});
+					});
+				</script>
+
+			}
 		</div>
-	</div>
-	<br />
-
-	<div class="row">
-		<div class="col-lg-12 card" style="padding:0px;">
-			@*<table id="t01" class="table table-bordered table-hover">*@
-			<div class="tableFixHead outer table-striped table-hover">
-				<table>
-					<thead>
-						<tr>
-							<th style="width:60px; padding:8px;">S.NO</th>
-							<th>Related Simplification Items</th>
-							<th>Activities</th>
-							<th>Phase</th>
-							<th>Condition</th>
-							<th>Additional Information</th>
-						</tr>
-					</thead>
-					<tbody>
-						@foreach (var item in ViewBag.ARReport)
-						{
-
-							<tr>
-								<td class="text-center">
-									@item.S_No.
-								</td>
-								<td>
-									@item.Related_Simplification_Items
-								</td>
-								<td>
-									@item.Activities
-								</td>
-								<td>
-									@item.Phase
-								</td>
-								<td>
-									@item.Condition
-								</td>
-								<td>
-									@item.Additional_Information
-								</td>
-							</tr>
-						}
-					</tbody>
-				</table>
-			</div>
-
-		</div>
-
-	</div>
-</div>
-
-<div>
-	@Html.Hidden("RedirectTo", Url.Action("Home", "Home"))
-	<div style="visibility:hidden">
-		<div id="dialog-message" title="Info">
-			<p>
-				<span class="ui-icon ui-icon-circle-check" style="float:left; margin:0 7px 50px 0;"></span>
-				@ViewBag.Message
-			</p>
-		</div>
-	</div>
-
-	@if (ViewBag.Message != null)
-	{
-		<script type="text/javascript">
-			$(function () {
-
-				$("#dialog-message").dialog({
-					modal: true,
-					buttons: {
-						Ok: function () {
-							$(this).dialog("close");
-							var url = $("#RedirectTo").val();
-							location.href = url;
-						}
-					}
-				});
-			});
-		</script>
-
-	}
-</div>
-
 <script type="text/javascript" charset="utf-8">
 	function Ajax_Activities_Bar(Phase,condition) {
 		$.ajax({
@@ -119,12 +118,14 @@
 
 				var Output = Data._List;
 				var inpName = [];
-				var inpVal = [];
+                var inpVal = [];
+				var backColor = [];
 				var C = 0;
 				for (var i = 0; i < Output.length; i++) {
 
 					inpName.push(Output[i].Name);
-					inpVal.push(Output[i]._Value);
+                    inpVal.push(Output[i]._Value);
+					backColor.push("#36A2EB");
 					//var _Name = Output[i].Name;
 
 					//if (_Name == 'Custom Code Adaption') {
@@ -144,7 +145,7 @@
 				//inpVal.push(C);
 				labels = inpName;
 				data_ = inpVal;
-				renderBar1Chart(data_, labels);
+				renderBar1Chart(data_, labels,backColor);
 			},
 			error: function () {
 				alert("Error while inserting data");
@@ -154,7 +155,7 @@
 
 		});
 	}
-	function renderBar1Chart(data, labels) {
+	function renderBar1Chart(data, labels,backColor) {
 		$("canvas#Chart_Activities").remove();
 
 		$("#Chart123").append('<canvas id="Chart_Activities"></canvas>');
@@ -175,12 +176,12 @@
 
 					data: data,
 					label:"",
-
-					backgroundColor: [
-                            '#FF6384',
-                            '#36A2EB',
-                            '#FFCE56'
-                        ],
+					backgroundColor:backColor,
+					//backgroundColor: [
+     //                       '#FF6384',
+     //                       '#36A2EB',
+     //                       '#FFCE56'
+     //                   ],
 
 				}]
 			},
@@ -202,9 +203,9 @@
 	 //     }
 	 //     }
 	 //    },
-				 title: {
-					display: true,
-					text: "Activities"
+                title: {
+                    display: true,
+					text: " "
 				},
 				//hover: {
 				//	animationDuration: 0
@@ -299,4 +300,4 @@
    //     });
    //     $('.dataTables_length').addClass('bs-select');
 	});
-</script>
+		</script>

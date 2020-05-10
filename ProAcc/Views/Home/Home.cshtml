@@ -4,21 +4,27 @@
     Layout = "~/Views/shared/_Layout.cshtml";
     var mdetails = ViewBag.list;
 }
-<style type="text/css">
-    .cs_Closed {
+<style>
+     /*.cs_Closed {
         color: lightgreen;
     }
 
     .cs_Inprogress {
         color: cornflowerblue;
-    }
+    }*/
 
-    .prograss_Bar {
+    /*.prograss_Bar {
         height: 15px;
-    }
-</style>
+    }*/
 
-<style>
+    .container {
+        height: 200px;
+        width: 430px;
+        padding: 10px;
+        border: 1px solid white;
+        overflow: auto;
+        overflow-x: hidden;
+    }
     /* noUISlider ================================== */
     .noUi-target {
         -webkit-touch-callout: none;
@@ -289,70 +295,47 @@
     .noUi-active .range-label span {
         opacity: 1;
     }
-</style>
-@*Active Members Style*@
-<style>
-    .container {
-        height: 200px;
-        width: 430px;
-        padding 10px;
-        border: 1px solid white;
-        overflow: auto;
-        overflow-x: hidden;
+    .bg-grow-before {
+        background-color: darkcyan;
     }
+    
 </style>
+
 <script src="~/Asset/Scripts/Chart.js"></script>
 <script src="~/Asset/Scripts/Chart.RadialGauge.umd.js"></script>
 <script src="~/Asset/Scripts/Prograssbarjs.js"></script>
-<style>
-    /*.wrapper{
 
-max-height: 300px;
-overflow:auto;
-}*/
-</style>
 
-@*<script src="~/Asset/Scripts/utils.js"></script>*@
-<div style="padding:1em;">
+<a class="card-title">Dashboard</a>
+<div style="padding: 1em;">
     <div class="row">
-        <div class="col-12">
-            <a>Project Name :<b> @ProAcc.BL.Model.Common.Project_Name</b></a>
-            <a class="float-lg-right">Instance Name :<b> @ProAcc.BL.Model.Common.Instance_Name</b></a>
-        </div>
-        <br />
-        <div class="col-lg-12">
-            <div class="row" style="padding:0em 1em 1em 1em;">
-                <div class="col-lg-3 card text-center">
-                    <label>Assessment</label>
-                    <canvas id="chart-Assessment"></canvas>
-                    <label>Total:238</label>
+  
+        <div class="col-lg-12 card" style="margin-bottom:20px;min-height:250px;">
+            <div class="row">
+                <table>
+                    <tr>
+                        <td style="text-align:left;vertical-align:top;"><a class="card-title">Project Name :</a>@Session["Project_Name"]</td>
+                        <td style="text-align:right;vertical-align:top;"><a class="card-title">Instance Name :</a> @Session["Instance_Name"]</td>
+                    </tr>
+                    <tr>
+                        <td style="width:50%">
+                            <div class="card mb-3 widget-content bg-grow-before" id="AssDivId">
+                                <div class="widget-content-wrapper text-white">
+                                    <div class="widget-content-left">
+                                        <div class="widget-heading">Assesment</div>
+                                        <div class="widget-subheading">Readiness Check</div>
+                                    </div>
+                                    <div class="widget-content-right">
+                                        <div class="widget-numbers text-white"><span id="AssId">0 %</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>                    
+                </table>
                 </div>
-                <div class="col-lg-3 card text-center">
-                    <label>Pre Conversion</label>
-                    <canvas id="chart-Pre_Conversion"></canvas>
-                    <label>Total:244</label>
-                </div>
-                <div class="col-lg-3 card text-center">
-                    <label>Conversion</label>
-                    <canvas id="chart-Conversion"></canvas>
-                    <label>Total:365</label>
-                </div>
-                <div class="col-lg-3 card text-center">
-                    <label>Post Conversion</label>
-                    <canvas id="chart-Post_Conversion"></canvas>
-                    <label>Total:215</label>
-                </div>
-            </div>
-
-        </div>
-        <div class="col-lg-12">
-            <div class="row" style="padding:0em 1em 1em 1em;">
-                <div class="col-lg-3 card text-center">
-                    <label>Validation</label>
-                    <canvas id="chart-Validation"></canvas>
-                    <label>Total:215</label>
-                </div>
-                <div class="col-lg-9 card ">
+              <hr style="margin-top:-20px !important;"/>
+                <div class="row" style="padding:0em 1em 1em 1em;">
                     <div class="card-body">
                         <h5 class="card-title">S4 Hana System Conversion</h5>
                         <form class="">
@@ -449,135 +432,93 @@ overflow:auto;
                                 {
                                     value = 100;
                                 }
-                                <fieldset class="position-relative form-group" style="top: 50px;">
+                                @*<fieldset class="position-relative form-group" style="top: 50px;">
                                     <monkey-bar min="0" max="100" now=@value class="prograss_Bar" labeled striped></monkey-bar>
-                                </fieldset>
+                                </fieldset>*@
                             }
                             @*<div class="position-relative form-check">
-                                    <label class="form-check-label"><input name="radio1" type="radio" class="form-check-input"> Option one is this and that—be sure to include why it's great</label>
-                                </div>
-                                <div class="position-relative form-check">
-                                    <label class="form-check-label">
-                                        <input name="radio1" type="radio" class="form-check-input"> Option two can be something else and selecting it will deselect option
-                                        one
-                                    </label>
-                                </div>
-                                <div class="position-relative form-check disabled"><label class="form-check-label"><input name="radio1" disabled="" type="radio" class="form-check-input"> Option three is disabled</label></div>*@
+                        <label class="form-check-label"><input name="radio1" type="radio" class="form-check-input"> Option one is this and that—be sure to include why it's great</label>
+                    </div>
+                    <div class="position-relative form-check">
+                        <label class="form-check-label">
+                            <input name="radio1" type="radio" class="form-check-input"> Option two can be something else and selecting it will deselect option
+                            one
+                        </label>
+                    </div>
+                    <div class="position-relative form-check disabled"><label class="form-check-label"><input name="radio1" disabled="" type="radio" class="form-check-input"> Option three is disabled</label></div>*@
 
                             @*<div class="position-relative form-check"><label class="form-check-label"><input type="checkbox" class="form-check-input"> Check me out</label></div>*@
                         </form>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-lg-12">
-            <div class="row" style="padding:0em 1em 1em 1em;">
-                <div class="col-lg-6 card">
-                    <div class="card-body">
-                        <h5 class="card-title">Storage</h5>
-
-                        <canvas id="chart-Storage"></canvas>
-
-                        <label style="padding-left:135px;">
-                            <a style="float:left;">8.50 GB Free<br /><b>30%</b> </a>
-                            <a style="padding-left:10px;float:right;">1.20 TB Filled<br /><b>70%</b> </a>
-
-                        </label>
-                        @*<br />
-                <label style="padding-left:135px;" class="toast-title">Storage size<br /><a class="text-md-center">2.05 TB</a></label>*@
-
-
-                        @*<h5 class="card-title">Active Members</h5>*@
-
-                        @*<div class="container">
-                    <ul class="list-group list-group-flush">
-                        @foreach (var item in ViewBag.list)
-                        {
-                            <shadow>
-                                <a class="list-group-item">
-                                    <img width="42" class="rounded-circle" src="/Asset/images/1.jpg">
-                                    <b>@item.Name</b><b class="fa fa-check" style="float:right;color:cornflowerblue;" aria-hidden="true"></b>
-                                </a>
-                            </shadow>
-                        }
-                    </ul>
-                </div>*@
-                    </div>
+        <div class="col-lg-12 card" style="margin-bottom:20px;">
+            <div class="row">           
+                <div class="col-lg-3 card text-center" >
+                    <label>Pre Conversion</label>
+                    <canvas id="chart-Pre_Conversion"></canvas>
+                    <label>Total:244</label>
                 </div>
-                
-                <div class="col-lg-6 card">
-                    <h5 class="card-title">Select Instance</h5>
-                    <div>
+                <div class="col-lg-3 card text-center">
+                    <label>Conversion</label>
+                    <canvas id="chart-Conversion"></canvas>
+                    <label>Total:365</label>
+                </div>
+                <div class="col-lg-3 card text-center">
+                    <label>Post Conversion</label>
+                    <canvas id="chart-Post_Conversion"></canvas>
+                    <label>Total:215</label>
+                </div>
+                <div class="col-lg-3 card text-center">
+                    <label>Validation</label>
+                    <canvas id="chart-Validation"></canvas>
+                    <label>Total:215</label>
+                </div>
+            </div>
 
-                        @*<div class="wrapper">*@
-
-                        @if (User.IsInRole("Consultant") || User.IsInRole("Admin"))
-                        {
-                            <div class="position-relative form-group">
-                                <label for="exampleEmail" class="">Customer Name</label>
-                                @Html.DropDownList("Customer", (IEnumerable<SelectListItem>)ViewBag.Customer, "-Select-", new { id = "IDCustomer", @class = "form-control" })
-
-                            </div>
-                        }
+        </div>
+      
+  
+        <div class="col-lg-12 card" style="margin-bottom:20px !important;">
+            <div class="row">
+                @if (User.IsInRole("Consultant") || User.IsInRole("Admin"))
+                {
+                    <div class="col-md-4">
                         <div class="position-relative form-group">
-                            <label for="exampleEmail" class="">Project Name</label>
-                            @Html.DropDownList("Project", (IEnumerable<SelectListItem>)ViewBag.Project, "-Select-",
-                           new { id = "IDProject", @class = "form-control" })
-
-                            @*@Html.DropDownList("Project", (IEnumerable<SelectListItem>)ViewBag.Project, "- SELECT-",
-                new { id = "IDProject", @class = "form-control", onfocus = "this.size=5;", @onblur = "this.size=1;", onchange = "this.size=1; this.blur();" })*@
-
-
+                            <label for="exampleEmail" class="">Customer Name</label>
+                            @Html.DropDownList("Customer", (IEnumerable<SelectListItem>)ViewBag.Customer, "-Select-", new { id = "IDCustomer", @class = "form-control" })
                             @*@Html.DropDownList("Project", (IEnumerable<SelectListItem>), "- SELECT-", new { id = "IDProject", @class = "form-control" })*@
                         </div>
-                        <div class="position-relative form-group">
-                            <label for="exampleEmail" class="">Instance Name</label>
-                            @Html.DropDownList("Instance", new SelectList(Enumerable.Empty<SelectListItem>(), "IDInstance", "InstanceName"), "Select a Project",
-                           new { id = "IDInstance", @class = "form-control" })
-                            @*@Html.DropDownList("Instance", (IEnumerable<SelectListItem>), "- SELECT-", new { id = "IDInstance", @class = "form-control" })*@
-                            @*<input name="email" id="InstanceID" placeholder="" class="form-control">*@
-                        </div>
-                        <div class="position-relative form-group">
-                            <button class="btn-wide mb-2 mr-2 btn btn-primary" id="SubmitInstance">
-                                Select Instance
-                            </button>
-                        </div>
-                        @*</div>*@
-                        @*<table class="table">
-                <thead>
-                    <h5 class="card-title">To Do List</h5>
-                </thead>
-                <tbody>
-                    <tr id="addRow">
-                        <td class="col-xs-5">
-                            <input class="form-control addMain" type="text" placeholder="What do you need to do today?" style="width:100%" />
-                        </td>
-
-                        <td class="col-xs-1 text-center">
-                            <span class="addBtn">
-                                <i class="fa fa-plus-circle"></i>
-                            </span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="col-xs-3"><label>Convert Customers Vendors to BP</label></td>
-
-                        <td class="col-xs-1 text-center"><a href="#" onClick="deleteRow(this)"><i class="fa fa-times-circle" style="color:red" aria-hidden="true" /></a></td>
-                    </tr>
-                    <tr>
-                        <td class="col-xs-3"><label>Activate Material Leadger</label></td>
-
-                        <td class="col-xs-1 text-center"><a href="#" onClick="deleteRow(this)"><i class="fa fa-times-circle" style="color:red" aria-hidden="true" /></a></td>
-                    </tr>
-                </tbody>
-            </table>*@
                     </div>
+                }
+            <div class="col-md-4">
+                <label class="">Project Name</label>
+                @if (User.IsInRole("Customer"))
+                {
+                @Html.DropDownList("Project", (IEnumerable<SelectListItem>)ViewBag.Project, "-Select-", new { id = "IDProject", @class = "form-control" })
+                }
+                else
+                {
+                @Html.DropDownList("Project", new SelectList(Enumerable.Empty<SelectListItem>(), "IDProject", "ProjectName"),
+                       "Select a Customer", new { id = "IDProject", @class = "form-control" })
+                }
+            </div>
+                <div class="col-md-2">
+                    <label for="exampleEmail" class="">Instance Name</label>
+                    @Html.DropDownList("Instance", new SelectList(Enumerable.Empty<SelectListItem>(), "IDInstance", "InstanceName"),
+                    "-Select-", new { id = "IDInstance", @class = "form-control" })
+                </div>
+                <div class="col-md-2">
+                    <label for="exampleEmail" class="">.</label>
+                    <button class="btn-wide mb-2 mr-2 btn btn-primary form-control" id="SubmitInstance">
+                        Select Instance
+                    </button>
                 </div>
             </div>
         </div>
-        <div class="col-lg-12">
-            <div class="row" style="padding:0em 1em 1em 1em;">
-               
+        <div class="col-lg-12 card" >
+            <div class="row" >
+
                 <div class="col-lg-12 card">
                     <div class="card-body">
                         <h5 class="card-title">Recent Updates</h5>
@@ -647,7 +588,21 @@ overflow:auto;
 		window.location.href = "@Url.Action("ReadinessReport","Assessment")";
 	}
 	);
-		jQuery(document).ready(function ($) {
+    jQuery(document).ready(function ($) {
+
+        var In=@ViewBag.Instance;
+        if (In == 0) {
+            $("#AssDivId").removeClass("bg-grow-early");
+            $("#AssDivId").last().addClass("bg-grow-before");
+            $("#AssId").html("0 %")
+            AssId
+        }
+        else {
+            $("#AssDivId").removeClass("bg-grow-before");
+            $("#AssDivId").last().addClass("bg-grow-early");
+            $("#AssId").html("100 %")
+        }
+
             $("#IDInstance").prop("disabled", true);
             $('#SubmitInstance').prop("disabled", true);
             $('#IDCustomer').change(function () {
@@ -657,7 +612,7 @@ overflow:auto;
                     select.empty();
                     select.append($('<option/>', {
                         value: 0,
-                        text: "Select a Project"
+                        text: "-Select-"
                     }));
             $.ajax({
                 type: "POST",
@@ -668,7 +623,7 @@ overflow:auto;
                     select.empty();
                     select.append($('<option/>', {
                         value: 0,
-                        text: "Select a Project"
+                        text: "-Select-"
                     }));
                     $.each(data, function (index, itemData) {
                         select.append($('<option/>', {
@@ -679,14 +634,11 @@ overflow:auto;
                     $("#IDProject").prop("disabled", false);
                     $("#IDInstance").prop("disabled", true);
                     $('#SubmitInstance').prop("disabled", true);
-                    
                 },
                 error: function (a) {
                     debugger;
                     alert(a);
                 }
-
-
             });
         });
             $('#IDProject').change(function () {
@@ -697,7 +649,7 @@ overflow:auto;
                     select.empty();
                     select.append($('<option/>', {
                         value: 0,
-                        text: "Select a Instance"
+                        text: "-Select-"
                     }));
             $.ajax({
                 type: "POST",
@@ -708,7 +660,7 @@ overflow:auto;
                     select.empty();
                     select.append($('<option/>', {
                         value: 0,
-                        text: "Select a Instance"
+                        text: "-Select-"
                     }));
                     if (data.length > 0) {
                         $.each(data, function (index, itemData) {
@@ -758,19 +710,19 @@ overflow:auto;
     //    return Math.round(Math.random() * 100);
     //};
 
-    Chart.defaults.global.defaultFontFamily = "Verdana";
+    //Chart.defaults.global.defaultFontFamily = "Verdana";
 
-    var ctx = document.getElementById("chart-Assessment").getContext("2d");
+    //var ctx = document.getElementById("chart-Assessment").getContext("2d");
     var ctx1 = document.getElementById("chart-Pre_Conversion").getContext("2d");
     var ctx2 = document.getElementById("chart-Conversion").getContext("2d");
     var ctx3 = document.getElementById("chart-Post_Conversion").getContext("2d");
     var ctx4 = document.getElementById("chart-Validation").getContext("2d");
 
-    var ctx5 = document.getElementById("chart-Storage").getContext("2d");
+    //var ctx5 = document.getElementById("chart-Storage").getContext("2d");
 
     window.onload = function () {
-        var ctx = document.getElementById("chart-Assessment").getContext("2d");
-        window.myRadialGauge = new Chart(ctx, config);
+        //var ctx = document.getElementById("chart-Assessment").getContext("2d");
+        //window.myRadialGauge = new Chart(ctx, config);
 
         var ctx1 = document.getElementById("chart-Pre_Conversion").getContext("2d");
         window.myRadialGauge = new Chart(ctx1, config1);
@@ -784,13 +736,13 @@ overflow:auto;
         var ctx4 = document.getElementById("chart-Validation").getContext("2d");
         window.myRadialGauge = new Chart(ctx4, config4);
 
-        var ctx5 = document.getElementById("chart-Storage").getContext("2d");
-        window.myRadialGauge = new Chart(ctx5, config5);
+        //var ctx5 = document.getElementById("chart-Storage").getContext("2d");
+        //window.myRadialGauge = new Chart(ctx5, config5);
     };
 
-    var gradientStroke_ = ctx.createLinearGradient(500, 0, 100, 0);
-    gradientStroke_.addColorStop(0, "#FDB777");
-    gradientStroke_.addColorStop(1, "#FD9346");
+    //var gradientStroke_ = ctx.createLinearGradient(500, 0, 100, 0);
+    //gradientStroke_.addColorStop(0, "#FDB777");
+    //gradientStroke_.addColorStop(1, "#FD9346");
 
     var gradientStroke_1 = ctx1.createLinearGradient(500, 0, 100, 0);
     gradientStroke_1.addColorStop(0, "#FDB777");
@@ -808,37 +760,37 @@ overflow:auto;
     gradientStroke_4.addColorStop(0, "#FB291B");
     gradientStroke_4.addColorStop(1, "#CD1B2D");
 
-    var gradientStroke_5 = ctx5.createLinearGradient(500, 0, 100, 0);
-    gradientStroke_5.addColorStop(0, "#FDB777");
-    gradientStroke_5.addColorStop(1, "#FD9346");
+    //var gradientStroke_5 = ctx5.createLinearGradient(500, 0, 100, 0);
+    //gradientStroke_5.addColorStop(0, "#FDB777");
+    //gradientStroke_5.addColorStop(1, "#FD9346");
 
-    var config = {
-        type: "radialGauge",
-        data: {
-            labels: ["In Progress"],
-            datasets: [
-                {
-                    data: [60],
-                    backgroundColor: [gradientStroke_],
-                    borderWidth: 0,
-                    label: "Score"
-                }
-            ]
-        },
-        options: {
-            responsive: true,
-            legend: {},
-            title: {
-                display: false,
-                text: "Radial gauge chart"
-            },
-            centerPercentage: 60,
-            centerArea: {
-                displayText: true,
-                text: "60%"
-            }
-        }
-    };
+    //var config = {
+    //    type: "radialGauge",
+    //    data: {
+    //        labels: ["In Progress"],
+    //        datasets: [
+    //            {
+    //                data: [60],
+    //                backgroundColor: [gradientStroke_],
+    //                borderWidth: 0,
+    //                label: "Score"
+    //            }
+    //        ]
+    //    },
+    //    options: {
+    //        responsive: true,
+    //        legend: {},
+    //        title: {
+    //            display: false,
+    //            text: "Radial gauge chart"
+    //        },
+    //        centerPercentage: 60,
+    //        centerArea: {
+    //            displayText: true,
+    //            text: "60%"
+    //        }
+    //    }
+    //};
 
     var config1 = {
         type: "radialGauge",
@@ -951,31 +903,33 @@ overflow:auto;
         }
     };
 
-    var config5 = {
-        type: "radialGauge",
-        data: {
-            labels: ["In Progress"],
-            datasets: [
-                {
-                    data: [60],
-                    backgroundColor: [gradientStroke_5],
-                    borderWidth: 0,
-                    label: "Score"
-                }
-            ]
-        },
-        options: {
-            responsive: true,
-            legend: {},
-            title: {
-                display: false,
-                text: "Radial gauge chart"
-            },
-            centerPercentage: 40,
-            centerArea: {
-                displayText: true,
-                text: "2.05 TB"
-            }
-        }
-    };
+    //var config5 = {
+    //    type: "radialGauge",
+    //    data: {
+    //        labels: ["In Progress"],
+    //        datasets: [
+    //            {
+    //                data: [60],
+    //                backgroundColor: [gradientStroke_5],
+    //                borderWidth: 0,
+    //                label: "Score"
+    //            }
+    //        ]
+    //    },
+    //    options: {
+    //        responsive: true,
+    //        legend: {},
+    //        title: {
+    //            display: false,
+    //            text: "Radial gauge chart"
+    //        },
+    //        centerPercentage: 40,
+    //        centerArea: {
+    //            displayText: true,
+    //            text: "2.05 TB"
+    //        }
+    //    }
+    //};
+
+
 </script>

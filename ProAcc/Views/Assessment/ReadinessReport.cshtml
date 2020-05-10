@@ -8,8 +8,8 @@
 @*<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.bundle.min.js"></script>*@
 <script src="~/Asset/Scripts/chartjs-plugin-labels.min.js"></script>
 
-
-<h5><b>Readiness Report</b> </h5>
+<a class="card-title">Readiness Report</a>
+@*<h5><b>Readiness Report</b> </h5>*@
 <div style="padding:1em;">
 
 	<div class="row">
@@ -19,7 +19,7 @@
 				{
 					<div class="col-md-4">
 						<div class="position-relative form-group">
-							<label for="exampleEmail" class="">Customer Name <strong style="color:red">*</strong></label>
+							<label for="exampleEmail" class="">Customer Name</label>
 							@Html.DropDownList("Customer", (IEnumerable<SelectListItem>)ViewBag.Customer, "- SELECT-", new { id = "IDCustomer", @class = "form-control" })
 							@*@Html.DropDownList("Project", (IEnumerable<SelectListItem>), "- SELECT-", new { id = "IDProject", @class = "form-control" })*@
 						</div>
@@ -32,7 +32,7 @@
 				<div class="col-md-2">
 					<label for="exampleEmail" class="">Instance Name</label>
 					@Html.DropDownList("Instance", new SelectList(Enumerable.Empty<SelectListItem>(), "IDInstance", "InstanceName"),
-			  "Select a Project", new { id = "IDInstance", @class = "form-control" })
+			  "-Select-", new { id = "IDInstance", @class = "form-control" })
 				</div>
 				<div class="col-md-2">
 					<label for="exampleEmail" class="">.</label>
@@ -915,6 +915,7 @@
 	}
 	function renderCustomBarChart(data, labels) {
 
+		var maxval = Math.max.apply(Math, data);
 		//Chart.defaults.global.defaultFontFamily = "Verdana";
 		var ctx = document.getElementById("Chart_CustomCode").getContext("2d");
 
@@ -1002,11 +1003,13 @@
 					yAxes: [{
 						ticks: {
 							display: false,//this will remove only the label
-							beginAtZero: true
+                            beginAtZero: true,
+							max: maxval+2
 						},
 						gridLines: {
 							display: false,
-							drawBorder: false,
+                            drawBorder: false,
+							
 						}
 					}]
 				}
@@ -1075,7 +1078,7 @@
                     select.empty();
                     select.append($('<option/>', {
                         value: 0,
-                        text: "Select a Project"
+                        text: "-Select-"
                     }));
             $.ajax({
                 type: "POST",
@@ -1086,7 +1089,7 @@
                     select.empty();
                     select.append($('<option/>', {
                         value: 0,
-                        text: "Select a Project"
+                        text: "-Select-"
                     }));
                     $.each(data, function (index, itemData) {
                         select.append($('<option/>', {
@@ -1115,7 +1118,7 @@
 					select.empty();
 					select.append($('<option/>', {
 						value: 0,
-						text: "Select a Instance"
+						text: "-Select-"
 					}));
 			$.ajax({
 				type: "POST",
@@ -1126,7 +1129,7 @@
 					select.empty();
 					select.append($('<option/>', {
 						value: 0,
-						text: "Select a Instance"
+						text: "-Select-"
 					}));
 					if (data.length > 0) {
 						$.each(data, function (index, itemData) {

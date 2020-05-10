@@ -24,6 +24,7 @@ namespace ProACC_DB
         public string InstaceName { get; set; }
         public System.Guid CustProjconfigID { get; set; }
         public System.DateTime LastUpdated_Dt { get; set; }
+        public bool UploadStatus { get; set; }
         public bool isActive { get; set; }
         public System.DateTime Cre_on { get; set; }
         public System.Guid Cre_By { get; set; }

@@ -6,13 +6,14 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Web;
 
 namespace ProAcc.BL
 {
     public sealed class LogHelper
     {
-
+        Base _Base = new Base();
         #region Pivate Variables
 
         private static readonly LogHelper instance = new LogHelper();
@@ -344,6 +345,10 @@ namespace ProAcc.BL
                 }
                 else
                 {
+                    StringBuilder ExceptionMsg = new StringBuilder();
+                    StringBuilder ExceptionType = new StringBuilder();
+                    StringBuilder ExceptionSource = new StringBuilder();
+                    ExceptionMsg.Append("ErrorLog:");
                     lock (this)
                     {
                         GetWriter();
@@ -358,12 +363,18 @@ namespace ProAcc.BL
                             MyWriter.WriteLine("MethodArguments : " + MethodArguments);
 
                             MyWriter.WriteLine("SOURCE    : " + ex.Source);
+                            ExceptionSource.Append(ex.Source);
                             MyWriter.WriteLine("Type      : " + ex.GetType().FullName);
+                            ExceptionType.Append(ex.GetType().FullName);
                             MyWriter.WriteLine("MESSAGE   : " + ex.Message);
+                            ExceptionMsg.Append(ex.Message);
                             MyWriter.WriteLine("TARGETSITE: " + ex.TargetSite);
                             MyWriter.WriteLine("STACKTRACE: " + ex.StackTrace);
                             if (ex.InnerException != null)
+                            {
                                 MyWriter.WriteLine("InnerException: " + ex.InnerException);
+                                ExceptionMsg.Append("InnerException:" + ex.InnerException);
+                            }
                             MyWriter.WriteLine("");
                             MyWriter.WriteLine("=====Exception Log End=======");
                             MyWriter.WriteLine("");
@@ -374,6 +385,7 @@ namespace ProAcc.BL
                         {
                             MyWriter.Close();
                         }
+                        _Base.SendExcepToDB(ExceptionMsg.ToString(), ExceptionType.ToString(), "", ExceptionSource.ToString());
                     }
                 }
             }
@@ -428,6 +440,10 @@ namespace ProAcc.BL
                 }
                 else
                 {
+                    StringBuilder ExceptionMsg = new StringBuilder();
+                    StringBuilder ExceptionType = new StringBuilder();
+                    StringBuilder ExceptionSource = new StringBuilder();
+                    ExceptionMsg.Append("ErrorLog:");
                     lock (this)
                     {
                         GetWriter();
@@ -443,12 +459,18 @@ namespace ProAcc.BL
                             MyWriter.WriteLine("MethodArguments : " + MethodArguments);
 
                             MyWriter.WriteLine("SOURCE    : " + ex.Source);
+                            ExceptionSource.Append(ex.Source);
                             MyWriter.WriteLine("Type      : " + ex.GetType().FullName);
+                            ExceptionType.Append(ex.GetType().FullName);
                             MyWriter.WriteLine("MESSAGE   : " + ex.Message);
+                            ExceptionMsg.Append(ex.Message);
                             MyWriter.WriteLine("TARGETSITE: " + ex.TargetSite);
                             MyWriter.WriteLine("STACKTRACE: " + ex.StackTrace);
                             if (ex.InnerException != null)
+                            {
                                 MyWriter.WriteLine("InnerException: " + ex.InnerException);
+                                ExceptionMsg.Append("InnerException:" + ex.InnerException);
+                            }
                             MyWriter.WriteLine("");
                             MyWriter.WriteLine("=====Exception Log End=======");
                             MyWriter.WriteLine("");
@@ -458,6 +480,8 @@ namespace ProAcc.BL
                         {
                             MyWriter.Close();
                         }
+
+                        _Base.SendExcepToDB(ExceptionMsg.ToString(), ExceptionType.ToString(), strExceptionMsg, ExceptionSource.ToString());
                     }
                 }
             }
@@ -497,7 +521,7 @@ namespace ProAcc.BL
                         GetWriter();
                         try
                         {
-                            //MyWriter = new StreamWriter(FileLocation + "/" + FileName, true);
+                            MyWriter = new StreamWriter(FileLocation + "/" + FileName, true);
 
                             MyWriter.WriteLine("===" + strMsg + " At " + DateTime.Now);
                             MyWriter.WriteLine("");
@@ -549,7 +573,7 @@ namespace ProAcc.BL
                         GetWriter();
                         try
                         {
-                            //MyWriter = new StreamWriter(FileLocation + "/" + FileName, true);
+                            MyWriter = new StreamWriter(FileLocation + "/" + FileName, true);
 
                             MyWriter.WriteLine("======================Logging Ended At:" + DateTime.Now + "======================");
                             MyWriter.WriteLine("");

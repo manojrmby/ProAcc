@@ -66,11 +66,26 @@
       <HintPath>..\packages\ExcelNumberFormat.1.0.10\lib\net20\ExcelNumberFormat.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.5.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
       <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
     </Reference>
     <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
       <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="Spire.Common, Version=10.4.9.0, Culture=neutral, PublicKeyToken=663f351905198cb3, processorArchitecture=MSIL">
+      <HintPath>..\packages\Spire.XLS.10.4.9\lib\net40\Spire.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Spire.License, Version=1.3.8.40, Culture=neutral, PublicKeyToken=b1144360237c8b3f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Spire.XLS.10.4.9\lib\net40\Spire.License.dll</HintPath>
+    </Reference>
+    <Reference Include="Spire.Pdf, Version=6.4.9.0, Culture=neutral, PublicKeyToken=663f351905198cb3, processorArchitecture=MSIL">
+      <HintPath>..\packages\Spire.XLS.10.4.9\lib\net40\Spire.Pdf.dll</HintPath>
+    </Reference>
+    <Reference Include="Spire.XLS, Version=10.4.9.0, Culture=neutral, PublicKeyToken=663f351905198cb3, processorArchitecture=MSIL">
+      <HintPath>..\packages\Spire.XLS.10.4.9\lib\net40\Spire.XLS.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http.Formatting, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -145,37 +160,46 @@
     <Content Include="Asset\fonts\font-awesome-4.7.0\css\font-awesome.css" />
     <Content Include="Asset\fonts\font-awesome-4.7.0\css\font-awesome.min.css" />
     <Content Include="Asset\fonts\Pe-icon-7-stroke.svg" />
-    <Content Include="Asset\images\1.jpg" />
     <Content Include="Asset\images\11.png" />
     <Content Include="Asset\images\1Promantus_logo.png" />
     <Content Include="Asset\images\22.png" />
     <Content Include="Asset\images\3rwerwr.jpg" />
     <Content Include="Asset\images\appheader.png" />
+    <Content Include="Asset\images\calendar-512.png" />
     <Content Include="Asset\images\icons\favicon.ico" />
     <Content Include="Asset\images\image_2020_04_26T06_25_25_806Z.png" />
     <Content Include="Asset\images\img-01.png" />
     <Content Include="Asset\images\loading.gif" />
     <Content Include="Asset\images\Loginimage.png" />
     <Content Include="Asset\images\Login_Img.png" />
-    <Content Include="Asset\images\ManojPass.jpg" />
     <Content Include="Asset\images\ProACCTool.png" />
     <Content Include="Asset\images\promantus-new-logo.png" />
     <Content Include="Asset\images\Promantus_logo.png" />
     <Content Include="Asset\images\Promantus_logo_.png" />
     <Content Include="Asset\images\resizeimage.png" />
+    <Content Include="Asset\images\webPageConstruction.jpg" />
+    <Content Include="Asset\Jquery\images\ui-icons_444444_256x240.png" />
+    <Content Include="Asset\Jquery\images\ui-icons_555555_256x240.png" />
+    <Content Include="Asset\Jquery\images\ui-icons_777620_256x240.png" />
+    <Content Include="Asset\Jquery\images\ui-icons_777777_256x240.png" />
+    <Content Include="Asset\Jquery\images\ui-icons_cc0000_256x240.png" />
+    <Content Include="Asset\Jquery\images\ui-icons_ffffff_256x240.png" />
     <Content Include="Asset\Jquery\jquery-1.12.4.js" />
     <Content Include="Asset\Jquery\jquery-ui.css" />
     <Content Include="Asset\Jquery\jquery-ui.js" />
     <Content Include="Asset\Log\04-28-2020.txt" />
-    <Content Include="Asset\Scripts\1bootstrap.min.js" />
     <Content Include="Asset\Scripts\bootstrap.min.js" />
     <Content Include="Asset\Scripts\Chart.RadialGauge.umd.js" />
     <Content Include="Asset\Scripts\Chart.js" />
     <Content Include="Asset\Scripts\chartjs-plugin-labels.min.js" />
+    <Content Include="Asset\Scripts\CustomScripts\CustomerCreate.js" />
+    <Content Include="Asset\Scripts\Datatable\dataTables.editor.js" />
+    <Content Include="Asset\Scripts\Datatable\dataTables.editor.min.js" />
     <Content Include="Asset\Scripts\JavaScript.js" />
     <Content Include="Asset\Scripts\jquery.min.js" />
     <Content Include="Asset\Scripts\main.js" />
     <Content Include="Asset\Scripts\Prograssbarjs.js" />
+    <Content Include="Asset\Scripts\tilt.jquery.min.js" />
     <Content Include="Asset\Scripts\utils.js" />
     <Content Include="bin\Antlr3.Runtime.dll" />
     <Content Include="bin\EntityFramework.dll" />
@@ -362,6 +386,22 @@
     <Content Include="bin\System.Web.Webpages.Razor.dll" />
     <Content Include="bin\WebGrease.dll" />
     <Content Include="Content\PagedList.css" />
+    <Content Include="Content\Theme\images\ui-bg_diagonals-medium_20_d34d17_40x40.png" />
+    <Content Include="Content\Theme\images\ui-bg_gloss-wave_45_817865_500x100.png" />
+    <Content Include="Content\Theme\images\ui-bg_gloss-wave_60_fece2f_500x100.png" />
+    <Content Include="Content\Theme\images\ui-bg_gloss-wave_70_ffdd57_500x100.png" />
+    <Content Include="Content\Theme\images\ui-bg_gloss-wave_90_fff9e5_500x100.png" />
+    <Content Include="Content\Theme\images\ui-bg_highlight-soft_100_feeebd_1x100.png" />
+    <Content Include="Content\Theme\images\ui-bg_inset-soft_30_ffffff_1x100.png" />
+    <Content Include="Content\Theme\images\ui-icons_3d3d3d_256x240.png" />
+    <Content Include="Content\Theme\images\ui-icons_bd7b00_256x240.png" />
+    <Content Include="Content\Theme\images\ui-icons_d19405_256x240.png" />
+    <Content Include="Content\Theme\images\ui-icons_eb990f_256x240.png" />
+    <Content Include="Content\Theme\images\ui-icons_ed9f26_256x240.png" />
+    <Content Include="Content\Theme\images\ui-icons_fadc7a_256x240.png" />
+    <Content Include="Content\Theme\images\ui-icons_ffe180_256x240.png" />
+    <Content Include="Content\Theme\jquery-ui.min.css" />
+    <Content Include="Content\ui.jqgrid.css" />
     <Content Include="Global.asax" />
     <Content Include="Asset\fonts\fa-solid-900.eot" />
     <Content Include="Asset\fonts\fa-solid-900.ttf" />
@@ -429,7 +469,6 @@
     <Content Include="bin\roslyn\vbc.exe.config" />
     <Content Include="bin\roslyn\vbc.rsp" />
     <Content Include="bin\roslyn\VBCSCompiler.exe.config" />
-    <Content Include="Asset\UploadedFiles\04c60c46-f3ff-4635-a8b0-4ad85379d571.xlsx" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Web.config" />
     <Content Include="Views\shared\_Layout.cshtml" />
@@ -440,12 +479,14 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="BL\FileUpload.cs" />
+    <Compile Include="BL\FileUpload_Pic.cs" />
     <Compile Include="BL\LogHelper.cs" />
     <Compile Include="BL\Model\CreateViewModel.cs" />
     <Compile Include="BL\Model\LogedUser.cs" />
     <Compile Include="BL\Model\SAPFioriAppsModel.cs" />
     <Compile Include="BL\Model\SAPInput_Activities.cs" />
     <Compile Include="BL\Model\SAPInput_CustomCode.cs" />
+    <Compile Include="BL\Model\SAPInput_PreConvertion.cs" />
     <Compile Include="BL\Model\SAPInput_SimplificationReport.cs" />
     <Compile Include="BL\Model\UserModel.cs" />
     <Compile Include="BL\Model\UserRoleProvider.cs" />
@@ -460,6 +501,7 @@
     <Compile Include="BL\Base.cs" />
     <Compile Include="BL\DBHelper.cs" />
     <Compile Include="BL\Model\Common.cs" />
+    <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -478,7 +520,6 @@
     <Content Include="Views\Customers\Delete.cshtml" />
     <Content Include="Views\Customers\Details.cshtml" />
     <Content Include="Views\Customers\Edit.cshtml" />
-    <Content Include="Views\Customers\Index.cshtml" />
     <Content Include="Views\Consultants\Create.cshtml" />
     <Content Include="Views\Consultants\Delete.cshtml" />
     <Content Include="Views\Consultants\Details.cshtml" />
@@ -499,6 +540,11 @@
     <Content Include="Views\Customers\_Consultantcreate.cshtml" />
     <Content Include="Views\Assessment\ActivitieReport.cshtml" />
     <Content Include="Views\Assessment\FioriAppsReport.cshtml" />
+    <Content Include="Views\Test\CommingSoon.cshtml" />
+    <Content Include="Views\PreConvertion\PreConvertion_Upload.cshtml" />
+    <Content Include="Views\PreConvertion\Index.cshtml" />
+    <Content Include="Views\PreConvertion\EditTable.cshtml" />
+    <Content Include="Views\Customers\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -508,6 +554,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Asset\UploadedFiles\Temp\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
@@ -518,6 +565,26 @@
       <Project>{da326360-8d56-40a1-88d0-39a8f26ac707}</Project>
       <Name>ProACC_DB</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="Microsoft.Office.Core">
+      <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>8</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="VBIDE">
+      <Guid>{0002E157-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>5</VersionMajor>
+      <VersionMinor>3</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -6,10 +6,12 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using ProAcc.BL.Model;
+using static ProAcc.BL.Model.Common;
 //using static ProAcc.BL.Model.Common;
 
 namespace ProAcc.Controllers
 {
+    [Authorize(Roles = "Admin,Consultant,Customer")]
     public class HomeController : Controller
     {
         Base _Base = new Base();
@@ -28,24 +30,40 @@ namespace ProAcc.Controllers
             }
             ViewBag.count = j;
 
-            List<Customer> cust = db.Customers.Where(a => a.isActive == true).ToList();
-            ViewBag.list = cust;
-            List<SelectListItem> Customer = new List<SelectListItem>();
-            var query1 = from u in db.Customers select u;
-            if (query1.Count() > 0)
+            int userType = 0;
+            if (User.IsInRole("Admin"))
             {
-                foreach (var v in query1)
-                {
-                    Customer.Add(new SelectListItem { Text = v.Name, Value = v.Id.ToString() });
-                }
+                userType = 1;
             }
-            ViewBag.Customer = Customer;
+            else if (User.IsInRole("Consultant"))
+            {
+                userType = 2;
+            }
+            else if (User.IsInRole("Customer"))
+            {
+                userType = 3;
+            }
+            GeneralList sP_ = _Base.spCustomerDropdown(Session["loginid"].ToString(), userType);
+            ViewBag.Customer = new SelectList(sP_._List, "Value", "Name");
+            Guid InstanceID = Guid.Parse(Session["InstanceId"].ToString());
+            int inst = 0;
+            if (InstanceID!=Guid.Empty)
+            {
+                var q = from u in db.ProjectInstanceConfigs where (u.Id == InstanceID && u.UploadStatus==true) select u;
+                if (q.Count() > 0)
+                {
+                    inst = 1;
+                }
+                else { inst = 0; }
+                
+            }
+            ViewBag.Instance = inst;
             List<SelectListItem> Project = new List<SelectListItem>();
             
             if (User.IsInRole("Customer"))
             {
                 Guid customerId = Guid.Parse(Session["loginid"].ToString());
-                var query = from u in db.CustomerProjectConfigs where(u.CustomerID== customerId) select u;
+                var query = from u in db.CustomerProjectConfigs where(u.CustomerID== customerId && u.isActive == true) select u;
                 if (query.Count() > 0)
                 {
                     foreach (var v in query)
@@ -57,14 +75,14 @@ namespace ProAcc.Controllers
             else
             {
                 
-                var query = from u in db.CustomerProjectConfigs  select u;
-                if (query.Count() > 0)
-                {
-                    foreach (var v in query)
-                    {
-                        Project.Add(new SelectListItem { Text = v.ProjectName, Value = v.Id.ToString() });
-                    }
-                }
+                //var query = from u in db.CustomerProjectConfigs where(u.isActive==true)  select u;
+                //if (query.Count() > 0)
+                //{
+                //    foreach (var v in query)
+                //    {
+                //        Project.Add(new SelectListItem { Text = v.ProjectName, Value = v.Id.ToString() });
+                //    }
+                //}
             }
            
             
@@ -81,7 +99,7 @@ namespace ProAcc.Controllers
         {
             if (IDInstance != "")
             {
-                _Base.AddInstance(IDInstance);
+                //_Base.AddInstance(IDInstance);
                 Session["InstanceId"] = IDInstance;
             }
             Guid ProjectID = Guid.Empty;
@@ -99,7 +117,7 @@ namespace ProAcc.Controllers
             if (!String.IsNullOrEmpty(ProjectId)&& ProjectId !="0")
             {
                 var ID = Guid.Parse(ProjectId);
-                var query = from u in db.ProjectInstanceConfigs where u.CustProjconfigID == ID select u;
+                var query = from u in db.ProjectInstanceConfigs where u.CustProjconfigID == ID && u.UploadStatus==true select u;
                 if (query.Count() > 0)
                 {
                     foreach (var v in query)
@@ -110,6 +128,8 @@ namespace ProAcc.Controllers
             }
             return Json(Instance, JsonRequestBehavior.AllowGet);
         }
+
+        
 
     }
 }

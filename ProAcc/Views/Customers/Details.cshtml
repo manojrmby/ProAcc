@@ -8,7 +8,7 @@
 @*<h2>Details</h2>*@
 
 <div>
-    <h4>Customer Details</h4>
+    <a class="card-title">Customer Details</a>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -19,16 +19,17 @@
             @Html.DisplayFor(model => model.UserName)
         </dd>
 
-        <dt>
+        @*<dt>
             @Html.DisplayNameFor(model => model.Password)
-        </dt>
+        </dt>*@
 
-        <dd>
+        @*<dd>
             @Html.DisplayFor(model => model.Password)
-        </dd>
+        </dd>*@
 
         <dt>
-            @Html.DisplayNameFor(model => model.Name)
+            customer Name
+            @*@Html.DisplayNameFor(model => model.Name)*@
         </dt>
 
         <dd>
@@ -44,7 +45,8 @@
         </dd>*@
 
         <dt>
-            @Html.DisplayNameFor(model => model.Work_Function)
+            Industry Sector
+            @*@Html.DisplayNameFor(model => model.Work_Function)*@
         </dt>
 
         <dd>
@@ -60,7 +62,8 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.AlternatePhone)
+            Alternate Phone
+            @*@Html.DisplayNameFor(model => model.AlternatePhone)*@
         </dt>
 
         <dd>
@@ -76,7 +79,8 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.AlternateEmail)
+            Alternate Email
+            @*@Html.DisplayNameFor(model => model.AlternateEmail)*@
         </dt>
 
         <dd>
@@ -84,15 +88,18 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.EstimatedSale)
+            Estimated Sale
+            @*@Html.DisplayNameFor(model => model.EstimatedSale)*@
         </dt>
 
         <dd>
+
             @Html.DisplayFor(model => model.EstimatedSale)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.LastContact_Dt)
+            Last Contact
+            @*@Html.DisplayNameFor(model => model.LastContact_Dt)*@
         </dt>
 
         <dd>
@@ -100,7 +107,8 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.NextAction_Dt)
+            Next Action
+            @*@Html.DisplayNameFor(model => model.NextAction_Dt)*@
         </dt>
 
         <dd>
@@ -131,13 +139,13 @@
             @Html.DisplayFor(model => model.LeadSource)
         </dd>
 
-        <dt>
+        @*<dt>
             @Html.DisplayNameFor(model => model.Conv_Cust_Status)
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.Conv_Cust_Status)
-        </dd>
+        </dd>*@
 
         <dt>
             @Html.DisplayNameFor(model => model.Comments)

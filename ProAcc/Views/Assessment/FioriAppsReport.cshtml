@@ -4,7 +4,7 @@
     Layout = "~/Views/shared/_Layout.cshtml";
 }
 
-<h5>Fiori Apps Report</h5>
+<a class="card-title">Fiori Apps Report</a>
 
 <script src="~/Asset/Scripts/Chart.js"></script>
 <script src="~/Asset/Scripts/Chart.RadialGauge.umd.js"></script>
@@ -29,14 +29,14 @@
     <div class="row">
         <div class="col-lg-12 card" style="padding:0px;">
             
-			<div class="tableFixHead outer table-striped table-hover">
+			<div class="tableFixHead outer table-striped table-hover" style="font-size:12px;">
 				<table>
 					<thead>
 						<tr>
 							<th style="width:70px;padding:8px;">S.NO</th>
-							<th>Role</th>
-							<th>Name</th>
-							<th>Application Area</th>
+							<th style="width: 132px;">Role</th>
+							<th style="width: 200px;">Name</th>
+							<th style="width: 110px;">Application Area</th>
 							<th>Description</th>
 						</tr>
 
@@ -105,7 +105,7 @@
 
 <script type="text/javascript" charset="utf-8">
 
-    function renderChart(data, labels) {
+    function renderChart(data, labels,backColor) {
         $("canvas#Chart_FioriApps").remove();
 
 		$("#Chart123").append('<canvas id="Chart_FioriApps" class="animated fadeIn" height="150"></canvas>');
@@ -118,7 +118,7 @@
 
 		var maxval = Math.max.apply(Math, data);
 
-		Chart.defaults.global.defaultFontFamily = "Verdana";
+		//Chart.defaults.global.defaultFontFamily = "Verdana";
 		var config = {
 			//type: "horizontalBar",
 			type: "bar",
@@ -129,20 +129,21 @@
 					{
 
                         data: data,
-						backgroundColor: [
-                            '#FF6384',
-                            '#36A2EB',
-                            '#FFCE56',
-							'#FF6384',
-                            '#36A2EB',
-                            '#FFCE56',
-							'#FF6384',
-                            '#36A2EB',
-                            '#FFCE56',
-							'#FF6384',
-                            '#36A2EB',
-                            '#FFCE56'
-                        ],
+						backgroundColor:backColor,
+						//backgroundColor: [
+      //                      '#FF6384',
+      //                      '#36A2EB',
+      //                      '#FFCE56',
+						//	'#FF6384',
+      //                      '#36A2EB',
+      //                      '#FFCE56',
+						//	'#FF6384',
+      //                      '#36A2EB',
+      //                      '#FFCE56',
+						//	'#FF6384',
+      //                      '#36A2EB',
+      //                      '#FFCE56'
+      //                  ],
 						
 					}
 				]
@@ -219,11 +220,11 @@
 				for (var i = 0; i < Output.length; i++) {
 					inpName.push(Output[i].Name);
 					inpVal.push(Output[i]._Value);
-					//backColor.push()
+                    backColor.push("#36A2EB");
 				}
 				labels = inpName;
 				data_ = inpVal;
-				renderChart(data_, labels);
+				renderChart(data_,labels,backColor);
 
 			},
 			error: function () {

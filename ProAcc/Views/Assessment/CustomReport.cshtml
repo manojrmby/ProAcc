@@ -8,9 +8,8 @@
 <script src="~/Asset/Scripts/Chart.RadialGauge.umd.js"></script>
 <script src="~/Asset/Scripts/chartjs-plugin-labels.min.js"></script>
 
-<h5>
-	<b>Custom Code Analysis</b>
-</h5>
+
+	<a class="card-title">Custom Code Analysis</a>
 <div style="padding:1em;">
 	<div class="row">
 		<div class="col-md-6 card">
@@ -118,12 +117,14 @@
 			success: function (Data) {
 				var Output = Data._List;
 				var inpName = [];
-				var inpVal = [];
+                var inpVal = [];
+				var backColor = [];
 				var C = 0;
 				for (var i = 0; i < Output.length; i++) {
 
 					inpName.push(Output[i].Name);
-						inpVal.push(Output[i]._Value);
+                    inpVal.push(Output[i]._Value);
+					backColor.push("#36A2EB");
 
 					//var _Name = Output[i].Name;
 
@@ -144,7 +145,7 @@
 				//inpVal.push(C);
 				labels = inpName;
 				data_ = inpVal;
-				renderCustomBarChart(data_, labels);
+				renderCustomBarChart(data_, labels,backColor);
 			},
 			error: function () {
 				alert("Error while inserting data");
@@ -154,9 +155,9 @@
 
 		});
 	}
-	function renderCustomBarChart(data, labels) {
+	function renderCustomBarChart(data, labels,backColor) {
 		var maxval = Math.max.apply(Math, data);
-		Chart.defaults.global.defaultFontFamily = "Verdana";
+		//Chart.defaults.global.defaultFontFamily = "Verdana";
 		var maxval = Math.max.apply(Math,data);
 		var ctx = document.getElementById("Chart_CustomCode").getContext("2d");
 
@@ -191,11 +192,12 @@
 				datasets: [{
 
                     data: data,
-					backgroundColor: [
-                            '#FF6384',
-                            '#36A2EB',
-                            '#FFCE56'
-                        ],
+					backgroundColor:backColor,
+					//backgroundColor: [
+     //                       '#FF6384',
+     //                       '#36A2EB',
+     //                       '#FFCE56'
+     //                   ],
 					//label:"",
 					//backgroundColor: [gradientStroke_, gradientStroke_2],
 					//backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850"],
@@ -258,8 +260,8 @@
 	 //     }
 	 //     }
 	 //    },
-				 title: {
-					display: true,
+                title: {
+                    display: false,
 					text: "Custom Code Analysis"
 				},
 				hover: {

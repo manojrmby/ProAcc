@@ -24,11 +24,11 @@ namespace ProAcc.BL.Model
             public int _Value { get; set; }
         }
 
-        public static Guid User_ID;
-        public static string User_Type;
-        public static string User_Name;
-        public static Guid InstanceId;
-        public static string Instance_Name;
-        public static string Project_Name;
+        //public static Guid User_ID;
+        //public static string User_Type;
+        //public static string User_Name;
+        //public static Guid InstanceId;
+        //public static string Instance_Name;
+        //public static string Project_Name;
     }
 }

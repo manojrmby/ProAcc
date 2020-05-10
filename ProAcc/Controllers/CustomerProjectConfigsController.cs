@@ -12,10 +12,11 @@ using PagedList.Mvc;
 
 namespace ProAcc.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class CustomerProjectConfigsController : Controller
     {
         private ProAccEntities db = new ProAccEntities();
-
+        Guid AdminUser = Guid.Parse("42DC1071-CAAE-4585-AB73-9ADCBE85FDD5");
         // GET: CustomerProjectConfigs
         public ActionResult Index(String search, int? i)
         {
@@ -45,7 +46,7 @@ namespace ProAcc.Controllers
         public ActionResult Create()
         {
             
-            var val = db.Consultants.Where(a => a.isActive == true);
+            var val = db.Consultants.Where(a => a.isActive == true && a.Id != AdminUser);
             ViewBag.ConsultantID = new SelectList(val, "Id", "Name");
             var val1 = db.Customers.Where(a => a.isActive == true);
             ViewBag.CustomerID = new SelectList(val1, "Id", "Name");
@@ -81,7 +82,7 @@ namespace ProAcc.Controllers
                 }
             }
 
-            var val = db.Consultants.Where(a => a.isActive == true);
+            var val = db.Consultants.Where(a => a.isActive == true && a.Id != AdminUser);
             ViewBag.ConsultantID = new SelectList(val, "Id", "Name", customerProjectConfig.ConsultantID);
             var val1 = db.Customers.Where(a => a.isActive == true);
             ViewBag.CustomerID = new SelectList(val1, "Id", "Name", customerProjectConfig.CustomerID);
@@ -100,7 +101,7 @@ namespace ProAcc.Controllers
             {
                 return HttpNotFound();
             }
-            var val = db.Consultants.Where(a => a.isActive == true);
+            var val = db.Consultants.Where(a => a.isActive == true && a.Id != AdminUser);
             ViewBag.ConsultantID = new SelectList(val, "Id", "Name", customerProjectConfig.ConsultantID);
             var val1 = db.Customers.Where(a => a.isActive == true);
             ViewBag.CustomerID = new SelectList(val1, "Id", "Name", customerProjectConfig.CustomerID);
@@ -112,6 +113,7 @@ namespace ProAcc.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(CustomerProjectConfig customerProjectConfig)
         {
+           
             if (ModelState.IsValid)
             {
                 customerProjectConfig.Modified_On = DateTime.Now;
@@ -121,7 +123,7 @@ namespace ProAcc.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            var val = db.Consultants.Where(a => a.isActive == true);
+            var val = db.Consultants.Where(a => a.isActive == true && a.Id != AdminUser);
             ViewBag.ConsultantID = new SelectList(val, "Id", "Name", customerProjectConfig.ConsultantID);
             var val1 = db.Customers.Where(a => a.isActive == true);
             ViewBag.CustomerID = new SelectList(val1, "Id", "Name", customerProjectConfig.CustomerID);

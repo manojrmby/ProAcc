@@ -2,24 +2,13 @@
 
 <html>
 <head>
-    
-    @*@{
-        var DashboardName = "0";
-        if (Session["Name"] != null)
-        {
-            DashboardName = Session["Name"].ToString();
-        }
-    }*@
-
     <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/png" href="~/Asset/images/icons/favicon.ico" />
     <title>@ViewBag.Title</title>
-    @*<script src="~/Scripts/jquery-3.4.1.min.js"></script>*@
-    <script src="~/Asset/Scripts/jquery.min.js"></script>
-    <link rel="stylesheet"
-          type="text/css"
-          href="~/Asset/css/Menu.css" />
- 
+    <link rel="stylesheet" type="text/css" href="~/Asset/css/Menu.css" />
     <link href="~/Asset/css/main.css" rel="stylesheet" />
+    <script src="~/Asset/Scripts/jquery.min.js"></script>
+
     <script type="text/javascript" src="~/Asset/scripts/main.js"></script>
     <style>
         .app-header {
@@ -33,58 +22,27 @@
         .app-header__logo {
             height: 45px;
         }
-       
-        /*.app-header__logo{
-                    width: 225px;
-                }*/
-        /*.app-sidebar
-                {
-                    width: 225px!important;
-                    min-width:225px!important;
-                }*/
-        /*.bg-happy-fisher {
-            background-image: linear-gradient(120deg, #89f7fe 0%, #66a6ff 100%) !important;
-        }*/
-        .bg-happy-Top {
-            /*background: linear-gradient(90deg, rgba(165,198,188,1) 3%, rgba(25,140,39,1) 69%, rgba(0,212,255,1) 100%)!important;*/
-            /*background: linear-gradient(29deg, rgba(215,210,204,1) 0%, rgba(25,140,39,1) 67%, rgba(0,212,255,1) 100%) !important;*/
-            /*background: linear-gradient(29deg, rgba(41,40,39,1) 0%, rgba(25,148,40,1) 67%, rgba(0,212,255,1) 100%) !important;*/
-            /*background: linear-gradient(29deg, rgba(211,211,211,1) 30%, rgba(25,148,40,1) 63%, rgba(41,40,39,1) 100%) !important;*/
-            /*background-image: rgb(165,198,188);
-                    background-image: -moz-linear-gradient(90deg, rgba(165,198,188,1) 3%, rgba(25,140,39,1) 69%, rgba(0,212,255,1) 100%);
-                    background-image: -webkit-linear-gradient(90deg, rgba(165,198,188,1) 3%, rgba(25,140,39,1) 69%, rgba(0,212,255,1) 100%);
-                    background-image: linear-gradient(90deg, rgba(165,198,188,1) 3%, rgba(25,140,39,1) 69%, rgba(0,212,255,1) 100%);
-                    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#a5c6bc",endColorstr="#00d4ff",GradientType=1);*/
-        }
 
         .bg-happy-log {
-            /*background: linear-gradient(0deg, rgba(48,67,82,1) 0%, rgba(215,210,204,1) 100%) !important;*/
-            /*background: linear-gradient(29deg, rgba(211,211,211,1) 0%, rgba(255,255,255,1) 28%, rgba(245,245,245,1) 95%, rgba(211,211,211,1) 100%);*/
-            /*background: linear-gradient(90deg, rgba(152,152,152,1) 0%, rgba(133,196,64,1) 100%)*/
             background: linear-gradient(90deg, rgba(1,157,208,1) 24%, rgba(7,213,213,1) 64%) !important;
-        }
-
-        .bg-main-manu {
-            /*background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%) !important;*/
         }
 
         .vertical-nav-menu li a:hover {
             background: linear-gradient(90deg, rgba(1,157,208,1) 24%, rgba(7,213,213,1) 64%) !important;
         }
+
         .scrollable-menu {
-    height: auto;
-    max-height: 200px;
-    overflow-x: hidden;
-}
-    </style>
-    <style>
+            height: auto;
+            max-height: 200px;
+            overflow-x: hidden;
+        }
+
         #load {
             width: 100%;
             height: 100%;
             position: fixed;
             z-index: 9999;
             text-align: center;
-            /*background: url("https://www.creditmutuel.fr/cmne/fr/banques/webservices/nswr/images/loading.gif") no-repeat center center rgba(0,0,0,0.25)*/
             background: rgba(0,0,0,0.25);
             display: none;
         }
@@ -93,56 +51,65 @@
             top: 50%;
             width: 500px;
         }
+
+        .outer {
+            overflow-y: auto;
+            height: 500px;
+        }
+
+            .outer table {
+                width: 100%;
+                table-layout: fixed;
+            }
+
+                .outer table th {
+                    text-align: left;
+                    top: 0;
+                    background-color: white;
+                }
+
+        tableFixHead {
+            overflow-y: auto;
+            height: 100px;
+        }
+
+        .tableFixHead thead th {
+            position: sticky;
+            top: 0;
+        }
+
+        /* Just common table stuff. Really. */
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            padding: 8px 16px;
+        }
+
+        th {
+            background: #eee;
+            font-weight: bold;
+        }
+
+        /* Borders (if you need them) */
+        .tableFixHead,
+        .tableFixHead td {
+            box-shadow: inset 1px -1px #d9d9d9;
+        }
+
+            .tableFixHead th {
+                box-shadow: inset 1px 1px #d9d9d9, 0 1px #d9d9d9;
+            }
     </style>
-    @*<link href="~/Asset/css/style.css" rel="stylesheet" />*@
 
-    <style>
-       /*FOR TABLE*/
-	.outer{
-    overflow-y: auto;
-    height:500px;
-    }
-
-.outer table{
-    width: 100%;
-    table-layout: fixed; 
-    /*border : 1px solid black;
-    border-spacing: 1px;*/
-}
-
-.outer table th {
-        text-align: left;
-        top:0;
-        /*position: sticky;*/
-        background-color: white;  
-}
-
-	tableFixHead          { overflow-y: auto; height: 100px; }
-.tableFixHead thead th { position: sticky; top: 0;  }
-
-/* Just common table stuff. Really. */
-table  { border-collapse: collapse; width: 100%; }
-th, td { padding: 8px 16px; }
-th     { background:#eee; }
-
-/* Borders (if you need them) */
-.tableFixHead,
-.tableFixHead td {
-  box-shadow: inset 1px -1px #d9d9d9;
-}
-.tableFixHead th {
-  box-shadow: inset 1px 1px #d9d9d9, 0 1px #d9d9d9;
-}
-
-    </style>
 </head>
 <body>
     <div id="load"><img class="Load_img my-auto" src="~/Asset/images/loading.gif"></div>
     <div class="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header">
         <div class="app-header header-shadow  sidebar-text-dark " style="background-color:white!important;">
-            @*<div class="app-header header-shadow">*@
             <div class="app-header__logo ">
-
                 <div class="logo-src">
                     <img src="~/Asset/images/ProACCTool.png" style="width:250px;height:100px;" />
                 </div>
@@ -212,7 +179,14 @@ th     { background:#eee; }
                                                 class="rounded-circle"
                                                 src="~/Asset/images/ManojPass.jpg"
                                                 alt="" />*@
-                                            <i id="UserName">@Session["UserName"].ToString()</i>
+                                            @if(Session["UserName"]!=null)
+                                            { 
+                                            <i id="UserName">@Session["UserName"].ToString() (@Session["UserType"].ToString())</i>
+                                            }
+                                            @*else
+                                            {
+                                                Html.Action("Logout","Login");
+                                            }*@
                                             <i class="fa fa-angle-down ml-2 opacity-8"></i>
                                         </a>
                                         <div tabindex="-1"
@@ -375,156 +349,190 @@ th     { background:#eee; }
                                                 </li>
                                             </ul>
                                         </li>
-                                        <li>
-                                            <a href="#">
-                                                <i class="metismenu-icon pe-7s-car"></i>
-                                                Compatability Report
-                                                <!-- <i
-                      class="metismenu-state-icon pe-7s-angle-down caret-left"
-                    ></i> -->
-                                                <i class="metismenu-state-icon fa fa-caret-down caret-left"></i>
-                                            </a>
-                                            <ul>
-                                                <li>
-                                                    <a href="components-tabs.html">
-                                                        <i class="metismenu-icon"> </i> Add on Compatability
-                                                        Check
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="components-accordions.html">
-                                                        <i class="metismenu-icon"> </i>ABAP Test Cock Pit
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </li>
+                                        @*<li>
+                    <a href="#">
+                        <i class="metismenu-icon pe-7s-car"></i>
+                        Compatability Report
+                        <i class="metismenu-state-icon fa fa-caret-down caret-left"></i>
+                    </a>
+                    <ul>
+                        <li>
+                            <a href="components-tabs.html">
+                                <i class="metismenu-icon"> </i> Add on Compatability
+                                Check
+                            </a>
+                        </li>
+                        <li>
+                            <a href="components-accordions.html">
+                                <i class="metismenu-icon"> </i>ABAP Test Cock Pit
+                            </a>
+                        </li>
+                    </ul>
+                </li>*@
                                     </ul>
                                 </li>
                                 <!-- <li class="app-sidebar__heading">Assessment</li> -->
                                 <!-- <li class="app-sidebar__heading">Widgets</li> -->
-                                <li>
-                                    <a href="@Url.Action("PreConvertion", "PreConvertion")">
-                                        <i class="metismenu-icon fa fa-desktop"></i>
-                                        Pre-Conversion
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="dashboard-boxes.html">
-                                        <i class="metismenu-icon fa fa-dot-circle"></i>
-                                        Migration
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="dashboard-boxes.html">
-                                        <i class="metismenu-icon fa fa-fighter-jet"></i>
-                                        Post-Conversion
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="dashboard-boxes.html">
-                                        <i class="metismenu-icon fa fa-gavel"></i>
-                                        Validation
-                                    </a>
-                                </li>
-
-                                @if (User.IsInRole("Admin"))
+                                @if (User.IsInRole("Consultant") || User.IsInRole("Admin"))
                                 {
                                     <li>
-                                        <a href="dashboard-boxes.html">
-                                            <i class="metismenu-icon fa fa-user"></i>
-                                            Customer
+                                        <a href="#">
+                                            <i class="metismenu-icon fa fa-desktop"></i>
+                                            Pre-Conversion
                                             <i class="metismenu-state-icon fa fa-caret-down caret-left"></i>
                                         </a>
                                         <ul>
 
                                             <li>
-                                                <a href="@Url.Action("Create", "Customers")">
-                                                    <i class="metismenu-icon pe-7s-diamond"></i>
-                                                    Create
+                                                <a href="@Url.Action("PreConvertion_Upload", "PreConvertion")">
+                                                    <i class="metismenu-icon"></i>
+                                                    PreConvertion Upload
+                                                </a>
+                                            </li>
+                                            
+                                            <li>
+                                                <a href="@Url.Action("Index", "PreConvertion")">
+                                                    <i class="metismenu-icon"></i>
+                                                    PreConvertion
                                                 </a>
                                             </li>
                                             <li>
-                                                <a href="@Url.Action("Index", "Customers")">
-                                                    <i class="metismenu-icon pe-7s-diamond"></i>
-                                                    Customer List
+                                                <a href="@Url.Action("EditTable", "PreConvertion")">
+                                                    <i class="metismenu-icon"></i>
+                                                    PreConvertion Edit 
                                                 </a>
                                             </li>
-                                            <li>
-                                                <a href="@Url.Action("Index", "Consultants")">
-                                                    <i class="metismenu-icon pe-7s-diamond"></i>
-                                                    Consultant List
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    @*<li>
-                <a href="dashboard-boxes.html">
-                    <i class="metismenu-icon fa fa-user"></i>
-                    Consultant
-                    <i class="metismenu-state-icon fa fa-caret-down caret-left"></i>
-                </a>
-                <ul>
-                    <li>
-                        <a href="@Url.Action("Create", "Consultants")">
-                            <i class="metismenu-icon pe-7s-diamond"></i>
-                            Create Consultant
-                        </a>
-                    </li>
-                    <li>
-                        <a href="@Url.Action("Index", "Consultants")">
-                            <i class="metismenu-icon pe-7s-diamond"></i>
-                            Consultant List
-                        </a>
-                    </li>
-                </ul>
-            </li>*@
-                                }
-                                @if (User.IsInRole("Admin"))
-                                {
-                                    <li>
-                                        <a href="dashboard-boxes.html">
-                                            <i class="metismenu-icon fa fa-briefcase"></i>
-                                            Customer Project Config
-                                            <i class="metismenu-state-icon fa fa-caret-down caret-left"></i>
-                                        </a>
-                                        <ul>
-                                            <li>
-                                                <a href="@Url.Action("Create", "CustomerProjectConfigs")">
-                                                    <i class="metismenu-icon pe-7s-diamond"></i>
-                                                    Customer Project  Config
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="@Url.Action("Index", "CustomerProjectConfigs")">
-                                                    <i class="metismenu-icon pe-7s-diamond"></i>
-                                                    Customer Project List
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <a href="dashboard-boxes.html">
-                                            <i class="metismenu-icon fa fa-briefcase"></i>
-                                            Project Instance Config
-                                            <i class="metismenu-state-icon fa fa-caret-down caret-left"></i>
-                                        </a>
-                                        <ul>
-                                            <li>
-                                                <a href="@Url.Action("Create", "ProjectInstanceConfigs")">
-                                                    <i class="metismenu-icon pe-7s-diamond"></i>
-                                                    Project Instance Config
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="@Url.Action("Index", "ProjectInstanceConfigs")">
-                                                    <i class="metismenu-icon pe-7s-diamond"></i>
-                                                    Project Instance List
-                                                </a>
-                                            </li>
+
                                         </ul>
                                     </li>
                                 }
-                            </ul>
+                                    <li>
+                                        <a href="@Url.Action("CommingSoon", "Test")">
+                                            <i class="metismenu-icon fa fa-dot-circle"></i>
+                                            Migration
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("CommingSoon", "Test")">
+                                            <i class="metismenu-icon fa fa-fighter-jet"></i>
+                                            Post-Conversion
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("CommingSoon", "Test")">
+                                            <i class="metismenu-icon fa fa-gavel"></i>
+                                            Validation
+                                        </a>
+                                    </li>
+
+                                    @if (User.IsInRole("Admin"))
+                                    {
+                                        <li>
+                                            <a href="dashboard-boxes.html">
+                                                <i class="metismenu-icon fa fa-user"></i>
+                                                Profile Settings
+                                                <i class="metismenu-state-icon fa fa-caret-down caret-left"></i>
+                                            </a>
+                                            <ul>
+
+                                                <li>
+                                                    <a href="@Url.Action("Create", "Customers")">
+                                                        <i class="metismenu-icon pe-7s-diamond"></i>
+                                                        Add New User / Customers
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="@Url.Action("Index", "Customers")">
+                                                        <i class="metismenu-icon pe-7s-diamond"></i>
+                                                        View Customers
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="@Url.Action("Index", "Consultants")">
+                                                        <i class="metismenu-icon pe-7s-diamond"></i>
+                                                        View SAP Consultant
+                                                    </a>
+                                                </li>
+
+
+                                            </ul>
+                                        </li>
+                                    }
+                                    @if (User.IsInRole("Admin"))
+                                    {
+                                        <li>
+                                            <a href="#">
+                                                <i class="metismenu-icon fa fa-briefcase"></i>
+                                                Configuration
+                                                <i class="metismenu-state-icon fa fa-caret-down caret-left"></i>
+                                            </a>
+                                            <ul>
+                                                <li>
+                                                    <a href="@Url.Action("Create", "CustomerProjectConfigs")">
+                                                        <i class="metismenu-icon pe-7s-diamond"></i>
+                                                        Add Project to Customer
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="@Url.Action("Create", "ProjectInstanceConfigs")">
+                                                        <i class="metismenu-icon pe-7s-diamond"></i>
+                                                        Add Instance to Project
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="@Url.Action("Index", "CustomerProjectConfigs")">
+                                                        <i class="metismenu-icon pe-7s-diamond"></i>
+                                                        View Customer
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="@Url.Action("Index", "ProjectInstanceConfigs")">
+                                                        <i class="metismenu-icon pe-7s-diamond"></i>
+                                                        View Project
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+
+                                        <li>
+                                            <a href="#">
+                                                <i class="metismenu-icon fa fa-user-cog"></i>
+                                                User Settings
+                                                <i class="metismenu-state-icon fa fa-caret-down caret-left"></i>
+                                            </a>
+                                            <ul>
+                                                <li>
+                                                    <a href="@Url.Action("CommingSoon", "Test")">
+                                                        <i class="metismenu-icon pe-7s-diamond"></i>
+                                                        Create Login
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="@Url.Action("CommingSoon", "Test")">
+                                                        <i class="metismenu-icon pe-7s-diamond"></i>
+                                                        View Login
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <i class="metismenu-icon fa fa-flag-checkered"></i>
+                                                Reports
+                                                <i class="metismenu-state-icon fa fa-caret-down caret-left"></i>
+                                            </a>
+                                            <ul>
+                                                <li>
+                                                    <a href="@Url.Action("CommingSoon", "Test")">
+                                                        <i class="metismenu-icon pe-7s-diamond"></i>
+                                                        Customer Report
+                                                    </a>
+                                                </li>
+
+                                            </ul>
+                                        </li>
+                                    }
+                                </ul>
                         </div>
                     </div>
                 }
@@ -550,13 +558,11 @@ th     { background:#eee; }
                 </div>
             </div>
             @RenderSection("scripts", required: false)
-
-            @*<script src="http://maps.google.com/maps/api/js?sensor=true"></script>*@
         </div>
     </div>
     <script src="~/Asset/Scripts/bootstrap.min.js"></script>
     <link href="~/Asset/Jquery/jquery-ui.css" rel="stylesheet" />
-    <script src="~/Asset/Jquery/jquery-1.12.4.js"></script>
+    @*<script src="~/Asset/Jquery/jquery-1.12.4.js"></script>*@
     <script src="~/Asset/Jquery/jquery-ui.js"></script>
     <script>
         $(document).ready(function () {

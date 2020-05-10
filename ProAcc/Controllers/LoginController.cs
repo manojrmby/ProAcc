@@ -13,6 +13,7 @@ namespace ProAcc.Controllers
     public class LoginController : Controller
     {
         Base _Base = new Base();
+        LogHelper LogHelper = new LogHelper();
         // GET: Login
 
         public ActionResult Login()
@@ -28,15 +29,15 @@ namespace ProAcc.Controllers
         [HttpPost]
         public ActionResult Validate(UserModel user, string returnUrl)
         {
-            //ViewBag.Message = message;
-            LogedUser logedUser = new LogedUser();
+            try
+            {
+             LogedUser logedUser = new LogedUser();
             logedUser.Username = user.Username;
             logedUser.Password = user.Password;
             string decodedUrl = "";
             if (!string.IsNullOrEmpty(returnUrl))
                 decodedUrl = Server.UrlDecode(returnUrl);
-            try
-            {
+           
                 if (!String.IsNullOrEmpty(user.Username))
                 {
                     logedUser = _Base.UserValidation(logedUser);
@@ -45,20 +46,22 @@ namespace ProAcc.Controllers
                         FormsAuthentication.SetAuthCookie(logedUser.Username, false);
                         Session["loginid"] = logedUser.ID.ToString();
                         Session["UserName"]= logedUser.Name.ToString();
-                        
-                        //if (!string.IsNullOrEmpty(Request.Form["ReturnUrl"]))
-                        //{
-                        //    var a = Server.UrlDecode(Request.Form["ReturnUrl"]);
-                        //    return RedirectToAction(Request.Form["ReturnUrl"].Split('/')[0]);
-                        //}
-                        //else
-                        //{
+                        Session["InstanceId"] = Guid.Empty;
+                        string UserType = "";
+                        if (logedUser.Type==1)
+                        {
+                            UserType = "Admin";
+                        }
+                        else if (logedUser.Type == 2)
+                        {
+                            UserType = "Consultant";
+                        }
+                        else if (logedUser.Type == 3)
+                        {
+                            UserType = "Customer";
+                        }
+                        Session["UserType"] = UserType;
                         return RedirectToAction("Home", "Home");
-                        //}
-
-
-
-                        //IsValidate = "Login Successfully.";
                     }
                 }
                 else
@@ -69,10 +72,13 @@ namespace ProAcc.Controllers
             catch (Exception ex)
             {
 
+                string Url = Request.Url.AbsoluteUri;
+                LogHelper.createLog(ex, Url);
                 TempData["Message"] = "Login failed.Error - " + ex.Message;
             }
             return RedirectToAction("Login", "Login");
         }
+
 
         //public JsonResult ValidateUser(LogedUser user)
         //{

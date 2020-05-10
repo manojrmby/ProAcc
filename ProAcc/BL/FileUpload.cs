@@ -5,6 +5,7 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using System.Web;
+using ClosedXML.Attributes;
 
 namespace ProAcc.BL
 {
@@ -12,7 +13,8 @@ namespace ProAcc.BL
     {
         Base _Base = new Base();
 
-        public Boolean Process_Activities(string FilePath, string fileName, Guid Instance_ID)
+        #region Create Analysis
+        public Boolean Process_Activities(string FilePath, string fileName, Guid Instance_ID,Guid User_Id)
         {
             Boolean Status = false;
 
@@ -36,7 +38,7 @@ namespace ProAcc.BL
                  };
                 //Convert List to DataTable
                 DataTable dataTable = ConvertListToDataTable_Activities(dataList);
-                Status = _Base.Upload_Activities(dataTable, fileName, Instance_ID);
+                Status = _Base.Upload_Activities(dataTable, fileName, Instance_ID, User_Id);
                 //To get unique column values, to avoid duplication
                 //var uniqueCols = dataTable.DefaultView.ToTable(true, "Solution Number");
 
@@ -101,7 +103,7 @@ namespace ProAcc.BL
                  };
                 //Convert List to DataTable
                 DataTable dataTable = ConvertListToDataTable_Bwextractors(dataList);
-                Status = _Base.Upload_CustomCode(dataTable, fileName, Instance_ID);
+                //Status = _Base.Upload_CustomCode(dataTable, fileName, Instance_ID);
                 //To get unique column values, to avoid duplication
                 //var uniqueCols = dataTable.DefaultView.ToTable(true, "Solution Number");
 
@@ -142,8 +144,7 @@ namespace ProAcc.BL
             return table;
         }
 
-
-        public Boolean Process_CustomCode(string FilePath, string fileName, Guid Instance_ID)
+        public Boolean Process_CustomCode(string FilePath, string fileName, Guid Instance_ID, Guid User_Id)
         {
             Boolean Status = false;
 
@@ -167,7 +168,7 @@ namespace ProAcc.BL
                  };
                 //Convert List to DataTable
                 DataTable dataTable = ConvertListToDataTable_CustomCode(dataList);
-                Status = _Base.Upload_CustomCode(dataTable, fileName, Instance_ID);
+                Status = _Base.Upload_CustomCode(dataTable, fileName, Instance_ID, User_Id);
                 //To get unique column values, to avoid duplication
                 //var uniqueCols = dataTable.DefaultView.ToTable(true, "Solution Number");
 
@@ -208,8 +209,7 @@ namespace ProAcc.BL
             return table;
         }
 
-        //
-        public Boolean Process_FioriApps(string FilePath, string fileName, Guid Instance_ID)
+        public Boolean Process_FioriApps(string FilePath, string fileName, Guid Instance_ID,Guid User_Id)
         {
             Boolean Status = false;
 
@@ -233,7 +233,7 @@ namespace ProAcc.BL
                  };
                 //Convert List to DataTable
                 DataTable dataTable = ConvertListToDataTable_FioriApps(dataList);
-                Status = _Base.Upload_FioriApps(dataTable, fileName, Instance_ID);
+                Status = _Base.Upload_FioriApps(dataTable, fileName, Instance_ID, User_Id);
                 //To get unique column values, to avoid duplication
                 //var uniqueCols = dataTable.DefaultView.ToTable(true, "Solution Number");
 
@@ -274,9 +274,7 @@ namespace ProAcc.BL
             return table;
         }
 
-
-        //
-        public Boolean Process_Simplification(string FilePath, string fileName, Guid Instance_ID)
+        public Boolean Process_Simplification(string FilePath, string fileName, Guid Instance_ID,Guid User_Id)
         {
             Boolean Status = false;
 
@@ -306,7 +304,7 @@ namespace ProAcc.BL
                  };
                 //Convert List to DataTable
                 DataTable dataTable = ConvertListToDataTable_Simplification(dataList);
-                Status = _Base.Upload_Simplification(dataTable, fileName, Instance_ID);
+                Status = _Base.Upload_Simplification(dataTable, fileName, Instance_ID, User_Id);
                 //To get unique column values, to avoid duplication
                 //var uniqueCols = dataTable.DefaultView.ToTable(true, "Solution Number");
 
@@ -356,5 +354,89 @@ namespace ProAcc.BL
             }
             return table;
         }
+        #endregion
+
+        #region PreConvertion
+        public Boolean Process_PreConvertion(string FilePath, string fileName, Guid Instance_ID,Guid User_Id)
+        {
+            Boolean Status = false;
+
+            using (XLWorkbook workbook = new XLWorkbook(FilePath))
+            {
+                var workSheet = workbook.Worksheet(1);
+                var firstRowUsed = workSheet.FirstRowUsed();
+                var firstPossibleAddress = workSheet.Row(firstRowUsed.RowNumber()).FirstCell().Address;
+                var lastPossibleAddress = workSheet.LastCellUsed().Address;
+                var range = workSheet.Range(firstPossibleAddress, lastPossibleAddress).AsRange(); //.RangeUsed();
+                                                                                                  // Treat the range as a table (to be able to use the column names)
+                var table = range.AsTable();
+                //Specify what are all the Columns you need to get from Excel
+                var dataList = new List<string[]>
+                {
+                table.DataRange.Rows().Select(tableRow =>tableRow.Field("Relevance").GetString()).ToArray(),
+                table.DataRange.Rows().Select(tableRow => tableRow.Field("Last Consistency Result").GetString()).ToArray(),
+                table.DataRange.Rows().Select(tableRow => tableRow.Field("Exemption Possible").GetString()).ToArray(),
+                table.DataRange.Rows().Select(tableRow => tableRow.Field("ID").GetString()).ToArray(),
+
+                table.DataRange.Rows().Select(tableRow =>tableRow.Field("Title").GetString()).ToArray(),
+                table.DataRange.Rows().Select(tableRow =>tableRow.Field("Lob/Technology").GetString()).ToArray(),
+                table.DataRange.Rows().Select(tableRow =>tableRow.Field("Business Area").GetString()).ToArray(),
+                table.DataRange.Rows().Select(tableRow =>tableRow.Field("Catetory").GetString()).ToArray(),
+                table.DataRange.Rows().Select(tableRow =>tableRow.Field("Component").GetString()).ToArray(),
+                table.DataRange.Rows().Select(tableRow =>tableRow.Field("Status").GetString()).ToArray(),
+                table.DataRange.Rows().Select(tableRow =>tableRow.Field("Note").GetString()).ToArray(),
+
+                table.DataRange.Rows().Select(tableRow =>tableRow.Field("Application Area").GetString()).ToArray(),
+                table.DataRange.Rows().Select(tableRow =>tableRow.Field("Summary").GetString()).ToArray(),
+                };
+                //Convert List to DataTable
+                DataTable dataTable = ConvertListToDataTable_PreConvertion(dataList);
+                Status = _Base.Upload_SAPPreConvertion(dataTable, fileName, Instance_ID, User_Id);
+            }
+            return Status;
+        }
+        private static DataTable ConvertListToDataTable_PreConvertion(IReadOnlyList<string[]> list)
+        {
+            var table = new DataTable("PreConvertion");
+            var rows = list.Select(array => array.Length).Concat(new[] { 0 }).Max();
+
+            table.Columns.Add("Relevance");
+            table.Columns.Add("Last Consistency Result");
+            table.Columns.Add("Exemption Possible");
+            table.Columns.Add("ID");
+            table.Columns.Add("Title");
+            table.Columns.Add("LoB/Technology");
+            table.Columns.Add("Business Area");
+            table.Columns.Add("Catetory");
+            table.Columns.Add("Component");
+            table.Columns.Add("Status");
+            table.Columns.Add("Note");
+            table.Columns.Add("Application Area");
+            table.Columns.Add("Summary");
+
+
+            for (var j = 0; j < rows; j++)
+            {
+                var row = table.NewRow();
+                row["Relevance"] = list[0][j];
+                row["Last Consistency Result"] = list[1][j];
+                row["Exemption Possible"] = list[2][j];
+                row["ID"] = list[3][j];
+                row["Title"] = list[4][j];
+                row["LoB/Technology"] = list[5][j];
+                row["Business Area"] = list[6][j];
+                row["Catetory"] = list[7][j];
+                row["Component"] = list[8][j];
+                row["Status"] = list[9][j];
+                row["Note"] = list[10][j];
+                row["Application Area"] = list[11][j];
+                row["Summary"] = list[12][j];
+
+                table.Rows.Add(row);
+            }
+            return table;
+        }
+        #endregion
+
     }
 }

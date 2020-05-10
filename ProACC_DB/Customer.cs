@@ -11,9 +11,7 @@ namespace ProACC_DB
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
-
+    
     public partial class Customer
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -33,16 +31,11 @@ namespace ProACC_DB
         public string Email { get; set; }
         public string AlternateEmail { get; set; }
         public Nullable<decimal> EstimatedSale { get; set; }
-        [DataType(DataType.Date)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
-        public DateTime? LastContact_Dt { get; set; }
-        [DataType(DataType.Date)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
-        public DateTime? NextAction_Dt { get; set; }
+        public Nullable<System.DateTime> LastContact_Dt { get; set; }
+        public Nullable<System.DateTime> NextAction_Dt { get; set; }
         public string LeadSource { get; set; }
         public Nullable<int> LeadStatus { get; set; }
         public string Conv_Cust_Status { get; set; }
-        [DataType(DataType.MultilineText)]
         public string Comments { get; set; }
         public bool isActive { get; set; }
         public System.DateTime Cre_on { get; set; }

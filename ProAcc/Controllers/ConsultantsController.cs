@@ -12,6 +12,7 @@ using PagedList.Mvc;
 
 namespace ProAcc.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class ConsultantsController : Controller
     {
         private ProAccEntities db = new ProAccEntities();

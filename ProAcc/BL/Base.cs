@@ -4,6 +4,7 @@ using ProACC_DB;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Web;
 using static ProAcc.BL.Model.Common;
@@ -13,29 +14,46 @@ namespace ProAcc.BL
     public class Base:Common
     {
         private ProAccEntities db = new ProAccEntities();
-        
-        //private string User_ID = HttpContext.Current.Session["UserName"].ToString();
-        //private string InstanceId = HttpContext.Current.Session["UserName"].ToString();
-        //Graph ReadinessReport
-        public SP_ReadinessReport_Result sAPInput()
+
+        #region Login
+        public LogedUser UserValidation(LogedUser user)
         {
-            SP_ReadinessReport_Result GetRelevant = new SP_ReadinessReport_Result();
+            DataSet ds = new DataSet();
+            DBHelper dB = new DBHelper("SP_Login", CommandType.StoredProcedure);
+            dB.addIn("@Type", "Login");
+            dB.addIn("@UserName", user.Username);
+            dB.addIn("@Password", user.Password);
+            ds = dB.ExecuteDataSet();
             DataTable dt = new DataTable();
-            DBHelper dB = new DBHelper("SP_ReadinessReport", CommandType.StoredProcedure);
-            dB.addIn("@Type", "Simple_Donut");
-            dB.addIn("@InstanceId", InstanceId);
-            dt = dB.ExecuteDataTable();
+            //DataTable dt1 = new DataTable();
+            dt = ds.Tables[0];
+            //dt1 = ds.Tables[1];
             if (dt.Rows.Count == 1)
             {
-                GetRelevant.RC = Convert.ToInt32(dt.Rows[0]["RC"].ToString());
-                GetRelevant.RC_NON = Convert.ToInt32(dt.Rows[0]["RC_NON"].ToString());
-                GetRelevant.R_NON = Convert.ToInt32(dt.Rows[0]["R_NON"].ToString());
-                GetRelevant.R = Convert.ToInt32(dt.Rows[0]["R"].ToString());
-            }
-            return GetRelevant;
-        }
+                user.ID = Guid.Parse(dt.Rows[0][0].ToString());
+                user.Type = Convert.ToInt32(dt.Rows[0][1].ToString());
+                user.Name = dt.Rows[0][2].ToString();
 
-        public GeneralList sP_GetActivities_Bar1()
+                //User_ID = user.ID;
+                //User_Name = user.Name;
+                //for (int i = 0; i < dt1.Rows.Count; i++)
+                //{
+                //    if (user.Type == Convert.ToInt32(dt1.Rows[i]["id"]))
+                //    {
+                //        User_Type = dt1.Rows[0]["UserType"].ToString().ToUpper();
+                //        break;
+                //    }
+                //}
+
+            }
+            return user;
+
+        }
+        #endregion
+
+
+        #region Charts
+        public GeneralList sP_GetActivities_Bar1(Guid InstanceId)
         {
             GeneralList sP_ = new GeneralList();
             DataTable dt = new DataTable();
@@ -65,7 +83,7 @@ namespace ProAcc.BL
             }
             return sP_;
         }
-        public GeneralList sP_GetActivities_Bar2()
+        public GeneralList sP_GetActivities_Bar2(Guid InstanceId)
         {
             GeneralList sP_ = new GeneralList();
             DataTable dt = new DataTable();
@@ -95,7 +113,7 @@ namespace ProAcc.BL
             }
             return sP_;
         }
-        public GeneralList sP_GetActivities_Donut()
+        public GeneralList sP_GetActivities_Donut(Guid InstanceId)
         {
             GeneralList sP_ = new GeneralList();
             DataTable dt = new DataTable();
@@ -125,8 +143,7 @@ namespace ProAcc.BL
             }
             return sP_;
         }
-
-        public GeneralList sP_GetFiori_Bar()
+        public GeneralList sP_GetFiori_Bar(Guid InstanceId)
         {
             GeneralList sP_ = new GeneralList();
             DataTable dt = new DataTable();
@@ -156,7 +173,7 @@ namespace ProAcc.BL
             }
             return sP_;
         }
-        public GeneralList sP_GetCustomCode_Bar()
+        public GeneralList sP_GetCustomCode_Bar(Guid InstanceId)
         {
             GeneralList sP_ = new GeneralList();
             DataTable dt = new DataTable();
@@ -186,29 +203,7 @@ namespace ProAcc.BL
             }
             return sP_;
         }
-
-        //SimplificationReport
-        public GeneralList sP_SimplificationReport()
-        {
-            GeneralList sP_ = new GeneralList();
-            DataTable dt = new DataTable();
-            DBHelper dB = new DBHelper("SP_SimplificationReport", CommandType.StoredProcedure);
-            dB.addIn("@Type", "GetDropdown");
-            dB.addIn("@InstanceId", InstanceId);
-            dt = dB.ExecuteDataTable();
-            List<Lis> _Lob = new List<Lis>();
-
-            int count = 0;
-            foreach (DataRow dr in dt.Rows)
-            {
-                _Lob.Add(new Lis { Name = dr["LOB"].ToString(), _Value = count });
-                count = count++;
-            }
-
-            sP_._List = _Lob;
-            return sP_;
-        }
-        public GeneralList sP_SimplificationReport_Bar(String Input)
+        public GeneralList sP_SimplificationReport_Bar(String Input, Guid InstanceId)
         {
             GeneralList sP_ = new GeneralList();
             DataTable dt = new DataTable();
@@ -247,8 +242,112 @@ namespace ProAcc.BL
             return sP_;
         }
 
+        public GeneralList sP_GetSAPFioriAppsReport_Bar(string Input, Guid InstanceId)
+        {
+            GeneralList sP_ = new GeneralList();//manoj
+            DataTable dt = new DataTable();
+            DBHelper dB = new DBHelper("SP_FioriAppsReport", CommandType.StoredProcedure);
 
-        public List<SAPInput_SimplificationReport> SAPInput_Simplification()
+            dB.addIn("@Type", "ALL");
+            dB.addIn("@InstanceId", InstanceId);
+            dB.addIn("@Input", Input);
+            dt = dB.ExecuteDataTable();
+            if (dt.Rows.Count > 0)
+            {
+                List<Lis> _Lob = new List<Lis>();
+                foreach (DataRow dr in dt.Rows)
+                {
+                    _Lob.Add(
+                        new Lis
+                        {
+                            Name = dr["Roles"].ToString(),
+                            _Value = Convert.ToInt32(dr["_Count"].ToString()
+                            )
+                        });
+
+                }
+
+                sP_._List = _Lob;
+
+
+            }
+            return sP_;
+        }
+
+        public GeneralList sP_GetActivitiesReport_Bar(string Phase, string condition, Guid InstanceId)
+        {
+            GeneralList sP_ = new GeneralList();//manoj
+            DataTable dt = new DataTable();
+            DBHelper dB = new DBHelper("SP_ActivitiesReport", CommandType.StoredProcedure);
+
+            dB.addIn("@Type", "ALL");
+            dB.addIn("@InstanceId", InstanceId);
+            dB.addIn("@Phase", Phase);
+            dB.addIn("@condition", condition);
+            dt = dB.ExecuteDataTable();
+            if (dt.Rows.Count > 0)
+            {
+                List<Lis> _Lob = new List<Lis>();
+                foreach (DataRow dr in dt.Rows)
+                {
+                    _Lob.Add(
+                        new Lis
+                        {
+                            Name = dr["ACT_NAME"].ToString(),
+                            _Value = Convert.ToInt32(dr["_Count"].ToString()
+                            )
+                        });
+
+                }
+
+                sP_._List = _Lob;
+
+
+            }
+            return sP_;
+        }
+        #endregion
+
+        #region Reports
+        public SP_ReadinessReport_Result sAPInput(Guid InstanceId)
+        {
+            SP_ReadinessReport_Result GetRelevant = new SP_ReadinessReport_Result();
+            DataTable dt = new DataTable();
+            DBHelper dB = new DBHelper("SP_ReadinessReport", CommandType.StoredProcedure);
+            dB.addIn("@Type", "Simple_Donut");
+            dB.addIn("@InstanceId", InstanceId);
+            dt = dB.ExecuteDataTable();
+            if (dt.Rows.Count == 1)
+            {
+                GetRelevant.RC = Convert.ToInt32(dt.Rows[0]["RC"].ToString());
+                GetRelevant.RC_NON = Convert.ToInt32(dt.Rows[0]["RC_NON"].ToString());
+                GetRelevant.R_NON = Convert.ToInt32(dt.Rows[0]["R_NON"].ToString());
+                GetRelevant.R = Convert.ToInt32(dt.Rows[0]["R"].ToString());
+            }
+            return GetRelevant;
+        }
+        public GeneralList sP_SimplificationReport(Guid InstanceId)
+        {
+            GeneralList sP_ = new GeneralList();
+            DataTable dt = new DataTable();
+            DBHelper dB = new DBHelper("SP_SimplificationReport", CommandType.StoredProcedure);
+            dB.addIn("@Type", "GetDropdown");
+            dB.addIn("@InstanceId", InstanceId);
+            dt = dB.ExecuteDataTable();
+            List<Lis> _Lob = new List<Lis>();
+
+            int count = 0;
+            foreach (DataRow dr in dt.Rows)
+            {
+                _Lob.Add(new Lis { Name = dr["LOB"].ToString(), _Value = count });
+                count = count++;
+            }
+
+            sP_._List = _Lob;
+            return sP_;
+        }
+
+        public List<SAPInput_SimplificationReport> SAPInput_Simplification(Guid InstanceId)
         {
             List<SAPInput_SimplificationReport> SR = new List<SAPInput_SimplificationReport>();
             DataTable dt = new DataTable();
@@ -280,7 +379,7 @@ namespace ProAcc.BL
             return SR;
         }
 
-        public List<SAPInput_CustomCode> SAPInput_CustomCodeReport()
+        public List<SAPInput_CustomCode> SAPInput_CustomCodeReport(Guid InstanceId)
         {
             List<SAPInput_CustomCode> CR = new List<SAPInput_CustomCode>();
             DataTable dt = new DataTable();
@@ -306,6 +405,395 @@ namespace ProAcc.BL
                 }
             }
             return CR;
+        }
+
+        public List<Model.SAPInput_Activities> GetActivitiesReport_Table(Guid InstanceId)
+        {
+            List<Model.SAPInput_Activities> AR = new List<Model.SAPInput_Activities>();
+            DataTable dt = new DataTable();
+            DBHelper dB = new DBHelper("SP_ActivitiesReport", CommandType.StoredProcedure);
+            dB.addIn("@Type", "ACT_Table");
+            dB.addIn("@InstanceId", InstanceId);
+            dt = dB.ExecuteDataTable();
+            //  List<DataRow> list = new List<DataRow>(dt.Select());
+            int i = 0;
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow dr in dt.Rows)
+                {
+                    i += 1;
+                    Model.SAPInput_Activities data = new Model.SAPInput_Activities();
+                    data.S_No = i;
+                    data.Related_Simplification_Items = dr["Related Simplification Items"].ToString();
+                    data.Activities = dr["Activities"].ToString();
+                    data.Phase = dr["Phase"].ToString();
+                    data.Condition = dr["Condition"].ToString();
+                    data.Additional_Information = dr["Additional Information"].ToString();
+
+                    AR.Add(data);
+                }
+            }
+            return AR;
+        }
+        public List<SAPFioriAppsModel> sp_GetSAPFioriAppsTable(Guid InstanceId)
+        {
+            List<SAPFioriAppsModel> FiR = new List<SAPFioriAppsModel>();
+            DataTable dt = new DataTable();
+            DBHelper dB = new DBHelper("SP_FioriAppsReport", CommandType.StoredProcedure);
+            dB.addIn("@Type", "FioriApps_Table");
+            dB.addIn("@InstanceId", InstanceId);
+            dt = dB.ExecuteDataTable();
+            //  List<DataRow> list = new List<DataRow>(dt.Select());
+            int i = 0;
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow dr in dt.Rows)
+                {
+                    i += 1;
+                    SAPFioriAppsModel data = new SAPFioriAppsModel();
+                    data.S_No = i;
+                    data.Role = dr["Role"].ToString();
+                    data.Name = dr["Name"].ToString();
+                    data.Application_Area = dr["Application Area"].ToString();
+                    data.Description = dr["Description"].ToString();
+
+                    FiR.Add(data);
+                }
+            }
+            return FiR;
+        }
+
+        public List<SAPInput_PreConvertion> sp_GetPreConvertionTable(Guid InstanceId)
+        {
+            List<SAPInput_PreConvertion> PR = new List<SAPInput_PreConvertion>();
+            DataTable dt = new DataTable();
+            DBHelper dB = new DBHelper("SP_PreConvertion", CommandType.StoredProcedure);
+            dB.addIn("@Type", "PreConvertion_Table");
+            dB.addIn("@InstanceId", InstanceId);
+            dt = dB.ExecuteDataTable();
+           
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow dr in dt.Rows)
+                {
+                    
+                    SAPInput_PreConvertion data = new SAPInput_PreConvertion();
+                    var Result = dr["Last Consistency Result"].ToString();
+                    var Possible = dr["Exemption Possible"].ToString();
+                    if (Result== Empty)
+                    {Result = RE_Empty;}
+                    else if(Result== Error)
+                    { Result = RE_Error; }
+                    else if (Result == Warning)
+                    { Result = RE_Warning; }
+                    else if (Result == NotApplicable)
+                    { Result = RE_NotApplicable; }
+                    else if (Result == Success)
+                    { Result = RE_Success; }
+
+                    if (Possible == Empty)
+                    { Possible = RE_Empty; }
+                    else if (Possible == Error)
+                    { Possible = RE_Error; }
+                    else if (Possible == Warning)
+                    { Possible = RE_Warning; }
+                    else if (Possible == NotApplicable)
+                    { Possible = RE_NotApplicable; }
+                    else if (Possible == Success)
+                    { Possible = RE_Success; }
+
+                    data.Relevance = dr["Relevance"].ToString();
+                    data.Last_Consistency_Result = Result;
+                    data.Exemption_Possible = Possible;
+                    data.ID = dr["ID"].ToString();
+                    data.Title = dr["Title"].ToString();
+                    data.Lob_Technology = dr["Lob/Technology"].ToString();
+                    data.Business_Area = dr["Business Area"].ToString();
+                    data.Catetory = dr["Catetory"].ToString();
+                    data.Component = dr["Component"].ToString();
+                    data.Status = dr["Status"].ToString();
+                    data.Note = dr["Note"].ToString();
+                    data.Application_Area = dr["Application Area"].ToString();
+                    data.Summary = dr["Summary"].ToString();
+
+                    PR.Add(data);
+                }
+            }
+            return PR;
+        }
+        #endregion
+
+        #region FileUpload
+        public Boolean Upload_Activities(DataTable CustomTable, string fileName, Guid Instance_ID,Guid User_ID)
+        {
+            Boolean status = false;
+
+
+            DBHelper dB = new DBHelper("SP_FileUpload", CommandType.StoredProcedure);
+
+            dB.addIn("@Type", "up_Activities");
+            dB.addIn("@tblActivities", CustomTable);
+            dB.addIn("@File_Type", "Activities");
+            dB.addIn("@FileUploadID", Guid.NewGuid());
+            dB.addIn("@instanceId", Instance_ID);
+            dB.addIn("@fileName", fileName);
+            dB.addIn("@Createdby", User_ID);
+
+            dB.ExecuteScalar();
+            status = true;
+            return status;
+
+        }
+        public Boolean Upload_CustomCode(DataTable CustomTable, string fileName, Guid Instance_ID, Guid User_ID)
+        {
+            Boolean status = false;
+
+
+            DBHelper dB = new DBHelper("SP_FileUpload", CommandType.StoredProcedure);
+
+            dB.addIn("@Type", "up_CustomCode");
+            dB.addIn("@tblCustomCode", CustomTable);
+            dB.addIn("@File_Type", "CustomCode");
+            dB.addIn("@FileUploadID", Guid.NewGuid());
+            dB.addIn("@instanceId", Instance_ID);
+            dB.addIn("@fileName", fileName);
+            dB.addIn("@Createdby", User_ID);
+
+            dB.ExecuteScalar();
+            status = true;
+            return status;
+
+        }
+        public Boolean Upload_FioriApps(DataTable CustomTable, string fileName, Guid Instance_ID, Guid User_ID)
+        {
+            Boolean status = false;
+
+
+            DBHelper dB = new DBHelper("SP_FileUpload", CommandType.StoredProcedure);
+
+            dB.addIn("@Type", "up_FioriApps");
+            dB.addIn("@tblFioriApps", CustomTable);
+            dB.addIn("@File_Type", "RecommendedFioriApp");
+            dB.addIn("@FileUploadID", Guid.NewGuid());
+            dB.addIn("@instanceId", Instance_ID);
+            dB.addIn("@fileName", fileName);
+            dB.addIn("@Createdby", User_ID);
+
+            dB.ExecuteScalar();
+            status = true;
+            return status;
+
+        }
+
+        public Boolean Upload_Simplification(DataTable CustomTable, string fileName, Guid Instance_ID, Guid User_ID)
+        {
+            Boolean status = false;
+
+
+            DBHelper dB = new DBHelper("SP_FileUpload", CommandType.StoredProcedure);
+
+            dB.addIn("@Type", "up_Simplification");
+            dB.addIn("@tblSimplification", CustomTable);
+            dB.addIn("@File_Type", "RelevantSimplificationItems");
+            dB.addIn("@FileUploadID", Guid.NewGuid());
+            dB.addIn("@instanceId", Instance_ID);
+            dB.addIn("@fileName", fileName);
+            dB.addIn("@Createdby", User_ID);
+
+            dB.ExecuteScalar();
+            status = true;
+            return status;
+
+        }
+
+        public Boolean Upload_Bwextractors(string fileName, Guid Instance_ID, Guid User_ID)
+        {
+            Boolean status = false;
+
+
+            DBHelper dB = new DBHelper("SP_FileUpload", CommandType.StoredProcedure);
+
+            dB.addIn("@Type", "up_Bwextractors");
+            //dB.addIn("@tblSimplification", CustomTable);
+            dB.addIn("@File_Type", "Bwextractors");
+            dB.addIn("@FileUploadID", Guid.NewGuid());
+            dB.addIn("@instanceId", Instance_ID);
+            dB.addIn("@fileName", fileName);
+            dB.addIn("@Createdby", User_ID);
+
+            dB.ExecuteScalar();
+            status = true;
+            return status;
+
+        }
+        public Boolean Upload_HanaDatabaseTables(string fileName, Guid Instance_ID, Guid User_ID)
+        {
+            Boolean status = false;
+
+
+            DBHelper dB = new DBHelper("SP_FileUpload", CommandType.StoredProcedure);
+
+            dB.addIn("@Type", "up_HanaDatabaseTables");
+            //dB.addIn("@tblSimplification", CustomTable);
+            dB.addIn("@File_Type", "HanaDatabaseTables");
+            dB.addIn("@FileUploadID", Guid.NewGuid());
+            dB.addIn("@instanceId", Instance_ID);
+            dB.addIn("@fileName", fileName);
+            dB.addIn("@Createdby", User_ID);
+
+            dB.ExecuteScalar();
+            status = true;
+            return status;
+
+        }
+        public Boolean Upload_SAPReadinessCheck(string fileName, Guid Instance_ID, Guid User_ID)
+        {
+            Boolean status = false;
+
+
+            DBHelper dB = new DBHelper("SP_FileUpload", CommandType.StoredProcedure);
+
+            dB.addIn("@Type", "up_SAPReadinessCheck");
+            //dB.addIn("@tblSimplification", CustomTable);
+            dB.addIn("@File_Type", "SAPReadinessCheck");
+            dB.addIn("@FileUploadID", Guid.NewGuid());
+            dB.addIn("@instanceId", Instance_ID);
+            dB.addIn("@fileName", fileName);
+            dB.addIn("@Createdby", User_ID);
+
+            dB.ExecuteScalar();
+            status = true;
+            return status;
+
+        }
+
+        public Boolean Upload_SAPPreConvertion(DataTable CustomTable, string fileName, Guid Instance_ID, Guid User_ID)
+        {
+            Boolean status = false;
+
+
+            DBHelper dB = new DBHelper("SP_FileUpload", CommandType.StoredProcedure);
+
+            dB.addIn("@Type", "up_SAPPreConvertion");
+            dB.addIn("@tblPreConvertion", CustomTable);
+            dB.addIn("@File_Type", "PreConvertion");
+            dB.addIn("@FileUploadID", Guid.NewGuid());
+            dB.addIn("@instanceId", Instance_ID);
+            dB.addIn("@fileName", fileName);
+            dB.addIn("@Createdby", User_ID);
+
+            dB.ExecuteScalar();
+            status = true;
+            return status;
+
+
+        }
+
+        #endregion
+
+
+        #region Drodown
+        public GeneralList GetInstanceDropdown(string projectID)
+        {
+            GeneralList sP_ = new GeneralList();
+            DataSet ds = new DataSet();
+            Guid ID = Guid.Parse(projectID);
+            DBHelper dB = new DBHelper("SP_Instance", CommandType.StoredProcedure);
+            dB.addIn("@Type", "GetInstance");
+            dB.addIn("@Id", ID);
+            ds = dB.ExecuteDataSet();
+            List<Lis> _Lob = new List<Lis>();
+            if (ds.Tables.Count > 0)
+            {
+                DataTable dt = new DataTable();
+                dt = ds.Tables[0];
+                int count = 0;
+                foreach (DataRow dr in dt.Rows)
+                {
+                    _Lob.Add(new Lis
+                    {
+                        Name = dr["InstaceName"].ToString(),
+                        Value = dr["Id"].ToString()
+                    });
+                    count = count++;
+                }
+            }
+
+
+            sP_._List = _Lob;
+            return sP_;
+        }
+        public GeneralList GetPerConvertionUploadInstance(string projectID)
+        {
+            GeneralList sP_ = new GeneralList();
+            DataSet ds = new DataSet();
+            Guid ID = Guid.Parse(projectID);
+            DBHelper dB = new DBHelper("SP_Instance", CommandType.StoredProcedure);
+            dB.addIn("@Type", "GetPerConvertionUploadInstance");
+            dB.addIn("@Id", ID);
+            ds = dB.ExecuteDataSet();
+            List<Lis> _Lob = new List<Lis>();
+            if (ds.Tables.Count > 0)
+            {
+                DataTable dt = new DataTable();
+                dt = ds.Tables[0];
+                int count = 0;
+                foreach (DataRow dr in dt.Rows)
+                {
+                    _Lob.Add(new Lis
+                    {
+                        Name = dr["InstaceName"].ToString(),
+                        Value = dr["Id"].ToString()
+                    });
+                    count = count++;
+                }
+            }
+
+
+            sP_._List = _Lob;
+            return sP_;
+        }
+
+        public GeneralList spCustomerDropdown(string Id, int type)
+        {
+            GeneralList sP_ = new GeneralList();
+            DataSet ds = new DataSet();
+            DBHelper dB = new DBHelper("SP_CustomerDrp", CommandType.StoredProcedure);
+            if (type == 1)
+            {
+                dB.addIn("@Type", "CustomerDrp_Admin");
+
+            }
+            else if (type == 2)
+            {
+                dB.addIn("@Type", "CustomerDrp_Consultant");
+                dB.addIn("@Id", Id);
+            }
+            else if (type == 3)
+            {
+                dB.addIn("@Type", "CustomerDrp_Customer");
+                dB.addIn("@Id", Id);
+            }
+
+            ds = dB.ExecuteDataSet();
+            List<Lis> _Lob = new List<Lis>();
+            if (ds.Tables.Count > 0)
+            {
+                DataTable dt = new DataTable();
+                dt = ds.Tables[0];
+                int count = 0;
+                foreach (DataRow dr in dt.Rows)
+                {
+                    _Lob.Add(new Lis
+                    {
+                        Name = dr["Name"].ToString(),
+                        Value = dr["id"].ToString()
+                    });
+                    count = count++;
+                }
+            }
+            sP_._List = _Lob;
+            return sP_;
         }
 
         public GeneralList sP_AnalysisDropdownProject()
@@ -335,6 +823,7 @@ namespace ProAcc.BL
             sP_._List = _Lob;
             return sP_;
         }
+
         public Tuple<List<Lis>, List<Lis>, List<Lis>> sP_AnalysisDropdowns()
         {
             List<Lis> list1 = new List<Lis>();
@@ -399,10 +888,7 @@ namespace ProAcc.BL
             return Tuple.Create(list1, list2, list3);
         }
 
-        //Activities Report
-
-
-        public Tuple<List<Lis>, List<Lis>> sp_GetActivitiesReportDropdown()
+        public Tuple<List<Lis>, List<Lis>> sp_GetActivitiesReportDropdown(Guid InstanceId)
         {
             List<Lis> list1 = new List<Lis>();
             List<Lis> list2 = new List<Lis>();
@@ -446,72 +932,9 @@ namespace ProAcc.BL
                 }
             }
 
-                return Tuple.Create(list1, list2);
+            return Tuple.Create(list1, list2);
         }
-        public GeneralList sP_GetActivitiesReport_Bar(string Phase, string condition)
-        {
-            GeneralList sP_ = new GeneralList();//manoj
-            DataTable dt = new DataTable();
-            DBHelper dB = new DBHelper("SP_ActivitiesReport", CommandType.StoredProcedure);
-
-            dB.addIn("@Type", "ALL");
-            dB.addIn("@InstanceId", InstanceId);
-            dB.addIn("@Phase", Phase);
-            dB.addIn("@condition", condition);
-            dt = dB.ExecuteDataTable();
-            if (dt.Rows.Count > 0)
-            {
-                List<Lis> _Lob = new List<Lis>();
-                foreach (DataRow dr in dt.Rows)
-                {
-                    _Lob.Add(
-                        new Lis
-                        {
-                            Name = dr["ACT_NAME"].ToString(),
-                            _Value = Convert.ToInt32(dr["_Count"].ToString()
-                            )
-                        });
-
-                }
-
-                sP_._List = _Lob;
-
-
-            }
-            return sP_;
-        }
-        public List<Model.SAPInput_Activities> GetActivitiesReport_Table()
-        {
-            List<Model.SAPInput_Activities> AR = new List<Model.SAPInput_Activities>();
-            DataTable dt = new DataTable();
-            DBHelper dB = new DBHelper("SP_ActivitiesReport", CommandType.StoredProcedure);
-            dB.addIn("@Type", "ACT_Table");
-            dB.addIn("@InstanceId", InstanceId);
-            dt = dB.ExecuteDataTable();
-            //  List<DataRow> list = new List<DataRow>(dt.Select());
-            int i = 0;
-            if (dt.Rows.Count > 0)
-            {
-                foreach (DataRow dr in dt.Rows)
-                {
-                    i += 1;
-                    Model.SAPInput_Activities data = new Model.SAPInput_Activities();
-                    data.S_No = i;
-                    data.Related_Simplification_Items = dr["Related Simplification Items"].ToString();
-                    data.Activities = dr["Activities"].ToString();
-                    data.Phase = dr["Phase"].ToString();
-                    data.Condition = dr["Condition"].ToString();
-                    data.Additional_Information = dr["Additional Information"].ToString();
-
-                    AR.Add(data);
-                }
-            }
-            return AR;
-        }
-
-
-        //FioriApps Report
-        public GeneralList sp_GetFioriAppsReportDropdown()
+        public GeneralList sp_GetFioriAppsReportDropdown(Guid InstanceId)
         {
             GeneralList sP_ = new GeneralList();
             DataSet ds = new DataSet();
@@ -540,212 +963,42 @@ namespace ProAcc.BL
             sP_._List = _Lob;
             return sP_;
         }
+        #endregion
 
-        public  List<SAPFioriAppsModel> sp_GetSAPFioriAppsTable()
+
+        #region Other
+       
+
+
+        public void CreateIfMissing(string path)
         {
-            List<SAPFioriAppsModel> FiR = new List<SAPFioriAppsModel>();
-            DataTable dt = new DataTable();
-            DBHelper dB = new DBHelper("SP_FioriAppsReport", CommandType.StoredProcedure);
-            dB.addIn("@Type", "FioriApps_Table");
-            dB.addIn("@InstanceId", InstanceId);
-            dt = dB.ExecuteDataTable();
-            //  List<DataRow> list = new List<DataRow>(dt.Select());
-            int i = 0;
-            if (dt.Rows.Count > 0)
+            if (!Directory.Exists(path))
             {
-                foreach (DataRow dr in dt.Rows)
-                {
-                    i += 1;
-                    SAPFioriAppsModel data = new SAPFioriAppsModel();
-                    data.S_No = i;
-                    data.Role = dr["Role"].ToString();
-                    data.Name = dr["Name"].ToString();
-                    data.Application_Area = dr["Application Area"].ToString();
-                    data.Description = dr["Description"].ToString();
-
-                    FiR.Add(data);
-                }
+                Directory.CreateDirectory(path);
             }
-            return FiR;
         }
 
-        public GeneralList sP_GetSAPFioriAppsReport_Bar(string Input)
+
+
+        public void SendExcepToDB(string ExceptionMsg,string ExceptionType,string ExceptionURL,string ExceptionSource)
         {
-            GeneralList sP_ = new GeneralList();//manoj
-            DataTable dt = new DataTable();
-            DBHelper dB = new DBHelper("SP_FioriAppsReport", CommandType.StoredProcedure);
-
-            dB.addIn("@Type", "ALL");
-            dB.addIn("@InstanceId", InstanceId);
-            dB.addIn("@Input", Input);
-            dt = dB.ExecuteDataTable();
-            if (dt.Rows.Count > 0)
-            {
-                List<Lis> _Lob = new List<Lis>();
-                foreach (DataRow dr in dt.Rows)
-                {
-                    _Lob.Add(
-                        new Lis
-                        {
-                            Name = dr["Roles"].ToString(),
-                            _Value = Convert.ToInt32(dr["_Count"].ToString()
-                            )
-                        });
-
-                }
-
-                sP_._List = _Lob;
-
-
-            }
-            return sP_;
-        }
-
-        //public li
-
-        //FileUpload
-        public Boolean Upload_Activities(DataTable CustomTable, string fileName, Guid Instance_ID)
-        {
-            Boolean status = false;
-
-
-            DBHelper dB = new DBHelper("SP_FileUpload", CommandType.StoredProcedure);
-
-            dB.addIn("@Type", "up_Activities");
-            dB.addIn("@tblActivities", CustomTable);
-            dB.addIn("@File_Type", "Activities");
-            dB.addIn("@FileUploadID", Guid.NewGuid());
-            dB.addIn("@instanceId", Instance_ID);
-            dB.addIn("@fileName", fileName);
-            dB.addIn("@Createdby", User_ID);
-
+            DBHelper dB = new DBHelper("Sp_ExceptionLogging", CommandType.StoredProcedure);
+            dB.addIn("@ExceptionMsg", ExceptionMsg);
+            dB.addIn("@ExceptionType", ExceptionType);
+            dB.addIn("@ExceptionURL", ExceptionURL);
+            dB.addIn("@ExceptionSource", ExceptionSource);
             dB.ExecuteScalar();
-            status = true;
-            return status;
-
         }
-        public Boolean Upload_CustomCode(DataTable CustomTable, string fileName, Guid Instance_ID)
-        {
-            Boolean status = false;
+        #endregion
 
 
-            DBHelper dB = new DBHelper("SP_FileUpload", CommandType.StoredProcedure);
 
-            dB.addIn("@Type", "up_CustomCode");
-            dB.addIn("@tblCustomCode", CustomTable);
-            dB.addIn("@File_Type", "CustomCode");
-            dB.addIn("@FileUploadID", Guid.NewGuid());
-            dB.addIn("@instanceId", Instance_ID);
-            dB.addIn("@fileName", fileName);
-            dB.addIn("@Createdby", User_ID);
+        #region Extra
 
-            dB.ExecuteScalar();
-            status = true;
-            return status;
+        //private string User_ID = HttpContext.Current.Session["UserName"].ToString();
+        //private string InstanceId = HttpContext.Current.Session["UserName"].ToString();
+        //Graph ReadinessReport
 
-        }
-        public Boolean Upload_FioriApps(DataTable CustomTable, string fileName, Guid Instance_ID)
-        {
-            Boolean status = false;
-
-
-            DBHelper dB = new DBHelper("SP_FileUpload", CommandType.StoredProcedure);
-
-            dB.addIn("@Type", "up_FioriApps");
-            dB.addIn("@tblFioriApps", CustomTable);
-            dB.addIn("@File_Type", "RecommendedFioriApp");
-            dB.addIn("@FileUploadID", Guid.NewGuid());
-            dB.addIn("@instanceId", Instance_ID);
-            dB.addIn("@fileName", fileName);
-            dB.addIn("@Createdby", User_ID);
-
-            dB.ExecuteScalar();
-            status = true;
-            return status;
-
-        }
-
-        public Boolean Upload_Simplification(DataTable CustomTable, string fileName, Guid Instance_ID)
-        {
-            Boolean status = false;
-
-
-            DBHelper dB = new DBHelper("SP_FileUpload", CommandType.StoredProcedure);
-
-            dB.addIn("@Type", "up_Simplification");
-            dB.addIn("@tblSimplification", CustomTable);
-            dB.addIn("@File_Type", "RelevantSimplificationItems");
-            dB.addIn("@FileUploadID", Guid.NewGuid());
-            dB.addIn("@instanceId", Instance_ID);
-            dB.addIn("@fileName", fileName);
-            dB.addIn("@Createdby", User_ID);
-
-            dB.ExecuteScalar();
-            status = true;
-            return status;
-
-        }
-
-        public Boolean Upload_Bwextractors(string fileName, Guid Instance_ID)
-        {
-            Boolean status = false;
-
-
-            DBHelper dB = new DBHelper("SP_FileUpload", CommandType.StoredProcedure);
-
-            dB.addIn("@Type", "up_Bwextractors");
-            //dB.addIn("@tblSimplification", CustomTable);
-            dB.addIn("@File_Type", "Bwextractors");
-            dB.addIn("@FileUploadID", Guid.NewGuid());
-            dB.addIn("@instanceId", Instance_ID);
-            dB.addIn("@fileName", fileName);
-            dB.addIn("@Createdby", User_ID);
-
-            dB.ExecuteScalar();
-            status = true;
-            return status;
-
-        }
-        public Boolean Upload_HanaDatabaseTables(string fileName, Guid Instance_ID)
-        {
-            Boolean status = false;
-
-
-            DBHelper dB = new DBHelper("SP_FileUpload", CommandType.StoredProcedure);
-
-            dB.addIn("@Type", "up_HanaDatabaseTables");
-            //dB.addIn("@tblSimplification", CustomTable);
-            dB.addIn("@File_Type", "HanaDatabaseTables");
-            dB.addIn("@FileUploadID", Guid.NewGuid());
-            dB.addIn("@instanceId", Instance_ID);
-            dB.addIn("@fileName", fileName);
-            dB.addIn("@Createdby", User_ID);
-
-            dB.ExecuteScalar();
-            status = true;
-            return status;
-
-        }
-        public Boolean Upload_SAPReadinessCheck(string fileName, Guid Instance_ID)
-        {
-            Boolean status = false;
-
-
-            DBHelper dB = new DBHelper("SP_FileUpload", CommandType.StoredProcedure);
-
-            dB.addIn("@Type", "up_SAPReadinessCheck");
-            //dB.addIn("@tblSimplification", CustomTable);
-            dB.addIn("@File_Type", "SAPReadinessCheck");
-            dB.addIn("@FileUploadID", Guid.NewGuid());
-            dB.addIn("@instanceId", Instance_ID);
-            dB.addIn("@fileName", fileName);
-            dB.addIn("@Createdby", User_ID);
-
-            dB.ExecuteScalar();
-            status = true;
-            return status;
-
-        }
 
 
         //public Boolean AddInstance(string ProjectID, string InstaceName, Guid Instance_ID)
@@ -764,83 +1017,33 @@ namespace ProAcc.BL
         //    return status;
         //}
 
-
-        //Login 
-        public LogedUser UserValidation(LogedUser user)
-        {
-            DataSet ds = new DataSet();
-            DBHelper dB = new DBHelper("SP_Login", CommandType.StoredProcedure);
-            dB.addIn("@Type", "Login");
-            dB.addIn("@UserName", user.Username);
-            dB.addIn("@Password", user.Password);
-            ds = dB.ExecuteDataSet();
-            DataTable dt = new DataTable();
-            DataTable dt1 = new DataTable();
-            dt = ds.Tables[0];
-            dt1 = ds.Tables[1];
-            if (dt.Rows.Count == 1)
-            {
-                user.ID = Guid.Parse(dt.Rows[0][0].ToString());
-                user.Type = Convert.ToInt32(dt.Rows[0][1].ToString());
-                user.Name = dt.Rows[0][2].ToString();
-
-                User_ID = user.ID;
-                User_Name = user.Name;
-                for (int i = 0; i < dt1.Rows.Count; i++)
-                {
-                    if (user.Type == Convert.ToInt32(dt1.Rows[i]["id"]))
-                    {
-                        User_Type = dt1.Rows[0]["UserType"].ToString().ToUpper();
-                        break;
-                    }
-                }
-
-            }
-            return user;
-
-        }
-
-        public GeneralList GetInstanceDropdown(string projectID)
-        {
-            GeneralList sP_ = new GeneralList();
-            DataSet ds = new DataSet();
-            Guid ID = Guid.Parse(projectID);
-            DBHelper dB = new DBHelper("SP_Instance", CommandType.StoredProcedure);
-            dB.addIn("@Type", "GetInstance");
-            dB.addIn("@Id", ID);
-            ds = dB.ExecuteDataSet();
-            List<Lis> _Lob = new List<Lis>();
-            if (ds.Tables.Count > 0)
-            {
-                DataTable dt = new DataTable();
-                dt = ds.Tables[0];
-                int count = 0;
-                foreach (DataRow dr in dt.Rows)
-                {
-                    _Lob.Add(new Lis
-                    {
-                        Name = dr["InstaceName"].ToString(),
-                        Value = dr["Id"].ToString()
-                    });
-                    count = count++;
-                }
-            }
+             //public bool AddInstance(string IDInstance)
+        //{
+        //    bool status = false;
+        //    //InstanceId = Guid.Parse(IDInstance);
+        //    Guid ProjectID = Guid.Empty;
+        //    Guid IDInstanceID = Guid.Parse(IDInstance);
+        //    Instance_Name = db.ProjectInstanceConfigs.FirstOrDefault(x => x.Id == IDInstanceID).InstaceName;
+        //    ProjectID = db.ProjectInstanceConfigs.FirstOrDefault(x => x.Id == IDInstanceID).CustProjconfigID;
+        //    Project_Name = db.CustomerProjectConfigs.FirstOrDefault(x => x.Id == ProjectID).ProjectName;
+        //    return status;
+        //}
+        #endregion
 
 
-            sP_._List = _Lob;
-           return sP_;
-        }
 
-        public bool AddInstance(string IDInstance)
-        {
-            bool status = false;
-            InstanceId = Guid.Parse(IDInstance);
-            Guid ProjectID = Guid.Empty;
-            Guid IDInstanceID = Guid.Parse(IDInstance);
-            Instance_Name = db.ProjectInstanceConfigs.FirstOrDefault(x => x.Id == IDInstanceID).InstaceName;
-            ProjectID = db.ProjectInstanceConfigs.FirstOrDefault(x => x.Id == IDInstanceID).CustProjconfigID;
-            Project_Name = db.CustomerProjectConfigs.FirstOrDefault(x => x.Id == ProjectID).ProjectName;
-            return status;
-        }
+        private string Empty = "";
+        private string Error = "Picture@5C\\QInconsistency at level error@";
+        private string Warning = "Picture@5D\\QInconsistency at level warning@";
+        private string NotApplicable = "Picture@00\\QNot Applicable@";
+        private string Success = "Picture@5B\\QNo potential inconsistency@";
+
+        private string RE_Empty = "Not Applicable";
+        private string RE_Error = "Error";
+        private string RE_Warning = "Warning";
+        private string RE_NotApplicable = "Not Applicable";
+        private string RE_Success = "Success";
+
+
     }
 }

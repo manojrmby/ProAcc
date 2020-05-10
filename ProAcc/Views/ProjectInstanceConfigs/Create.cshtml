@@ -11,13 +11,13 @@
         @Html.AntiForgeryToken()
 
 
-        <h4 class="card-title">PROJECT INSTANCE CONFIGURATION</h4>
+        <a class="card-title">PROJECT INSTANCE CONFIGURATION</a>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="col-12">
             <div class="col-lg-6">
                 <div class="position-relative form-group">
-                    @Html.LabelFor(model => model.InstaceName, "Instace Name", htmlAttributes: new { @class = "control-label col-md-5" })
+                    @Html.LabelFor(model => model.InstaceName, "Instance Name", htmlAttributes: new { @class = "control-label col-md-5" })
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.InstaceName, new { htmlAttributes = new { @id = "txtInstName", @class = "form-control", @onchange = "ValidateInstName()",@maxlength = "3" } })
                         @Html.ValidationMessageFor(model => model.InstaceName, "", new { @class = "text-danger" })
@@ -39,19 +39,16 @@
         </div>
 
 
-        <div class="col-lg-6">
+        <div class="col-lg-12">
             <div class="position-relative form-group">
                 <div class="col-md-offset-2 col-md-8">
                     <input type="submit" value="Create" class="btn btn-primary" />
                 </div>
+                <div style="float:right;">
+                    @Html.ActionLink("Back to List", "Index")
+                </div>
             </div>
         </div>
-        <div class="col-lg-6">
-            <div style="float:right;">
-                @Html.ActionLink("Back to List", "Index")
-            </div>
-        </div>
-
 
     }
 </div>
@@ -68,6 +65,7 @@
     //        lblInstName.innerHTML = "Please enter valid Instance Name";
     //    }
     //}
+   
 </script>
 <script type="text/javascript">
     $(function () {
@@ -75,6 +73,10 @@
         if (msg == 'True')
         {
         alert("Enter the Details");
+        }
+        var msg1 = '@ViewBag.me';
+        if (msg1== 'True') {
+            alert("Instance Already Present Try Different Name");
         }
     });
 </script>

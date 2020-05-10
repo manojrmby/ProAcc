@@ -190,6 +190,7 @@
           <Property Name="InstaceName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="CustProjconfigID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="LastUpdated_Dt" Type="datetime" Nullable="false" />
+          <Property Name="UploadStatus" Type="bit" Nullable="false" />
           <Property Name="isActive" Type="bit" Nullable="false" />
           <Property Name="Cre_on" Type="datetime" Nullable="false" />
           <Property Name="Cre_By" Type="uniqueidentifier" Nullable="false" />
@@ -578,15 +579,6 @@ warning 6002: The table/view 'ProAccDev.dbo.SAPInput_Activities' does not have a
           </AssociationSet>
           <EntitySet Name="CustomerProjectConfigs" EntityType="ProAccModel.CustomerProjectConfig" />
           <EntitySet Name="HanaStatus" EntityType="ProAccModel.HanaStatu" />
-          <EntitySet Name="ProjectInstanceConfigs" EntityType="ProAccModel.ProjectInstanceConfig" />
-          <AssociationSet Name="FK_ProjInstanceConfig_CustProjconfig1" Association="ProAccModel.FK_ProjInstanceConfig_CustProjconfig1">
-            <End Role="CustomerProjectConfig" EntitySet="CustomerProjectConfigs" />
-            <End Role="ProjectInstanceConfig" EntitySet="ProjectInstanceConfigs" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Project_ProjInstanceConfig1" Association="ProAccModel.FK_Project_ProjInstanceConfig1">
-            <End Role="ProjectInstanceConfig" EntitySet="ProjectInstanceConfigs" />
-            <End Role="Project" EntitySet="Projects" />
-          </AssociationSet>
           <FunctionImport Name="SP_CreateAnalysis" ReturnType="Collection(ProAccModel.SP_CreateAnalysis_Result)">
           <Parameter Name="Type" Mode="In" Type="String" />
           </FunctionImport>
@@ -613,6 +605,15 @@ warning 6002: The table/view 'ProAccDev.dbo.SAPInput_Activities' does not have a
           </AssociationSet>
           <AssociationSet Name="FK_Project_Customer" Association="ProAccModel.FK_Project_Customer">
             <End Role="Customer" EntitySet="Customers" />
+            <End Role="Project" EntitySet="Projects" />
+          </AssociationSet>
+          <EntitySet Name="ProjectInstanceConfigs" EntityType="ProAccModel.ProjectInstanceConfig" />
+          <AssociationSet Name="FK_ProjInstanceConfig_CustProjconfig" Association="ProAccModel.FK_ProjInstanceConfig_CustProjconfig">
+            <End Role="CustomerProjectConfig" EntitySet="CustomerProjectConfigs" />
+            <End Role="ProjectInstanceConfig" EntitySet="ProjectInstanceConfigs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Project_ProjInstanceConfig" Association="ProAccModel.FK_Project_ProjInstanceConfig">
+            <End Role="ProjectInstanceConfig" EntitySet="ProjectInstanceConfigs" />
             <End Role="Project" EntitySet="Projects" />
           </AssociationSet>
         </EntityContainer>
@@ -697,8 +698,8 @@ warning 6002: The table/view 'ProAccDev.dbo.SAPInput_Activities' does not have a
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="MilestoneDetails" Relationship="ProAccModel.FK_MilestoneDetails_Project" FromRole="Project" ToRole="MilestoneDetail" />
           <NavigationProperty Name="ProjectDetails" Relationship="ProAccModel.FK_ProjectDetails_Project" FromRole="Project" ToRole="ProjectDetail" />
-          <NavigationProperty Name="ProjectInstanceConfig" Relationship="ProAccModel.FK_Project_ProjInstanceConfig1" FromRole="Project" ToRole="ProjectInstanceConfig" />
           <NavigationProperty Name="Customer" Relationship="ProAccModel.FK_Project_Customer" FromRole="Project" ToRole="Customer" />
+          <NavigationProperty Name="ProjectInstanceConfig" Relationship="ProAccModel.FK_Project_ProjInstanceConfig" FromRole="Project" ToRole="ProjectInstanceConfig" />
         </EntityType>
         <EntityType Name="ProjectDetail">
           <Key>
@@ -868,9 +869,9 @@ warning 6002: The table/view 'ProAccDev.dbo.SAPInput_Activities' does not have a
           <Property Name="Modified_On" Type="DateTime" Precision="3" />
           <Property Name="Modified_by" Type="Guid" />
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="ProjectInstanceConfigs" Relationship="ProAccModel.FK_ProjInstanceConfig_CustProjconfig1" FromRole="CustomerProjectConfig" ToRole="ProjectInstanceConfig" />
           <NavigationProperty Name="Consultant" Relationship="ProAccModel.FK_COnsultant_CustomerProjectConfig" FromRole="CustomerProjectConfig" ToRole="Consultant" />
           <NavigationProperty Name="Customer" Relationship="ProAccModel.FK_Customer_CustomerProjectConfig" FromRole="CustomerProjectConfig" ToRole="Customer" />
+          <NavigationProperty Name="ProjectInstanceConfigs" Relationship="ProAccModel.FK_ProjInstanceConfig_CustProjconfig" FromRole="CustomerProjectConfig" ToRole="ProjectInstanceConfig" />
         </EntityType>
         <EntityType Name="HanaStatu">
           <Key>
@@ -880,47 +881,6 @@ warning 6002: The table/view 'ProAccDev.dbo.SAPInput_Activities' does not have a
           <Property Name="HanaStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="IsActive" Type="Boolean" />
         </EntityType>
-        <EntityType Name="ProjectInstanceConfig">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Guid" Nullable="false" />
-          <Property Name="InstaceName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CustProjconfigID" Type="Guid" Nullable="false" />
-          <Property Name="LastUpdated_Dt" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="isActive" Type="Boolean" Nullable="false" />
-          <Property Name="Cre_on" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Cre_By" Type="Guid" Nullable="false" />
-          <Property Name="Modified_On" Type="DateTime" Precision="3" />
-          <Property Name="Modified_by" Type="Guid" />
-          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="CustomerProjectConfig" Relationship="ProAccModel.FK_ProjInstanceConfig_CustProjconfig1" FromRole="ProjectInstanceConfig" ToRole="CustomerProjectConfig" />
-          <NavigationProperty Name="Projects" Relationship="ProAccModel.FK_Project_ProjInstanceConfig1" FromRole="ProjectInstanceConfig" ToRole="Project" />
-        </EntityType>
-        <Association Name="FK_ProjInstanceConfig_CustProjconfig1">
-          <End Type="ProAccModel.CustomerProjectConfig" Role="CustomerProjectConfig" Multiplicity="1" />
-          <End Type="ProAccModel.ProjectInstanceConfig" Role="ProjectInstanceConfig" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CustomerProjectConfig">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ProjectInstanceConfig">
-              <PropertyRef Name="CustProjconfigID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Project_ProjInstanceConfig1">
-          <End Type="ProAccModel.ProjectInstanceConfig" Role="ProjectInstanceConfig" Multiplicity="1" />
-          <End Type="ProAccModel.Project" Role="Project" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ProjectInstanceConfig">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Project">
-              <PropertyRef Name="projectinstanceid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <ComplexType Name="SP_CreateAnalysis_Result">
           <Property Type="Guid" Name="ID" Nullable="false" />
           <Property Type="String" Name="Name" Nullable="false" MaxLength="50" />
@@ -1071,6 +1031,48 @@ warning 6002: The table/view 'ProAccDev.dbo.SAPInput_Activities' does not have a
             </Principal>
             <Dependent Role="Project">
               <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ProjectInstanceConfig">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="InstaceName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CustProjconfigID" Type="Guid" Nullable="false" />
+          <Property Name="LastUpdated_Dt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UploadStatus" Type="Boolean" Nullable="false" />
+          <Property Name="isActive" Type="Boolean" Nullable="false" />
+          <Property Name="Cre_on" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Cre_By" Type="Guid" Nullable="false" />
+          <Property Name="Modified_On" Type="DateTime" Precision="3" />
+          <Property Name="Modified_by" Type="Guid" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="CustomerProjectConfig" Relationship="ProAccModel.FK_ProjInstanceConfig_CustProjconfig" FromRole="ProjectInstanceConfig" ToRole="CustomerProjectConfig" />
+          <NavigationProperty Name="Projects" Relationship="ProAccModel.FK_Project_ProjInstanceConfig" FromRole="ProjectInstanceConfig" ToRole="Project" />
+        </EntityType>
+        <Association Name="FK_ProjInstanceConfig_CustProjconfig">
+          <End Type="ProAccModel.CustomerProjectConfig" Role="CustomerProjectConfig" Multiplicity="1" />
+          <End Type="ProAccModel.ProjectInstanceConfig" Role="ProjectInstanceConfig" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustomerProjectConfig">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProjectInstanceConfig">
+              <PropertyRef Name="CustProjconfigID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Project_ProjInstanceConfig">
+          <End Type="ProAccModel.ProjectInstanceConfig" Role="ProjectInstanceConfig" Multiplicity="1" />
+          <End Type="ProAccModel.Project" Role="Project" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProjectInstanceConfig">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Project">
+              <PropertyRef Name="projectinstanceid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1258,22 +1260,6 @@ warning 6002: The table/view 'ProAccDev.dbo.SAPInput_Activities' does not have a
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ProjectInstanceConfigs">
-            <EntityTypeMapping TypeName="ProAccModel.ProjectInstanceConfig">
-              <MappingFragment StoreEntitySet="ProjectInstanceConfig">
-                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
-                <ScalarProperty Name="Modified_by" ColumnName="Modified_by" />
-                <ScalarProperty Name="Modified_On" ColumnName="Modified_On" />
-                <ScalarProperty Name="Cre_By" ColumnName="Cre_By" />
-                <ScalarProperty Name="Cre_on" ColumnName="Cre_on" />
-                <ScalarProperty Name="isActive" ColumnName="isActive" />
-                <ScalarProperty Name="LastUpdated_Dt" ColumnName="LastUpdated_Dt" />
-                <ScalarProperty Name="CustProjconfigID" ColumnName="CustProjconfigID" />
-                <ScalarProperty Name="InstaceName" ColumnName="InstaceName" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="SP_CreateAnalysis" FunctionName="ProAccModel.Store.SP_CreateAnalysis">
             <ResultMapping>
               <ComplexTypeMapping TypeName="ProAccModel.SP_CreateAnalysis_Result">
@@ -1366,6 +1352,23 @@ warning 6002: The table/view 'ProAccDev.dbo.SAPInput_Activities' does not have a
                 <ScalarProperty Name="Cre_on" ColumnName="Cre_on" />
                 <ScalarProperty Name="isActive" ColumnName="isActive" />
                 <ScalarProperty Name="StatusName" ColumnName="StatusName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProjectInstanceConfigs">
+            <EntityTypeMapping TypeName="ProAccModel.ProjectInstanceConfig">
+              <MappingFragment StoreEntitySet="ProjectInstanceConfig">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="Modified_by" ColumnName="Modified_by" />
+                <ScalarProperty Name="Modified_On" ColumnName="Modified_On" />
+                <ScalarProperty Name="Cre_By" ColumnName="Cre_By" />
+                <ScalarProperty Name="Cre_on" ColumnName="Cre_on" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+                <ScalarProperty Name="UploadStatus" ColumnName="UploadStatus" />
+                <ScalarProperty Name="LastUpdated_Dt" ColumnName="LastUpdated_Dt" />
+                <ScalarProperty Name="CustProjconfigID" ColumnName="CustProjconfigID" />
+                <ScalarProperty Name="InstaceName" ColumnName="InstaceName" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

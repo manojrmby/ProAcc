@@ -12,6 +12,7 @@ using PagedList.Mvc;
 
 namespace ProAcc.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class ProjectInstanceConfigsController : Controller
     {
         private ProAccEntities db = new ProAccEntities();
@@ -22,7 +23,6 @@ namespace ProAcc.Controllers
             var projectInstanceConfigs = db.ProjectInstanceConfigs.Where(a => a.isActive == true)
                 .OrderByDescending(x => x.Cre_on)
                 .Where(x => x.InstaceName.StartsWith(search) || search == null).ToList().ToPagedList(i ?? 1, 5);
-            //var projectInstanceConfigs = db.ProjectInstanceConfigs.Include(p => p.CustomerProjectConfig).Where(a => a.isActive == true);
             return View(projectInstanceConfigs);
         }
 
@@ -59,10 +59,21 @@ namespace ProAcc.Controllers
             {
                 if (projectInstanceConfig.InstaceName != null)
                 {
+                    
+
                     projectInstanceConfig.Id = Guid.NewGuid();
                     projectInstanceConfig.LastUpdated_Dt = DateTime.Now;
                     projectInstanceConfig.Cre_on = DateTime.Now;
                     projectInstanceConfig.isActive = true;
+
+                    var ID = from k in db.ProjectInstanceConfigs where k.CustomerProjectConfig==projectInstanceConfig.CustomerProjectConfig &&  k.InstaceName == projectInstanceConfig.InstaceName select k.Id;
+                    if (ID.Count()>0)
+                    {
+                        var val1 = db.CustomerProjectConfigs.Where(x => x.isActive == true).ToList();
+                        ViewBag.CustProjconfigID = new SelectList(val1, "Id", "ProjectName", projectInstanceConfig.CustProjconfigID);
+                        ViewBag.Me = true;
+                        return View();
+                    }
                     db.ProjectInstanceConfigs.Add(projectInstanceConfig);
                     db.SaveChanges();
                     return RedirectToAction("Index");
@@ -72,6 +83,7 @@ namespace ProAcc.Controllers
                     var valid = db.CustomerProjectConfigs.Where(x => x.isActive == true).ToList();
                     ViewBag.CustProjconfigID = new SelectList(valid, "Id", "ProjectName", projectInstanceConfig.CustProjconfigID);
                     ViewBag.Message = true;
+
                     return View();
                 }
             }

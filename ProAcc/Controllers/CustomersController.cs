@@ -13,6 +13,7 @@ using PagedList.Mvc;
 
 namespace ProAcc.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class CustomersController : Controller
     {
         private ProAccEntities db = new ProAccEntities();
@@ -20,14 +21,13 @@ namespace ProAcc.Controllers
         // GET: Customers
         public ActionResult Index(String search, int? i)
         {
-           
+
             var customers = db.Customers
                 .Where(a => a.isActive == true)
                 .OrderByDescending(x => x.Cre_on)
                 .Where(x => x.Name.StartsWith(search) || search == null).ToList().ToPagedList(i ?? 1, 5);
             return View(customers);
         }
-
         // GET: Customers/Details/5
         public ActionResult Details(Guid? id)
         {
@@ -42,22 +42,6 @@ namespace ProAcc.Controllers
             }
             return View(customer);
         }
-        
-        public JsonResult CheckUsernameAvailability(string userdata)
-        {
-            System.Threading.Thread.Sleep(100);
-            var SearchData = db.Customers.Where(x => x.UserName == userdata).SingleOrDefault();
-            var SearchDt= db.Consultants.Where(x => x.UserName == userdata).SingleOrDefault();
-            if (SearchData!=null|| SearchDt!=null)
-            {
-                return Json(1);
-            }
-            else
-            {
-                return Json(0);
-            }
-        }
-
        
         // GET: Customers/Create
         public ActionResult Create()

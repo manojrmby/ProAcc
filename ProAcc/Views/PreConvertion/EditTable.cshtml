@@ -1,0 +1,141 @@
+﻿
+@{
+    ViewBag.Title = "EditTable";
+    Layout = "~/Views/shared/_Layout.cshtml";
+}
+
+<h2>EditTable</h2>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Simple jqGrid Example</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/themes/redmond/jquery-ui.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/free-jqgrid/4.15.4/css/ui.jqgrid.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/free-jqgrid/4.15.4/jquery.jqgrid.min.js"></script>
+
+
+<table id="rowed2"></table>
+<div id="prowed2"></div>
+<br />
+
+@*<br />
+<input type="BUTTON" id="ed1" value="Edit row 13" />
+<input type="BUTTON" id="sved1" disabled='true' value="Save row 13" />
+<input type="BUTTON" id="cned1" disabled='true' value="Cancel Save" />*@
+<script>
+   
+
+    $(document).ready(function () {
+        
+        $("#rowed2").jqGrid({
+            url: "@Url.Action("GetData", "PreConvertion")",
+            datatype: 'json',
+            mtype: 'GET', //insert data from the data object we created above
+            width: "1000",
+             colNames: ['Action', 'Relevance #', 'Last_Consistency_Result', 'Exemption_Possible', 'ID', 'Title'], //define column names
+            colModel: [
+                {name:'act',index:'act', width:75,sortable:false},
+                { name: 'Relevance', index: 'Relevance', key: true, hidden: true, width: 50, align: 'left' },
+                { name: 'Last_Consistency_Result', index: 'Last_Consistency_Result',editable: true,editoptions:{size:"20",maxlength:"30"}},
+                { name: 'Exemption_Possible', index: 'Exemption_Possible', width: 50, align: 'left' },
+                { name: 'ID', index: 'ID', width: 50, align: 'left' },
+                { name: 'Title', index: 'Title', width: 50, align: 'left' },
+                //{ name: 'Lob_Technology', index: 'Lob_Technology', width: 50, align: 'left' },
+                    //, formatter: "date", formatoptions: { "srcformat": "Y-m-d", newformat: "m/d/Y" }, width: 50, align: 'left' },
+
+            ],
+            //colNames: ['ID', 'Invoice #', 'Total Amount', 'Amount Due', 'Amount Paid', 'Due Date'], //define column names
+            //colModel: [
+            //    { name: 'InvoiceID', index: 'Invoice_Number', key: true, hidden: true, width: 50, align: 'left' },
+            //    { name: 'Invoice_Number', index: 'Invoice_Number', width: 50, align: 'left' },
+            //    { name: 'Amt_Total', index: 'Amt_Total', width: 50, align: 'left' },
+            //    { name: 'Amt_Due', index: 'Amt_Due', width: 50, align: 'left' },
+            //    { name: 'Amt_Paid', index: 'Amt_Paid', width: 50, align: 'left' },
+            //    { name: 'Due_Date', index: 'Due_Date', formatter: "date", formatoptions: { "srcformat": "Y-m-d", newformat: "m/d/Y" }, width: 50, align: 'left' },
+
+            //],
+
+            rowNum:10,
+   	rowList:[10,20,30],
+   	pager: '#prowed2',
+   	sortname: 'id',
+    viewrecords: true,
+    sortorder: "desc",
+    gridComplete: function(){
+		var ids = jQuery("#rowed2").jqGrid('getDataIDs');
+		for(var i=0;i < ids.length;i++){
+			var cl = ids[i];
+			be = "<input style='height:22px;width:20px;' type='button' value='E' onclick=\"jQuery('#rowed2').editRow('"+cl+"');\"  />"; 
+			se = "<input style='height:22px;width:20px;' type='button' value='S' onclick=\"jQuery('#rowed2').saveRow('"+cl+"');\"  />"; 
+			ce = "<input style='height:22px;width:20px;' type='button' value='C' onclick=\"jQuery('#rowed2').restoreRow('"+cl+"');\" />"; 
+			jQuery("#rowed2").jqGrid('setRowData',ids[i],{act:be+se+ce});
+		}	
+	},
+            //rowNum:10,
+            //rowList: [10, 20, 30],
+            //onSelectRow: function (id) {
+            //    if (id && id !== lastsel2) {
+            //        jQuery('#grid').jqGrid('restoreRow', lastsel2);
+            //        jQuery('#grid').jqGrid('editRow', id, true);
+            //        lastsel2 = id;
+            //    }
+            //},
+            //pager: jQuery('#pager'),
+
+            //sortname: 'Relevance',
+            //viewrecords: false,
+            //editable: true,
+            //sortorder: "asc",
+            //caption: "Title",
+        });
+        jQuery("#grid").jqGrid('navGrid', "#prowed1", { edit: false, add: false, del: false });
+        for (var i = 0; i < mydata2.length; i++)
+            jQuery("#grid").jqGrid('addRowData', mydata2[i].id, mydata2[i]);
+        //$("[name='DDLItems']").change(function () {
+        //    var selection = $(this).val();
+        //    dropdown = {
+        //        //holds selected value
+        //        idDate: selection
+        //    };
+
+        //    $.ajax({
+
+        //        type: "POST",
+        //        url: "Invoice/JqGridz",
+        //        data: dropdown,
+        //        async: false,
+        //        cache: false,
+        //        success: function (data) {
+        //            $("#jqgrid").setGridParam({ url: Url + selection })
+        //            $("#jqgrid").trigger('reloadGrid');
+        //        }
+        //    })
+
+        //})
+    });
+
+    //<![CDATA[
+    //$(function () {
+
+
+
+
+    //    //"use strict";
+    //    $("#grid").jqGrid({
+    //        colModel: [
+    //            { name: "firstName" },
+    //            { name: "lastName" }
+    //        ],
+    //        data: [
+    //            { firstName: "Zinedine", lastName: "Zidane" },
+    //            { firstName: "Oliver", lastName: "Kahn" },
+    //            { firstName: "David", lastName: "Beckham" },
+    //            { firstName: "Lionel", lastName: "Messi" },
+    //            { firstName: "Cristiano", lastName: "Ronaldo" }
+    //        ]
+    //    });
+    //});
+    //]]>
+</script>
+

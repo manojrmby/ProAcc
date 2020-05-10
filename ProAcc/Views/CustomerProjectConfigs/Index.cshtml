@@ -14,7 +14,7 @@
 </style>
 
     <div>
-        <h2 class="card-title">CUSTOMER PROJECT LIST</h2>
+        <a class="card-title">CUSTOMER PROJECT LIST</a>
         <script>
             $("search").click(function () {
                 $("Search").remove();
@@ -38,10 +38,11 @@
                             <thead>
                                 <tr>
                                     <th>
-                                        @Html.DisplayNameFor(model => model.First().ProjectName)
+                                        Project Name
+                                        @*@Html.DisplayNameFor(model => model.First().ProjectName)*@
                                     </th>
                                     <th>
-                                        Consultant Name
+                                        SAP Consultant Name
                                         @*@Html.DisplayNameFor(model => model.First().Consultant.Name)*@
                                     </th>
                                     <th>

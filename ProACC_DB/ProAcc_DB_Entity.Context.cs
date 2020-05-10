@@ -37,12 +37,12 @@ namespace ProACC_DB
         public virtual DbSet<User_Master> User_Master { get; set; }
         public virtual DbSet<CustomerProjectConfig> CustomerProjectConfigs { get; set; }
         public virtual DbSet<HanaStatu> HanaStatus { get; set; }
-        public virtual DbSet<ProjectInstanceConfig> ProjectInstanceConfigs { get; set; }
         public virtual DbSet<FileUploadMaster> FileUploadMasters { get; set; }
         public virtual DbSet<SAPInput_Activities> SAPInput_Activities { get; set; }
         public virtual DbSet<FileMaster> FileMasters { get; set; }
         public virtual DbSet<Customer> Customers { get; set; }
         public virtual DbSet<leadStatus_Master> leadStatus_Master { get; set; }
+        public virtual DbSet<ProjectInstanceConfig> ProjectInstanceConfigs { get; set; }
     
         public virtual ObjectResult<SP_ReadinessReport_Result> SP_ReadinessReport(string type, string instanceId)
         {

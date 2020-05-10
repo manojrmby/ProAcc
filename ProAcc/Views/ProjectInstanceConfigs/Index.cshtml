@@ -18,7 +18,7 @@
         $("Search").remove();
     });
 </script>
-<h4><b>Project Instance Configuration</b></h4>
+<a class="card-title">Project Instance Configuration</a>
 @using (Html.BeginForm("Index", "ProjectInstanceConfigs", FormMethod.Get))
 {
 <div class="row" style="padding-left:17px;">
@@ -41,10 +41,12 @@
                             <thead>
                                 <tr>
                                     <th>
-                                        @Html.DisplayNameFor(model => model.First().InstaceName)
+                                        Instace Name
+                                        @*@Html.DisplayNameFor(model => model.First().InstaceName)*@
                                     </th>
                                     <th>
-                                        @Html.DisplayNameFor(model => model.First().CustomerProjectConfig.ProjectName)
+                                        Project Name
+                                        @*@Html.DisplayNameFor(model => model.First().CustomerProjectConfig.ProjectName)*@
                                     </th>
 
                                     <th>Actions</th>
