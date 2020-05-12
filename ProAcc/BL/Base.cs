@@ -466,46 +466,80 @@ namespace ProAcc.BL
         public List<SAPInput_PreConvertion> sp_GetPreConvertionTable(Guid InstanceId)
         {
             List<SAPInput_PreConvertion> PR = new List<SAPInput_PreConvertion>();
-            DataTable dt = new DataTable();
+            DataSet DS = new DataSet();
             DBHelper dB = new DBHelper("SP_PreConvertion", CommandType.StoredProcedure);
             dB.addIn("@Type", "PreConvertion_Table");
             dB.addIn("@InstanceId", InstanceId);
-            dt = dB.ExecuteDataTable();
-           
-            if (dt.Rows.Count > 0)
+            DS = dB.ExecuteDataSet();
+            DataTable dt1 = new DataTable();
+            DataTable dt2 = new DataTable();
+
+            dt1 = DS.Tables[0];
+            dt2 = DS.Tables[1];
+            List<PicturetoData> Pic = new List<PicturetoData>();
+            if (dt2.Rows.Count>0)
             {
-                foreach (DataRow dr in dt.Rows)
+                foreach (DataRow dr in dt2.Rows)
                 {
-                    
+                    PicturetoData P = new PicturetoData();
+                    P.ID = Convert.ToInt32(dr["Id"].ToString());
+                    P.PictureName = dr["PictureName"].ToString();
+                    P.GivenName= dr["GivenName"].ToString();
+                    Pic.Add(P);
+                }
+            }
+
+            if (dt1.Rows.Count > 0)
+            {
+                foreach (DataRow dr in dt1.Rows)
+                {
+                    //string Re_Result="";
+                    //string Re_Possible="";
                     SAPInput_PreConvertion data = new SAPInput_PreConvertion();
-                    var Result = dr["Last Consistency Result"].ToString();
-                    var Possible = dr["Exemption Possible"].ToString();
-                    if (Result== Empty)
-                    {Result = RE_Empty;}
-                    else if(Result== Error)
-                    { Result = RE_Error; }
-                    else if (Result == Warning)
-                    { Result = RE_Warning; }
-                    else if (Result == NotApplicable)
-                    { Result = RE_NotApplicable; }
-                    else if (Result == Success)
-                    { Result = RE_Success; }
+                    
+                    //foreach (var item in Pic)
+                    //{
+                    //    var Result = dr["Last Consistency Result"].ToString();
+                    //    var Possible = dr["Exemption Possible"].ToString();
+                    //    if (item.PictureName == Result)
+                    //    {
+                    //        Re_Result = item.GivenName.ToString();
+                    //    }
+                    //    if (item.PictureName == Possible)
+                    //    {
+                    //        Re_Possible = item.GivenName.ToString();
+                    //    }
 
-                    if (Possible == Empty)
-                    { Possible = RE_Empty; }
-                    else if (Possible == Error)
-                    { Possible = RE_Error; }
-                    else if (Possible == Warning)
-                    { Possible = RE_Warning; }
-                    else if (Possible == NotApplicable)
-                    { Possible = RE_NotApplicable; }
-                    else if (Possible == Success)
-                    { Possible = RE_Success; }
+                    //}
 
-                    data.Relevance = dr["Relevance"].ToString();
-                    data.Last_Consistency_Result = Result;
-                    data.Exemption_Possible = Possible;
-                    data.ID = dr["ID"].ToString();
+                    
+                    //if (Result== Empty)
+                    //{Result = RE_Empty;}
+                    //else if(Result== Error)
+                    //{ Result = RE_Error; }
+                    //else if (Result == Warning)
+                    //{ Result = RE_Warning; }
+                    //else if (Result == NotApplicable)
+                    //{ Result = RE_NotApplicable; }
+                    //else if (Result == Success)
+                    //{ Result = RE_Success; }
+
+                    //if (Possible == Empty)
+                    //{ Possible = RE_Empty; }
+                    //else if (Possible == Error)
+                    //{ Possible = RE_Error; }
+                    //else if (Possible == Warning)
+                    //{ Possible = RE_Warning; }
+                    //else if (Possible == NotApplicable)
+                    //{ Possible = RE_NotApplicable; }
+                    //else if (Possible == Success)
+                    //{ Possible = RE_Success; }
+
+                    data.ID = Convert.ToInt32(dr["id"].ToString());
+                    data.Relevance = Convert.ToInt32(dr["Relevance"].ToString());
+                    data.Last_Consistency_Result = Convert.ToInt32(dr["Last Consistency Result"].ToString());
+                    data.Exemption_Possible = Convert.ToInt32(dr["Exemption Possible"].ToString());
+                    data.SAP_ID = dr["SAP_ID"].ToString();
                     data.Title = dr["Title"].ToString();
                     data.Lob_Technology = dr["Lob/Technology"].ToString();
                     data.Business_Area = dr["Business Area"].ToString();
@@ -515,7 +549,7 @@ namespace ProAcc.BL
                     data.Note = dr["Note"].ToString();
                     data.Application_Area = dr["Application Area"].ToString();
                     data.Summary = dr["Summary"].ToString();
-
+                    data.Test = 2;
                     PR.Add(data);
                 }
             }
@@ -682,7 +716,7 @@ namespace ProAcc.BL
             dB.addIn("@fileName", fileName);
             dB.addIn("@Createdby", User_ID);
 
-            dB.ExecuteScalar();
+            var a=dB.ExecuteScalar();
             status = true;
             return status;
 
@@ -963,11 +997,162 @@ namespace ProAcc.BL
             sP_._List = _Lob;
             return sP_;
         }
+
+        public List<PicturetoData> Sp_GetPicturetoDatas()
+        {
+            
+            DataTable dt = new DataTable();
+            DBHelper dB = new DBHelper("SP_PictureTodata", CommandType.StoredProcedure);
+            dB.addIn("@Type", "DropDown");
+            //dB.addIn("@InstanceId", InstanceId);
+            dt = dB.ExecuteDataTable();
+            List<PicturetoData> Pic = new List<PicturetoData>();
+            if (dt.Rows.Count > 0)
+            {
+                
+                foreach (DataRow dr in dt.Rows)
+                {
+                    PicturetoData P = new PicturetoData();
+                    P.ID = Convert.ToInt32(dr["Id"].ToString());
+                    P.PictureName = dr["PictureName"].ToString();
+                    P.GivenName = dr["GivenName"].ToString();
+                    Pic.Add(P);
+                }
+            }
+            return Pic;
+        }
+        #endregion
+
+        #region CUD
+        public Boolean sp_PreConvertion_Update(SAPInput_PreConvertion Data)
+        {
+            Boolean Result = false;
+            DBHelper dB = new DBHelper("SP_PreConvertion", CommandType.StoredProcedure);
+            dB.addIn("@Type", "UpdatePreConvertion");
+            dB.addIn("@ID", Data.ID);
+            dB.addIn("@Last_Consistency_Result", Data.Last_Consistency_Result);
+            dB.addIn("@Exemption_Possible", Data.Exemption_Possible);
+            dB.ExecuteScalar();
+            Result = true;
+
+            return Result;
+        }
+        #endregion
+
+        #region Masters
+        public List<PhaseMaster>GetPhaseMasters()
+        {
+            DataTable dt = new DataTable();
+            DBHelper dB = new DBHelper("SP_Master", CommandType.StoredProcedure);
+            dB.addIn("@Type", "GetPhase");
+            dt = dB.ExecuteDataTable();
+            List<PhaseMaster> PM = new List<PhaseMaster>();
+            if (dt.Rows.Count > 0)
+            {
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    PhaseMaster P = new PhaseMaster();
+                    P.Id = Convert.ToInt32(dr["Id"].ToString());
+                    P.PhaseName = dr["PhaseName"].ToString();
+                    PM.Add(P);
+                }
+            }
+
+            return PM;
+        }
+
+        public List<PendingMaster> GetPendingMasters()
+        {
+            DataTable dt = new DataTable();
+            DBHelper dB = new DBHelper("SP_Master", CommandType.StoredProcedure);
+            dB.addIn("@Type", "GetPending");
+            dt = dB.ExecuteDataTable();
+            List<PendingMaster> PM = new List<PendingMaster>();
+            if (dt.Rows.Count > 0)
+            {
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    PendingMaster P = new PendingMaster();
+                    P.Id = Convert.ToInt32(dr["Id"].ToString());
+                    P.PendingName = dr["PendingName"].ToString();
+                    PM.Add(P);
+                }
+            }
+
+            return PM;
+        }
+        public List<TeamMaster> GetTeamMasters()
+        {
+            DataTable dt = new DataTable();
+            DBHelper dB = new DBHelper("SP_Master", CommandType.StoredProcedure);
+            dB.addIn("@Type", "GetTeam");
+            dt = dB.ExecuteDataTable();
+            List<TeamMaster> TM = new List<TeamMaster>();
+            if (dt.Rows.Count > 0)
+            {
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    TeamMaster P = new TeamMaster();
+                    P.Id = Convert.ToInt32(dr["Id"].ToString());
+                    P.TeamName = dr["TeamName"].ToString();
+                    TM.Add(P);
+                }
+            }
+
+            return TM;
+        }
+        public List<Consultant> GetConsultant()
+        {
+            DataTable dt = new DataTable();
+            DBHelper dB = new DBHelper("SP_Master", CommandType.StoredProcedure);
+            dB.addIn("@Type", "GetConsultant");
+            dt = dB.ExecuteDataTable();
+            List<Consultant> L = new List<Consultant>();
+            if (dt.Rows.Count > 0)
+            {
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    Consultant P = new Consultant();
+                    P.Id = Guid.Parse(dr["Id"].ToString());
+                    P.Name = dr["Name"].ToString();
+                    L.Add(P);
+                }
+            }
+
+            return L;
+        }
+        public List<StatusMaster> GetStatus()
+        {
+            DataTable dt = new DataTable();
+            DBHelper dB = new DBHelper("SP_Master", CommandType.StoredProcedure);
+            dB.addIn("@Type", "GetStatus");
+            dt = dB.ExecuteDataTable();
+            List<StatusMaster> L = new List<StatusMaster>();
+            if (dt.Rows.Count > 0)
+            {
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    StatusMaster P = new StatusMaster();
+                    P.Id = Convert.ToInt32(dr["Id"].ToString());
+                    P.StatusName = dr["StatusName"].ToString();
+                    L.Add(P);
+                }
+            }
+
+            return L;
+        }
+
         #endregion
 
 
+
         #region Other
-       
+
 
 
         public void CreateIfMissing(string path)
@@ -988,6 +1173,55 @@ namespace ProAcc.BL
             dB.addIn("@ExceptionURL", ExceptionURL);
             dB.addIn("@ExceptionSource", ExceptionSource);
             dB.ExecuteScalar();
+        }
+
+
+        public List<ProjectMonitorModel> Sp_GetProjectMonitor()
+        {
+            DataTable dt = new DataTable();
+            DBHelper dB = new DBHelper("SP_ProjectMonitor", CommandType.StoredProcedure);
+            dB.addIn("@Type", "GetData");
+            //dB.addIn("@InstanceId", InstanceId);
+            dt = dB.ExecuteDataTable();
+            List<ProjectMonitorModel> PM = new List<ProjectMonitorModel>();
+            if (dt.Rows.Count > 0)
+            {
+                int count = 0;
+                var myLocalDateTime = DateTime.Now;
+                foreach (DataRow dr in dt.Rows)
+                {
+                    
+                    ProjectMonitorModel P = new ProjectMonitorModel();
+                    P.LocalID = count++;
+                    //P.Instance = "";
+                    P.PhaseId= Convert.ToInt32(dr["PhaseId"].ToString());
+                    P.Task = dr["Activity"].ToString();
+                    P.Task_Other_Environment = true;
+                    P.Dependency = false;
+                    P.PendingId = 0;
+                    P.Delay_occurred = false;
+                    P.TeamID = 0;
+                    //P.ConsultantID=
+                    P.StatusId = 0;
+                    P.EST_hours = 10.00;
+                    P.Actual_St_hours= 10.00;
+                    P.Planed__St_Date = TimeZone.CurrentTimeZone.ToUniversalTime(myLocalDateTime);
+                    P.Actual_St_Date = TimeZone.CurrentTimeZone.ToUniversalTime(myLocalDateTime);
+                    P.Planed__En_Date = TimeZone.CurrentTimeZone.ToUniversalTime(myLocalDateTime);
+                    P.Actual_En_Date = TimeZone.CurrentTimeZone.ToUniversalTime(myLocalDateTime);
+                    P.Notes = "";
+
+
+
+
+                    //P.ID = Convert.ToInt32(dr["Id"].ToString());
+                    //P.PictureName = dr["PictureName"].ToString();
+                    //P.GivenName = dr["GivenName"].ToString();
+                    PM.Add(P);
+                }
+            }
+           
+            return PM;
         }
         #endregion
 
@@ -1032,17 +1266,17 @@ namespace ProAcc.BL
 
 
 
-        private string Empty = "";
-        private string Error = "Picture@5C\\QInconsistency at level error@";
-        private string Warning = "Picture@5D\\QInconsistency at level warning@";
-        private string NotApplicable = "Picture@00\\QNot Applicable@";
-        private string Success = "Picture@5B\\QNo potential inconsistency@";
+        //private string Empty = "";
+        //private string Error = "Picture@5C\\QInconsistency at level error@";
+        //private string Warning = "Picture@5D\\QInconsistency at level warning@";
+        //private string NotApplicable = "Picture@00\\QNot Applicable@";
+        //private string Success = "Picture@5B\\QNo potential inconsistency@";
 
-        private string RE_Empty = "Not Applicable";
-        private string RE_Error = "Error";
-        private string RE_Warning = "Warning";
-        private string RE_NotApplicable = "Not Applicable";
-        private string RE_Success = "Success";
+        //private string RE_Empty = "Not Applicable";
+        //private string RE_Error = "Error";
+        //private string RE_Warning = "Warning";
+        //private string RE_NotApplicable = "Not Applicable";
+        //private string RE_Success = "Success";
 
 
     }

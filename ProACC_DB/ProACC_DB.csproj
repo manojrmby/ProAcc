@@ -50,6 +50,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActivityMaster.cs">
+      <DependentUpon>ProAcc_DB_Entity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ApplicationAreaMaster.cs">
+      <DependentUpon>ProAcc_DB_Entity.tt</DependentUpon>
+    </Compile>
     <Compile Include="Consultant.cs">
       <DependentUpon>ProAcc_DB_Entity.tt</DependentUpon>
     </Compile>
@@ -57,6 +63,9 @@
       <DependentUpon>ProAcc_DB_Entity.tt</DependentUpon>
     </Compile>
     <Compile Include="CustomerProjectConfig.cs">
+      <DependentUpon>ProAcc_DB_Entity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ExceptionLogging.cs">
       <DependentUpon>ProAcc_DB_Entity.tt</DependentUpon>
     </Compile>
     <Compile Include="FileMaster.cs">
@@ -75,6 +84,15 @@
       <DependentUpon>ProAcc_DB_Entity.tt</DependentUpon>
     </Compile>
     <Compile Include="MilestoneDetail.cs">
+      <DependentUpon>ProAcc_DB_Entity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PendingMaster.cs">
+      <DependentUpon>ProAcc_DB_Entity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PhaseMaster.cs">
+      <DependentUpon>ProAcc_DB_Entity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PictureToData.cs">
       <DependentUpon>ProAcc_DB_Entity.tt</DependentUpon>
     </Compile>
     <Compile Include="ProAcc_DB_Entity.Context.cs">
@@ -101,6 +119,9 @@
     <Compile Include="ProjectInstanceConfig.cs">
       <DependentUpon>ProAcc_DB_Entity.tt</DependentUpon>
     </Compile>
+    <Compile Include="ProjectMonitor.cs">
+      <DependentUpon>ProAcc_DB_Entity.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SAPInput_Activities.cs">
       <DependentUpon>ProAcc_DB_Entity.tt</DependentUpon>
@@ -117,7 +138,13 @@
     <Compile Include="StageStatu.cs">
       <DependentUpon>ProAcc_DB_Entity.tt</DependentUpon>
     </Compile>
+    <Compile Include="StatusMaster.cs">
+      <DependentUpon>ProAcc_DB_Entity.tt</DependentUpon>
+    </Compile>
     <Compile Include="SubMilestoneConfig.cs">
+      <DependentUpon>ProAcc_DB_Entity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TeamMaster.cs">
       <DependentUpon>ProAcc_DB_Entity.tt</DependentUpon>
     </Compile>
     <Compile Include="User_Master.cs">

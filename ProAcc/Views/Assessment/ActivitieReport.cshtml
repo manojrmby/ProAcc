@@ -10,14 +10,15 @@
 			<div class="row">
 				<div class="col-md-6 card" id="Chart123" style="min-width: 100%; ">
 					<div class="row">
-						<div class="col-lg-6">
+						<div class="row-cols-lg-6 form-inline">
 							<label> By Phase</label>
-							@Html.DropDownList("Phase", (IEnumerable<SelectListItem>)ViewBag.Phase, "ALL", new { id = "Phase", @class = "form-control" })
+							@Html.DropDownList("Phase", (IEnumerable<SelectListItem>)ViewBag.Phase, "ALL", new { id = "Phase", @class = "form-control form-inline" })
 						</div>
-						<div class="col-lg-6">
+
+						<div class="row-cols-md-6 form-inline" style="padding-left:10%;">
 
 							<label> By condition</label>
-							@Html.DropDownList("condition", (IEnumerable<SelectListItem>)ViewBag.condition, "ALL", new { id = "condition", @class = "form-control" })
+							@Html.DropDownList("condition", (IEnumerable<SelectListItem>)ViewBag.condition, "ALL", new { id = "condition", @class = "form-control form-inline" })
 						</div>
 						<canvas class="col-md-auto" id="Chart_Activities"></canvas>
 					</div>

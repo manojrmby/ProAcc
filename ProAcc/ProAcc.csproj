@@ -184,6 +184,23 @@
     <Content Include="Asset\Jquery\images\ui-icons_777777_256x240.png" />
     <Content Include="Asset\Jquery\images\ui-icons_cc0000_256x240.png" />
     <Content Include="Asset\Jquery\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Asset\Jquery\jqGrid\css\octicons.css" />
+    <Content Include="Asset\Jquery\jqGrid\css\ui.jqgrid-bootstrap-ui.css" />
+    <Content Include="Asset\Jquery\jqGrid\css\ui.jqgrid-bootstrap.css" />
+    <Content Include="Asset\Jquery\jqGrid\css\ui.jqgrid-bootstrap4.css" />
+    <Content Include="Asset\Jquery\jqGrid\css\ui.jqgrid.css" />
+    <Content Include="Asset\Jquery\jqGrid\grid.locale-en.js" />
+    <Content Include="Asset\Jquery\jqGrid\jquery-1.11.0.min.js" />
+    <Content Include="Asset\Jquery\jqGrid\jquery.jqGrid.min.js" />
+    <Content Include="Asset\Jquery\jqGrid\plugins\grid.addons.js" />
+    <Content Include="Asset\Jquery\jqGrid\plugins\grid.postext.js" />
+    <Content Include="Asset\Jquery\jqGrid\plugins\grid.setcolumns.js" />
+    <Content Include="Asset\Jquery\jqGrid\plugins\jquery.contextmenu.js" />
+    <Content Include="Asset\Jquery\jqGrid\plugins\jquery.searchFilter.js" />
+    <Content Include="Asset\Jquery\jqGrid\plugins\jquery.tablednd.js" />
+    <Content Include="Asset\Jquery\jqGrid\plugins\searchFilter.css" />
+    <Content Include="Asset\Jquery\jqGrid\plugins\ui.multiselect.css" />
+    <Content Include="Asset\Jquery\jqGrid\plugins\ui.multiselect.js" />
     <Content Include="Asset\Jquery\jquery-1.12.4.js" />
     <Content Include="Asset\Jquery\jquery-ui.css" />
     <Content Include="Asset\Jquery\jquery-ui.js" />
@@ -483,6 +500,8 @@
     <Compile Include="BL\LogHelper.cs" />
     <Compile Include="BL\Model\CreateViewModel.cs" />
     <Compile Include="BL\Model\LogedUser.cs" />
+    <Compile Include="BL\Model\PicturetoData.cs" />
+    <Compile Include="BL\Model\ProjectMonitorModel.cs" />
     <Compile Include="BL\Model\SAPFioriAppsModel.cs" />
     <Compile Include="BL\Model\SAPInput_Activities.cs" />
     <Compile Include="BL\Model\SAPInput_CustomCode.cs" />
@@ -501,6 +520,7 @@
     <Compile Include="BL\Base.cs" />
     <Compile Include="BL\DBHelper.cs" />
     <Compile Include="BL\Model\Common.cs" />
+    <Compile Include="Controllers\ProjectMonitorController.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -545,6 +565,7 @@
     <Content Include="Views\PreConvertion\Index.cshtml" />
     <Content Include="Views\PreConvertion\EditTable.cshtml" />
     <Content Include="Views\Customers\Index.cshtml" />
+    <Content Include="Views\ProjectMonitor\Create.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

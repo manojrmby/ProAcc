@@ -5,6 +5,34 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="ProAccModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ActivityMaster">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="PhaseID" Type="int" Nullable="false" />
+          <Property Name="ApplicationAreaID" Type="int" Nullable="false" />
+          <Property Name="Activity" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="isActive" Type="bit" Nullable="false" />
+          <Property Name="Cre_on" Type="datetime" Nullable="false" />
+          <Property Name="Cre_By" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Modified_On" Type="datetime" />
+          <Property Name="Modified_by" Type="uniqueidentifier" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ApplicationAreaMaster">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ApplicationArea" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="isActive" Type="bit" Nullable="false" />
+          <Property Name="Cre_on" Type="datetime" Nullable="false" />
+          <Property Name="Cre_By" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Modified_On" Type="datetime" />
+          <Property Name="Modified_by" Type="uniqueidentifier" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="Consultant">
           <Key>
             <PropertyRef Name="Id" />
@@ -67,6 +95,17 @@
           <Property Name="Modified_On" Type="datetime" />
           <Property Name="Modified_by" Type="uniqueidentifier" />
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ExceptionLogging">
+          <Key>
+            <PropertyRef Name="Logid" />
+          </Key>
+          <Property Name="Logid" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ExceptionMsg" Type="varchar" MaxLength="100" />
+          <Property Name="ExceptionType" Type="varchar" MaxLength="100" />
+          <Property Name="ExceptionSource" Type="nvarchar(max)" />
+          <Property Name="ExceptionURL" Type="varchar" MaxLength="100" />
+          <Property Name="Logdate" Type="datetime" />
         </EntityType>
         <EntityType Name="FileMaster">
           <Key>
@@ -147,6 +186,46 @@
           <Property Name="Modified_by" Type="uniqueidentifier" />
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="PendingMaster">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PendingName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="isActive" Type="bit" Nullable="false" />
+          <Property Name="Cre_on" Type="datetime" Nullable="false" />
+          <Property Name="Cre_By" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Modified_On" Type="datetime" />
+          <Property Name="Modified_by" Type="uniqueidentifier" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PhaseMaster">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PhaseName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="isActive" Type="bit" Nullable="false" />
+          <Property Name="Cre_on" Type="datetime" Nullable="false" />
+          <Property Name="Cre_By" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Modified_On" Type="datetime" />
+          <Property Name="Modified_by" Type="uniqueidentifier" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PictureToData">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PictureName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="GivenName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="isActive" Type="bit" Nullable="false" />
+          <Property Name="Cre_on" Type="datetime" Nullable="false" />
+          <Property Name="Cre_By" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Modified_On" Type="datetime" />
+          <Property Name="Modified_by" Type="uniqueidentifier" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="Project">
           <Key>
             <PropertyRef Name="Id" />
@@ -191,6 +270,37 @@
           <Property Name="CustProjconfigID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="LastUpdated_Dt" Type="datetime" Nullable="false" />
           <Property Name="UploadStatus" Type="bit" Nullable="false" />
+          <Property Name="PreConvertionIsActive" Type="bit" Nullable="false" />
+          <Property Name="isActive" Type="bit" Nullable="false" />
+          <Property Name="Cre_on" Type="datetime" Nullable="false" />
+          <Property Name="Cre_By" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Modified_On" Type="datetime" />
+          <Property Name="Modified_by" Type="uniqueidentifier" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProjectMonitor">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Instance" Type="uniqueidentifier" />
+          <Property Name="PhaseId" Type="int" />
+          <Property Name="Task" Type="nvarchar(max)" />
+          <Property Name="Sequence" Type="int" />
+          <Property Name="Task_Other_Environment" Type="bit" Nullable="false" />
+          <Property Name="Dependency" Type="bit" Nullable="false" />
+          <Property Name="PendingId" Type="int" Nullable="false" />
+          <Property Name="Delay_occurred" Type="bit" Nullable="false" />
+          <Property Name="Team" Type="bit" Nullable="false" />
+          <Property Name="ConsultantID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="StatusId" Type="int" Nullable="false" />
+          <Property Name="EST_hours" Type="float" Nullable="false" />
+          <Property Name="Actual_St_hours" Type="float" Nullable="false" />
+          <Property Name="Planed__St_Date" Type="datetime" Nullable="false" />
+          <Property Name="Actual_St_Date" Type="datetime" Nullable="false" />
+          <Property Name="Planed__En_Date" Type="datetime" Nullable="false" />
+          <Property Name="Actual_En_Date" Type="datetime" Nullable="false" />
+          <Property Name="Notes" Type="varchar(max)" Nullable="false" />
           <Property Name="isActive" Type="bit" Nullable="false" />
           <Property Name="Cre_on" Type="datetime" Nullable="false" />
           <Property Name="Cre_By" Type="uniqueidentifier" Nullable="false" />
@@ -226,6 +336,19 @@ warning 6002: The table/view 'ProAccDev.dbo.SAPInput_Activities' does not have a
           <Property Name="Modified_by" Type="uniqueidentifier" />
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="StatusMaster">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StatusName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="isActive" Type="bit" Nullable="false" />
+          <Property Name="Cre_on" Type="datetime" Nullable="false" />
+          <Property Name="Cre_By" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Modified_On" Type="datetime" />
+          <Property Name="Modified_by" Type="uniqueidentifier" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="SubMilestoneConfig">
           <Key>
             <PropertyRef Name="Id" />
@@ -235,6 +358,19 @@ warning 6002: The table/view 'ProAccDev.dbo.SAPInput_Activities' does not have a
           <Property Name="SubMilestoneName" Type="nvarchar" MaxLength="50" />
           <Property Name="SubMail_Order" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ProjectSpec" Type="nvarchar" MaxLength="50" />
+          <Property Name="isActive" Type="bit" Nullable="false" />
+          <Property Name="Cre_on" Type="datetime" Nullable="false" />
+          <Property Name="Cre_By" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Modified_On" Type="datetime" />
+          <Property Name="Modified_by" Type="uniqueidentifier" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TeamMaster">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TeamName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="isActive" Type="bit" Nullable="false" />
           <Property Name="Cre_on" Type="datetime" Nullable="false" />
           <Property Name="Cre_By" Type="uniqueidentifier" Nullable="false" />
@@ -255,6 +391,30 @@ warning 6002: The table/view 'ProAccDev.dbo.SAPInput_Activities' does not have a
           <Property Name="Modified_by" Type="uniqueidentifier" />
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
         </EntityType>
+        <Association Name="FK_ActivityMaster_ApplicationAreaMaster">
+          <End Role="ApplicationAreaMaster" Type="Self.ApplicationAreaMaster" Multiplicity="1" />
+          <End Role="ActivityMaster" Type="Self.ActivityMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ApplicationAreaMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ActivityMaster">
+              <PropertyRef Name="ApplicationAreaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ActivityMaster_PhaseMaster">
+          <End Role="PhaseMaster" Type="Self.PhaseMaster" Multiplicity="1" />
+          <End Role="ActivityMaster" Type="Self.ActivityMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PhaseMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ActivityMaster">
+              <PropertyRef Name="PhaseID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_COnsultant_CustomerProjectConfig">
           <End Role="Consultant" Type="Self.Consultant" Multiplicity="0..1" />
           <End Role="CustomerProjectConfig" Type="Self.CustomerProjectConfig" Multiplicity="*" />
@@ -440,20 +600,29 @@ warning 6002: The table/view 'ProAccDev.dbo.SAPInput_Activities' does not have a
           <Parameter Name="InstanceId" Type="varchar" Mode="In" />
         </Function>
         <EntityContainer Name="ProAccModelStoreContainer">
+          <EntitySet Name="ActivityMaster" EntityType="Self.ActivityMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ApplicationAreaMaster" EntityType="Self.ApplicationAreaMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Consultant" EntityType="Self.Consultant" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CustomerProjectConfig" EntityType="Self.CustomerProjectConfig" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ExceptionLogging" EntityType="Self.ExceptionLogging" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FileMaster" EntityType="Self.FileMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FileUploadMaster" EntityType="Self.FileUploadMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HanaStatus" EntityType="Self.HanaStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="leadStatus_Master" EntityType="Self.leadStatus_Master" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Milestone" EntityType="Self.Milestone" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MilestoneDetails" EntityType="Self.MilestoneDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PendingMaster" EntityType="Self.PendingMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PhaseMaster" EntityType="Self.PhaseMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PictureToData" EntityType="Self.PictureToData" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Project" EntityType="Self.Project" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProjectDetails" EntityType="Self.ProjectDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProjectInstanceConfig" EntityType="Self.ProjectInstanceConfig" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProjectMonitor" EntityType="Self.ProjectMonitor" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StageStatus" EntityType="Self.StageStatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StatusMaster" EntityType="Self.StatusMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SubMilestoneConfig" EntityType="Self.SubMilestoneConfig" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TeamMaster" EntityType="Self.TeamMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User_Master" EntityType="Self.User_Master" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SAPInput_Activities" EntityType="Self.SAPInput_Activities" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -466,6 +635,14 @@ warning 6002: The table/view 'ProAccDev.dbo.SAPInput_Activities' does not have a
     [SAPInput_Activities].[Inserted_on] AS [Inserted_on]
     FROM [dbo].[SAPInput_Activities] AS [SAPInput_Activities]</DefiningQuery>
           </EntitySet>
+          <AssociationSet Name="FK_ActivityMaster_ApplicationAreaMaster" Association="Self.FK_ActivityMaster_ApplicationAreaMaster">
+            <End Role="ApplicationAreaMaster" EntitySet="ApplicationAreaMaster" />
+            <End Role="ActivityMaster" EntitySet="ActivityMaster" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ActivityMaster_PhaseMaster" Association="Self.FK_ActivityMaster_PhaseMaster">
+            <End Role="PhaseMaster" EntitySet="PhaseMaster" />
+            <End Role="ActivityMaster" EntitySet="ActivityMaster" />
+          </AssociationSet>
           <AssociationSet Name="FK_COnsultant_CustomerProjectConfig" Association="Self.FK_COnsultant_CustomerProjectConfig">
             <End Role="Consultant" EntitySet="Consultant" />
             <End Role="CustomerProjectConfig" EntitySet="CustomerProjectConfig" />
@@ -615,6 +792,23 @@ warning 6002: The table/view 'ProAccDev.dbo.SAPInput_Activities' does not have a
           <AssociationSet Name="FK_Project_ProjInstanceConfig" Association="ProAccModel.FK_Project_ProjInstanceConfig">
             <End Role="ProjectInstanceConfig" EntitySet="ProjectInstanceConfigs" />
             <End Role="Project" EntitySet="Projects" />
+          </AssociationSet>
+          <EntitySet Name="ActivityMasters" EntityType="ProAccModel.ActivityMaster" />
+          <EntitySet Name="ApplicationAreaMasters" EntityType="ProAccModel.ApplicationAreaMaster" />
+          <EntitySet Name="ExceptionLoggings" EntityType="ProAccModel.ExceptionLogging" />
+          <EntitySet Name="PendingMasters" EntityType="ProAccModel.PendingMaster" />
+          <EntitySet Name="PhaseMasters" EntityType="ProAccModel.PhaseMaster" />
+          <EntitySet Name="PictureToDatas" EntityType="ProAccModel.PictureToData" />
+          <EntitySet Name="ProjectMonitors" EntityType="ProAccModel.ProjectMonitor" />
+          <EntitySet Name="StatusMasters" EntityType="ProAccModel.StatusMaster" />
+          <EntitySet Name="TeamMasters" EntityType="ProAccModel.TeamMaster" />
+          <AssociationSet Name="FK_ActivityMaster_ApplicationAreaMaster" Association="ProAccModel.FK_ActivityMaster_ApplicationAreaMaster">
+            <End Role="ApplicationAreaMaster" EntitySet="ApplicationAreaMasters" />
+            <End Role="ActivityMaster" EntitySet="ActivityMasters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ActivityMaster_PhaseMaster" Association="ProAccModel.FK_ActivityMaster_PhaseMaster">
+            <End Role="PhaseMaster" EntitySet="PhaseMasters" />
+            <End Role="ActivityMaster" EntitySet="ActivityMasters" />
           </AssociationSet>
         </EntityContainer>
         <ComplexType Name="SP_ReadinessReport_Result">
@@ -1051,6 +1245,7 @@ warning 6002: The table/view 'ProAccDev.dbo.SAPInput_Activities' does not have a
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="CustomerProjectConfig" Relationship="ProAccModel.FK_ProjInstanceConfig_CustProjconfig" FromRole="ProjectInstanceConfig" ToRole="CustomerProjectConfig" />
           <NavigationProperty Name="Projects" Relationship="ProAccModel.FK_Project_ProjInstanceConfig" FromRole="ProjectInstanceConfig" ToRole="Project" />
+          <Property Name="PreConvertionIsActive" Type="Boolean" Nullable="false" />
         </EntityType>
         <Association Name="FK_ProjInstanceConfig_CustProjconfig">
           <End Type="ProAccModel.CustomerProjectConfig" Role="CustomerProjectConfig" Multiplicity="1" />
@@ -1073,6 +1268,169 @@ warning 6002: The table/view 'ProAccDev.dbo.SAPInput_Activities' does not have a
             </Principal>
             <Dependent Role="Project">
               <PropertyRef Name="projectinstanceid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ActivityMaster">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="PhaseID" Type="Int32" Nullable="false" />
+          <Property Name="ApplicationAreaID" Type="Int32" Nullable="false" />
+          <Property Name="Activity" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="isActive" Type="Boolean" Nullable="false" />
+          <Property Name="Cre_on" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Cre_By" Type="Guid" Nullable="false" />
+          <Property Name="Modified_On" Type="DateTime" Precision="3" />
+          <Property Name="Modified_by" Type="Guid" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="ApplicationAreaMaster" Relationship="ProAccModel.FK_ActivityMaster_ApplicationAreaMaster" FromRole="ActivityMaster" ToRole="ApplicationAreaMaster" />
+          <NavigationProperty Name="PhaseMaster" Relationship="ProAccModel.FK_ActivityMaster_PhaseMaster" FromRole="ActivityMaster" ToRole="PhaseMaster" />
+        </EntityType>
+        <EntityType Name="ApplicationAreaMaster">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ApplicationArea" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="isActive" Type="Boolean" Nullable="false" />
+          <Property Name="Cre_on" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Cre_By" Type="Guid" Nullable="false" />
+          <Property Name="Modified_On" Type="DateTime" Precision="3" />
+          <Property Name="Modified_by" Type="Guid" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="ActivityMasters" Relationship="ProAccModel.FK_ActivityMaster_ApplicationAreaMaster" FromRole="ApplicationAreaMaster" ToRole="ActivityMaster" />
+        </EntityType>
+        <EntityType Name="ExceptionLogging">
+          <Key>
+            <PropertyRef Name="Logid" />
+          </Key>
+          <Property Name="Logid" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ExceptionMsg" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ExceptionType" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ExceptionSource" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ExceptionURL" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Logdate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="PendingMaster">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PendingName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="isActive" Type="Boolean" Nullable="false" />
+          <Property Name="Cre_on" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Cre_By" Type="Guid" Nullable="false" />
+          <Property Name="Modified_On" Type="DateTime" Precision="3" />
+          <Property Name="Modified_by" Type="Guid" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PhaseMaster">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PhaseName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="isActive" Type="Boolean" Nullable="false" />
+          <Property Name="Cre_on" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Cre_By" Type="Guid" Nullable="false" />
+          <Property Name="Modified_On" Type="DateTime" Precision="3" />
+          <Property Name="Modified_by" Type="Guid" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="ActivityMasters" Relationship="ProAccModel.FK_ActivityMaster_PhaseMaster" FromRole="PhaseMaster" ToRole="ActivityMaster" />
+        </EntityType>
+        <EntityType Name="PictureToData">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PictureName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="GivenName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="isActive" Type="Boolean" Nullable="false" />
+          <Property Name="Cre_on" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Cre_By" Type="Guid" Nullable="false" />
+          <Property Name="Modified_On" Type="DateTime" Precision="3" />
+          <Property Name="Modified_by" Type="Guid" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProjectMonitor">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="Instance" Type="Guid" />
+          <Property Name="PhaseId" Type="Int32" />
+          <Property Name="Task" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Sequence" Type="Int32" />
+          <Property Name="Task_Other_Environment" Type="Boolean" Nullable="false" />
+          <Property Name="Dependency" Type="Boolean" Nullable="false" />
+          <Property Name="PendingId" Type="Int32" Nullable="false" />
+          <Property Name="Delay_occurred" Type="Boolean" Nullable="false" />
+          <Property Name="Team" Type="Boolean" Nullable="false" />
+          <Property Name="ConsultantID" Type="Guid" Nullable="false" />
+          <Property Name="StatusId" Type="Int32" Nullable="false" />
+          <Property Name="EST_hours" Type="Double" Nullable="false" />
+          <Property Name="Actual_St_hours" Type="Double" Nullable="false" />
+          <Property Name="Planed__St_Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Actual_St_Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Planed__En_Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Actual_En_Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Notes" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="isActive" Type="Boolean" Nullable="false" />
+          <Property Name="Cre_on" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Cre_By" Type="Guid" Nullable="false" />
+          <Property Name="Modified_On" Type="DateTime" Precision="3" />
+          <Property Name="Modified_by" Type="Guid" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StatusMaster">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StatusName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="isActive" Type="Boolean" Nullable="false" />
+          <Property Name="Cre_on" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Cre_By" Type="Guid" Nullable="false" />
+          <Property Name="Modified_On" Type="DateTime" Precision="3" />
+          <Property Name="Modified_by" Type="Guid" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TeamMaster">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TeamName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="isActive" Type="Boolean" Nullable="false" />
+          <Property Name="Cre_on" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Cre_By" Type="Guid" Nullable="false" />
+          <Property Name="Modified_On" Type="DateTime" Precision="3" />
+          <Property Name="Modified_by" Type="Guid" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_ActivityMaster_ApplicationAreaMaster">
+          <End Type="ProAccModel.ApplicationAreaMaster" Role="ApplicationAreaMaster" Multiplicity="1" />
+          <End Type="ProAccModel.ActivityMaster" Role="ActivityMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ApplicationAreaMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ActivityMaster">
+              <PropertyRef Name="ApplicationAreaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ActivityMaster_PhaseMaster">
+          <End Type="ProAccModel.PhaseMaster" Role="PhaseMaster" Multiplicity="1" />
+          <End Type="ProAccModel.ActivityMaster" Role="ActivityMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PhaseMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ActivityMaster">
+              <PropertyRef Name="PhaseID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1359,6 +1717,7 @@ warning 6002: The table/view 'ProAccDev.dbo.SAPInput_Activities' does not have a
           <EntitySetMapping Name="ProjectInstanceConfigs">
             <EntityTypeMapping TypeName="ProAccModel.ProjectInstanceConfig">
               <MappingFragment StoreEntitySet="ProjectInstanceConfig">
+                <ScalarProperty Name="PreConvertionIsActive" ColumnName="PreConvertionIsActive" />
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
                 <ScalarProperty Name="Modified_by" ColumnName="Modified_by" />
                 <ScalarProperty Name="Modified_On" ColumnName="Modified_On" />
@@ -1369,6 +1728,150 @@ warning 6002: The table/view 'ProAccDev.dbo.SAPInput_Activities' does not have a
                 <ScalarProperty Name="LastUpdated_Dt" ColumnName="LastUpdated_Dt" />
                 <ScalarProperty Name="CustProjconfigID" ColumnName="CustProjconfigID" />
                 <ScalarProperty Name="InstaceName" ColumnName="InstaceName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ActivityMasters">
+            <EntityTypeMapping TypeName="ProAccModel.ActivityMaster">
+              <MappingFragment StoreEntitySet="ActivityMaster">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="Modified_by" ColumnName="Modified_by" />
+                <ScalarProperty Name="Modified_On" ColumnName="Modified_On" />
+                <ScalarProperty Name="Cre_By" ColumnName="Cre_By" />
+                <ScalarProperty Name="Cre_on" ColumnName="Cre_on" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+                <ScalarProperty Name="Activity" ColumnName="Activity" />
+                <ScalarProperty Name="ApplicationAreaID" ColumnName="ApplicationAreaID" />
+                <ScalarProperty Name="PhaseID" ColumnName="PhaseID" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ApplicationAreaMasters">
+            <EntityTypeMapping TypeName="ProAccModel.ApplicationAreaMaster">
+              <MappingFragment StoreEntitySet="ApplicationAreaMaster">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="Modified_by" ColumnName="Modified_by" />
+                <ScalarProperty Name="Modified_On" ColumnName="Modified_On" />
+                <ScalarProperty Name="Cre_By" ColumnName="Cre_By" />
+                <ScalarProperty Name="Cre_on" ColumnName="Cre_on" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+                <ScalarProperty Name="ApplicationArea" ColumnName="ApplicationArea" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ExceptionLoggings">
+            <EntityTypeMapping TypeName="ProAccModel.ExceptionLogging">
+              <MappingFragment StoreEntitySet="ExceptionLogging">
+                <ScalarProperty Name="Logdate" ColumnName="Logdate" />
+                <ScalarProperty Name="ExceptionURL" ColumnName="ExceptionURL" />
+                <ScalarProperty Name="ExceptionSource" ColumnName="ExceptionSource" />
+                <ScalarProperty Name="ExceptionType" ColumnName="ExceptionType" />
+                <ScalarProperty Name="ExceptionMsg" ColumnName="ExceptionMsg" />
+                <ScalarProperty Name="Logid" ColumnName="Logid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PendingMasters">
+            <EntityTypeMapping TypeName="ProAccModel.PendingMaster">
+              <MappingFragment StoreEntitySet="PendingMaster">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="Modified_by" ColumnName="Modified_by" />
+                <ScalarProperty Name="Modified_On" ColumnName="Modified_On" />
+                <ScalarProperty Name="Cre_By" ColumnName="Cre_By" />
+                <ScalarProperty Name="Cre_on" ColumnName="Cre_on" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+                <ScalarProperty Name="PendingName" ColumnName="PendingName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PhaseMasters">
+            <EntityTypeMapping TypeName="ProAccModel.PhaseMaster">
+              <MappingFragment StoreEntitySet="PhaseMaster">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="Modified_by" ColumnName="Modified_by" />
+                <ScalarProperty Name="Modified_On" ColumnName="Modified_On" />
+                <ScalarProperty Name="Cre_By" ColumnName="Cre_By" />
+                <ScalarProperty Name="Cre_on" ColumnName="Cre_on" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+                <ScalarProperty Name="PhaseName" ColumnName="PhaseName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PictureToDatas">
+            <EntityTypeMapping TypeName="ProAccModel.PictureToData">
+              <MappingFragment StoreEntitySet="PictureToData">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="Modified_by" ColumnName="Modified_by" />
+                <ScalarProperty Name="Modified_On" ColumnName="Modified_On" />
+                <ScalarProperty Name="Cre_By" ColumnName="Cre_By" />
+                <ScalarProperty Name="Cre_on" ColumnName="Cre_on" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+                <ScalarProperty Name="GivenName" ColumnName="GivenName" />
+                <ScalarProperty Name="PictureName" ColumnName="PictureName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProjectMonitors">
+            <EntityTypeMapping TypeName="ProAccModel.ProjectMonitor">
+              <MappingFragment StoreEntitySet="ProjectMonitor">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="Modified_by" ColumnName="Modified_by" />
+                <ScalarProperty Name="Modified_On" ColumnName="Modified_On" />
+                <ScalarProperty Name="Cre_By" ColumnName="Cre_By" />
+                <ScalarProperty Name="Cre_on" ColumnName="Cre_on" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+                <ScalarProperty Name="Actual_En_Date" ColumnName="Actual_En_Date" />
+                <ScalarProperty Name="Planed__En_Date" ColumnName="Planed__En_Date" />
+                <ScalarProperty Name="Actual_St_Date" ColumnName="Actual_St_Date" />
+                <ScalarProperty Name="Planed__St_Date" ColumnName="Planed__St_Date" />
+                <ScalarProperty Name="Actual_St_hours" ColumnName="Actual_St_hours" />
+                <ScalarProperty Name="EST_hours" ColumnName="EST_hours" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="ConsultantID" ColumnName="ConsultantID" />
+                <ScalarProperty Name="Team" ColumnName="Team" />
+                <ScalarProperty Name="Delay_occurred" ColumnName="Delay_occurred" />
+                <ScalarProperty Name="PendingId" ColumnName="PendingId" />
+                <ScalarProperty Name="Dependency" ColumnName="Dependency" />
+                <ScalarProperty Name="Task_Other_Environment" ColumnName="Task_Other_Environment" />
+                <ScalarProperty Name="Sequence" ColumnName="Sequence" />
+                <ScalarProperty Name="Task" ColumnName="Task" />
+                <ScalarProperty Name="PhaseId" ColumnName="PhaseId" />
+                <ScalarProperty Name="Instance" ColumnName="Instance" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StatusMasters">
+            <EntityTypeMapping TypeName="ProAccModel.StatusMaster">
+              <MappingFragment StoreEntitySet="StatusMaster">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="Modified_by" ColumnName="Modified_by" />
+                <ScalarProperty Name="Modified_On" ColumnName="Modified_On" />
+                <ScalarProperty Name="Cre_By" ColumnName="Cre_By" />
+                <ScalarProperty Name="Cre_on" ColumnName="Cre_on" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+                <ScalarProperty Name="StatusName" ColumnName="StatusName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TeamMasters">
+            <EntityTypeMapping TypeName="ProAccModel.TeamMaster">
+              <MappingFragment StoreEntitySet="TeamMaster">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="Modified_by" ColumnName="Modified_by" />
+                <ScalarProperty Name="Modified_On" ColumnName="Modified_On" />
+                <ScalarProperty Name="Cre_By" ColumnName="Cre_By" />
+                <ScalarProperty Name="Cre_on" ColumnName="Cre_on" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+                <ScalarProperty Name="TeamName" ColumnName="TeamName" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

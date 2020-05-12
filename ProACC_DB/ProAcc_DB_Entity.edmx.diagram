@@ -35,6 +35,17 @@
         <EntityTypeShape EntityType="ProAccModel.ProjectInstanceConfig" Width="1.5" PointX="15" PointY="10.125" />
         <AssociationConnector Association="ProAccModel.FK_ProjInstanceConfig_CustProjconfig" />
         <AssociationConnector Association="ProAccModel.FK_Project_ProjInstanceConfig" />
+        <EntityTypeShape EntityType="ProAccModel.ActivityMaster" Width="1.5" PointX="3" PointY="15" />
+        <EntityTypeShape EntityType="ProAccModel.ApplicationAreaMaster" Width="1.5" PointX="0.75" PointY="11.25" />
+        <EntityTypeShape EntityType="ProAccModel.ExceptionLogging" Width="1.5" PointX="7.75" PointY="8.75" />
+        <EntityTypeShape EntityType="ProAccModel.PendingMaster" Width="1.5" PointX="9.75" PointY="9.75" />
+        <EntityTypeShape EntityType="ProAccModel.PhaseMaster" Width="1.5" PointX="0.75" PointY="15.25" />
+        <EntityTypeShape EntityType="ProAccModel.PictureToData" Width="1.5" PointX="14.75" PointY="5.75" />
+        <EntityTypeShape EntityType="ProAccModel.ProjectMonitor" Width="1.5" PointX="5.75" PointY="14.75" />
+        <EntityTypeShape EntityType="ProAccModel.StatusMaster" Width="1.5" PointX="15.75" PointY="14.75" />
+        <EntityTypeShape EntityType="ProAccModel.TeamMaster" Width="1.5" PointX="16.75" PointY="5.75" />
+        <AssociationConnector Association="ProAccModel.FK_ActivityMaster_ApplicationAreaMaster" />
+        <AssociationConnector Association="ProAccModel.FK_ActivityMaster_PhaseMaster" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

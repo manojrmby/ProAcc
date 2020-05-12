@@ -285,7 +285,7 @@
                 @if (User.Identity.IsAuthenticated)
                 {
                     <div class="scrollbar-sidebar">
-                        <div class="app-sidebar__inner">
+                        <div class="app-sidebar__inner" style="font-size:12px;">
                             <ul class="vertical-nav-menu">
                                 <li class="app-sidebar__heading"></li>
                                 <li>
@@ -399,7 +399,7 @@
                                             <li>
                                                 <a href="@Url.Action("EditTable", "PreConvertion")">
                                                     <i class="metismenu-icon"></i>
-                                                    PreConvertion Edit 
+                                                    Consistency Report
                                                 </a>
                                             </li>
 
@@ -451,6 +451,12 @@
                                                     <a href="@Url.Action("Index", "Consultants")">
                                                         <i class="metismenu-icon pe-7s-diamond"></i>
                                                         View SAP Consultant
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="@Url.Action("Create", "ProjectMonitor")">
+                                                        <i class="metismenu-icon pe-7s-diamond"></i>
+                                                        Project Monitor
                                                     </a>
                                                 </li>
 

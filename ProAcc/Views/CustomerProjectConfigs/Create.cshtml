@@ -18,7 +18,7 @@
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
             @Html.LabelFor(model => model.ProjectName, "Project Name", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="col-md-6">
                 @Html.EditorFor(model => model.ProjectName, new { htmlAttributes = new { @id = "txtProjName", @class = "form-control", @onchange = "ValidateProjName();" } })
                 @Html.ValidationMessageFor(model => model.ProjectName, "", new { @class = "text-danger" })
                 <span id="lblProjName" style="color:red"></span>
@@ -27,7 +27,7 @@
 
         <div class="form-group">
             @Html.LabelFor(model => model.CustomerID, "Customer Name", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="col-md-6">
                 @*@Html.DropDownList("CustomerID", null, htmlAttributes: new { @class = "form-control", onchange = "SelectedIndexChanged()" });*@
                 @Html.DropDownList("CustomerID", (IEnumerable<SelectListItem>)ViewBag.CustomerID, "--select--", htmlAttributes: new { @class = "form-control", onchange = "SelectedIndexChanged()" })
 
@@ -37,23 +37,23 @@
 
         <div class="form-group">
             @Html.LabelFor(model => model.ConsultantID, "SAP Consultant Name", htmlAttributes: new { @class = "control-label col-md-3" })
-            <div class="col-md-10">
+            <div class="col-md-6">
                 @Html.DropDownList("ConsultantID", (IEnumerable<SelectListItem>)ViewBag.ConsultantID, "--select--", htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.ConsultantID, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
+            <div class="col-md-offset-2 col-md-6">
                 <input type="submit" id="createcustproj" value="Create" class="btn btn-secondary" />
+                <p style="float:right;"> @Html.ActionLink("Back to List", "Index")</p>
+               
             </div>
         </div>
     </div>
 }
 
-<div style="float:right;">
-    @Html.ActionLink("Back to List", "Index")
-</div>
+
 <script>
     function ValidateProjName() {
         

@@ -23,6 +23,7 @@ namespace ProAcc.Controllers
         // GET: PreConvertion
         public ActionResult PreConvertion()
         {
+            //Gokul
             return View();
         }
 
@@ -161,10 +162,39 @@ namespace ProAcc.Controllers
        
         public ActionResult GetData()
         {
-            InstanceId = Guid.Parse(Session["InstanceId"].ToString());
+            //InstanceId = Guid.Parse(Session["InstanceId"].ToString());
+            InstanceId = Guid.Parse("d9747ed5-f482-4ac2-9ef9-4a25aa5a6855");
             List<SAPInput_PreConvertion> CR = _Base.sp_GetPreConvertionTable(InstanceId);
             var obj = new { data = CR };
             return Json(obj, JsonRequestBehavior.AllowGet);
+        }
+
+
+        public ActionResult EditGetData()
+        {
+            
+                    //InstanceId = Guid.Parse(Session["InstanceId"].ToString());
+            InstanceId = Guid.Parse("d9747ed5-f482-4ac2-9ef9-4a25aa5a6855");
+            List<SAPInput_PreConvertion> CR = _Base.sp_GetPreConvertionTable(InstanceId);
+            var obj = new { data = CR };
+            return Json(CR, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult EditSubmit(SAPInput_PreConvertion Data)
+        {
+            Boolean Status = false;
+            Status= _Base.sp_PreConvertion_Update(Data);
+            //InstanceId = Guid.Parse("d9747ed5-f482-4ac2-9ef9-4a25aa5a6855");
+            //List<SAPInput_PreConvertion> CR = _Base.sp_GetPreConvertionTable(InstanceId);
+            //return Json(CR, JsonRequestBehavior.AllowGet);
+            return Json(Status, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult GetPicturetoDatas()
+        {
+
+            List<PicturetoData> CR = _Base.Sp_GetPicturetoDatas();
+            
+            return Json(CR, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]

@@ -277,7 +277,7 @@
   
     $(document).ready(function () {
         $('#btnUpload').click(function () {
-    var url = $("#RedirectTo").val();
+    var RedirectTo = $("#RedirectTo").val();
             var ProjectID = $("#IDProject").val();
             var InstanceId = $("#IDInstance").val();
             var n = $( "input:checked" ).length;
@@ -328,7 +328,7 @@
                     //async: false,
                     success: function (result) {
                         alert(result);
-                        location.href = url;
+                        location.href = RedirectTo;
                         //location.reload();
                         //debugger;
                         //if (result != "") {

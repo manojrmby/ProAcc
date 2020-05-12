@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using ClosedXML.Attributes;
+using ProAcc.BL.Model;
 
 namespace ProAcc.BL
 {
@@ -397,8 +398,12 @@ namespace ProAcc.BL
         }
         private static DataTable ConvertListToDataTable_PreConvertion(IReadOnlyList<string[]> list)
         {
+            Base _Base = new Base();
             var table = new DataTable("PreConvertion");
             var rows = list.Select(array => array.Length).Concat(new[] { 0 }).Max();
+
+            List<PicturetoData> Pic = _Base.Sp_GetPicturetoDatas();
+            
 
             table.Columns.Add("Relevance");
             table.Columns.Add("Last Consistency Result");
@@ -417,10 +422,31 @@ namespace ProAcc.BL
 
             for (var j = 0; j < rows; j++)
             {
+                int Re_Relevance=0, Re_Result=0, Re_Possible=0;
+                foreach (var item in Pic)
+                {
+                    var Relevance = list[0][j];
+                    var Result = list[1][j];
+                    var Possible = list[2][j];
+                    if (item.PictureName == Result)
+                    {
+                        Re_Relevance = item.ID;
+                    }
+
+                    if (item.PictureName == Result)
+                    {
+                        Re_Result = item.ID;
+                    }
+                    if (item.PictureName == Possible)
+                    {
+                        Re_Possible = item.ID;
+                    }
+
+                }
                 var row = table.NewRow();
-                row["Relevance"] = list[0][j];
-                row["Last Consistency Result"] = list[1][j];
-                row["Exemption Possible"] = list[2][j];
+                row["Relevance"] = Re_Relevance;
+                row["Last Consistency Result"] = Re_Result;
+                row["Exemption Possible"] = Re_Possible;
                 row["ID"] = list[3][j];
                 row["Title"] = list[4][j];
                 row["LoB/Technology"] = list[5][j];
