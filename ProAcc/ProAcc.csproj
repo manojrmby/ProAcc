@@ -509,10 +509,14 @@
     <Compile Include="BL\Model\SAPInput_SimplificationReport.cs" />
     <Compile Include="BL\Model\UserModel.cs" />
     <Compile Include="BL\Model\UserRoleProvider.cs" />
+    <Compile Include="Controllers\ActivityMasterController.cs" />
+    <Compile Include="Controllers\ApplicationAreaController.cs" />
     <Compile Include="Controllers\ConsultantsController.cs" />
     <Compile Include="Controllers\CustomerProjectConfigsController.cs" />
     <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PendingController.cs" />
+    <Compile Include="Controllers\PhaseMasterController.cs" />
     <Compile Include="Controllers\PreConvertionController.cs" />
     <Compile Include="Controllers\ProjectInstanceConfigsController.cs" />
     <Compile Include="Controllers\AssessmentController.cs" />
@@ -521,6 +525,8 @@
     <Compile Include="BL\DBHelper.cs" />
     <Compile Include="BL\Model\Common.cs" />
     <Compile Include="Controllers\ProjectMonitorController.cs" />
+    <Compile Include="Controllers\StatusController.cs" />
+    <Compile Include="Controllers\TeamMasterController.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -566,6 +572,19 @@
     <Content Include="Views\PreConvertion\EditTable.cshtml" />
     <Content Include="Views\Customers\Index.cshtml" />
     <Content Include="Views\ProjectMonitor\Create.cshtml" />
+    <Content Include="Views\PhaseMaster\Index.cshtml" />
+    <Content Include="Views\PhaseMaster\_ActivityCreate.cshtml" />
+    <Content Include="Views\PhaseMaster\_ActivityIndex.cshtml" />
+    <Content Include="Views\PhaseMaster\_ApplicationAreaCreate.cshtml" />
+    <Content Include="Views\PhaseMaster\_ApplicationAreaIndex.cshtml" />
+    <Content Include="Views\PhaseMaster\_PendingCreate.cshtml" />
+    <Content Include="Views\PhaseMaster\_PendingIndex.cshtml" />
+    <Content Include="Views\PhaseMaster\_PhaseCreate.cshtml" />
+    <Content Include="Views\PhaseMaster\_PhaseIndex.cshtml" />
+    <Content Include="Views\PhaseMaster\_StatusCreate.cshtml" />
+    <Content Include="Views\PhaseMaster\_StatusIndex.cshtml" />
+    <Content Include="Views\PhaseMaster\_TeamCreate.cshtml" />
+    <Content Include="Views\PhaseMaster\_TeamIndex.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

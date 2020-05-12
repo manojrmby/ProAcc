@@ -1,0 +1,159 @@
+﻿
+
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<style>
+    .required::after {
+        content: "*";
+        font-weight: bold;
+        color: red;
+    }
+</style>
+<div class="row">
+    <div class="col-6">
+        <h4>Create Team</h4>
+        <input type="hidden" id="StatusId" />
+        <input type="hidden" id="stacre_on" />
+        <input type="hidden" id="stacre_By" />
+        <div class="form-group">
+            <label class="control-label col-md-4 required">Status Name</label>
+            <div class="col-md-10">
+                <input type="text" class="form-control" id="txtStatusName" />
+                <span id="lblStatusName" style="color:red" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="button" value="Create" class="btn btn-primary" id="btnStatusCreate" />
+                <input type="button" value="Update" class="btn btn-info" id="btnStatusUpdate" style="display:none" />
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+
+    $("#txtStatusName").keypress(function (event) {
+        debugger;
+            var inputValue = event.which;
+            // allow letters and whitespaces only.
+
+            if (!(inputValue >= 65 && inputValue <= 122) && (inputValue != 32 && inputValue != 0)) {
+                    event.preventDefault();
+                    $("#lblTeamName").html("Not Allowed").show().fadeOut("slow");
+            }
+    });
+
+
+    $("#btnStatusCreate").on("click", function () {
+        debugger;
+        var StatusName = $("#txtStatusName").val();
+        if (StatusName == "") {
+            alert("Please enter the Status Name")
+        }
+        else {
+            $.ajax({
+              url: '@Url.Action("CheckStatus","Status")',
+              type: "GET",
+              data: { name: StatusName },
+              dataType: "json",
+              success: function (data) {
+                  if (data != "success") {
+                      //$("#lblTeamName").html("this Team name is already taken,please select another").show().fadeOut("slow");
+                      alert("This Team name is already taken,please select another.");
+                      $("#txtStatusName").val("");
+                  }
+                  else {
+                      $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("Create","Status")',
+                    data: { StatusName: StatusName},
+                    //dataType: "json",
+                    success: function (response) {
+                        if (response == "success") {
+                            alert("Status Saved successfully!");
+                            location.reload();
+                              //window.location = "/Employee/Index"
+                        }
+                    },
+                    failure: function (response) {
+                       alert(response.responseText);
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                    }
+            });
+                  }
+              },
+              error: function (err) {
+
+                     alert(err);
+               }
+            });
+
+        }
+    });
+
+    $("#btnStatusUpdate").on("click", function () {
+         debugger;
+         var id = $("#StatusId").val();
+        var StatusName = $("#txtStatusName").val();
+        var cre_on = $("#stacre_on").val();
+        var cre_By = $("#stacre_By").val();
+
+         var model = {
+             Id: id,
+             StatusName: StatusName,
+             Cre_on: cre_on,
+             Cre_By: cre_By
+         }
+        if (StatusName == "") {
+            alert("Please enter the Status Name")
+        }
+        else {
+            $.ajax({
+              url: '@Url.Action("CheckStatus","Status")',
+              type: "GET",
+              data: { name: StatusName },
+              dataType: "json",
+              success: function (data) {
+                  if (data != "success") {
+                      //$("#lblPhaseName").html("this Phase name is already taken,please select another").show().fadeOut("slow");
+                      alert("This Status name is already taken,please select another.");
+                      $("#txtStatusName").val("");
+                      location.reload();
+                  }
+                  else {
+                      $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("Edit","Status")',
+                    data: { model : model},
+                    //dataType: "json",
+                    success: function (response) {
+                        if (response == "success") {
+                            alert("Status Edited successfully!");
+                            location.reload();
+                        }
+                    },
+                    failure: function (response) {
+                       alert(response.responseText);
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                    }
+            });
+                  }
+              },
+              error: function (err) {
+
+                     alert(err);
+               }
+            });
+        }
+    });
+</script>

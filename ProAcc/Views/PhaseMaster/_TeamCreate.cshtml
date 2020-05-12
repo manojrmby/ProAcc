@@ -1,0 +1,157 @@
+﻿
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<style>
+    .required::after {
+        content: "*";
+        font-weight: bold;
+        color: red;
+    }
+</style>
+<div class="row">
+    <div class="col-6">
+        <h4>Create Team</h4>
+        <input type="hidden" id="TeamId" />
+        <input type="hidden" id="tcre_on" />
+        <input type="hidden" id="tcre_By" />
+        <div class="form-group">
+            <label class="control-label col-md-4 required">Team Name</label>
+            <div class="col-md-10">
+                <input type="text" class="form-control" id="txtTeamName" />
+                <span id="lblTeamName" style="color:red" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="button" value="Create" class="btn btn-primary" id="btnTeamCreate" />
+                <input type="button" value="Update" class="btn btn-info" id="btnTeamUpdate" style="display:none" />
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+
+    $("#txtTeamName").keypress(function (event) {
+        debugger;
+            var inputValue = event.which;
+            // allow letters and whitespaces only.
+
+            if (!(inputValue >= 65 && inputValue <= 122) && (inputValue != 32 && inputValue != 0)) {
+                    event.preventDefault();
+                    $("#lblTeamName").html("Not Allowed").show().fadeOut("slow");
+            }
+    });
+
+    
+    $("#btnTeamCreate").on("click", function () {
+        debugger;
+        var TeamName = $("#txtTeamName").val();
+        if (TeamName == "") {
+            alert("Please enter the Team Name")
+        }
+        else {
+            $.ajax({
+              url: '@Url.Action("CheckTeam","TeamMaster")',
+              type: "GET",
+              data: { name: TeamName },
+              dataType: "json",
+              success: function (data) {
+                  if (data != "success") {
+                      //$("#lblTeamName").html("this Team name is already taken,please select another").show().fadeOut("slow");
+                      alert("This Team name is already taken,please select another.");
+                      $("#txtTeamName").val("");
+                  }
+                  else {
+                      $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("Create","TeamMaster")',
+                    data: { TeamName: TeamName},
+                    //dataType: "json",
+                    success: function (response) {
+                        if (response == "success") {
+                             alert("Team Saved successfully!");
+                              //window.location = "/Employee/Index"
+                        }
+                    },
+                    failure: function (response) {
+                       alert(response.responseText);
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                    }
+            });
+                  }
+              },
+              error: function (err) {
+
+                     alert(err);
+               }
+            });
+
+        }
+    });
+
+    $("#btnTeamUpdate").on("click", function () {
+         debugger;
+         var id = $("#TeamId").val();
+        var TeamName = $("#txtTeamName").val();
+        var cre_on = $("#tcre_on").val();
+        var cre_By = $("#tcre_By").val();
+
+         var model = {
+             Id: id,
+             TeamName: TeamName,
+             Cre_on: cre_on,
+             Cre_By: cre_By
+         }
+        if (TeamName == "") {
+            alert("Please enter the Team Name")
+        }
+        else {
+            $.ajax({
+              url: '@Url.Action("CheckTeam","TeamMaster")',
+              type: "GET",
+              data: { name: TeamName },
+              dataType: "json",
+              success: function (data) {
+                  if (data != "success") {
+                      //$("#lblPhaseName").html("this Phase name is already taken,please select another").show().fadeOut("slow");
+                      alert("This Team name is already taken,please select another.");
+                      $("#txtTeamName").val("");
+                      location.reload();
+                  }
+                  else {
+                      $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("Edit","TeamMaster")',
+                    data: { model : model},
+                    //dataType: "json",
+                    success: function (response) {
+                        if (response == "success") {
+                            alert("Team Edited successfully!");
+                            location.reload();
+                        }
+                    },
+                    failure: function (response) {
+                       alert(response.responseText);
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                    }
+            });
+                  }
+              },
+              error: function (err) {
+
+                     alert(err);
+               }
+            });
+        }
+    });
+</script>

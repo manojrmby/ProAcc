@@ -104,6 +104,14 @@
             }
     </style>
 
+    <style>
+        .required::after {
+            content: "*";
+            font-weight: bold;
+            color: red;
+        }
+    </style>
+
 </head>
 <body>
     <div id="load"><img class="Load_img my-auto" src="~/Asset/images/loading.gif"></div>
@@ -389,7 +397,7 @@
                                                     PreConvertion Upload
                                                 </a>
                                             </li>
-                                            
+
                                             <li>
                                                 <a href="@Url.Action("Index", "PreConvertion")">
                                                     <i class="metismenu-icon"></i>
@@ -406,139 +414,145 @@
                                         </ul>
                                     </li>
                                 }
+                                <li>
+                                    <a href="@Url.Action("CommingSoon", "Test")">
+                                        <i class="metismenu-icon fa fa-dot-circle"></i>
+                                        Migration
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("CommingSoon", "Test")">
+                                        <i class="metismenu-icon fa fa-fighter-jet"></i>
+                                        Post-Conversion
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("CommingSoon", "Test")">
+                                        <i class="metismenu-icon fa fa-gavel"></i>
+                                        Validation
+                                    </a>
+                                </li>
+
+                                @if (User.IsInRole("Admin"))
+                                {
                                     <li>
-                                        <a href="@Url.Action("CommingSoon", "Test")">
+                                        <a href="dashboard-boxes.html">
+                                            <i class="metismenu-icon fa fa-user"></i>
+                                            Profile Settings
+                                            <i class="metismenu-state-icon fa fa-caret-down caret-left"></i>
+                                        </a>
+                                        <ul>
+
+                                            <li>
+                                                <a href="@Url.Action("Create", "Customers")">
+                                                    <i class="metismenu-icon pe-7s-diamond"></i>
+                                                    Add New User / Customers
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="@Url.Action("Index", "Customers")">
+                                                    <i class="metismenu-icon pe-7s-diamond"></i>
+                                                    View Customers
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="@Url.Action("Index", "Consultants")">
+                                                    <i class="metismenu-icon pe-7s-diamond"></i>
+                                                    View SAP Consultant
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="@Url.Action("Create", "ProjectMonitor")">
+                                                    <i class="metismenu-icon pe-7s-diamond"></i>
+                                                    Project Monitor
+                                                </a>
+                                            </li>
+
+
+                                        </ul>
+                                    </li>
+                                }
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <li>
+                                        <a href="#">
+                                            <i class="metismenu-icon fa fa-briefcase"></i>
+                                            Configuration
+                                            <i class="metismenu-state-icon fa fa-caret-down caret-left"></i>
+                                        </a>
+                                        <ul>
+                                            <li>
+                                                <a href="@Url.Action("Create", "CustomerProjectConfigs")">
+                                                    <i class="metismenu-icon pe-7s-diamond"></i>
+                                                    Add Project to Customer
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="@Url.Action("Create", "ProjectInstanceConfigs")">
+                                                    <i class="metismenu-icon pe-7s-diamond"></i>
+                                                    Add Instance to Project
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="@Url.Action("Index", "CustomerProjectConfigs")">
+                                                    <i class="metismenu-icon pe-7s-diamond"></i>
+                                                    View Customer
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="@Url.Action("Index", "ProjectInstanceConfigs")">
+                                                    <i class="metismenu-icon pe-7s-diamond"></i>
+                                                    View Project
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+
+                                    <li>
+                                        <a href="#">
+                                            <i class="metismenu-icon fa fa-user-cog"></i>
+                                            User Settings
+                                            <i class="metismenu-state-icon fa fa-caret-down caret-left"></i>
+                                        </a>
+                                        <ul>
+                                            <li>
+                                                <a href="@Url.Action("CommingSoon", "Test")">
+                                                    <i class="metismenu-icon pe-7s-diamond"></i>
+                                                    Create Login
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="@Url.Action("CommingSoon", "Test")">
+                                                    <i class="metismenu-icon pe-7s-diamond"></i>
+                                                    View Login
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <i class="metismenu-icon fa fa-flag-checkered"></i>
+                                            Reports
+                                            <i class="metismenu-state-icon fa fa-caret-down caret-left"></i>
+                                        </a>
+                                        <ul>
+                                            <li>
+                                                <a href="@Url.Action("CommingSoon", "Test")">
+                                                    <i class="metismenu-icon pe-7s-diamond"></i>
+                                                    Customer Report
+                                                </a>
+                                            </li>
+
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("Index", "PhaseMaster")">
                                             <i class="metismenu-icon fa fa-dot-circle"></i>
-                                            Migration
+                                            Phase
                                         </a>
                                     </li>
-                                    <li>
-                                        <a href="@Url.Action("CommingSoon", "Test")">
-                                            <i class="metismenu-icon fa fa-fighter-jet"></i>
-                                            Post-Conversion
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="@Url.Action("CommingSoon", "Test")">
-                                            <i class="metismenu-icon fa fa-gavel"></i>
-                                            Validation
-                                        </a>
-                                    </li>
-
-                                    @if (User.IsInRole("Admin"))
-                                    {
-                                        <li>
-                                            <a href="dashboard-boxes.html">
-                                                <i class="metismenu-icon fa fa-user"></i>
-                                                Profile Settings
-                                                <i class="metismenu-state-icon fa fa-caret-down caret-left"></i>
-                                            </a>
-                                            <ul>
-
-                                                <li>
-                                                    <a href="@Url.Action("Create", "Customers")">
-                                                        <i class="metismenu-icon pe-7s-diamond"></i>
-                                                        Add New User / Customers
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="@Url.Action("Index", "Customers")">
-                                                        <i class="metismenu-icon pe-7s-diamond"></i>
-                                                        View Customers
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="@Url.Action("Index", "Consultants")">
-                                                        <i class="metismenu-icon pe-7s-diamond"></i>
-                                                        View SAP Consultant
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="@Url.Action("Create", "ProjectMonitor")">
-                                                        <i class="metismenu-icon pe-7s-diamond"></i>
-                                                        Project Monitor
-                                                    </a>
-                                                </li>
-
-
-                                            </ul>
-                                        </li>
-                                    }
-                                    @if (User.IsInRole("Admin"))
-                                    {
-                                        <li>
-                                            <a href="#">
-                                                <i class="metismenu-icon fa fa-briefcase"></i>
-                                                Configuration
-                                                <i class="metismenu-state-icon fa fa-caret-down caret-left"></i>
-                                            </a>
-                                            <ul>
-                                                <li>
-                                                    <a href="@Url.Action("Create", "CustomerProjectConfigs")">
-                                                        <i class="metismenu-icon pe-7s-diamond"></i>
-                                                        Add Project to Customer
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="@Url.Action("Create", "ProjectInstanceConfigs")">
-                                                        <i class="metismenu-icon pe-7s-diamond"></i>
-                                                        Add Instance to Project
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="@Url.Action("Index", "CustomerProjectConfigs")">
-                                                        <i class="metismenu-icon pe-7s-diamond"></i>
-                                                        View Customer
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="@Url.Action("Index", "ProjectInstanceConfigs")">
-                                                        <i class="metismenu-icon pe-7s-diamond"></i>
-                                                        View Project
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </li>
-
-                                        <li>
-                                            <a href="#">
-                                                <i class="metismenu-icon fa fa-user-cog"></i>
-                                                User Settings
-                                                <i class="metismenu-state-icon fa fa-caret-down caret-left"></i>
-                                            </a>
-                                            <ul>
-                                                <li>
-                                                    <a href="@Url.Action("CommingSoon", "Test")">
-                                                        <i class="metismenu-icon pe-7s-diamond"></i>
-                                                        Create Login
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="@Url.Action("CommingSoon", "Test")">
-                                                        <i class="metismenu-icon pe-7s-diamond"></i>
-                                                        View Login
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <i class="metismenu-icon fa fa-flag-checkered"></i>
-                                                Reports
-                                                <i class="metismenu-state-icon fa fa-caret-down caret-left"></i>
-                                            </a>
-                                            <ul>
-                                                <li>
-                                                    <a href="@Url.Action("CommingSoon", "Test")">
-                                                        <i class="metismenu-icon pe-7s-diamond"></i>
-                                                        Customer Report
-                                                    </a>
-                                                </li>
-
-                                            </ul>
-                                        </li>
-                                    }
-                                </ul>
+                                }
+                            </ul>
                         </div>
                     </div>
                 }
