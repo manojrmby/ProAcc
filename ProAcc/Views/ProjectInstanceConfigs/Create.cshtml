@@ -28,7 +28,7 @@
                 <div class="position-relative form-group">
                     @Html.LabelFor(model => model.CustProjconfigID, "Customer Project", htmlAttributes: new { @class = "control-label col-md-5" })
                     <div class="col-md-10">
-                        @Html.DropDownList("CustProjconfigID", null, htmlAttributes: new { @class = "form-control" })
+                        @Html.DropDownList("CustProjconfigID", null, htmlAttributes: new { @class = "form-control" ,@id="CustProjconfig" })
                         @Html.ValidationMessageFor(model => model.CustProjconfigID, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -42,7 +42,7 @@
         <div class="col-lg-12">
             <div class="position-relative form-group">
                 <div class="col-md-offset-2 col-md-5">
-                    <input type="submit" value="Create" class="btn btn-primary" />
+                    <input type="submit" value="Create" id="createProjInst" class="btn btn-primary" />
                     <p style="float:right;">@Html.ActionLink("Back to List", "Index")</p>
                 </div>
             </div>
@@ -54,8 +54,8 @@
 
 <script>
     //function ValidateInstName() {
-    //    //debugger;
-    //    var Instname = document.getElementById("txtInstName").value;
+    //    debugger;
+    //    var Instname = document.getElementById("txtInstName").value.trim();
     //    var lblInstName = document.getElementById("lblInstName");
     //    lblInstName.innerHTML = "";
     //    var letters = /^[A-Za-z, ]+$/;
@@ -63,9 +63,72 @@
     //        lblInstName.innerHTML = "Please enter valid Instance Name";
     //    }
     //}
-   
 </script>
+
 <script type="text/javascript">
+    $(document).ready(function () {
+        $("#createProjInst").prop("disabled",true)
+    });
+
+    $("#txtInstName").keyup(function() {
+        debugger;
+        var letters = /^[A-Za-z0-9]+$/
+        var InstName = $("#txtInstName").val().trim();
+        if (!letters.test(InstName)) {
+            $("#lblInstName").html("Instance Name is not valid").show().fadeOut(2000);
+            $("#txtInstName").val("");
+        }
+        else {
+            @*$.ajax({
+                url: '@Url.Action("CheckPrjtInst","ProjectInstanceConfigs")',
+                type: "GET",
+                data: { name: InstName },
+                dataType: "json",
+                success: function (data) {
+                    if (data != "success") {
+                        $("#lblInstName").html("This Team name is already taken,please select another").show().fadeOut(2000);
+                    }
+                    else {
+
+                    }
+                }
+            });*@
+        }
+        $("#createProjInst").prop('disabled', false);
+    });
+
+
+
+    @*$("#createProjInst").on("click", function () {
+        debugger;
+        var InstName = $("#txtInstName").val().trim();
+        var CustProjconfigID = $("#CustProjconfig").val().trim();
+        if (InstName == "") {
+            $("#lblInstName").html("Please enter the Instance Name").show().fadeOut(2000);
+            $("#createProjInst").prop("disabled", true)
+        }
+        else if (InstName != "" && CustProjconfigID!= "") {
+            $.ajax({
+                url: '@Url.Action("CheckPrjtCust","ProjectInstanceConfigs")',
+                type: "GET",
+                data: { name: InstName,custId:CustProjconfigID },
+                dataType: "json",
+                success: function (data) {
+                    if (data != "success") {
+                        //$("#lblInstName").html("This Team name is already taken,please select another").show().fadeOut(2000);
+                        alert("Same Instance is already created in the project")
+                        $("#createProjInst").prop('disabled', true);
+                        break;
+                    }
+                    else {
+
+                    }
+                }
+            });
+        }
+    });*@
+
+   
     $(function () {
         var msg = '@ViewBag.Message';
         if (msg == 'True')

@@ -127,11 +127,17 @@
                             @*<td>
                                     @Html.DisplayFor(modelItem => item.User_Master.UserType)
                                 </td>*@
-                            <td style="width:75px !important;">
-                                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                            </td>
+                        <td style="width:75px !important;">
+                            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                            @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+
+                            @*<a href="#" id="@item.Id" class="fa fa-edit"></a>|
+                            <a href="#" id="@item.Id" class="fa fa-book"></a><input type="hidden" value="@item.Id" /> |
+                            <a href="#" id="@item.Id" class="fa fa-trash"></a><input type="hidden" value="@item.Id" />
+
+                            <a class="btn btn-primary btn-sm" onclick="Edit('@Url.Action("Edit","Customers",new { id=@item.Id})')"><i class="fa fa-pencil fa-lg"></i></a>*@
+                        </td> @*class="btn btn-primary btn-sm"   onclick="Edit('@Url.Action("Edit","Customers",new { id=@item.Id})')"*@
                         </tr>
                     }
                 </table>
@@ -147,5 +153,17 @@
     $("search").click(function () {
         $("Search").remove();
     });
+
+    function Edit(url) {
+        debugger;
+    $.ajax({
+        type: 'GET',
+        url: url,
+        success: function (response) {
+            
+        }
+
+    });
+}
 
 </script>
