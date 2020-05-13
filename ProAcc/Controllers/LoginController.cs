@@ -73,7 +73,7 @@ namespace ProAcc.Controllers
             {
 
                 string Url = Request.Url.AbsoluteUri;
-                LogHelper.createLog(ex, Url);
+               // LogHelper.createLog(ex, Url);
                 TempData["Message"] = "Login failed.Error - " + ex.Message;
             }
             return RedirectToAction("Login", "Login");

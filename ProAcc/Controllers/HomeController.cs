@@ -11,6 +11,7 @@ using static ProAcc.BL.Model.Common;
 
 namespace ProAcc.Controllers
 {
+    [CheckSessionTimeOut]
     [Authorize(Roles = "Admin,Consultant,Customer")]
     public class HomeController : Controller
     {

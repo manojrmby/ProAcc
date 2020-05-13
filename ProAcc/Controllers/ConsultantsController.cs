@@ -9,10 +9,13 @@ using System.Web.Mvc;
 using ProACC_DB;
 using PagedList;
 using PagedList.Mvc;
+using ProAcc.BL;
 
 namespace ProAcc.Controllers
 {
-    [Authorize(Roles = "Admin")]
+
+    [CheckSessionTimeOut]
+    [Authorize(Roles = "Admin,Consultant")]
     public class ConsultantsController : Controller
     {
         private ProAccEntities db = new ProAccEntities();

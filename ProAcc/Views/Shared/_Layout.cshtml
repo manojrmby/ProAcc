@@ -3,118 +3,22 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/png" href="~/Asset/images/icons/favicon.ico" />
     <title>@ViewBag.Title</title>
-    <link rel="stylesheet" type="text/css" href="~/Asset/css/Menu.css" />
+    <link rel="icon" type="image/png" href="~/Asset/images/icons/favicon.ico" />
+
+
     <link href="~/Asset/css/main.css" rel="stylesheet" />
+    <link href="~/Asset/css/LayoutStyles.css" rel="stylesheet" />
+    <link href="~/Asset/Jquery/jquery-ui.css" rel="stylesheet" />
+
     <script src="~/Asset/Scripts/jquery.min.js"></script>
-
     <script type="text/javascript" src="~/Asset/scripts/main.js"></script>
-    <style>
-        .app-header {
-            height: 45px;
-        }
+    <script src="~/Asset/Scripts/bootstrap.min.js"></script>
+    <script src="~/Asset/Jquery/jquery-ui.js"></script>
 
-            .app-header .app-header__content {
-                height: 45px;
-            }
-
-        .app-header__logo {
-            height: 45px;
-        }
-
-        .bg-happy-log {
-            background: linear-gradient(90deg, rgba(1,157,208,1) 24%, rgba(7,213,213,1) 64%) !important;
-        }
-
-        .vertical-nav-menu li a:hover {
-            background: linear-gradient(90deg, rgba(1,157,208,1) 24%, rgba(7,213,213,1) 64%) !important;
-        }
-
-        .scrollable-menu {
-            height: auto;
-            max-height: 200px;
-            overflow-x: hidden;
-        }
-
-        #load {
-            width: 100%;
-            height: 100%;
-            position: fixed;
-            z-index: 9999;
-            text-align: center;
-            background: rgba(0,0,0,0.25);
-            display: none;
-        }
-
-        .Load_img {
-            top: 50%;
-            width: 500px;
-        }
-
-        .outer {
-            overflow-y: auto;
-            height: 500px;
-        }
-
-            .outer table {
-                width: 100%;
-                table-layout: fixed;
-            }
-
-                .outer table th {
-                    text-align: left;
-                    top: 0;
-                    background-color: white;
-                }
-
-        tableFixHead {
-            overflow-y: auto;
-            height: 100px;
-        }
-
-        .tableFixHead thead th {
-            position: sticky;
-            top: 0;
-        }
-
-        /* Just common table stuff. Really. */
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
-
-        th, td {
-            padding: 8px 16px;
-        }
-
-        th {
-            background: #eee;
-            font-weight: bold;
-        }
-
-        /* Borders (if you need them) */
-        .tableFixHead,
-        .tableFixHead td {
-            box-shadow: inset 1px -1px #d9d9d9;
-        }
-
-            .tableFixHead th {
-                box-shadow: inset 1px 1px #d9d9d9, 0 1px #d9d9d9;
-            }
-    </style>
-
-    <style>
-        .required::after {
-            content: "*";
-            font-weight: bold;
-            color: red;
-        }
-    </style>
-
+    <link rel="stylesheet" type="text/css" href="~/Asset/css/Menu.css" />
 </head>
 <body>
-    <div id="load"><img class="Load_img my-auto" src="~/Asset/images/loading.gif"></div>
     <div class="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header">
         <div class="app-header header-shadow  sidebar-text-dark " style="background-color:white!important;">
             <div class="app-header__logo ">
@@ -187,14 +91,14 @@
                                                 class="rounded-circle"
                                                 src="~/Asset/images/ManojPass.jpg"
                                                 alt="" />*@
-                                            @if(Session["UserName"]!=null)
-                                            { 
-                                            <i id="UserName">@Session["UserName"].ToString() (@Session["UserType"].ToString())</i>
+                                            @if (Session["UserName"] != null)
+                                            {
+                                                <i id="UserName">@Session["UserName"].ToString() (@Session["UserType"].ToString())</i>
                                             }
                                             @*else
-                                            {
-                                                Html.Action("Logout","Login");
-                                            }*@
+                                                {
+                                                    Html.Action("Logout","Login");
+                                                }*@
                                             <i class="fa fa-angle-down ml-2 opacity-8"></i>
                                         </a>
                                         <div tabindex="-1"
@@ -202,27 +106,27 @@
                                              aria-hidden="true"
                                              class="dropdown-menu dropdown-menu-right">
                                             @*<button type="button"
-                                                    tabindex="0"
-                                                    class="dropdown-item" style="font-weight:bold;color:blue;">
-                                                @DashboardName
+                                                        tabindex="0"
+                                                        class="dropdown-item" style="font-weight:bold;color:blue;">
+                                                    @DashboardName
 
-                                            </button>*@
+                                                </button>*@
                                             @*<button type="button"
-                                                    tabindex="0"
-                                                    class="dropdown-item">
-                                                User Account
-                                            </button>
-                                            <button type="button"
-                                                    tabindex="0"
-                                                    class="dropdown-item">
-                                                Settings
-                                            </button>
-                                            <h6 tabindex="-1" class="dropdown-header">Header</h6>
-                                            <button type="button"
-                                                    tabindex="0"
-                                                    class="dropdown-item">
-                                                Actions
-                                            </button>*@
+                                                        tabindex="0"
+                                                        class="dropdown-item">
+                                                    User Account
+                                                </button>
+                                                <button type="button"
+                                                        tabindex="0"
+                                                        class="dropdown-item">
+                                                    Settings
+                                                </button>
+                                                <h6 tabindex="-1" class="dropdown-header">Header</h6>
+                                                <button type="button"
+                                                        tabindex="0"
+                                                        class="dropdown-item">
+                                                    Actions
+                                                </button>*@
                                             <div tabindex="-1" class="dropdown-divider"></div>
                                             @*<button type="button"
                                                         tabindex="0"
@@ -253,16 +157,27 @@
                 </div>
             </div>
         </div>
-
+        <div class="ui-theme-settings">
+            @*<button type="button" id="TooltipDemo" class="btn-open-options btn btn-warning">
+                    <i class="fa fa-cog fa-w-16 fa-spin fa-2x"></i>
+                </button>*@
+            <div class="theme-settings__inner">
+                <div class="scrollbar-container">
+                    <div class="theme-settings__options-wrapper">
+                        <h3 class="themeoptions-heading">
+                            Layout Options
+                        </h3>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="app-main" style="padding-top:110px !important;">
-            <div class="app-sidebar sidebar-shadow app-theme-white">
+            <div class="app-sidebar sidebar-shadow">
                 <div class="app-header__logo">
                     <div class="logo-src"></div>
                     <div class="header__pane ml-auto">
                         <div>
-                            <button type="button"
-                                    class="hamburger close-sidebar-btn hamburger--elastic"
-                                    data-class="closed-sidebar">
+                            <button type="button" class="hamburger close-sidebar-btn hamburger--elastic" data-class="closed-sidebar">
                                 <span class="hamburger-box">
                                     <span class="hamburger-inner"></span>
                                 </span>
@@ -272,8 +187,7 @@
                 </div>
                 <div class="app-header__mobile-menu">
                     <div>
-                        <button type="button"
-                                class="hamburger hamburger--elastic mobile-toggle-nav">
+                        <button type="button" class="hamburger hamburger--elastic mobile-toggle-nav">
                             <span class="hamburger-box">
                                 <span class="hamburger-inner"></span>
                             </span>
@@ -282,19 +196,19 @@
                 </div>
                 <div class="app-header__menu">
                     <span>
-                        <button type="button"
-                                class="btn-icon btn-icon-only btn btn-primary btn-sm mobile-toggle-header-nav">
+                        <button type="button" class="btn-icon btn-icon-only btn btn-primary btn-sm mobile-toggle-header-nav">
                             <span class="btn-icon-wrapper">
                                 <i class="fa fa-ellipsis-v fa-w-6"></i>
                             </span>
                         </button>
                     </span>
                 </div>
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <div class="scrollbar-sidebar">
-                        <div class="app-sidebar__inner" style="font-size:12px;">
+                <div class="scrollbar-sidebar">
+                    <div class="app-sidebar__inner">
+                        @if (User.Identity.IsAuthenticated)
+                        {
                             <ul class="vertical-nav-menu">
+
                                 <li class="app-sidebar__heading"></li>
                                 <li>
 
@@ -357,30 +271,9 @@
                                                 </li>
                                             </ul>
                                         </li>
-                                        @*<li>
-                    <a href="#">
-                        <i class="metismenu-icon pe-7s-car"></i>
-                        Compatability Report
-                        <i class="metismenu-state-icon fa fa-caret-down caret-left"></i>
-                    </a>
-                    <ul>
-                        <li>
-                            <a href="components-tabs.html">
-                                <i class="metismenu-icon"> </i> Add on Compatability
-                                Check
-                            </a>
-                        </li>
-                        <li>
-                            <a href="components-accordions.html">
-                                <i class="metismenu-icon"> </i>ABAP Test Cock Pit
-                            </a>
-                        </li>
-                    </ul>
-                </li>*@
+
                                     </ul>
                                 </li>
-                                <!-- <li class="app-sidebar__heading">Assessment</li> -->
-                                <!-- <li class="app-sidebar__heading">Widgets</li> -->
                                 @if (User.IsInRole("Consultant") || User.IsInRole("Admin"))
                                 {
                                     <li>
@@ -412,6 +305,12 @@
                                             </li>
 
                                         </ul>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("Create", "ProjectMonitor")">
+                                            <i class="metismenu-icon fa fa-dot-circle"></i>
+                                            Project Monitor
+                                        </a>
                                     </li>
                                 }
                                 <li>
@@ -461,14 +360,6 @@
                                                     View SAP Consultant
                                                 </a>
                                             </li>
-                                            <li>
-                                                <a href="@Url.Action("Create", "ProjectMonitor")">
-                                                    <i class="metismenu-icon pe-7s-diamond"></i>
-                                                    Project Monitor
-                                                </a>
-                                            </li>
-
-
                                         </ul>
                                     </li>
                                 }
@@ -503,6 +394,12 @@
                                                 <a href="@Url.Action("Index", "ProjectInstanceConfigs")">
                                                     <i class="metismenu-icon pe-7s-diamond"></i>
                                                     View Project
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="@Url.Action("Index", "PhaseMaster")">
+                                                    <i class="metismenu-icon pe-7s-diamond"></i>
+                                                    Master
                                                 </a>
                                             </li>
                                         </ul>
@@ -545,45 +442,39 @@
 
                                         </ul>
                                     </li>
-                                    <li>
-                                        <a href="@Url.Action("Index", "PhaseMaster")">
-                                            <i class="metismenu-icon fa fa-dot-circle"></i>
-                                            All Masters
-                                        </a>
-                                    </li>
-                                }
-                            </ul>
-                        </div>
-                    </div>
-                }
-            </div>
 
+                                }
+
+                            </ul>
+                        }
+                    </div>
+                </div>
+            </div>
             <div class="app-main__outer">
-                <div class="tab-content">
-                    <div class="tab-pane tabs-animation fade active show">
-                        <div class="main-card mb-3">
-                            <div class="card-body">
-                                @RenderBody()
+                <div class="app-main__inner">
+                    @RenderBody()
+                    @RenderSection("scripts", required: false)
+                </div>
+                <div class="app-wrapper-footer">
+                    <div class="app-footer">
+                        <div class="app-footer__inner">
+                            <div class="app-footer-left">
+                                <img src="~/Asset/images/resizeimage.png" style="width: 150px;" /><br />
+                                <footer style="text-indent: 1em;"><a style="color:gray !important;">©Copyright 2020 Promantus Inc.,All Rights Reserved</a></footer>
+                            </div>
+                            <div class="app-footer-right">
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="app-wrapper-footer">
-                    <div class="app-footer">
-                        <div class="app-footer__inner ">
-                            <img src="~/Asset/images/resizeimage.png" style="width: 150px;" /><br />
-                            <footer style="text-indent: 1em;"><a style="color:gray !important;">©Copyright 2020 Promantus Inc.,All Rights Reserved</a></footer>
-                        </div>
-                    </div>
-                </div>
+               
             </div>
-            @RenderSection("scripts", required: false)
+
         </div>
+        
     </div>
-    <script src="~/Asset/Scripts/bootstrap.min.js"></script>
-    <link href="~/Asset/Jquery/jquery-ui.css" rel="stylesheet" />
-    @*<script src="~/Asset/Jquery/jquery-1.12.4.js"></script>*@
-    <script src="~/Asset/Jquery/jquery-ui.js"></script>
+    <div id="load"><img class="Load_img my-auto" src="~/Asset/images/loading.gif"></div>
+   
     <script>
         $(document).ready(function () {
             $(document).ajaxStart(function () {
@@ -600,7 +491,7 @@
                 $(this).parent().addClass('mm-active');
             }
         });
+       
     </script>
-
 </body>
 </html>

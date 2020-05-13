@@ -9,6 +9,9 @@ using System.Web.Mvc;
 
 namespace ProAcc.Controllers
 {
+    [CheckSessionTimeOut]
+    [Authorize(Roles = "Admin,Consultant")]
+
     public class ProjectMonitorController : Controller
     {
         Base _Base = new Base();

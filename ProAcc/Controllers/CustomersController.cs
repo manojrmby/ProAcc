@@ -10,9 +10,11 @@ using ProAcc.BL.Model;
 using ProACC_DB;
 using PagedList;
 using PagedList.Mvc;
+using ProAcc.BL;
 
 namespace ProAcc.Controllers
 {
+    [CheckSessionTimeOut]
     [Authorize(Roles = "Admin")]
     public class CustomersController : Controller
     {

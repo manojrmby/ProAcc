@@ -13,7 +13,8 @@ using Newtonsoft.Json;
 
 namespace ProAcc.Controllers
 {
-    //[Authorize(Roles = "Admin,Consultant,Customer")]
+    [CheckSessionTimeOut]
+    [Authorize(Roles = "Admin,Consultant")]
     public class PreConvertionController : Controller
     {
         Base _Base = new Base();

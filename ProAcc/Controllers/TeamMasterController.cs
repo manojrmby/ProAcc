@@ -1,4 +1,5 @@
-﻿using ProACC_DB;
+﻿using ProAcc.BL;
+using ProACC_DB;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -8,6 +9,10 @@ using System.Web.Mvc;
 
 namespace ProAcc.Controllers
 {
+
+    [CheckSessionTimeOut]
+    [Authorize(Roles = "Admin,Consultant")]
+
     public class TeamMasterController : Controller
     {
         ProAccEntities db = new ProAccEntities();
