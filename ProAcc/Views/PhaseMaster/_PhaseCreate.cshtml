@@ -115,7 +115,8 @@
              Cre_By: cre_By
          }
         if (PhaseName == "") {
-            alert("Please enter the Phase Name")
+            //alert("Please enter the Phase Name")
+            $("#lblPhaseName").html("Please enter the Phase Name").show().fadeOut(2000);
         }
         else {
             $.ajax({
@@ -128,7 +129,7 @@
                       $("#lblPhaseName").html("this Phase name is already taken,please select another").show().fadeOut(2000);
                       //alert("This Phase name is already taken,please select another.");
                       //$("#txtPhaseName").val("");
-                      location.reload();
+                      //location.reload();
                   }
                   else {
                       $.ajax({
@@ -139,7 +140,7 @@
                     success: function (response) {
                         if (response == "success") {
                             alert("Phase Edited successfully!");
-                           // call();
+                            //Getda();
                             location.reload();
                         }
                     },

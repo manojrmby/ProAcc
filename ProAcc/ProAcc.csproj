@@ -486,7 +486,15 @@
     <Content Include="bin\roslyn\vbc.exe.config" />
     <Content Include="bin\roslyn\vbc.rsp" />
     <Content Include="bin\roslyn\VBCSCompiler.exe.config" />
+    <Content Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
+    <Content Include="obj\Debug\ProAcc.csproj.CopyComplete" />
+    <Content Include="obj\Debug\ProAcc.csproj.ResolveComReference.cache" />
+    <Content Include="obj\Debug\ProAcc.csprojAssemblyReference.cache" />
+    <Content Include="obj\Release\ProAcc.csproj.ResolveComReference.cache" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <Content Include="obj\Debug\ProAcc.csproj.FileListAbsolute.txt" />
+    <Content Include="obj\Debug\ProAcc.dll" />
+    <Content Include="obj\Debug\ProAcc.pdb" />
     <Content Include="Web.config" />
     <Content Include="Views\shared\_Layout.cshtml" />
   </ItemGroup>
@@ -595,6 +603,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Asset\UploadedFiles\Temp\" />
+    <Folder Include="obj\Debug\TempPE\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

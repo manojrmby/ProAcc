@@ -21,7 +21,6 @@
         @foreach (var item in pdetails)
         {
             <tr>
-
                 <td>
                     <a class="txtG" value="@item.PhaseName">@item.PhaseName</a>
                 </td>
@@ -52,19 +51,22 @@
 
 <script type="text/javascript">
     //$(document).ready(function () {
-    //    funct();
-    //    //call();
+    //    //funct();
+    //    Getda();
         
     //});
 
-    function call() {
+    function Getda() {
+        debugger;
+        window.location.href='@Url.Action("Index","PhaseMaster")'
         //debugger;
-        $.ajax({
+        @*$.ajax({
             url: '@Url.Action("Index","PhaseMaster")',
             success: function () {
           //      alert("Success");
             }
-        });
+        });*@
+
     }
 
     function funct() {

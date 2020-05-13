@@ -5,38 +5,37 @@
     ViewBag.Title = "Create";
 }
 
-<style>
-    .required::after {
-        content: "*";
-        font-weight: bold;
-        color: red;
-    }
-</style>
-<div class="row">
-    <div class="col-6">
-        <h4>Create Team</h4>
-        <input type="hidden" id="StatusId" />
-        <input type="hidden" id="stacre_on" />
-        <input type="hidden" id="stacre_By" />
-        <div class="form-group">
-            <label class="control-label col-md-4 required">Status Name</label>
-            <div class="col-md-10">
-                <input type="text" class="form-control" id="txtStatusName" />
-                <span id="lblStatusName" style="color:red" />
+<a class="card-title">Create Status</a>
+<div style="padding:1em;">
+    <div class="row">
+        <div class="col-6">
+            <input type="hidden" id="StatusId" />
+            <input type="hidden" id="stacre_on" />
+            <input type="hidden" id="stacre_By" />
+            <div class="form-group">
+                <label class="control-label col-md-4 required">Status Name</label>
+                <div class="col-md-10">
+                    <input type="text" class="form-control" id="txtStatusName" />
+                    <span id="lblStatusName" style="color:red" />
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="button" value="Create" class="btn btn-primary" id="btnStatusCreate" />
-                <input type="button" value="Update" class="btn btn-info" id="btnStatusUpdate" style="display:none" />
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="button" value="Create" class="btn btn-primary" id="btnStatusCreate" />
+                    <input type="button" value="Update" class="btn btn-info" id="btnStatusUpdate" style="display:none" />
+                </div>
             </div>
-        </div>
 
+        </div>
     </div>
 </div>
 
 <script>
+
+     $(document).ready(function () {
+        $("#btnStatusCreate").prop('disabled', true);
+     });
 
     $("#txtStatusName").keypress(function (event) {
         debugger;
@@ -45,16 +44,18 @@
 
             if (!(inputValue >= 65 && inputValue <= 122) && (inputValue != 32 && inputValue != 0)) {
                     event.preventDefault();
-                    $("#lblTeamName").html("Not Allowed").show().fadeOut("slow");
-            }
+                    $("#lblStatusName").html("Not Allowed").show().fadeOut(2000);
+        }
+        $("#btnStatusCreate").prop('disabled', false);
     });
 
 
     $("#btnStatusCreate").on("click", function () {
         debugger;
-        var StatusName = $("#txtStatusName").val();
+        var StatusName = $("#txtStatusName").val().trim();
         if (StatusName == "") {
-            alert("Please enter the Status Name")
+            //alert("Please enter the Status Name")
+            $("#lblStatusName").html("Please enter the Status Name").show().fadeOut(2000);
         }
         else {
             $.ajax({
@@ -64,9 +65,9 @@
               dataType: "json",
               success: function (data) {
                   if (data != "success") {
-                      //$("#lblTeamName").html("this Team name is already taken,please select another").show().fadeOut("slow");
-                      alert("This Team name is already taken,please select another.");
-                      $("#txtStatusName").val("");
+                      $("#lblStatusName").html("This Status name is already taken,please select another").show().fadeOut(2000);
+                      //alert("This Team name is already taken,please select another.");
+                      //$("#txtStatusName").val("");
                   }
                   else {
                       $.ajax({
@@ -101,8 +102,8 @@
 
     $("#btnStatusUpdate").on("click", function () {
          debugger;
-         var id = $("#StatusId").val();
-        var StatusName = $("#txtStatusName").val();
+        var id = $("#StatusId").val();
+        var StatusName = $("#txtStatusName").val().trim();
         var cre_on = $("#stacre_on").val();
         var cre_By = $("#stacre_By").val();
 
@@ -113,7 +114,8 @@
              Cre_By: cre_By
          }
         if (StatusName == "") {
-            alert("Please enter the Status Name")
+            //alert("Please enter the Status Name")
+            $("#lblStatusName").html("Please enter the Status Name").show().fadeOut(2000);
         }
         else {
             $.ajax({
@@ -123,10 +125,10 @@
               dataType: "json",
               success: function (data) {
                   if (data != "success") {
-                      //$("#lblPhaseName").html("this Phase name is already taken,please select another").show().fadeOut("slow");
-                      alert("This Status name is already taken,please select another.");
-                      $("#txtStatusName").val("");
-                      location.reload();
+                      $("#lblStatusName").html("This Status name is already taken,please select another").show().fadeOut(2000);
+                      //alert("This Status name is already taken,please select another.");
+                      //$("#txtStatusName").val("");
+                      //location.reload();
                   }
                   else {
                       $.ajax({

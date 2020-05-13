@@ -9,7 +9,7 @@
     <thead>
         <tr>
             <th>
-                PhaseName
+                PendingName
             </th>
             <th>
                 Actions
@@ -26,8 +26,8 @@
                 </td>
 
                 <td>
-                    <a href="#" id="btnEdit" class="editPending">Edit</a><input type="hidden" value="@item.Id" /> |
-                    <a href="#" class="btnPendingDelete">Delete</a><input type="hidden" value="@item.Id" />
+                    <a href="#" id="btnEdit" class="editPending fa fa-edit"></a><input type="hidden" value="@item.Id" /> |
+                    <a href="#" class="btnPendingDelete fa fa-trash"></a><input type="hidden" value="@item.Id" />
                 </td>
             </tr>
         }
@@ -47,7 +47,8 @@
                 success: function (response) {
                     if (response == "success") {
                         alert("Pending name deleted successfully!");
-                        window.location="/PhaseMaster/Index"
+                        //window.location="/PhaseMaster/Index"
+                        location.reload();
                     }
                 },
                 failure: function (response) {

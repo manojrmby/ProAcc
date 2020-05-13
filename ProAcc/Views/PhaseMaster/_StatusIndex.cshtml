@@ -10,7 +10,7 @@
     <thead>
         <tr>
             <th>
-                StatusName
+                Status Name
             </th>
             <th>
                 Actions
@@ -27,8 +27,8 @@
                 </td>
 
                 <td>
-                    <a href="#" id="btnEdit" class="editStatus">Edit</a><input type="hidden" value="@item.Id" /> |
-                    <a href="#" class="btnStatusDelete">Delete</a><input type="hidden" value="@item.Id" />
+                    <a href="#" id="btnEdit" class="editStatus fa fa-edit"></a><input type="hidden" value="@item.Id" /> |
+                    <a href="#" class="btnStatusDelete fa fa-trash"></a><input type="hidden" value="@item.Id" />
                 </td>
             </tr>
         }
@@ -48,7 +48,8 @@
                 success: function (response) {
                     if (response == "success") {
                         alert("Status name deleted successfully!");
-                        window.location="/PhaseMaster/Index"
+                        //window.location="/PhaseMaster/Index"
+                        location.reload();
                     }
                 },
                 failure: function (response) {

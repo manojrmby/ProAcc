@@ -45,15 +45,16 @@
                     event.preventDefault();
                     $("#lblPendingName").html("Not Allowed").show().fadeOut("slow");
         }
-        $("#btnPendingCreate").prop('disabled', true);
+        $("#btnPendingCreate").prop('disabled', false);
     });
 
 
     $("#btnPendingCreate").on("click", function () {
         debugger;
-        var PendingName = $("#txtPendingName").val();
+        var PendingName = $("#txtPendingName").val().trim();
         if (PendingName == "") {
-            alert("Please enter the Phase Name")
+            $("#lblPendingName").html("Please enter the Pending Name").show().fadeOut(2000);
+            //alert("Please enter the Phase Name")
         }
         else {
             $.ajax({
@@ -63,11 +64,12 @@
               dataType: "json",
               success: function (data) {
                   if (data != "success") {
-                      //$("#lblPhaseName").html("this Phase name is already taken,please select another").show().fadeOut("slow");
-                      alert("This Pending name is already taken,please select another.");
-                      $("#txtPendingName").val("");
+                      $("#lblPendingName").html("This Pending name is already taken,please select another").show().fadeOut(2000);
+                      //alert("This Pending name is already taken,please select another.");
+                      //$("#txtPendingName").val("");
                   }
                   else {
+                      
                       $.ajax({
                     type: "POST",
                     url: '@Url.Action("Create","Pending")',
@@ -76,7 +78,8 @@
                     success: function (response) {
                         if (response == "success") {
                             alert("PendingName Saved successfully!");
-                             $("#txtPendingName").val("");
+                            $("#txtPendingName").val("");
+                            location.reload();
                               //window.location = "/Employee/Index"
                         }
                     },
@@ -101,7 +104,7 @@
     $("#btnPendingUpdate").on("click", function () {
          debugger;
          var id = $("#PendingId").val();
-        var PendingName = $("#txtPendingName").val();
+        var PendingName = $("#txtPendingName").val().trim();
         var cre_on = $("#pendcre_on").val();
         var cre_By = $("#pendcre_By").val();
 
@@ -112,7 +115,8 @@
              Cre_By: cre_By
          }
         if (PendingName == "") {
-            alert("Please enter the Pending Name")
+            $("#lblPendingName").html("Please enter the Pending Name").show().fadeOut(2000);
+            //alert("Please enter the Pending Name")
         }
         else {
             $.ajax({
@@ -122,10 +126,10 @@
               dataType: "json",
               success: function (data) {
                   if (data != "success") {
-                      //$("#lblPhaseName").html("this Phase name is already taken,please select another").show().fadeOut("slow");
-                      alert("This Pending name is already taken,please select another.");
-                      $("#txtPendingName").val("");
-                      location.reload();
+                      $("#lblPendingName").html("This Pending name is already taken,please select another").show().fadeOut(2000);
+                      //alert("This Pending name is already taken,please select another.");
+                      //$("#txtPendingName").val("");
+                      //location.reload();
                   }
                   else {
                       $.ajax({
