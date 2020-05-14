@@ -45,7 +45,21 @@ namespace ProAcc.Controllers
             }
             return View(customer);
         }
-       
+
+        public JsonResult CheckCustomersNameAvailability(string namedata)
+        {
+            System.Threading.Thread.Sleep(100);
+            var SearchDt = db.Customers.Where(x => x.Name == namedata).Where(x => x.isActive == true).FirstOrDefault();
+            if (SearchDt != null)
+            {
+                return Json("error", JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json("success", JsonRequestBehavior.AllowGet);
+            }
+        }
+
         // GET: Customers/Create
         public ActionResult Create()
         {
@@ -67,7 +81,6 @@ namespace ProAcc.Controllers
         {
             try
             {
-
                 if (ModelState.IsValid)
                 {
                     if (customer.UserName != null && customer.Password != null)

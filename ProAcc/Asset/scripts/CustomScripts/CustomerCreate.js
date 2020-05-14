@@ -49,6 +49,33 @@
     });
 
     $("#txtName").on('change', function () {
+        debugger;
+        var CustName = $("#txtName").val().trim();
+        if (CustName == "") {
+            $("#lblName").html("Please Enter valid Consultant name").show().fadeOut(2000);
+        }
+        else {
+            $.ajax({
+                url:  "/Customers/CheckCustomersNameAvailability",
+                type: "GET",
+                data: { namedata: CustName },
+                dataType: "json",
+                success: function (data) {
+                    if (data != "success") {
+                        $("#lblName").html("This Customer name is already taken,please select another").show();
+
+                    }
+                    else {
+                        $("#lblName").html("").hide();
+                    }
+
+                },
+                error: function (err) {
+
+                    alert(err);
+                }
+            });
+        }
         ValidateButton();
     });
     $("#txtwork").on('change', function () {
@@ -61,6 +88,33 @@
         ValidateButton();
     });
     $("#CustomerUserName").on('change', function () {
+
+        var CustUserName = $("#CustomerUserName").val().trim();
+        if (CustUserName == "") {
+            $("#lblName").html("Please Enter valid Customer User name").show().fadeOut(2000);
+        }
+        else {
+            $.ajax({
+                url: "/Consultants/CheckConsultantsUsernameAvailability",
+                type: "GET",
+                data: { userdata: CustUserName },
+                dataType: "json",
+                success: function (data) {
+                    if (data != "success") {
+                        $("#Status1").html("This User name is already taken,please select another").show();
+
+                    }
+                    else {
+                        $("#Status1").html("").hide();
+                    }
+
+                },
+                error: function (err) {
+
+                    alert(err);
+                }
+            });
+        }
         ValidateButton();
     });
     $("#txtPassword").on('change', function () {
@@ -115,6 +169,7 @@
             buttonImage: "/Asset/images/calendar-512.png",
             buttonImageOnly: true,
             buttonText: "Select date",
+            dateFormat: "dd/mm/yy",
             changeMonth: true,
             changeYear: true,
             beforeShow: function (textbox, instance) {
@@ -130,6 +185,7 @@
             buttonImage: "/Asset/images/calendar-512.png",
             buttonImageOnly: true,
             buttonText: "Select date",
+            dateFormat:"dd/mm/yy",
             changeMonth: true,
             changeYear: true,
             beforeShow: function (textbox, instance) {
@@ -140,114 +196,11 @@
             }
         });
     });
-    function ValidatePhoneNumber() {
-        //debugger;
-        var mob = /^[1-9]{1}[0-9]{9-11}$/;
-        var txtMobile = document.getElementById("txtMobId").value;
-        var lblMob = document.getElementById("lblMob");
-        lblMob.innerHTML = "";
-        if (mob.test(txtMobile) == false) {
-            lblMob.innerHTML = "Please enter valid mobile number.";
-            //result = "error";
-            $("#create").prop("disabled", true);
-        }
-        else {
-            lblMob.innerHTML = "";
-            //result = "Success";
-            ValidateButton();
-        }
-        //validateSave();
-    }
-    function ValidateAltPhoneNumber() {
-        //debugger;
-        var mob = /^[1-9]{1}[0-9]{9-11}$/;
-        var txtAltMobile = document.getElementById("txtAltMobId").value;
-        var lblAltMob = document.getElementById("lblAltMob");
-        lblAltMob.innerHtml = "";
-        if (txtAltMobile == "") {
-            lblAltMob.innerHTML = "";
-            $("#create").prop("disabled", false);
-        }
-        else if (mob.test(txtAltMobile) == false) {
-            lblAltMob.innerHTML = "Please enter valid mobile number.";
-            //result = "error";
-            $("#create").prop("disabled", true);
-        }
-        else {
-            lblAltMob.innerHTML = "";
-            //result = "Success";
-            ValidateButton();
-        }
-        // validateSave();
-    }
-    function ValidateEmail() {
-        //debugger;
-        var email = document.getElementById("txtEmail").value;
-        var lblEmail = document.getElementById("lblEmail");
-        lblEmail.innerHTML = "";
-        var expr = /^([\w-\.]+)@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
-        if (email == "" || !expr.test(email)) {
-            lblEmail.innerHTML = "Please enter valid email address.";
-            //result = "error";
-            $("#create").prop("disabled", true);
-        }
-        else {
-            lblEmail.innerHTML = "";
-            //result = "Success";
-            ValidateButton();
-        }
-        //validateSave();
-    }
-
-    function ValidateAltEmail() {
-        //debugger;
-        var Altemail = document.getElementById("txtAltEmail").value;
-        var lblAltEmail = document.getElementById("lblAltEmail");
-        lblAltEmail.innerHTML = "";
-        var expr = /^([\w-\.]+)@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
-        if (Altemail == "") {
-            lblAltEmail.innerHTML = "";
-            $("#create").prop("disabled", true);
-        }
-        else if (!expr.test(Altemail) && Altemail != "") {
-            lblAltEmail.innerHTML = "Please enter valid email address.";
-            //result = "error";
-            $("#create").prop("disabled", true);
-        }
-        else {
-            lblAltEmail.innerHTML = "";
-            ValidateButton();
-        }
-    }
-
-    function validatePwd() {
-        //debugger;
-        var password = document.getElementById("txtPassword").value;
-        var confirmPassword = document.getElementById("txtConfirmPassword").value;
-        var lblAltPwd = document.getElementById("lblAltPwd");
-        lblAltPwd.innerHTML = "";
-        if (password != confirmPassword) {
-            lblAltPwd.innerHTML = "Password does not match";
-            //result = "error";
-            $("#create").prop("disabled", true);
-        }
-        else {
-            lblAltPwd.innerHTML = "";
-            ValidateButton();
-        }
-    }
-
-
-
-
-
-
-
-
-
-
+    
+    
 
     function ValidateButton() {
+        debugger;
         var txtLastDt = $("#txtLastDt").val();
         var txtNextDt = $("#txtNextDt").val();
         var Name = $("#txtName").val();

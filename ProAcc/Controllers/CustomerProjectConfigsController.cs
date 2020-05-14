@@ -69,6 +69,18 @@ namespace ProAcc.Controllers
                     customerProjectConfig.Cre_By = Guid.Parse(Session["loginid"].ToString());
                     customerProjectConfig.LastUpdated_Dt = DateTime.Now;
                     customerProjectConfig.isActive = true;
+
+                    var ID = from k in db.CustomerProjectConfigs where k.CustomerID == customerProjectConfig.CustomerID && k.ProjectName == customerProjectConfig.ProjectName select k.Id;
+                    if (ID.Count() > 0)
+                    {
+                        var valid = db.Consultants.Where(a => a.isActive == true);
+                        ViewBag.ConsultantID = new SelectList(valid, "Id", "Name", customerProjectConfig.ConsultantID);
+                        var valid1 = db.Customers.Where(a => a.isActive == true);
+                        ViewBag.CustomerID = new SelectList(valid1, "Id", "Name", customerProjectConfig.CustomerID);
+                        ViewBag.Me = true;
+                        return View();
+                    }
+
                     db.CustomerProjectConfigs.Add(customerProjectConfig);
                     db.SaveChanges();
                     return RedirectToAction("Index");
@@ -89,6 +101,20 @@ namespace ProAcc.Controllers
             var val1 = db.Customers.Where(a => a.isActive == true);
             ViewBag.CustomerID = new SelectList(val1, "Id", "Name", customerProjectConfig.CustomerID);
             return View(customerProjectConfig);
+        }
+
+        public JsonResult CheckProjectNameAvailability(string projdata)
+        {
+            System.Threading.Thread.Sleep(100);
+            var SearchDt = db.CustomerProjectConfigs.Where(x => x.ProjectName == projdata).Where(x => x.isActive == true).FirstOrDefault();
+            if (SearchDt != null)
+            {
+                return Json("error", JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json("success", JsonRequestBehavior.AllowGet);
+            }
         }
 
         // GET: CustomerProjectConfigs/Edit/5
