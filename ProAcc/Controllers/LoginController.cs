@@ -13,7 +13,7 @@ namespace ProAcc.Controllers
     public class LoginController : Controller
     {
         Base _Base = new Base();
-        LogHelper LogHelper = new LogHelper();
+        LogHelper _Log = new LogHelper();
         // GET: Login
 
         public ActionResult Login()
@@ -38,17 +38,17 @@ namespace ProAcc.Controllers
             if (!string.IsNullOrEmpty(returnUrl))
                 decodedUrl = Server.UrlDecode(returnUrl);
            
-                if (!String.IsNullOrEmpty(user.Username))
+                if (!String.IsNullOrEmpty(user.Username)&& (!String.IsNullOrEmpty(user.Password)))
                 {
                     logedUser = _Base.UserValidation(logedUser);
                     if (logedUser.ID != Guid.Empty)
                     {
                         FormsAuthentication.SetAuthCookie(logedUser.Username, false);
                         Session["loginid"] = logedUser.ID.ToString();
-                        Session["UserName"]= logedUser.Name.ToString();
+                        Session["UserName"] = logedUser.Name.ToString();
                         Session["InstanceId"] = Guid.Empty;
                         string UserType = "";
-                        if (logedUser.Type==1)
+                        if (logedUser.Type == 1)
                         {
                             UserType = "Admin";
                         }
@@ -63,18 +63,23 @@ namespace ProAcc.Controllers
                         Session["UserType"] = UserType;
                         return RedirectToAction("Home", "Home");
                     }
+                    else
+                    {
+                        TempData["Message"] = "User name & password supplied doesn't Match";
+                    }
                 }
                 else
                 {
-                    TempData["Message"] = "User name or password supplied doesn't exist.";
+                    TempData["Message"] = "Enter User name & password";
                 }
             }
             catch (Exception ex)
             {
 
                 string Url = Request.Url.AbsoluteUri;
-               // LogHelper.createLog(ex, Url);
+                _Log.createLog(ex, Url);
                 TempData["Message"] = "Login failed.Error - " + ex.Message;
+                //throw;
             }
             return RedirectToAction("Login", "Login");
         }

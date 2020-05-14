@@ -19,6 +19,7 @@ namespace ProAcc.Controllers
     public class CustomersController : Controller
     {
         private ProAccEntities db = new ProAccEntities();
+        LogHelper _Log = new LogHelper();
 
         // GET: Customers
         public ActionResult Index(String search, int? i)
@@ -64,36 +65,47 @@ namespace ProAcc.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Customer customer)
         {
-            if (ModelState.IsValid)
+            try
             {
-                if (customer.UserName != null && customer.Password != null)
-                {
-                    customer.Id = Guid.NewGuid();
-                    customer.Cre_on = DateTime.Now;
-                    customer.Cre_By = Guid.Parse(Session["loginid"].ToString());
-                    customer.UserTypeID = 3;
-                    customer.isActive = true;
-                    db.Customers.Add(customer);
-                    db.SaveChanges();
-                    return RedirectToAction("Index");
-                }
-                else
-                {
-                    ViewBag.UserTypeID = new SelectList(db.User_Master, "Id", "UserType", customer.UserTypeID);
-                    ViewBag.Id = new SelectList(db.Projects, "Id", "Accuracy", customer.Id);
-                    ViewBag.LeadStatus = new SelectList(db.leadStatus_Master, "Id", "StatusName", customer.Id);
-                    ViewBag.Message = true;
-                    return View();
-                }
-            }
 
-            ViewBag.UserTypeID = new SelectList(db.User_Master.Where(a => a.isActive == true), "Id", "UserType", customer.UserTypeID);
-            ViewBag.Id = new SelectList(db.Projects.Where(a => a.isActive == true), "Id", "Accuracy", customer.Id);
-            ViewBag.LeadStatus = new SelectList(db.leadStatus_Master.Where(a => a.isActive == true), "Id", "StatusName", customer.Id);
-            CreateViewModel model = new CreateViewModel();
-            model.consultant = new Consultant();
-            model.customer = customer;
-            return View(model);
+                if (ModelState.IsValid)
+                {
+                    if (customer.UserName != null && customer.Password != null)
+                    {
+                        customer.Id = Guid.NewGuid();
+                        customer.Cre_on = DateTime.Now;
+                        customer.Cre_By = Guid.Parse(Session["loginid"].ToString());
+                        customer.UserTypeID = 3;
+                        customer.isActive = true;
+                        db.Customers.Add(customer);
+                        db.SaveChanges();
+                        return RedirectToAction("Index", "Customers");
+                    }
+                    else
+                    {
+                        ViewBag.UserTypeID = new SelectList(db.User_Master, "Id", "UserType", customer.UserTypeID);
+                        ViewBag.Id = new SelectList(db.Projects, "Id", "Accuracy", customer.Id);
+                        ViewBag.LeadStatus = new SelectList(db.leadStatus_Master, "Id", "StatusName", customer.Id);
+                        ViewBag.Message = true;
+                        return View();
+                    }
+                }
+
+                ViewBag.UserTypeID = new SelectList(db.User_Master.Where(a => a.isActive == true), "Id", "UserType", customer.UserTypeID);
+                ViewBag.Id = new SelectList(db.Projects.Where(a => a.isActive == true), "Id", "Accuracy", customer.Id);
+                ViewBag.LeadStatus = new SelectList(db.leadStatus_Master.Where(a => a.isActive == true), "Id", "StatusName", customer.Id);
+                CreateViewModel model = new CreateViewModel();
+                model.consultant = new Consultant();
+                model.customer = customer;
+                return View(model);
+            }
+            catch (Exception Ex)
+            {
+                string Url = Request.Url.AbsoluteUri;
+                _Log.createLog(Ex, Url);
+                throw;
+            }
+            
         }
 
         // GET: Customers/Edit/5

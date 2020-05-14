@@ -235,6 +235,8 @@ namespace ProAcc.Controllers
         public ActionResult FioriAppsReport()
         {
             InstanceId = Guid.Parse(Session["InstanceId"].ToString());
+            //InstanceId = Guid.Parse("d2708e9f-eda4-47c2-b028-2776353ae755");
+
             if (InstanceId == Guid.Empty)
             {
                 ViewBag.Message = String.Format("Hello {0},\n Kindly Select Instance", Session["UserName"].ToString()).Replace("\n", Environment.NewLine);

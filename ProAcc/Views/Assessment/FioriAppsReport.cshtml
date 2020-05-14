@@ -25,32 +25,33 @@
         }
 
     .chartAreaWrapper {
-        width: 600px;
+        /*width: 50%!important;*/
         overflow-x: scroll;
     }
 </style>
-<div style="padding:1em;">
+<div style="padding:1em;" class="col-md-12">
     <div class="row">
         <div class="col-md-12 card" id="Chart123">
             <div class="row" style="padding:0em 1em 1em 1em;">
                 <div class="col-lg-6">
 
-                </div>
+            </div>
                 <div class="col-lg-6">
 
                     @Html.DropDownList("Roles", (IEnumerable<SelectListItem>)ViewBag.Roles, "ALL", new { id = "IDRoles", @class = "form-control" })
                 </div>
             </div>
-
-        </div>
-        <div class="chartWrapper">
-            <div class="chartAreaWrapper">
-                <div class="chartAreaWrapper2">
-                    <canvas id="chart-Test" height="300" width="1200"></canvas>
+            <div class="chartWrapper card" id="chartWrapper" style="max-width:925px;">
+                <div class="chartAreaWrapper col-md-12">
+                    <div class="chartAreaWrapper2">
+                        <canvas id="chart-Test"></canvas>
+                    </div>
+                    <canvas id="axis-Test"></canvas>
                 </div>
+
             </div>
-            <canvas id="axis-Test" height="300" width="0"></canvas>
         </div>
+        
         @*<canvas id="Chart_FioriApps"></canvas>*@
     </div>
    
@@ -100,7 +101,7 @@
 
     </div>
 </div>
-</div>
+
 <div>
     @Html.Hidden("RedirectTo", Url.Action("Home", "Home"))
     <div style="visibility:hidden">
@@ -218,8 +219,6 @@
 	//	window.myRadialGauge = new Chart(ctx, config);
 
 	//}
-
-
 	function Ajax_Call(a) {
 
 		$.ajax({
@@ -228,8 +227,7 @@
 			data: '{Input: ' + JSON.stringify(a) + '}',
 			dataType: "json",
 			contentType: "application/json; charset=utf-8",
-			success: function (Data) {
-
+            success: function (Data) {
 				var Output = Data._List;
 
 				var inpName = []; var inpVal = []; var backColor = [];
@@ -258,8 +256,6 @@
         if (Ses_InstanceId != "") {
             Ajax_Call(a);
         }
-
-
 	$("#IDRoles").change(function () {
 
 		var a = $('#IDRoles option:selected').text();
@@ -268,8 +264,6 @@
             Ajax_Call(a);
         }
 	   });
-
-
         //function generateLabels() {
         //    var chartLabels = [];
         //    for (x = 0; x < 100; x++) {
@@ -287,13 +281,25 @@
         //}
 
     function addData(numData, chart) {
-        //debugger;
+        
             for (var i = 0; i < numData; i++) {
                 //chart.data.datasets[0].data.push(1 * 100);
                 //chart.data.labels.push("Label" + i);
-                var newwidth = $('.chartAreaWrapper2').width() + 30;
+                if (numData==1) {
+                    
+                    //$(".chartAreaWrapper").remove();
+                    $('#Chart123').removeClass('col-md-12').addClass('col-md-6');
+                    $('#axis-Test').remove();
+                }
+              
+                if (numData > 1) {
+                    $('#Chart123').removeClass('col-md-6').addClass('col-md-12');
+                    
+                    var newwidth = $('.chartAreaWrapper2').width() + 15;
                 $('.chartAreaWrapper2').width(newwidth);
-                $('.chartAreaWrapper2').height("1000px")
+                $('.chartAreaWrapper2').height("200px")
+                }
+                
             }
         }
 
@@ -304,16 +310,21 @@
         //        data: generateData()
         //    }]
         //};
-
-
-
         function renderChart2(data, labels, backColor) {
-            var rectangleSet = false;
+            //var rectangleSet = false;
             var maxval = Math.max.apply(Math, data);
+            $(".chartAreaWrapper").remove();
+
+           // debugger;
+            $("#chartWrapper").append('<div class="chartAreaWrapper col-md-12"><div class="chartAreaWrapper2"><canvas id="chart-Test"></canvas></div><canvas id="axis-Test"></canvas></div>');
+            if ($('#axis-Test').length > 0) {} else { $('#chartWrapper').append('<canvas id="axis-Test"></canvas>'); }
+		//var ctx = document.getElementById("chart-Test").getContext("2d");
             var canvasTest = $('#chart-Test');
+            //canvasTest.height = 500;
             var chartTest = new Chart(canvasTest, {
-                type: "horizontalBar",
-                //type: 'bar',
+                //type: "horizontalBar",
+                type: 'bar',
+                borderWidth: 2,
                 data: {
                     labels: labels,
                     datasets: [
@@ -323,7 +334,11 @@
                         }
                     ]
                 },
+
                 options: {
+                    animation: {
+                        duration: 5000
+                    },
                     responsive: true,
 				legend: {
 					display: false
@@ -332,7 +347,7 @@
 					display: false,
 					text: "Radial gauge chart"
 				},
-				centerPercentage: 60,
+				centerPercentage: 10,
 				centerArea: {
 					displayText: true,
 					text: "100%"
@@ -346,7 +361,11 @@
                     xAxes: [{
                         ticks: {
                             display: false,//this will remove only the label
-                            beginAtZero: true
+                            beginAtZero: false,
+                           
+							//stepSize:.5,
+                            max: maxval + 5,
+                            
                         },
                         gridLines: {
                             display: false,
@@ -354,22 +373,29 @@
 
                         }
                     }],
-                    yAxes: [{
-                        display: false,
+                        yAxes: [{
+                            display: false,
 
-                        ticks: {
-							beginAtZero: true,
-                            steps: 10,
-                            stepValue: 5,
+                            ticks: {
+                                beginAtZero: true,
+                           
 							//stepSize:.5,
-                            max: maxval +5
+                            max: maxval + 5,
+                            
+                        }
+                        ,
+                            gridLines: {
+                                display: true,
+                                drawBorder: true,
+
                         }
                     }]
 
 
-                },
-                    animation: {
-                        onComplete: function () {
+                    }
+                    
+                    //animation: {
+                    //    onComplete: function () {
                             //if (!rectangleSet) {
                             //    var scale = window.devicePixelRatio;
                             //    debugger;
@@ -394,7 +420,7 @@
                             //    sourceCtx.clearRect(0, 0, copyWidth * scale, copyHeight * scale);
                             //    rectangleSet = true;
                             //}
-                        }
+                        //}
                         //,
                         //onProgress: function () {
                         //    if (rectangleSet === true) {
@@ -405,8 +431,8 @@
                         //        sourceCtx.clearRect(0, 0, copyWidth, copyHeight);
                         //    }
                         //}
-                    }
-                }
+                    //}
+               }
             });
             addData(data.length, chartTest);
         }

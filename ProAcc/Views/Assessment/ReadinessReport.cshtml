@@ -1090,7 +1090,7 @@
                     }));
             $.ajax({
                 type: "POST",
-                url: '@Url.Action("LoadProject","Assessment")',
+                url: '@Url.Action("LoadProject","Home")',
                 data: { 'CustomerId' : id},
                 success: function (data) {
                     var select = $("#IDProject");

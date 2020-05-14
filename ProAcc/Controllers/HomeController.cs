@@ -130,7 +130,47 @@ namespace ProAcc.Controllers
             return Json(Instance, JsonRequestBehavior.AllowGet);
         }
 
-        
+        [HttpPost]
+        public JsonResult LoadProject(string CustomerId)
+        {
+            List<SelectListItem> Project = new List<SelectListItem>();
+            if (User.IsInRole("Admin"))
+            {
+                if (!string.IsNullOrEmpty(CustomerId))
+                {
+                    Guid IDCustomer = Guid.Parse(CustomerId);
+                    var query = from u in db.CustomerProjectConfigs where (u.CustomerID == IDCustomer && u.isActive == true) select u;
+                    if (query.Count() > 0)
+                    {
+                        foreach (var v in query)
+                        {
+                            Project.Add(new SelectListItem { Text = v.ProjectName, Value = v.Id.ToString() });
+                        }
+                    }
+                }
+            }
+            else if (User.IsInRole("Consultant"))
+            {
+                Guid loginId = Guid.Parse(Session["loginid"].ToString());
+                if (!string.IsNullOrEmpty(CustomerId))
+                {
+                    Guid IDCustomer = Guid.Parse(CustomerId);
+                    var query = from u in db.CustomerProjectConfigs where (u.CustomerID == IDCustomer && u.ConsultantID== loginId && u.isActive == true ) select u;
+                    if (query.Count() > 0)
+                    {
+                        foreach (var v in query)
+                        {
+                            Project.Add(new SelectListItem { Text = v.ProjectName, Value = v.Id.ToString() });
+                        }
+                    }
+                }
+
+            }
+         
+            
+            
+            return Json(Project, JsonRequestBehavior.AllowGet);
+        }
 
     }
 }

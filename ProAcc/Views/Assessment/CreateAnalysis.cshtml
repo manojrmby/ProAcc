@@ -53,9 +53,9 @@
             <hr />
             <div class="form-row">
                 @*<div class="position-relative form-group">
-                        <label for="exampleEmail" class="">Customer Name</label>
-                        @Html.DropDownList("Customer", (IEnumerable<SelectListItem>)ViewBag.Customer, "- SELECT-", new { id = "IDCustomer", @class = "form-control" })
-                    </div>*@
+            <label for="exampleEmail" class="">Customer Name</label>
+            @Html.DropDownList("Customer", (IEnumerable<SelectListItem>)ViewBag.Customer, "- SELECT-", new { id = "IDCustomer", @class = "form-control" })
+        </div>*@
                 @if (User.IsInRole("Consultant") || User.IsInRole("Admin"))
                 {
                     <div class="col-md-4">
@@ -87,6 +87,7 @@
                 </div>
                 <br />
                 <br />
+            </div>
                 @*<div class="row">
                         <div class="col-6">
 
@@ -268,7 +269,7 @@
                     </div>
                 </div>
 
-            </div>
+            
         </div>
     </div>
 </div>

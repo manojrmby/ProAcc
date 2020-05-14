@@ -25,26 +25,33 @@ namespace ProAcc.BL
             dB.addIn("@Password", user.Password);
             ds = dB.ExecuteDataSet();
             DataTable dt = new DataTable();
-            //DataTable dt1 = new DataTable();
-            dt = ds.Tables[0];
-            //dt1 = ds.Tables[1];
-            if (dt.Rows.Count == 1)
+            if (ds.Tables.Count!=0)
             {
-                user.ID = Guid.Parse(dt.Rows[0][0].ToString());
-                user.Type = Convert.ToInt32(dt.Rows[0][1].ToString());
-                user.Name = dt.Rows[0][2].ToString();
+                //DataTable dt1 = new DataTable();
+                dt = ds.Tables[0];
+                //dt1 = ds.Tables[1];
+                if (dt.Rows.Count == 1)
+                {
+                    if (!string.IsNullOrEmpty(dt.Rows[0][0].ToString()))
+                    {
 
-                //User_ID = user.ID;
-                //User_Name = user.Name;
-                //for (int i = 0; i < dt1.Rows.Count; i++)
-                //{
-                //    if (user.Type == Convert.ToInt32(dt1.Rows[i]["id"]))
-                //    {
-                //        User_Type = dt1.Rows[0]["UserType"].ToString().ToUpper();
-                //        break;
-                //    }
-                //}
 
+                        user.ID = Guid.Parse(dt.Rows[0][0].ToString());
+                        user.Type = Convert.ToInt32(dt.Rows[0][1].ToString());
+                        user.Name = dt.Rows[0][2].ToString();
+
+                        //User_ID = user.ID;
+                        //User_Name = user.Name;
+                        //for (int i = 0; i < dt1.Rows.Count; i++)
+                        //{
+                        //    if (user.Type == Convert.ToInt32(dt1.Rows[i]["id"]))
+                        //    {
+                        //        User_Type = dt1.Rows[0]["UserType"].ToString().ToUpper();
+                        //        break;
+                        //    }
+                        //}
+                    }
+                }
             }
             return user;
 
