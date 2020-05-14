@@ -77,8 +77,10 @@
         if (!letters.test(InstName)) {
             $("#lblInstName").html("Instance Name is not valid").show().fadeOut(2000);
             $("#txtInstName").val("");
+            $("#createProjInst").prop("disabled",true)
         }
         else {
+            $("#createProjInst").prop('disabled', false);
             @*$.ajax({
                 url: '@Url.Action("CheckPrjtInst","ProjectInstanceConfigs")',
                 type: "GET",
@@ -94,7 +96,7 @@
                 }
             });*@
         }
-        $("#createProjInst").prop('disabled', false);
+        
     });
 
 

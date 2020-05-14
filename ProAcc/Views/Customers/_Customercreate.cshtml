@@ -43,7 +43,7 @@
                     <div class="position-relative form-group">
                         @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "control-label col-md-5 required" })
                         <div class="col-md-10">
-                            @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @id = "txtMobId", @class = "form-control checkVal", @onchange = "ValidatePhoneNumber();", @maxlength = "10" } })
+                            @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @id = "txtMobId", @class = "form-control checkVal", @onchange = "ValidatePhoneNumber();", @maxlength = "12" } })
                             @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
                             <span id="lblMob" style="color:red"></span>
                         </div>
@@ -52,7 +52,7 @@
                     <div class="position-relative form-group">
                         @Html.LabelFor(model => model.AlternatePhone, "Alternate Phone", htmlAttributes: new { @class = "control-label col-md-5" })
                         <div class="col-md-10">
-                            @Html.EditorFor(model => model.AlternatePhone, new { htmlAttributes = new { @id = "txtAltMobId", @class = "form-control checkVal", @onchange = "ValidateAltPhoneNumber();", @maxlength = "10" } })
+                            @Html.EditorFor(model => model.AlternatePhone, new { htmlAttributes = new { @id = "txtAltMobId", @class = "form-control checkVal", @onchange = "ValidateAltPhoneNumber();", @maxlength = "12" } })
                             @Html.ValidationMessageFor(model => model.AlternatePhone, "", new { @class = "text-danger" })
                             <span id="lblAltMob" style="color:red"></span>
                         </div>
@@ -120,15 +120,15 @@
                     <div class="position-relative form-group">
                         <label id="lbllastcontact" class="control-label col-md-5 required">Last Contact Date</label>
                         <div class="col-md-9">
-                            @Html.EditorFor(model => model.LastContact_Dt, "Last Contact Date", new { htmlAttributes = new { @id = "txtLastDt", @class = "form-control checkVal"} })
+                            @Html.EditorFor(model => model.LastContact_Dt, "Last Contact Date", new { htmlAttributes = new { @id = "txtLastDt", @class = "form-control checkVal" } })
                             @Html.ValidationMessageFor(model => model.LastContact_Dt, "", new { @class = "text-danger" })
                         </div>
                     </div>
-
+                    @*txtLastDt*@
                     <div class="position-relative form-group">
                         <label id="lblNextAction" class="control-label col-md-5 required">Next Action Date</label>
                         <div class="col-md-9">
-                            @Html.EditorFor(model => model.NextAction_Dt, "Next Action Date", new { htmlAttributes = new { @id = "txtNextDt" ,@class = "form-control checkVal"} })
+                            @Html.EditorFor(model => model.NextAction_Dt, "Next Action Date", new { htmlAttributes = new { @id = "txtNextDt", @class = "form-control checkVal" } })
                             @Html.ValidationMessageFor(model => model.NextAction_Dt, "", new { @class = "text-danger" })
                         </div>
                     </div>

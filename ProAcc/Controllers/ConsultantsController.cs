@@ -46,18 +46,31 @@ namespace ProAcc.Controllers
             return View(consultant);
         }
 
-        public JsonResult CheckUsernameAvailability(string userdata)
+        public JsonResult CheckConsultantsUsernameAvailability(string userdata)
         {
             System.Threading.Thread.Sleep(100);
-            var SearchData = db.Customers.Where(x => x.UserName == userdata).SingleOrDefault();
-            var SearchDt = db.Consultants.Where(x => x.UserName == userdata).SingleOrDefault();
+            var SearchData = db.Customers.Where(x => x.UserName == userdata).Where(x=>x.isActive==true).FirstOrDefault();
+            var SearchDt = db.Consultants.Where(x => x.UserName == userdata).Where(x => x.isActive == true).FirstOrDefault();
             if (SearchData != null || SearchDt != null)
             {
-                return Json(1);
+                return Json("error", JsonRequestBehavior.AllowGet);
             }
             else
             {
-                return Json(0);
+                return Json("success", JsonRequestBehavior.AllowGet);
+            }
+        } 
+        public JsonResult CheckConsultantsNameAvailability(string namedata)
+        {
+            System.Threading.Thread.Sleep(100);
+            var SearchDt = db.Consultants.Where(x => x.Name == namedata).Where(x => x.isActive == true).FirstOrDefault();
+            if (SearchDt != null)
+            {
+                return Json("error", JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json("success", JsonRequestBehavior.AllowGet);
             }
         }
 

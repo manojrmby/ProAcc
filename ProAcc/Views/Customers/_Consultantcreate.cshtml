@@ -71,9 +71,9 @@
                 <div class="position-relative form-group">
                     @Html.LabelFor(model => model.UserName, "User Name", htmlAttributes: new { @class = "control-label col-md-5 required" })
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @id = "ConsultantUserName", @class = "form-control", @onchange = "UserChk()" } })
+                        @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @id = "ConsultantUserName", @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
-                        <p id="Status1" />
+                        <p id="StatusConsultant" style="color:red" />
                     </div>
                 </div>
 
@@ -112,20 +112,95 @@
 <script type="text/javascript">
     $(document).ready(function () {
 
-        $('#ConsultantUserName').on('change', function () {
-            //debugger;
+        $("#txtName1").keypress(function(event){
+            var inputValue = event.which;
+            // allow letters and whitespaces only.
+           
+            if (!(inputValue >= 65 && inputValue <= 122) && (inputValue != 32 && inputValue != 0)) { 
+                    event.preventDefault(); 
+                    $("#lblName1").html("Not Allowed").show().fadeOut("slow");
+            
+            }
+        });
+
+         $('#txtName1').on('focusout', function () {
+            debugger;
+            var CnstName = $("#txtName1").val().trim();
+            if (CnstName == "") {
+                $("#lblName1").html("Please Enter valid Consultant name").show().fadeOut(2000);
+            }
+            else {
+                $.ajax({
+                url: '@Url.Action("CheckConsultantsNameAvailability", "Consultants")',
+                type: "GET",
+                data: { namedata: CnstName },
+                dataType: "json",
+                success: function (data) {
+                    if (data != "success") {
+                        $("#lblName1").html("This Consultant name is already taken,please select another").show();
+
+                    }
+                    else {
+                        $("#lblName1").html("This Consultant name is already taken,please select another").hide();
+                    }
+
+                },
+                error: function (err) {
+
+                    alert(err);
+                }
+            });
+            }
+            
+         });
+
+        $('#ConsultantUserName').on('focusout', function () {
+            debugger;
+            var CnstUserName = $("#ConsultantUserName").val().trim();
+            if (CnstUserName == "") {
+                $("#StatusConsultant").html("Please Enter valid Consultant User name").show().fadeOut(2000);
+            }
+            else {
+                $.ajax({
+                url: '@Url.Action("CheckConsultantsUsernameAvailability", "Consultants")',
+                type: "GET",
+                data: { userdata: CnstUserName },
+                dataType: "json",
+                success: function (data) {
+                    if (data != "success") {
+                        $("#StatusConsultant").html("This Consultant name is already taken,please select another").show();
+
+                    }
+                    else {
+                        $("#StatusConsultant").html("This Consultant name is already taken,please select another").hide();
+                    }
+
+                },
+                error: function (err) {
+
+                    alert(err);
+                }
+            });
+            }
+            
+        });
+
+       
+
+        @*$('#ConsultantUserName').on('change', function () {
+            debugger;
             $.ajax({
                 type: "POST",
-                url:'@Url.Action("CheckUsernameAvailability", "Consultants")',
+                url:'@Url.Action("CheckConsultantsUsernameAvailability", "Consultants")',
                 data: '{userdata: "' + $("#ConsultantUserName").val()+ '" }',
-                contentType: "application/json; charset=utf-8",
+                //contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: OnSuccess,
                 failure: function (response) {
                     alert(response);
                 }
             });
-        });
+        });*@
          $("#txtMob").keypress(function (e) {
             //if the letter is not digit then display error and don't type anything
             if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
@@ -137,7 +212,8 @@
     });
     //function OnSuccess
     function OnSuccess(response) {
-        var msg = $("#Status1");
+        debugger;
+        var msg = $("#StatusConsultant");
         //debugger;
         switch (response) {
             case 1:
@@ -159,21 +235,21 @@
 
 
     var result = "Success";
-    function ValidateNa() {
-        //debugger;
-        var name1 = document.getElementById("txtName1").value;
-        var lblName1 = document.getElementById("lblName1");
-        lblName1.innerHTML = "";
-        var letters = /^[A-Za-z, ]+$/;
-        if (!letters.test(name1)) {
-            lblName1.innerHTML = "Please enter valid Name";
-            result = "error";
-        }
-        else {
-            result = "Success";
-        }
-        validateSave();
-    }
+    //function ValidateNa() {
+    //    //debugger;
+    //    var name1 = document.getElementById("txtName1").value;
+    //    var lblName1 = document.getElementById("lblName1");
+    //    lblName1.innerHTML = "";
+    //    var letters = /^[A-Za-z, ]+$/;
+    //    if (!letters.test(name1)) {
+    //        lblName1.innerHTML = "Please enter valid Name";
+    //        result = "error";
+    //    }
+    //    else {
+    //        result = "Success";
+    //    }
+    //    validateSave();
+    //}
 
     function ValidateDesc() {
         //debugger;
@@ -285,16 +361,7 @@
     });
 
     $(document).ready(function(){
-        $("#txtName1").keypress(function(event){
-            var inputValue = event.which;
-            // allow letters and whitespaces only.
-           
-            if (!(inputValue >= 65 && inputValue <= 122) && (inputValue != 32 && inputValue != 0)) { 
-                    event.preventDefault(); 
-                    $("#lblName1").html("Not Allowed").show().fadeOut("slow");
-            
-            }
-        });
+        
     });
 </script>
 

@@ -110,7 +110,22 @@
         });
 
 
-        $("#txtLastDt,#txtNextDt").datepicker({
+        $("#txtLastDt").datepicker({
+            showOn: "button",
+            buttonImage: "/Asset/images/calendar-512.png",
+            buttonImageOnly: true,
+            buttonText: "Select date",
+            changeMonth: true,
+            changeYear: true,
+            beforeShow: function (textbox, instance) {
+                instance.dpDiv.css({
+                    marginLeft: textbox.offsetWidth + (-200) + 'px'
+                    //Here -176 is the width of my datepicker div, you can change according to your need.
+                });
+            }
+        });
+
+        $("#txtNextDt").datepicker({
             showOn: "button",
             buttonImage: "/Asset/images/calendar-512.png",
             buttonImageOnly: true,
@@ -127,7 +142,7 @@
     });
     function ValidatePhoneNumber() {
         //debugger;
-        var mob = /^[1-9]{1}[0-9]{9}$/;
+        var mob = /^[1-9]{1}[0-9]{9-11}$/;
         var txtMobile = document.getElementById("txtMobId").value;
         var lblMob = document.getElementById("lblMob");
         lblMob.innerHTML = "";
@@ -145,7 +160,7 @@
     }
     function ValidateAltPhoneNumber() {
         //debugger;
-        var mob = /^[1-9]{1}[0-9]{9}$/;
+        var mob = /^[1-9]{1}[0-9]{9-11}$/;
         var txtAltMobile = document.getElementById("txtAltMobId").value;
         var lblAltMob = document.getElementById("lblAltMob");
         lblAltMob.innerHtml = "";
@@ -250,7 +265,7 @@
         var Status = "";
         var lblAltPwd = $("#lblAltPwd").text();
 
-        if (Name.length > 0 && Work.length > 0 && Mobile.length > 0 && Email.length > 0 && CustomerUserName.length > 0 && Password.length > 0 && ConfirmPassword.length > 0
+        if (Name.length > 0 && Work.length > 0 && Mobile.length > 0 && Email.length > 0 && CustomerUserName.length > 0 && Password.length > 0 && ConfirmPassword.length > 0 
             && lblName == "" && lblwork == "" && lblMob == "" && lblEmail == "" && Status == "" && lblAltPwd == "" && txtLastDt != "" && txtNextDt != "") {
             $("#create").prop("disabled", false);
         }
