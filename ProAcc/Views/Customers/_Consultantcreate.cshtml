@@ -141,7 +141,7 @@
 
                     }
                     else {
-                        $("#lblName1").html("This Consultant name is already taken,please select another").hide();
+                        $("#lblName1").html("").hide();
                     }
 
                 },
@@ -168,11 +168,11 @@
                 dataType: "json",
                 success: function (data) {
                     if (data != "success") {
-                        $("#StatusConsultant").html("This Consultant name is already taken,please select another").show();
+                        $("#StatusConsultant").html("This Consultant User name is already taken,please select another").show();
 
                     }
                     else {
-                        $("#StatusConsultant").html("This Consultant name is already taken,please select another").hide();
+                        $("#StatusConsultant").html("").hide();
                     }
 
                 },
@@ -323,7 +323,7 @@
     }
 
     function SubmitConsultant() {
-        //debugger;
+            debugger;
         //alert("HI");
         var Name1 = $("#txtName1").val();
         var Desc = $("#txtDesc").val();
