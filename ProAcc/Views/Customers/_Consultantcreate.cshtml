@@ -73,7 +73,7 @@
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @id = "ConsultantUserName", @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
-                        <p id="StatusConsultant" style="color:red" />
+                        <span id="StatusConsultant" style="color:red"></span>
                     </div>
                 </div>
 
@@ -124,7 +124,7 @@
         });
 
          $('#txtName1').on('focusout', function () {
-            debugger;
+            //debugger;
             var CnstName = $("#txtName1").val().trim();
             if (CnstName == "") {
                 $("#lblName1").html("Please Enter valid Consultant name").show().fadeOut(2000);
@@ -155,7 +155,7 @@
          });
 
         $('#ConsultantUserName').on('focusout', function () {
-            debugger;
+            //debugger;
             var CnstUserName = $("#ConsultantUserName").val().trim();
             if (CnstUserName == "") {
                 $("#StatusConsultant").html("Please Enter valid Consultant User name").show().fadeOut(2000);
@@ -212,7 +212,7 @@
     });
     //function OnSuccess
     function OnSuccess(response) {
-        debugger;
+        //debugger;
         var msg = $("#StatusConsultant");
         //debugger;
         switch (response) {
@@ -267,7 +267,7 @@
         validateSave();
     }
     function ValidateEmail1() {
-        debugger;
+        //debugger;
         var email1 = document.getElementById("txtEmail1").value;
         var lblEmail1 = document.getElementById("lblEmail1");
         lblEmail1.innerHTML = "";
@@ -323,7 +323,7 @@
     }
 
     function SubmitConsultant() {
-            debugger;
+            //debugger;
         //alert("HI");
         var Name1 = $("#txtName1").val();
         var Desc = $("#txtDesc").val();
@@ -337,7 +337,7 @@
         var lblDesc = $("#lblDesc").text();
         var lblMob1 = $("#lblMob1").text();
         var lblEmail1 = $("#lblEmail1").text();
-        var Status1 = "";
+        var Status1 = $("#StatusConsultant").text();
         var lblAltConsPwd = $("#lblAltConsPwd").text();
 
         if (Name1.length > 0 && Desc.length > 0 && Mob.length > 0 && Email1.length > 0 && ConsultantUserName.length > 0 && Passwd.length > 0 &&
