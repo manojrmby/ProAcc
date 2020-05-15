@@ -9,20 +9,22 @@ using System.Web.Mvc;
 using ProACC_DB;
 using PagedList;
 using PagedList.Mvc;
+using ProAcc.BL;
 
 namespace ProAcc.Controllers
 {
+    [CheckSessionTimeOut]
     [Authorize(Roles = "Admin")]
     public class ProjectInstanceConfigsController : Controller
     {
         private ProAccEntities db = new ProAccEntities();
 
         // GET: ProjectInstanceConfigs
-        public ActionResult Index(String search, int? i)
+        public ActionResult Index()
         {
             var projectInstanceConfigs = db.ProjectInstanceConfigs.Where(a => a.isActive == true)
-                .OrderByDescending(x => x.Cre_on)
-                .Where(x => x.InstaceName.StartsWith(search) || search == null).ToList().ToPagedList(i ?? 1, 5);
+                .OrderByDescending(x => x.Cre_on).ToList();
+                //.Where(x => x.InstaceName.StartsWith(search) || search == null).ToList().ToPagedList(i ?? 1, 5);
             return View(projectInstanceConfigs);
         }
 

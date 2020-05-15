@@ -354,13 +354,23 @@ namespace ProAcc.BL
             return sP_;
         }
 
-        public List<SAPInput_SimplificationReport> SAPInput_Simplification(Guid InstanceId)
+        public List<SAPInput_SimplificationReport> SAPInput_Simplification(Guid InstanceId,string LOB)
         {
             List<SAPInput_SimplificationReport> SR = new List<SAPInput_SimplificationReport>();
             DataTable dt = new DataTable();
             DBHelper dB = new DBHelper("SP_SimplificationReport", CommandType.StoredProcedure);
-            dB.addIn("@Type", "SR_Table");
+           
             dB.addIn("@InstanceId", InstanceId);
+            if (LOB== "ALL")
+            {
+                dB.addIn("@Type", "SR_Table_All");
+            }
+            else
+            {
+                dB.addIn("@Type", "SR_Table_Single");
+                dB.addIn("@Input", LOB);
+
+            }
             dt = dB.ExecuteDataTable();
             //  List<DataRow> list = new List<DataRow>(dt.Select());
             int i = 0;

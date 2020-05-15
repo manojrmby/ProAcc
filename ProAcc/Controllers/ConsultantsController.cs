@@ -21,12 +21,12 @@ namespace ProAcc.Controllers
         private ProAccEntities db = new ProAccEntities();
 
         // GET: Consultants
-        public ActionResult Index(String search, int? i)
+        public ActionResult Index()
         {
             Guid AdminUser = Guid.Parse("42DC1071-CAAE-4585-AB73-9ADCBE85FDD5");
             var consultants = db.Consultants.Where(a => a.isActive == true)
-                .OrderByDescending(x=>x.Cre_on)
-                .Where(x => x.Name.StartsWith(search) || search == null).Where(x => x.Id != AdminUser).ToList().ToPagedList(i ?? 1, 5);
+                .OrderByDescending(x => x.Cre_on).Where(x => x.Id != AdminUser).ToList();
+                //.Where(x => x.Name.StartsWith(search) || search == null).ToPagedList(i ?? 1, 5);
             //var consultants = db.Consultants.Include(c => c.User_Master).Where(a => a.isActive == true);
             return View(consultants);
         }

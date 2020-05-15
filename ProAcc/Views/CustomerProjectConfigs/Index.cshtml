@@ -1,90 +1,75 @@
 ﻿@using PagedList;
 @using PagedList.Mvc;
-@model IPagedList<ProACC_DB.CustomerProjectConfig>
+@model List<ProACC_DB.CustomerProjectConfig>
 
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/shared/_Layout.cshtml";
 }
+<link href="~/Asset/Scripts/Datatable/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<script src="~/Asset/Scripts/Datatable/jquery.dataTables.min.js"></script>
+<script src="~/Asset/Scripts/Datatable/dataTables.bootstrap4.min.js"></script>
 
-<style>
-    .row {
-        margin-right:0px;
-    }
-</style>
+<a class="card-title">CUSTOMER PROJECT LIST</a>
+<hr />
+<table id="Index" style="font-size:10px;" class="table-hover table-bordered">
+    <thead>
+        <tr>
+            <th cope="col" style="width:3%;text-align:center;">
+                #
+            </th>
+            <th>
+                Customer Name
+            </th>
+            <th>
+                Project Name
+            </th>
+            <th>
+                SAP Consultant Name
+            </th>
+            <th class="nosort">
+                Actions
+            </th>
+        </tr>
+    </thead>
+    @{int j = 1;}
+    @foreach (var item in Model.Select((x, i) => new { Data = x, Index = i }))
+    {
+        <tr>
+            <td>
+                @j
+            </td>
+            @{j++;}
 
-    <div>
-        <a class="card-title">CUSTOMER PROJECT LIST</a>
-        <script>
-            $("search").click(function () {
-                $("Search").remove();
-            });
-        </script>
-        @using (Html.BeginForm("Index", "CustomerProjectConfigs", FormMethod.Get))
-        {
-            <div class="row" style="padding-left:17px;">
-                <input class="" id="Search" name="Search" type="text" value="" />
-                <input type="submit" value="Search" class="btn btn-primary" />
-            </div>
-        }
-        <div class="row" style="text-align: left !important;
-        margin: auto !important;
-        padding: 10px 0px 0px 0px;
-    ">
-            <div class="main-card mb-3 card" style="width: 100%;">
-                <div class="card-body">
-                    <div class="table-responsive tableFixHead outer" style="height:auto!important;">
-                        <table class="mb-0 table table-striped table-hover">
-                            <thead>
-                                <tr>
-                                    <th>S.No</th>
-                                    <th>
-                                        Project Name
-                                        @*@Html.DisplayNameFor(model => model.First().ProjectName)*@
-                                    </th>
-                                    <th>
-                                        SAP Consultant Name
-                                        @*@Html.DisplayNameFor(model => model.First().Consultant.Name)*@
-                                    </th>
-                                    <th>
-                                        Customer Name
-                                        @*@Html.DisplayNameFor(model => model.First().Customer.Name)*@
-                                    </th>
-
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            @foreach (var item in Model.Select((x, i) => new { Data = x, Index = i }))
-                            {
-                                <tr>
-                                    <td>
-                                        @(item.Index + ((Model.PageNumber - 1) * Model.PageSize) + 1)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Data.ProjectName)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Data.Consultant.Name)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Data.Customer.Name)
-                                    </td>
-
-                                    <td>
-                                        @Html.ActionLink("Edit", "Edit", new { id = item.Data.Id }) |
-                                        @Html.ActionLink("Details", "Details", new { id = item.Data.Id }) |
-                                        @Html.ActionLink("Delete", "Delete", new { id = item.Data.Id })
-                                    </td>
-                                </tr>
-                            }
-                        </table>
-
-                    </div>
+            <td>
+                @Html.DisplayFor(modelItem => item.Data.Customer.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Data.ProjectName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Data.Consultant.Name)
+            </td>
+            <td>
+                <div class="row">
+                    &nbsp;&nbsp;<a class="fa fa-pencil-alt" data-toggle="tooltip" data-placement="top" title="Edit!" href="@Url.Action("Edit", "CustomerProjectConfigs", new { id = item.Data.Id })"></a> &nbsp;&nbsp;
+                    <a class="fa fa-info" data-toggle="tooltip" data-placement="top" title="Details!" href="@Url.Action("Details", "CustomerProjectConfigs", new { id = item.Data.Id })"></a> &nbsp;&nbsp;
+                    <a class="fa fa-trash-alt" data-toggle="tooltip" data-placement="top" title="Delete!" href="@Url.Action("Delete", "CustomerProjectConfigs", new { id = item.Data.Id })"></a>
                 </div>
-            </div>
-        </div>
-        @Html.PagedListPager(Model, i => Url.Action("Index", new { i, search = Request.QueryString["search"] }),
-                new PagedListRenderOptions() { Display = PagedListDisplayMode.IfNeeded, DisplayPageCountAndCurrentLocation = true })
+            </td>
+        </tr>
+    }
+</table>
 
-    </div>
+<script>
+    $(document).ready(function () {
+
+        $('#Index').DataTable({
+            'aoColumnDefs': [{
+                'bSortable': false,
+                'aTargets': ['nosort']
+            }]
+        });
+    });
+</script>
 

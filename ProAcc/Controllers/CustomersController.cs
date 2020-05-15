@@ -22,13 +22,13 @@ namespace ProAcc.Controllers
         LogHelper _Log = new LogHelper();
 
         // GET: Customers
-        public ActionResult Index(String search, int? i)
+        public ActionResult Index()
         {
 
             var customers = db.Customers
                 .Where(a => a.isActive == true)
-                .OrderByDescending(x => x.Cre_on)
-                .Where(x => x.Name.StartsWith(search) || search == null).ToList().ToPagedList(i ?? 1, 5);
+                .OrderByDescending(x => x.Cre_on).ToList();
+            //.Where(x => x.Name.StartsWith(search) || search == null).ToList(); //.ToPagedList(i ?? 1, 5);
             return View(customers);
         }
         // GET: Customers/Details/5
