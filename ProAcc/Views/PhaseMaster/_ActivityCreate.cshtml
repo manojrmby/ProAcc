@@ -57,9 +57,12 @@
 
     $(document).ready(function () {
         $("#btnActivityCreate").prop('disabled', true);
-    });
 
-    $("#txtActivityName").keypress(function (event) {
+        var ActivityName = $("#txtActivityName").val().trim();
+        var phaseid = $("#drpPhase").val();
+        var applicationid = $("#drpArea").val();
+
+         $("#txtActivityName").keypress(function (event) {
         debugger;
             var inputValue = event.which;
             // allow letters and whitespaces only.
@@ -71,31 +74,57 @@
        $("#btnActivityCreate").prop('disabled', false);
     });
 
+         $("#txtActivityName").bind('copy paste cut', function (e) {
+            e.preventDefault();
+         });
 
-    $("#btnActivityCreate").on("click", function () {
+         $('#drpPhase').change(function () {             debugger;            if (phaseid != "" && applicationid != ""&&ActivityName!=null) {                $("#createcustproj").prop("disabled", false);            }         });
+        $('#drpArea').change(function () {             debugger;            if (phaseid != "" && applicationid != ""&&ActivityName!=null) {                $("#createcustproj").prop("disabled", false);            }        });
+
+        $("#txtActivityName").on("focusout", function () {
+            $.ajax({
+              url: '@Url.Action("CheckActivity","ActivityMaster")',
+              type: "GET",
+              data: { name: ActivityName,id:null },
+              dataType: "json",
+              success: function (data) {
+                  if (data != "success") {
+                      $("#lblActivityName").html("This Activity name is already taken,please select another").show().fadeOut(2000);
+                  }
+                  else {
+                     
+                  }
+              },
+              error: function (err) {
+
+                     alert(err);
+               }
+            });
+        })
+    });
+
+   
+       $("#btnActivityCreate").on("click", function () {
         debugger;
         var ActivityName = $("#txtActivityName").val().trim();
         var phaseid = $("#drpPhase").val();
         var applicationid = $("#drpArea").val();
         if (ActivityName == "") {
-            //alert("Please enter the Activity Name")
             $("#lblActivityName").html("Please enter the Activity Name").show().fadeOut(2000);
         }
         else if(phaseid==0)
         {
-            //alert("Please select the Phase")
             $("#lblPhaseID").html("Please select the Phase").show().fadeOut(2000);
         }
         else if (applicationid == 0)
         {
-           // alert("Please select the Application")
             $("#lblAppID").html("Please select the Application").show().fadeOut(2000);
         }
         else {
             $.ajax({
               url: '@Url.Action("CheckActivity","ActivityMaster")',
               type: "GET",
-              data: { name: ActivityName },
+              data: { name: ActivityName,id:null },
               dataType: "json",
               success: function (data) {
                   if (data != "success") {
@@ -132,7 +161,8 @@
             });
         }
     });
-     $("#btnActivityUpdate").on("click", function () {
+
+       $("#btnActivityUpdate").on("click", function () {
          debugger;
          var id = $("#ActivityId").val();
         var ActivityName = $("#txtActivityName").val().trim();
@@ -145,24 +175,21 @@
              ApplicationAreaId: applicationid
          }
         if (ActivityName == "") {
-            //alert("Please enter the Activity Name")
             $("#lblActivityName").html("Please enter the Activity Name").show().fadeOut(2000);
         }
         else if(phaseid==0)
         {
-            //alert("Please select the Phase")
             $("#lblPhaseID").html("Please select the Phase").show().fadeOut(2000);
         }
         else if (applicationid == 0)
         {
-             //alert("Please select the Application")
             $("#lblAppID").html("Please select the Application").show().fadeOut(2000);
         }
         else {
             $.ajax({
               url: '@Url.Action("CheckActivity","ActivityMaster")',
               type: "GET",
-              data: { name: ActivityName },
+              data: { name: ActivityName, id:id },
               dataType: "json",
               success: function (data) {
                   if (data != "success") {
@@ -198,5 +225,6 @@
                }
             });
         }
-    });
+     });
+
 </script>

@@ -39,17 +39,32 @@ namespace ProAcc.Controllers
         }
 
         [HttpGet]
-        public ActionResult CheckTeam(string name)
+        public ActionResult CheckTeam(string name,int? id)
         {
-            var em = db.TeamMasters.Where(p => p.TeamName == name).Where(x => x.isActive == true).ToList();
-            if (em.Count > 0)
+            if(id!=null)
             {
-                return Json("error", JsonRequestBehavior.AllowGet);
+                var em = db.TeamMasters.Where(p => p.TeamName == name).Where(x => x.Id != id).Where(x => x.isActive == true).ToList();
+                if (em.Count > 0)
+                {
+                    return Json("error", JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json("success", JsonRequestBehavior.AllowGet);
+                }
             }
             else
             {
-                return Json("success", JsonRequestBehavior.AllowGet);
-            }
+                var em = db.TeamMasters.Where(p => p.TeamName == name).Where(x => x.isActive == true).ToList();
+                if (em.Count > 0)
+                {
+                    return Json("error", JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json("success", JsonRequestBehavior.AllowGet);
+                }
+            }            
         }
 
         [HttpGet]

@@ -114,6 +114,7 @@
     });
 
     $(".editPhase").on("click", function () {
+        debugger;
         var id = $(this).next().val();
         $.ajax({
             url: '@Url.Action("GetPhaseById","PhaseMaster")',
@@ -126,7 +127,6 @@
                 $("#pcre_on").val(result.Cre_on);
                 $("#pcre_By").val(result.Cre_By);
                 $("#btnPhaseUpdate").show();
-                $("#btnPhaseCancel").show();
                 $("#btnPhaseCreate").hide();
 
             },

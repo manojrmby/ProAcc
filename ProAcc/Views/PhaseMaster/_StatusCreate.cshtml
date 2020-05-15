@@ -34,7 +34,11 @@
 <script>
 
      $(document).ready(function () {
-        $("#btnStatusCreate").prop('disabled', true);
+         $("#btnStatusCreate").prop('disabled', true);
+
+         $("#txtStatusName").bind('copy paste cut', function (e) {
+            e.preventDefault();
+         });
      });
 
     $("#txtStatusName").keypress(function (event) {
@@ -61,7 +65,7 @@
             $.ajax({
               url: '@Url.Action("CheckStatus","Status")',
               type: "GET",
-              data: { name: StatusName },
+              data: { name: StatusName,id:null },
               dataType: "json",
               success: function (data) {
                   if (data != "success") {
@@ -121,7 +125,7 @@
             $.ajax({
               url: '@Url.Action("CheckStatus","Status")',
               type: "GET",
-              data: { name: StatusName },
+              data: { name: StatusName, id:id },
               dataType: "json",
               success: function (data) {
                   if (data != "success") {

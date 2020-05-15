@@ -3,110 +3,112 @@
 	ViewBag.Title = "ActivitieReport";
 	Layout = "~/Views/shared/_Layout.cshtml";
 }
-	<a class="card-title">Activities Report</a>
-		
-		<script src="~/Asset/Scripts/chartjs-plugin-labels.min.js"></script>
-		<div style="padding:1em;">
+<a class="card-title">Activities Report</a>
+
+<script src="~/Asset/Scripts/chartjs-plugin-labels.min.js"></script>
+<div style="padding:1em;">
+	<div class="row">
+		<div class="col-md-6 card" id="Chart123" style="min-width: 100%; ">
 			<div class="row">
-				<div class="col-md-6 card" id="Chart123" style="min-width: 100%; ">
-					<div class="row">
-						<div class="row-cols-lg-6 form-inline">
-							<label> By Phase</label>
-							@Html.DropDownList("Phase", (IEnumerable<SelectListItem>)ViewBag.Phase, "ALL", new { id = "Phase", @class = "form-control form-inline" })
-						</div>
-
-						<div class="row-cols-md-6 form-inline" style="padding-left:10%;">
-
-							<label> By condition</label>
-							@Html.DropDownList("condition", (IEnumerable<SelectListItem>)ViewBag.condition, "ALL", new { id = "condition", @class = "form-control form-inline" })
-						</div>
-						<canvas class="col-md-auto" id="Chart_Activities"></canvas>
-					</div>
-
+				<div class="row-cols-lg-6 form-inline">
+					<label> By Phase</label>
+					@Html.DropDownList("Phase", (IEnumerable<SelectListItem>)ViewBag.Phase, "ALL", new { id = "Phase", @class = "form-control form-inline" })
 				</div>
-			</div>
-			<br />
 
-			<div class="row">
-				<div class="col-lg-12 card" style="padding:0px;">
-					@*<table id="t01" class="table table-bordered table-hover">*@
-					<div class="tableFixHead outer table-striped table-hover">
-						<table>
-							<thead>
+				<div class="row-cols-md-6 form-inline" style="padding-left:10%;">
+
+					<label> By condition</label>
+					@Html.DropDownList("condition", (IEnumerable<SelectListItem>)ViewBag.condition, "ALL", new { id = "condition", @class = "form-control form-inline" })
+				</div>
+				<canvas class="col-md-auto" id="Chart_Activities"></canvas>
+			</div>
+
+		</div>
+	</div>
+	<br />
+
+	<div class="row">
+		<div class="col-lg-12 card" style="padding:0px;">
+			@*<table id="t01" class="table table-bordered table-hover">*@
+			<div class="tableFixHead outer table-striped table-hover">
+				<table class="mb-0 table table-striped table-hover">
+					<thead class="thead-light">
+						<tr>
+							<th style="width:60px; padding:8px;">S.NO</th>
+							<th>Related Simplification Items</th>
+							<th>Activities</th>
+							<th>Phase</th>
+							<th>Condition</th>
+							<th>Additional Information</th>
+						</tr>
+					</thead>
+					<tbody id="Table_Body">
+					</tbody>
+					@*<tbody>
+							@foreach (var item in ViewBag.ARReport)
+							{
+
 								<tr>
-									<th style="width:60px; padding:8px;">S.NO</th>
-									<th>Related Simplification Items</th>
-									<th>Activities</th>
-									<th>Phase</th>
-									<th>Condition</th>
-									<th>Additional Information</th>
+									<td class="text-center">
+										@item.S_No.
+									</td>
+									<td>
+										@item.Related_Simplification_Items
+									</td>
+									<td>
+										@item.Activities
+									</td>
+									<td>
+										@item.Phase
+									</td>
+									<td>
+										@item.Condition
+									</td>
+									<td>
+										@item.Additional_Information
+									</td>
 								</tr>
-							</thead>
-							<tbody>
-								@foreach (var item in ViewBag.ARReport)
-								{
-
-									<tr>
-										<td class="text-center">
-											@item.S_No.
-										</td>
-										<td>
-											@item.Related_Simplification_Items
-										</td>
-										<td>
-											@item.Activities
-										</td>
-										<td>
-											@item.Phase
-										</td>
-										<td>
-											@item.Condition
-										</td>
-										<td>
-											@item.Additional_Information
-										</td>
-									</tr>
-								}
-							</tbody>
-						</table>
-					</div>
-
-				</div>
-
-			</div>
-		</div>
-
-		<div>
-			@Html.Hidden("RedirectTo", Url.Action("Home", "Home"))
-			<div style="visibility:hidden">
-				<div id="dialog-message" title="Info">
-					<p>
-						<span class="ui-icon ui-icon-circle-check" style="float:left; margin:0 7px 50px 0;"></span>
-						@ViewBag.Message
-					</p>
-				</div>
-			</div>
-
-			@if (ViewBag.Message != null)
-			{
-				<script type="text/javascript">
-					$(function () {
-
-						$("#dialog-message").dialog({
-							modal: true,
-							buttons: {
-								Ok: function () {
-									$(this).dialog("close");
-									var url = $("#RedirectTo").val();
-									location.href = url;
-								}
 							}
-						});
-					});
-				</script>
+						</tbody>*@
+				</table>
+			</div>
 
-			}
 		</div>
+
+	</div>
+</div>
+
+<div>
+	@Html.Hidden("RedirectTo", Url.Action("Home", "Home"))
+	<div style="visibility:hidden">
+		<div id="dialog-message" title="Info">
+			<p>
+				<span class="ui-icon ui-icon-circle-check" style="float:left; margin:0 7px 50px 0;"></span>
+				@ViewBag.Message
+			</p>
+		</div>
+	</div>
+
+	@if (ViewBag.Message != null)
+	{
+		<script type="text/javascript">
+			$(function () {
+
+				$("#dialog-message").dialog({
+					modal: true,
+					buttons: {
+						Ok: function () {
+							$(this).dialog("close");
+							var url = $("#RedirectTo").val();
+							location.href = url;
+						}
+					}
+				});
+			});
+		</script>
+
+	}
+</div>
 <script type="text/javascript" charset="utf-8">
 	function Ajax_Activities_Bar(Phase,condition) {
 		$.ajax({
@@ -276,6 +278,7 @@
 		var Ses_InstanceId = '@Session["InstanceId"]';
         if (Ses_InstanceId != "") {
             Ajax_Activities_Bar(Phase, condition);
+			TableAjax()
         }
 		$("#Phase").change(function () {
 
@@ -294,11 +297,48 @@
             if (Ses_InstanceId != "") {
                 Ajax_Activities_Bar(Phase, condition);
             }
-	   });
+        });
+
+		
 		 //$('#dtVerticalScrollExample').DataTable({
    //         "scrollY": "200px",
    //         "scrollCollapse": true,
    //     });
    //     $('.dataTables_length').addClass('bs-select');
-	});
-		</script>
+    });
+
+    function TableAjax() {
+			$.ajax({
+                type: "POST",
+                url: '@Url.Action("ActivitiesTable")',
+                //data: '{LOB: ' + JSON.stringify(a) + '}',
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (Data) {
+                     $("#Table_Body").empty();
+                    $(Data).each(function (index, value) {
+                        var Result = "";
+                        if (value.SAP_Notes != null) {
+                            var d = value.SAP_Notes
+                             Result = d.substr(d.length - 6);
+                            //Result = (d.Length > 6) ? d.Substring(d.Length - 6, 6) : d;
+                        }
+                        var table = '<tr><td>' + value.S_No +
+                            '</td><td>' + value.Related_Simplification_Items +
+                            '</td><td>' + value.Activities +
+                            '</td><td>' + value.Phase +
+                            '</td><td>' + value.Condition+
+                            '</td><td>' + value.Additional_Information
+                            + '</td></tr>';
+                        $('#Table_Body').append( table );
+                        });
+                },
+				 error: function () {
+                    alert("Error while inserting data");
+                }
+            }).done(function (response) {
+                //chart.data = response;
+
+            });
+    }
+</script>

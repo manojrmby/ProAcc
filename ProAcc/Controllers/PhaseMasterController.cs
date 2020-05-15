@@ -56,17 +56,35 @@ namespace ProAcc.Controllers
         }
 
         [HttpGet]
-        public ActionResult CheckPhase(string name)
+        public ActionResult CheckPhase(string name, int? id)
         {
-            var em = db.PhaseMasters.Where(p => p.PhaseName == name).Where(x => x.isActive == true).ToList();
-            if (em.Count > 0)
+            
+            if (id!=null)
             {
-                return Json("error", JsonRequestBehavior.AllowGet);
+               var em = db.PhaseMasters.Where(p => p.PhaseName == name).Where(x => x.Id != id).Where(x => x.isActive == true).ToList();
+                if (em.Count > 0)
+                {
+                    return Json("error", JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json("success", JsonRequestBehavior.AllowGet);
+                }
             }
             else
             {
-                return Json("success", JsonRequestBehavior.AllowGet);
+               var em = db.PhaseMasters.Where(p => p.PhaseName == name).Where(x => x.isActive == true).ToList();
+                if (em.Count > 0)
+                {
+                    return Json("error", JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json("success", JsonRequestBehavior.AllowGet);
+                }
             }
+            
+            
         }
 
         [HttpGet]
@@ -88,8 +106,8 @@ namespace ProAcc.Controllers
             model.Modified_On = DateTime.Now;
             model.Modified_by = Guid.Parse(Session["loginid"].ToString());
             model.isActive = true;
-            //db.Entry(model).State = EntityState.Modified;
-            //db.SaveChanges();
+            db.Entry(model).State = EntityState.Modified;
+            db.SaveChanges();
             return Json("success");
         }
 

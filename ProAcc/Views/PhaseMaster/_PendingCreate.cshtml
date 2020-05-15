@@ -33,6 +33,10 @@
 
     $(document).ready(function () {
         $("#btnPendingCreate").prop('disabled', true);
+
+        $("#txtPendingName").bind('copy paste cut', function (e) {
+            e.preventDefault();
+         });
     });
 
 
@@ -60,7 +64,7 @@
             $.ajax({
               url: '@Url.Action("CheckPending","Pending")',
               type: "GET",
-              data: { name: PendingName },
+              data: { name: PendingName,id:null },
               dataType: "json",
               success: function (data) {
                   if (data != "success") {
@@ -122,7 +126,7 @@
             $.ajax({
               url: '@Url.Action("CheckPending","Pending")',
               type: "GET",
-              data: { name: PendingName },
+              data: { name: PendingName,id:id },
               dataType: "json",
               success: function (data) {
                   if (data != "success") {

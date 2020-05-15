@@ -23,8 +23,7 @@
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
                         <input type="button" value="Create" class="btn btn-primary" id="btnPhaseCreate" />
-                        <input type="button" value="Update" class="btn btn-info" id="btnPhaseUpdate" style="display:none" />
-                        <input type="button" value="Cancel" class="btn btn-default" id="btnPhaseCancel" style="display:none" />
+                        <input type="button" value="Update" class="btn btn-info" id="btnPhaseUpdate" style="display:none" />                        
                     </div>
                 </div>
 
@@ -35,6 +34,10 @@
 
     $(document).ready(function () {
         $("#btnPhaseCreate").prop('disabled', true);
+
+        $("#txtPhaseName").bind('copy paste cut', function (e) {
+            e.preventDefault();
+         });
     });
 
    
@@ -61,7 +64,7 @@
             $.ajax({
               url: '@Url.Action("CheckPhase","PhaseMaster")',
               type: "GET",
-              data: { name: PhaseName },
+              data: { name: PhaseName,id:null },
               dataType: "json",
               success: function (data) {
                   if (data != "success") {
@@ -123,7 +126,7 @@
             $.ajax({
               url: '@Url.Action("CheckPhase","PhaseMaster")',
               type: "GET",
-              data: { name: PhaseName },
+              data: { name: PhaseName,id:id },
               dataType: "json",
               success: function (data) {
                   if (data != "success") {

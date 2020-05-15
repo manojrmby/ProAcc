@@ -9,7 +9,7 @@
 <script src="~/Asset/Scripts/chartjs-plugin-labels.min.js"></script>
 
 
-	<a class="card-title">Custom Code Analysis</a>
+<a class="card-title">Custom Code Analysis</a>
 <div style="padding:1em;">
 	<div class="row">
 		<div class="col-md-6 card">
@@ -21,8 +21,8 @@
 		<div class="col-lg-12 card" style="padding:0px;">
 
 			<div class="tableFixHead outer table-striped table-hover">
-				<table>
-					<thead>
+				<table class="mb-0 table table-striped table-hover">
+					<thead class="thead-light">
 						<tr>
 							<th style="width:52px; padding:8px; table-hover">S.NO</th>
 							<th>Custom Code Topic</th>
@@ -31,42 +31,44 @@
 							<th>Custom Code Note</th>
 						</tr>
 					</thead>
-					<tbody>
-						@foreach (var item in ViewBag.CRReport)
-						{
+					<tbody id="Table_Body">
+	                </tbody>
+					@*<tbody>
+							@foreach (var item in ViewBag.CRReport)
+							{
 
-							<tr>
-								<td class="text-center">
-									@item.S_No.
-								</td>
-								<td>
-									@item.Custom_Code_Topic
-								</td>
-								<td>
-									@item.Status
-								</td>
-								<td>
-									@item.Application_Component
-								</td>
-								<td>
+								<tr>
+									<td class="text-center">
+										@item.S_No.
+									</td>
+									<td>
+										@item.Custom_Code_Topic
+									</td>
+									<td>
+										@item.Status
+									</td>
+									<td>
+										@item.Application_Component
+									</td>
+									<td>
 
-									@{
-										var result = "";
-										if (@item.Custom_Code_Note != null)
-										{
-											var data = @item.Custom_Code_Note;
-											result = (data.Length > 6) ? data.Substring(data.Length - 6, 6) : data;
+										@{
+											var result = "";
+											if (@item.Custom_Code_Note != null)
+											{
+												var data = @item.Custom_Code_Note;
+												result = (data.Length > 6) ? data.Substring(data.Length - 6, 6) : data;
+											}
+											<a href="@item.Custom_Code_Note">@result</a>
 										}
-										<a href="@item.Custom_Code_Note">@result</a>
-									}
-								</td>
+									</td>
 
-							</tr>
+								</tr>
 
 
 
-						}
-					</tbody>
+							}
+						</tbody>*@
 				</table>
 			</div>
 
@@ -343,12 +345,50 @@
 
 		};
 		window.myRadialGauge = new Chart(ctx, config);
-	}
+    }
+
+	function TableAjax() {
+			$.ajax({
+                type: "POST",
+                url: '@Url.Action("CustomCodeTable")',
+                //data: '{LOB: ' + JSON.stringify(a) + '}',
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (Data) {
+                     $("#Table_Body").empty();
+                    $(Data).each(function (index, value) {
+                        var Result = "";
+                        if (value.SAP_Notes != null) {
+                            var d = value.SAP_Notes
+                             Result = d.substr(d.length - 6);
+                            //Result = (d.Length > 6) ? d.Substring(d.Length - 6, 6) : d;
+                        }
+
+
+                        var table = '<tr><td>' + value.S_No +
+                            '</td><td>' + value.Custom_Code_Topic +
+                            '</td><td>' + value.Status +
+                            '</td><td>' + value.Application_Component +
+                            '</td><td>' + value.Custom_Code_Note
+                            + '</td></tr>';
+                        $('#Table_Body').append( table );
+                        });
+                },
+				 error: function () {
+                    alert("Error while inserting data");
+                }
+            }).done(function (response) {
+                //chart.data = response;
+
+            });
+    }
+
 	jQuery(document).ready(function ($) {
 
 	var Ses_InstanceId = '@Session["InstanceId"]';
         if (Ses_InstanceId != "") {
             Ajax_CustomCode_Bar();
+			TableAjax()
         }
 	});
 </script>

@@ -257,7 +257,30 @@ namespace ProAcc.Controllers
             List<SAPInput_SimplificationReport> SR = _Base.SAPInput_Simplification(InstanceId,LOB);
             
             return Json(SR, JsonRequestBehavior.AllowGet);
-        }
+        } 
+        public ActionResult ActivitiesTable()
+        {
+            InstanceId = Guid.Parse(Session["InstanceId"].ToString());
+            List<BL.Model.SAPInput_Activities> AC = _Base.GetActivitiesReport_Table(InstanceId);
+            
+            return Json(AC, JsonRequestBehavior.AllowGet);
+        } 
+        public ActionResult CustomCodeTable()
+        {
+            InstanceId = Guid.Parse(Session["InstanceId"].ToString());
+            List<SAPInput_CustomCode> CC = _Base.SAPInput_CustomCodeReport(InstanceId);
+            
+            return Json(CC, JsonRequestBehavior.AllowGet);
+        } 
+        
+        public ActionResult FioriAppsTable()
+        {
+            InstanceId = Guid.Parse(Session["InstanceId"].ToString());
+            List<SAPFioriAppsModel> AC = _Base.sp_GetSAPFioriAppsTable(InstanceId);
+            
+            return Json(AC, JsonRequestBehavior.AllowGet);
+        } 
+       
 
 
         #endregion

@@ -31,7 +31,11 @@
 </div>
 <script>
      $(document).ready(function () {
-        $("#btnTeamCreate").prop('disabled', true);
+         $("#btnTeamCreate").prop('disabled', true);
+
+         $("#txtTeamName").bind('copy paste cut', function (e) {
+            e.preventDefault();
+         });
      });
 
     $("#txtTeamName").keypress(function (event) {
@@ -58,7 +62,7 @@
             $.ajax({
               url: '@Url.Action("CheckTeam","TeamMaster")',
               type: "GET",
-              data: { name: TeamName },
+              data: { name: TeamName,id:null },
               dataType: "json",
               success: function (data) {
                   if (data != "success") {
@@ -118,7 +122,7 @@
             $.ajax({
               url: '@Url.Action("CheckTeam","TeamMaster")',
               type: "GET",
-              data: { name: TeamName },
+              data: { name: TeamName, id:id },
               dataType: "json",
               success: function (data) {
                   if (data != "success") {

@@ -32,7 +32,11 @@
 <script>
 
      $(document).ready(function () {
-        $("#btnApplicationCreate").prop('disabled', true);
+         $("#btnApplicationCreate").prop('disabled', true);
+
+         $("#txtApplicationName").bind('copy paste cut', function (e) {
+            e.preventDefault();
+         });
     });
 
     $("#txtApplicationName").keypress(function (event) {
@@ -59,7 +63,7 @@
             $.ajax({
               url: '@Url.Action("CheckApplicationArea","ApplicationArea")',
               type: "GET",
-              data: { name: ApplicationAreaName },
+              data: { name: ApplicationAreaName,id:null },
               dataType: "json",
               success: function (data) {
                   if (data != "success") {
@@ -117,7 +121,7 @@
             $.ajax({
               url: '@Url.Action("CheckApplicationArea","ApplicationArea")',
               type: "GET",
-              data: { name: ApplicationArea },
+              data: { name: ApplicationArea,id:id },
               dataType: "json",
               success: function (data) {
                   if (data != "success") {
