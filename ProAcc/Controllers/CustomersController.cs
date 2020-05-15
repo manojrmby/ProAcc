@@ -48,7 +48,6 @@ namespace ProAcc.Controllers
 
         public JsonResult CheckCustomersNameAvailability(string namedata)
         {
-            System.Threading.Thread.Sleep(100);
             var SearchDt = db.Customers.Where(x => x.Name == namedata).Where(x => x.isActive == true).FirstOrDefault();
             if (SearchDt != null)
             {

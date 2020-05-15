@@ -117,8 +117,8 @@
                 <div class="form-group">
                     <label id="lbllastcontact" class="control-label col-md-5">Last Contact Date</label>
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.LastContact_Dt, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
-
+                        @Html.EditorFor(model => model.LastContact_Dt, "Last Contact Date", new { htmlAttributes = new { @id = "txtLastDt", @class = "form-control checkVal" } })
+                        @*@Html.EditorFor(model => model.LastContact_Dt, new { htmlAttributes = new { @class = "form-control", @type = "date" } })*@
                         @Html.ValidationMessageFor(model => model.LastContact_Dt, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -126,7 +126,8 @@
                 <div class="form-group">
                     <label id="lblnextaction" class="control-label col-md-5">Next Action Date</label>
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.NextAction_Dt, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+                        @Html.EditorFor(model => model.NextAction_Dt, "Next Action Date", new { htmlAttributes = new { @id = "txtNextDt", @class = "form-control checkVal" } })
+                        @*@Html.EditorFor(model => model.NextAction_Dt, new { htmlAttributes = new { @class = "form-control", @type = "date" } })*@
                         @Html.ValidationMessageFor(model => model.NextAction_Dt, "", new { @class = "text-danger" })
                     </div>
                 </div>

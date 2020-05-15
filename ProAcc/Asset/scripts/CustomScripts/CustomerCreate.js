@@ -48,36 +48,7 @@
         e.preventDefault();
     });
 
-    $("#txtName").on('change', function () {
-        debugger;
-        var CustName = $("#txtName").val().trim();
-        if (CustName == "") {
-            $("#lblName").html("Please Enter valid Consultant name").show().fadeOut(2000);
-        }
-        else {
-            $.ajax({
-                url:  "/Customers/CheckCustomersNameAvailability",
-                type: "GET",
-                data: { namedata: CustName },
-                dataType: "json",
-                success: function (data) {
-                    if (data != "success") {
-                        $("#lblName").html("This Customer name is already taken,please select another").show();
-
-                    }
-                    else {
-                        $("#lblName").html("").hide();
-                    }
-
-                },
-                error: function (err) {
-
-                    alert(err);
-                }
-            });
-        }
-        ValidateButton();
-    });
+    
     $("#txtwork").on('change', function () {
         ValidateButton();
     });
@@ -85,36 +56,6 @@
         ValidateButton();
     });
     $("#txtAltMobId").on('change', function () {
-        ValidateButton();
-    });
-    $("#CustomerUserName").on('change', function () {
-
-        var CustUserName = $("#CustomerUserName").val().trim();
-        if (CustUserName == "") {
-            $("#lblName").html("Please Enter valid Customer User name").show().fadeOut(2000);
-        }
-        else {
-            $.ajax({
-                url: "/Consultants/CheckConsultantsUsernameAvailability",
-                type: "GET",
-                data: { userdata: CustUserName },
-                dataType: "json",
-                success: function (data) {
-                    if (data != "success") {
-                        $("#Status1").html("This User name is already taken,please select another").show();
-
-                    }
-                    else {
-                        $("#Status1").html("").hide();
-                    }
-
-                },
-                error: function (err) {
-
-                    alert(err);
-                }
-            });
-        }
         ValidateButton();
     });
     $("#txtPassword").on('change', function () {
