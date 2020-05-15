@@ -1,177 +1,109 @@
 ﻿@using PagedList;
 @using PagedList.Mvc;
-@model IPagedList<ProACC_DB.Customer>
+@model  List<ProACC_DB.Customer>
 
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/shared/_Layout.cshtml";
 }
-
-<style>
-    .row {
-        margin-right: 0px;
-    }
-</style>
+<link href="~/Asset/Scripts/Datatable/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<script src="~/Asset/Scripts/Datatable/jquery.dataTables.min.js"></script>
+<script src="~/Asset/Scripts/Datatable/dataTables.bootstrap4.min.js"></script>
 <a class="card-title">Customer List</a>
-@using (Html.BeginForm("Index", "Customers", FormMethod.Get))
-{
+<hr />
+<table id="Index" style="font-size:12px;" class="table-hover table-bordered">
+    <thead>
+        <tr>
+            <th cope="col" style="width:3%;text-align:center;">
+                #
+            </th>
+            <th cope="col">
+                @Html.DisplayNameFor(model => model.First().Name)
+            </th>
+            <th cope="col">
+                Industry Sector
+            </th>
+            <th cope="col" class="nosort">
+                @Html.DisplayNameFor(model => model.First().Phone)
+            </th>
+            <th cope="col" class="nosort">
+                @Html.DisplayNameFor(model => model.First().Email)
+            </th>
+            <th cope="col">
+                Estimated Sale
+            </th>
+            <th cope="col">
+                Last Contact
+            </th>
+            <th cope="col">
+                Next Action
+            </th>
+            <th cope="col">
+                Lead Status
+            </th>
+            <th cope="col">
+                Lead Source
+            </th>
+            <th cope="col" class="nosort">Actions</th>
+        </tr>
+    </thead>
 
-    <div class="row" style="padding-left:17px;">
-        <input id="Search" name="Search" type="text" value="" />
-        @*@Html.TextBox("Search")*@
-        @*<input type="submit" value="Search" />*@
-        <input type="submit" id="Search" value="Search" class="btn btn-primary" />
-    </div>
-}
-<div class="row" style="text-align:left !important;margin:auto !important;padding:10px 0px 0px 0px;">
-    <div class="main-card mb-3 card">
-        <div class="card-body">
-            <div class="table-responsive tableFixHead outer" style="height:auto!important;">
-                <table class="mb-0 table table-striped table-hover" id="Index">
-                    <thead>
-                        <tr>
-                            @*<th>
-                                    @Html.DisplayNameFor(model => model.UserName)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.Password)
-                                </th>*@
-                            <th>
-                                S.No
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.First().Name)
-                            </th>
-                            @*<th>
-                                    @Html.DisplayNameFor(model => model.First().Company)
-                                </th>*@
-                            <th>
-                                Industry Sector
-                                @*@Html.DisplayNameFor(model => model.First().Work_Function)*@
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.First().Phone)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.First().Email)
-                            </th>
-                            <th>
-                                Estimated Sale
-                                @*@Html.DisplayNameFor(model => model.First().EstimatedSale)*@
-                            </th>
-                            <th>
-                                Last Contact
-                                @*@Html.DisplayNameFor(model => model.First().LastContact_Dt)*@
-                            </th>
-                            <th>
-                                Next Action
-                                @*@Html.DisplayNameFor(model => model.First().NextAction_Dt)*@
-                            </th>
-                            @*<th>
-                                    @Html.DisplayNameFor(model => model.First().NextContact_Dt)
-                                </th>*@
-                            <th>
-                                Lead Status
-                            </th>
-                            <th>
-                                Lead Source
-                                @*@Html.DisplayNameFor(model => model.First().LeadSource)*@
-                            </th>
-                            @*<th>
-                                    @Html.DisplayNameFor(model => model.First().User_Master.UserType)
-                                </th>*@
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
+    @{int j = 1;}
+    @foreach (var item in Model.Select((x, i) => new { Data = x, Index = i })) //.OrderBy(c => c.Id)
+    {
+        <tr>
+            <td>
+                @j
+            </td>
+            @{j++;
+            }
+            <td>
+                @Html.DisplayFor(modelItem => item.Data.Name)
+            </td>
 
-                    
-                    @foreach (var item in Model.Select((x, i) => new { Data = x, Index = i })) //.OrderBy(c => c.Id)
-                    {
-                        <tr>
-                            @*<td>
-                                    @Html.DisplayFor(modelItem => item.UserName)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Password)
-                                </td>*@
-                            
-                            <td>
-                                @(item.Index + ((Model.PageNumber - 1) * Model.PageSize) + 1)
-                            </td>
-                            
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Data.Name)
-                            </td>
-                            @*<td>
-                                    @Html.DisplayFor(modelItem => item.Company)
-                                </td>*@
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Data.Work_Function)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Data.Phone)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Data.Email)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Data.EstimatedSale)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Data.LastContact_Dt)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Data.NextAction_Dt)
-                            </td>
-                            @*<td>
-                                    @Html.DisplayFor(modelItem => item.NextContact_Dt)
-                                </td>*@
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Data.leadStatus_Master.StatusName)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Data.LeadSource)
-                            </td>
-                            @*<td>
-                                    @Html.DisplayFor(modelItem => item.User_Master.UserType)
-                                </td>*@
-                        <td style="width:75px !important;">
-                            @Html.ActionLink("Edit", "Edit", new { id = item.Data.Id }) |
-                            @Html.ActionLink("Details", "Details", new { id = item.Data.Id }) |
-                            @Html.ActionLink("Delete", "Delete", new { id = item.Data.Id })
-
-                            @*<a href="#" id="@item.Id" class="fa fa-edit"></a>|
-                            <a href="#" id="@item.Id" class="fa fa-book"></a><input type="hidden" value="@item.Id" /> |
-                            <a href="#" id="@item.Id" class="fa fa-trash"></a><input type="hidden" value="@item.Id" />
-
-                            <a class="btn btn-primary btn-sm" onclick="Edit('@Url.Action("Edit","Customers",new { id=@item.Id})')"><i class="fa fa-pencil fa-lg"></i></a>*@
-                        </td> @*class="btn btn-primary btn-sm"   onclick="Edit('@Url.Action("Edit","Customers",new { id=@item.Id})')"*@
-                      </tr>
-                    }
-                </table>
-
-            </div>
-        </div>
-    </div>
-</div>
-@Html.PagedListPager(Model, i => Url.Action("Index", new { i, search = Request.QueryString["search"] }),
-            new PagedListRenderOptions() { Display = PagedListDisplayMode.IfNeeded, DisplayPageCountAndCurrentLocation = true })
+            <td>
+                @Html.DisplayFor(modelItem => item.Data.Work_Function)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Data.Phone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Data.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Data.EstimatedSale)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Data.LastContact_Dt)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Data.NextAction_Dt)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Data.leadStatus_Master.StatusName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Data.LeadSource)
+            </td>
+            <td>
+                <div class="row">
+                    &nbsp;&nbsp;<a class="fa fa-pencil-alt" data-toggle="tooltip" data-placement="top" title="Edit!" href="@Url.Action("Edit","Customers", new { id = item.Data.Id })"></a> &nbsp;&nbsp;
+                    <a class="fa fa-info" data-toggle="tooltip" data-placement="top" title="Details!" href="@Url.Action("Details","Customers", new { id = item.Data.Id })"></a> &nbsp;&nbsp;
+                    <a class="fa fa-trash-alt" data-toggle="tooltip" data-placement="top" title="Delete!" href="@Url.Action("Delete","Customers", new { id = item.Data.Id })"></a>
+                </div>
+            </td>
+        </tr>
+    }
+</table>
 
 <script>
-    $("search").click(function () {
-        $("Search").remove();
+    $(document).ready(function () {
+
+        $('#Index').DataTable({
+            'aoColumnDefs': [{
+                'bSortable': false,
+                'aTargets': ['nosort']
+            }]
+        });
     });
-
-    function Edit(url) {
-        debugger;
-    $.ajax({
-        type: 'GET',
-        url: url,
-        success: function (response) {
-            
-        }
-
-    });
-}
-
 </script>

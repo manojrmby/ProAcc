@@ -211,8 +211,11 @@
     <Content Include="Asset\Scripts\Chart.js" />
     <Content Include="Asset\Scripts\chartjs-plugin-labels.min.js" />
     <Content Include="Asset\Scripts\CustomScripts\CustomerCreate.js" />
+    <Content Include="Asset\Scripts\Datatable\css\dataTables.bootstrap4.min.css" />
+    <Content Include="Asset\Scripts\Datatable\dataTables.bootstrap4.min.js" />
     <Content Include="Asset\Scripts\Datatable\dataTables.editor.js" />
     <Content Include="Asset\Scripts\Datatable\dataTables.editor.min.js" />
+    <Content Include="Asset\Scripts\Datatable\jquery.dataTables.min.js" />
     <Content Include="Asset\Scripts\JavaScript.js" />
     <Content Include="Asset\Scripts\jquery.min.js" />
     <Content Include="Asset\Scripts\main.js" />
@@ -589,7 +592,6 @@
     <Content Include="Views\PhaseMaster\_StatusIndex.cshtml" />
     <Content Include="Views\PhaseMaster\_TeamCreate.cshtml" />
     <Content Include="Views\PhaseMaster\_TeamIndex.cshtml" />
-    <Content Include="Views\Assessment\FioriAppsReport - Copy.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

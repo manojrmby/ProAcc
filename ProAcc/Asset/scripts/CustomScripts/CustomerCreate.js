@@ -49,7 +49,7 @@
     });
 
     $("#txtName").on('change', function () {
-        debugger;
+        
         var CustName = $("#txtName").val().trim();
         if (CustName == "") {
             $("#lblName").html("Please Enter valid Consultant name").show().fadeOut(2000);
@@ -95,7 +95,7 @@
         }
         else {
             $.ajax({
-                url: "/Consultants/CheckConsultantsUsernameAvailability",
+                url: "../Consultants/CheckConsultantsUsernameAvailability",
                 type: "GET",
                 data: { userdata: CustUserName },
                 dataType: "json",
@@ -200,7 +200,7 @@
     
 
     function ValidateButton() {
-        debugger;
+       
         var txtLastDt = $("#txtLastDt").val();
         var txtNextDt = $("#txtNextDt").val();
         var Name = $("#txtName").val();

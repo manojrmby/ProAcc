@@ -20,12 +20,12 @@ namespace ProAcc.Controllers
         private ProAccEntities db = new ProAccEntities();
         Guid AdminUser = Guid.Parse("42DC1071-CAAE-4585-AB73-9ADCBE85FDD5");
         // GET: CustomerProjectConfigs
-        public ActionResult Index(String search, int? i)
+        public ActionResult Index()
         {
             var customerProjectConfigs = db.CustomerProjectConfigs.Where(a => a.isActive == true)
-                .OrderByDescending(x => x.Cre_on)
-                .Where(x => x.ProjectName.StartsWith(search) || search == null).ToList().ToPagedList(i ?? 1, 5);
-           // var customerProjectConfigs = db.CustomerProjectConfigs.Include(c => c.Consultant).Include(c => c.Customer).Where(a=>a.isActive==true);
+                .OrderByDescending(x => x.Cre_on).ToList();
+            //.Where(x => x.ProjectName.StartsWith(search) || search == null).ToPagedList(i ?? 1, 5);
+            // var customerProjectConfigs = db.CustomerProjectConfigs.Include(c => c.Consultant).Include(c => c.Customer).Where(a=>a.isActive==true);
             return View(customerProjectConfigs);
         }
 

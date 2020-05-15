@@ -25,18 +25,18 @@
 						</div>
 					</div>
 				}
-			<div class="col-md-4">
-				<label class="">Project Name</label>
-				@if (User.IsInRole("Customer"))
-				{
-					@Html.DropDownList("Project", (IEnumerable<SelectListItem>)ViewBag.Project, "-Select-", new { id = "IDProject", @class = "form-control" })
-				}
-				else
-				{
-					@Html.DropDownList("Project", new SelectList(Enumerable.Empty<SelectListItem>(), "IDProject", "ProjectName"),
-						   "Select a Customer", new { id = "IDProject", @class = "form-control" })
-				}
-			</div>
+				<div class="col-md-4">
+					<label class="">Project Name</label>
+					@if (User.IsInRole("Customer"))
+					{
+						@Html.DropDownList("Project", (IEnumerable<SelectListItem>)ViewBag.Project, "-Select-", new { id = "IDProject", @class = "form-control" })
+					}
+					else
+					{
+						@Html.DropDownList("Project", new SelectList(Enumerable.Empty<SelectListItem>(), "IDProject", "ProjectName"),
+							   "Select a Customer", new { id = "IDProject", @class = "form-control" })
+					}
+				</div>
 				<div class="col-md-2">
 					<label for="exampleEmail" class="">Instance Name</label>
 					@Html.DropDownList("Instance", new SelectList(Enumerable.Empty<SelectListItem>(), "IDInstance", "InstanceName"),
@@ -53,10 +53,11 @@
 
 
 			@*<a>Project Name :<b> @ProAcc.BL.Model.Common.Project_Name</b></a>
-				<a class="float-lg-right">Instance Name :<b> @ProAcc.BL.Model.Common.Instance_Name</b></a>*@
+			<a class="float-lg-right">Instance Name :<b> @ProAcc.BL.Model.Common.Instance_Name</b></a>*@
 		</div>
-		
+
 		<a class="toast-title">Readiness Report</a>
+		<hr />
 		<div class="col-lg-12 ">
 			<div class="row">
 				<div class="col-lg-6 text-center card ">
@@ -69,8 +70,9 @@
 
 			</div>
 		</div>
-		
+
 		<a class="toast-title">Activities Related Simplification Items</a>
+		<hr />
 		<div class="col-lg-12 card ">
 
 			<div class="row ">
@@ -79,13 +81,13 @@
 					<canvas id="Chart_Activities_Donut"></canvas>
 				</div>
 				@*<div class="col-lg-4">
-						<label></label>
+					<label></label>
 
-						<canvas id="Chart_Activities_Bar2"></canvas>
-					</div>*@
+					<canvas id="Chart_Activities_Bar2"></canvas>
+				</div>*@
 			</div>
 		</div>
-		
+
 		<div class="col-lg-12">
 
 			<div class="row">
@@ -97,8 +99,9 @@
 				</div>
 			</div>
 		</div>
-		
+
 		<a class="toast-title">Recommended SAP Fiori Apps</a>
+		<hr />
 		<div class="col-lg-12 card">
 			<div class="row">
 				<div style="padding-left:200px;" class="col-md-8 ">
