@@ -80,21 +80,22 @@
             $("#createProjInst").prop("disabled",true)
         }
         else {
-            $("#createProjInst").prop('disabled', false);
-            @*$.ajax({
-                url: '@Url.Action("CheckPrjtInst","ProjectInstanceConfigs")',
+            //$("#createProjInst").prop('disabled', false);
+            $.ajax({
+                url: '@Url.Action("CheckProjInstNameAvailability","ProjectInstanceConfigs")',
                 type: "GET",
-                data: { name: InstName },
+                data: { projinstdata: InstName },
                 dataType: "json",
                 success: function (data) {
                     if (data != "success") {
-                        $("#lblInstName").html("This Team name is already taken,please select another").show().fadeOut(2000);
+                        $("#lblInstName").html("This Instance name is already taken,please select another").show().fadeOut(2000);
+                        $("#createProjInst").prop("disabled",true)
                     }
                     else {
-
+                        $("#createProjInst").prop("disabled",false)
                     }
                 }
-            });*@
+            });
         }
         
     });

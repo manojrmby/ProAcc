@@ -29,9 +29,9 @@
             <th cope="col" class="nosort">
                 @Html.DisplayNameFor(model => model.First().Email)
             </th>
-            <th cope="col">
+            @*<th cope="col">
                 Estimated Sale
-            </th>
+            </th>*@
             <th cope="col">
                 Last Contact
             </th>
@@ -70,9 +70,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Data.Email)
             </td>
-            <td>
+            @*<td>
                 @Html.DisplayFor(modelItem => item.Data.EstimatedSale)
-            </td>
+            </td>*@
             <td>
                 @Html.DisplayFor(modelItem => item.Data.LastContact_Dt)
             </td>

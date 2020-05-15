@@ -24,6 +24,7 @@
                     <div class="col-md-offset-2 col-md-10">
                         <input type="button" value="Create" class="btn btn-primary" id="btnPhaseCreate" />
                         <input type="button" value="Update" class="btn btn-info" id="btnPhaseUpdate" style="display:none" />
+                        <input type="button" value="Cancel" class="btn btn-default" id="btnPhaseCancel" style="display:none" />
                     </div>
                 </div>
 
@@ -159,5 +160,18 @@
                }
             });
         }
-    });
+     });
+
+    $("#btnPhaseCancel").on("click", function () {
+        debugger;
+        var cre_on = $("#pcre_on").val();
+
+         $("#PhaseId").val("");
+         $("#txtPhaseName").val("");
+         $("#pcre_on").val("");
+        $("#pcre_By").val("");
+        $("#btnPhaseUpdate").hide();
+        $("#btnPhaseCancel").hide();
+        $("#btnPhaseCreate").show();
+    })
 </script>

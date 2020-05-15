@@ -88,8 +88,8 @@ namespace ProAcc.Controllers
             model.Modified_On = DateTime.Now;
             model.Modified_by = Guid.Parse(Session["loginid"].ToString());
             model.isActive = true;
-            db.Entry(model).State = EntityState.Modified;
-            db.SaveChanges();
+            //db.Entry(model).State = EntityState.Modified;
+            //db.SaveChanges();
             return Json("success");
         }
 

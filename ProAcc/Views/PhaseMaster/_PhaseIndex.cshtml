@@ -50,11 +50,22 @@
 </script>*@
 
 <script type="text/javascript">
-    //$(document).ready(function () {
-    //    //funct();
-    //    Getda();
+     //$(document).ready(function () {
+
+     //   $('#tblPhase').DataTable({
+     //       'aoColumnDefs': [{
+     //           'bSortable': false,
+     //           'aTargets': ['nosort']
+     //       }]
+     //   });
+     //});
+
+    $(document).ready(function () {
+        $("#tblPhase").dataTable();
+        //funct();
+        //Getda();
         
-    //});
+    });
 
     function Getda() {
         debugger;
@@ -115,6 +126,7 @@
                 $("#pcre_on").val(result.Cre_on);
                 $("#pcre_By").val(result.Cre_By);
                 $("#btnPhaseUpdate").show();
+                $("#btnPhaseCancel").show();
                 $("#btnPhaseCreate").hide();
 
             },

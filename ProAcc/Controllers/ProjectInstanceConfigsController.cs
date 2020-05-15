@@ -63,11 +63,12 @@ namespace ProAcc.Controllers
                 {                   
 
                     projectInstanceConfig.Id = Guid.NewGuid();
+                    projectInstanceConfig.Cre_By = Guid.Parse(Session["loginid"].ToString());
                     projectInstanceConfig.LastUpdated_Dt = DateTime.Now;
                     projectInstanceConfig.Cre_on = DateTime.Now;
                     projectInstanceConfig.isActive = true;
 
-                    var ID = from k in db.ProjectInstanceConfigs where k.CustProjconfigID==projectInstanceConfig.CustProjconfigID &&  k.InstaceName == projectInstanceConfig.InstaceName select k.Id;
+                    var ID = from k in db.ProjectInstanceConfigs where k.InstaceName == projectInstanceConfig.InstaceName select k.Id;
                     if (ID.Count()>0)
                     {
                         var val1 = db.CustomerProjectConfigs.Where(x => x.isActive == true).ToList();
@@ -94,7 +95,20 @@ namespace ProAcc.Controllers
             return View(projectInstanceConfig);
         }
 
-        
+
+        public JsonResult CheckProjInstNameAvailability(string projinstdata)
+        {
+            System.Threading.Thread.Sleep(100);
+            var SearchDt = db.ProjectInstanceConfigs.Where(x => x.InstaceName == projinstdata).Where(x => x.isActive == true).FirstOrDefault();
+            if (SearchDt != null)
+            {
+                return Json("error", JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json("success", JsonRequestBehavior.AllowGet);
+            }
+        }
 
         // GET: ProjectInstanceConfigs/Edit/5
         public ActionResult Edit(Guid? id)
