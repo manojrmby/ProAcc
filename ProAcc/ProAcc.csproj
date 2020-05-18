@@ -492,6 +492,9 @@
     <Content Include="bin\roslyn\vbc.exe.config" />
     <Content Include="bin\roslyn\vbc.rsp" />
     <Content Include="bin\roslyn\VBCSCompiler.exe.config" />
+    <Content Include="Asset\Jquery\jqGrid\css\fonts\octicons.eot" />
+    <Content Include="Asset\Jquery\jqGrid\css\fonts\octicons.ttf" />
+    <Content Include="Asset\Jquery\jqGrid\css\fonts\octicons.woff2" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Web.config" />
     <Content Include="Views\shared\_Layout.cshtml" />
@@ -592,6 +595,7 @@
     <Content Include="Views\PhaseMaster\_StatusIndex.cshtml" />
     <Content Include="Views\PhaseMaster\_TeamCreate.cshtml" />
     <Content Include="Views\PhaseMaster\_TeamIndex.cshtml" />
+    <Content Include="Views\ProjectMonitor\PMAdminCreate.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

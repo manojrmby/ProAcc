@@ -79,36 +79,45 @@ namespace ProAcc.Controllers
         {
             var val = db.User_Master.Where(x => x.isActive == true).ToList();
             ViewBag.UserTypeID = new SelectList(val, "Id", "UserType");
+
+            
+
+
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Consultant consultant)
+        public ActionResult Create(Consultant con)
         {
             if (ModelState.IsValid)
             {
-                if (consultant.Name != null && consultant.UserName !=null && consultant.Password!=null)
+                if (con.Name != null && con.UserName !=null && con.Password!=null)
                 {
-                    consultant.Id = Guid.NewGuid();
-                    consultant.Cre_By = Guid.Parse(Session["loginid"].ToString());
-                    consultant.Cre_on = DateTime.Now;
-                    consultant.isActive = true;
-                    db.Consultants.Add(consultant);
+                    con.Id = Guid.NewGuid();
+                    con.Cre_By = Guid.Parse(Session["loginid"].ToString());
+                    con.Cre_on = DateTime.Now;
+                    con.isActive = true;
+                    if (con.UserTypeID == 1)
+                    {
+                        con.TeamID = 1;
+                    }
+                    db.Consultants.Add(con);
                     db.SaveChanges();
                     return RedirectToAction("Index");
                 }
                 else
                 {
-                    ViewBag.UserTypeID = new SelectList(db.User_Master, "Id", "UserType", consultant.UserTypeID);
+                    
+                    ViewBag.UserTypeID = new SelectList(db.User_Master, "Id", "UserType", con.UserTypeID);
                     ViewBag.Message = true;
                     return View();
                 }
                 
             }
 
-            ViewBag.UserTypeID = new SelectList(db.User_Master, "Id", "UserType", consultant.UserTypeID);
-            return View(consultant);
+            ViewBag.UserTypeID = new SelectList(db.User_Master, "Id", "UserType", con.UserTypeID);
+            return View(con);
         }
 
         // GET: Consultants/Edit/5
@@ -125,24 +134,31 @@ namespace ProAcc.Controllers
             }
             var val = db.User_Master.Where(a => a.isActive).Where(a => a.Id == 1 || a.Id == 2);
             ViewBag.UserTypeID = new SelectList(val, "Id", "UserType", consultant.UserTypeID);
+            var Team = db.TeamMasters.Where(a => a.isActive).Where(a => a.Id != 1);
+            ViewBag.TeamID = new SelectList(Team, "Id", "TeamName", consultant.TeamID);
             return View(consultant);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Consultant consultant)
+        public ActionResult Edit(Consultant con)
         {
             if (ModelState.IsValid)
             {
-                consultant.Modified_On = DateTime.Now;
+                con.Modified_On = DateTime.Now;
                 //consultant.Cre_on = DateTime.Now;
-                consultant.isActive = true;
-                db.Entry(consultant).State = EntityState.Modified;
+                con.isActive = true;
+                if (con.UserTypeID == 1)
+                {
+                    con.TeamID = 1;
+                }
+                db.Entry(con).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.UserTypeID = new SelectList(db.User_Master, "Id", "UserType", consultant.UserTypeID);
-            return View(consultant);
+            ViewBag.UserTypeID = new SelectList(db.User_Master, "Id", "UserType", con.UserTypeID);
+            ViewBag.TeamID = new SelectList(db.TeamMasters, "Id", "TeamName", con.TeamID);
+            return View(con);
         }
 
         // GET: Consultants/Delete/5

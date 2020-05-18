@@ -21,7 +21,7 @@ namespace ProAcc.Controllers
             ViewBag.ApplicationAreadetails = db.ApplicationAreaMasters.Where(x => x.isActive == true).ToList();
             ViewBag.Activitydetails = db.ActivityMasters.Where(x => x.isActive == true).ToList();
             ViewBag.Pendingdetails= db.PendingMasters.Where(x => x.isActive == true).ToList();
-            ViewBag.Teamdetails= db.TeamMasters.Where(x => x.isActive == true).ToList();
+            ViewBag.Teamdetails= db.TeamMasters.Where(x => x.isActive == true && x.Id!=1).ToList();
             ViewBag.Statusdetails=db.StatusMasters.Where(x => x.isActive == true).ToList();
             return View();
         }

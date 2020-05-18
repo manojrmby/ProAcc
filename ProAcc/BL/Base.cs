@@ -1193,7 +1193,7 @@ namespace ProAcc.BL
         }
 
 
-        public List<ProjectMonitorModel> Sp_GetProjectMonitor()
+        public List<ProjectMonitorModel> Sp_GetProjectMonitor(Guid InstanceId)
         {
             DataTable dt = new DataTable();
             DBHelper dB = new DBHelper("SP_ProjectMonitor", CommandType.StoredProcedure);
@@ -1203,29 +1203,29 @@ namespace ProAcc.BL
             List<ProjectMonitorModel> PM = new List<ProjectMonitorModel>();
             if (dt.Rows.Count > 0)
             {
-                int count = 0;
+                int count = 1;
                 var myLocalDateTime = DateTime.Now;
                 foreach (DataRow dr in dt.Rows)
                 {
                     
                     ProjectMonitorModel P = new ProjectMonitorModel();
                     P.LocalID = count++;
-                    //P.Instance = "";
+                    P.Instance = InstanceId;
                     P.PhaseId= Convert.ToInt32(dr["PhaseId"].ToString());
                     P.Task = dr["Activity"].ToString();
-                    P.Task_Other_Environment = true;
+                    P.Task_Other_Environment = false;
                     P.Dependency = false;
                     P.PendingId = 0;
                     P.Delay_occurred = false;
                     P.TeamID = 0;
                     //P.ConsultantID=
                     P.StatusId = 0;
-                    P.EST_hours = 10.00;
-                    P.Actual_St_hours= 10.00;
-                    P.Planed__St_Date = TimeZone.CurrentTimeZone.ToUniversalTime(myLocalDateTime);
-                    P.Actual_St_Date = TimeZone.CurrentTimeZone.ToUniversalTime(myLocalDateTime);
-                    P.Planed__En_Date = TimeZone.CurrentTimeZone.ToUniversalTime(myLocalDateTime);
-                    P.Actual_En_Date = TimeZone.CurrentTimeZone.ToUniversalTime(myLocalDateTime);
+                    P.EST_hours = 0;
+                    P.Actual_St_hours = 0;
+                    //P.Planed__St_Date = TimeZone.CurrentTimeZone.ToUniversalTime(myLocalDateTime);
+                    //P.Actual_St_Date = TimeZone.CurrentTimeZone.ToUniversalTime(myLocalDateTime);
+                    //P.Planed__En_Date = TimeZone.CurrentTimeZone.ToUniversalTime(myLocalDateTime);
+                    //P.Actual_En_Date = TimeZone.CurrentTimeZone.ToUniversalTime(myLocalDateTime);
                     P.Notes = "";
 
 

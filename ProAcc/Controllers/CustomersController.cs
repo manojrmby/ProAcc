@@ -64,6 +64,8 @@ namespace ProAcc.Controllers
         {
             var val = db.User_Master.Where(a=>a.isActive).Where(a => a.Id ==1 || a.Id==2);
             ViewBag.UserTypeID = new SelectList(val, "Id", "UserType");
+            var Team = db.TeamMasters.Where(x => x.isActive == true).Where(a => a.Id != 1).ToList();
+            ViewBag.TeamID = new SelectList(Team, "Id", "TeamName");
             var status = db.leadStatus_Master.Where(a => a.isActive == true);
             ViewBag.LeadStatus = new SelectList(status, "Id", "StatusName");
             ViewBag.Id = new SelectList(db.Projects, "Id", "Accuracy");

@@ -24,6 +24,7 @@ namespace ProACC_DB
         public string UserName { get; set; }
         public string Password { get; set; }
         public int UserTypeID { get; set; }
+        public int TeamID { get; set; }
         public string Name { get; set; }
         public string Designation { get; set; }
         public string Phone { get; set; }
@@ -35,8 +36,9 @@ namespace ProACC_DB
         public Nullable<System.Guid> Modified_by { get; set; }
         public bool IsDeleted { get; set; }
     
-        public virtual User_Master User_Master { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CustomerProjectConfig> CustomerProjectConfigs { get; set; }
+        public virtual TeamMaster TeamMaster { get; set; }
+        public virtual User_Master User_Master { get; set; }
     }
 }

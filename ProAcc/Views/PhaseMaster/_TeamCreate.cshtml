@@ -39,7 +39,7 @@
      });
 
     $("#txtTeamName").keypress(function (event) {
-        debugger;
+        //debugger;
             var inputValue = event.which;
             // allow letters and whitespaces only.
 
@@ -52,7 +52,7 @@
 
 
     $("#btnTeamCreate").on("click", function () {
-        debugger;
+        //debugger;
         var TeamName = $("#txtTeamName").val().trim();
         if (TeamName == "") {
             $("#lblTeamName").html("Please enter the Team Name").show().fadeOut(2000);
@@ -102,7 +102,7 @@
     });
 
     $("#btnTeamUpdate").on("click", function () {
-         debugger;
+         //debugger;
          var id = $("#TeamId").val();
         var TeamName = $("#txtTeamName").val().trim();
         var cre_on = $("#tcre_on").val();

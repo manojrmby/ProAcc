@@ -41,7 +41,7 @@
 
 
     $("#txtPendingName").keypress(function (event) {
-        debugger;
+        //debugger;
             var inputValue = event.which;
             // allow letters and whitespaces only.
 
@@ -54,7 +54,7 @@
 
 
     $("#btnPendingCreate").on("click", function () {
-        debugger;
+        //debugger;
         var PendingName = $("#txtPendingName").val().trim();
         if (PendingName == "") {
             $("#lblPendingName").html("Please enter the Pending Name").show().fadeOut(2000);
@@ -106,7 +106,7 @@
     });
 
     $("#btnPendingUpdate").on("click", function () {
-         debugger;
+         //debugger;
          var id = $("#PendingId").val();
         var PendingName = $("#txtPendingName").val().trim();
         var cre_on = $("#pendcre_on").val();

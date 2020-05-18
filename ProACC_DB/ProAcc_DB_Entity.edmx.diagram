@@ -4,8 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="8e2369ce9df44ff58790c5c178865d31" Name="Diagram1" ZoomLevel="62">
-        <EntityTypeShape EntityType="ProAccModel.Consultant" Width="1.5" PointX="3" PointY="9.75" />
+      <Diagram DiagramId="8e2369ce9df44ff58790c5c178865d31" Name="Diagram1" ZoomLevel="66">
         <EntityTypeShape EntityType="ProAccModel.Milestone" Width="1.5" PointX="5.25" PointY="10.75" />
         <EntityTypeShape EntityType="ProAccModel.MilestoneDetail" Width="1.5" PointX="7.5" PointY="4.25" />
         <EntityTypeShape EntityType="ProAccModel.Project" Width="1.5" PointX="5.25" PointY="4.125" />
@@ -13,7 +12,6 @@
         <EntityTypeShape EntityType="ProAccModel.StageStatu" Width="1.5" PointX="16" PointY="1.5" />
         <EntityTypeShape EntityType="ProAccModel.SubMilestoneConfig" Width="1.5" PointX="9.75" PointY="4.375" />
         <EntityTypeShape EntityType="ProAccModel.User_Master" Width="1.5" PointX="0.75" PointY="7" />
-        <AssociationConnector Association="ProAccModel.FK_Consultant_User_Master" />
         <AssociationConnector Association="ProAccModel.FK_MilestoneDetails_Milestone" />
         <AssociationConnector Association="ProAccModel.FK_MilestoneDetails_Project" />
         <AssociationConnector Association="ProAccModel.FK_SubMilestoneConfig_MilestoneDetails" />
@@ -22,7 +20,6 @@
         <AssociationConnector Association="ProAccModel.FK_ProjectDetails_StageStatus" />
         <EntityTypeShape EntityType="ProAccModel.CustomerProjectConfig" Width="1.5" PointX="12.75" PointY="10" />
         <EntityTypeShape EntityType="ProAccModel.HanaStatu" Width="1.5" PointX="12.5" PointY="14.625" />
-        <AssociationConnector Association="ProAccModel.FK_COnsultant_CustomerProjectConfig" />
         <EntityTypeShape EntityType="ProAccModel.FileUploadMaster" Width="1.5" PointX="10" PointY="14.25" />
         <EntityTypeShape EntityType="ProAccModel.SAPInput_Activities" Width="1.5" PointX="5.375" PointY="0.75" />
         <EntityTypeShape EntityType="ProAccModel.FileMaster" Width="1.5" PointX="7.375" PointY="0.75" />
@@ -39,13 +36,16 @@
         <EntityTypeShape EntityType="ProAccModel.ApplicationAreaMaster" Width="1.5" PointX="0.75" PointY="11.25" />
         <EntityTypeShape EntityType="ProAccModel.ExceptionLogging" Width="1.5" PointX="7.75" PointY="8.75" />
         <EntityTypeShape EntityType="ProAccModel.PendingMaster" Width="1.5" PointX="9.75" PointY="9.75" />
-        <EntityTypeShape EntityType="ProAccModel.PhaseMaster" Width="1.5" PointX="0.75" PointY="15.25" />
+        <EntityTypeShape EntityType="ProAccModel.PhaseMaster" Width="1.5" PointX="5.75" PointY="15.25" />
         <EntityTypeShape EntityType="ProAccModel.PictureToData" Width="1.5" PointX="14.75" PointY="5.75" />
-        <EntityTypeShape EntityType="ProAccModel.ProjectMonitor" Width="1.5" PointX="5.75" PointY="14.75" />
         <EntityTypeShape EntityType="ProAccModel.StatusMaster" Width="1.5" PointX="15.75" PointY="14.75" />
         <EntityTypeShape EntityType="ProAccModel.TeamMaster" Width="1.5" PointX="16.75" PointY="5.75" />
         <AssociationConnector Association="ProAccModel.FK_ActivityMaster_ApplicationAreaMaster" />
         <AssociationConnector Association="ProAccModel.FK_ActivityMaster_PhaseMaster" />
+        <EntityTypeShape EntityType="ProAccModel.Consultant" Width="1.5" PointX="2.875" PointY="10.25" />
+        <AssociationConnector Association="ProAccModel.FK_COnsultant_CustomerProjectConfig" />
+        <AssociationConnector Association="ProAccModel.FK_Consultant_TeamMaster" />
+        <AssociationConnector Association="ProAccModel.FK_Consultant_User_Master" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

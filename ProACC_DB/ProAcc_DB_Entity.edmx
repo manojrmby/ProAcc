@@ -41,6 +41,7 @@
           <Property Name="UserName" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="Password" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="UserTypeID" Type="int" Nullable="false" />
+          <Property Name="TeamID" Type="int" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Designation" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Phone" Type="nvarchar" MaxLength="50" Nullable="false" />
@@ -278,36 +279,6 @@
           <Property Name="Modified_by" Type="uniqueidentifier" />
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
         </EntityType>
-        <EntityType Name="ProjectMonitor">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="Instance" Type="uniqueidentifier" />
-          <Property Name="PhaseId" Type="int" />
-          <Property Name="Task" Type="nvarchar(max)" />
-          <Property Name="Sequence" Type="int" />
-          <Property Name="Task_Other_Environment" Type="bit" Nullable="false" />
-          <Property Name="Dependency" Type="bit" Nullable="false" />
-          <Property Name="PendingId" Type="int" Nullable="false" />
-          <Property Name="Delay_occurred" Type="bit" Nullable="false" />
-          <Property Name="Team" Type="bit" Nullable="false" />
-          <Property Name="ConsultantID" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="StatusId" Type="int" Nullable="false" />
-          <Property Name="EST_hours" Type="float" Nullable="false" />
-          <Property Name="Actual_St_hours" Type="float" Nullable="false" />
-          <Property Name="Planed__St_Date" Type="datetime" Nullable="false" />
-          <Property Name="Actual_St_Date" Type="datetime" Nullable="false" />
-          <Property Name="Planed__En_Date" Type="datetime" Nullable="false" />
-          <Property Name="Actual_En_Date" Type="datetime" Nullable="false" />
-          <Property Name="Notes" Type="varchar(max)" Nullable="false" />
-          <Property Name="isActive" Type="bit" Nullable="false" />
-          <Property Name="Cre_on" Type="datetime" Nullable="false" />
-          <Property Name="Cre_By" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="Modified_On" Type="datetime" />
-          <Property Name="Modified_by" Type="uniqueidentifier" />
-          <Property Name="IsDeleted" Type="bit" Nullable="false" />
-        </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'ProAccDev.dbo.SAPInput_Activities' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="SAPInput_Activities">
@@ -424,6 +395,18 @@ warning 6002: The table/view 'ProAccDev.dbo.SAPInput_Activities' does not have a
             </Principal>
             <Dependent Role="CustomerProjectConfig">
               <PropertyRef Name="ConsultantID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Consultant_TeamMaster">
+          <End Role="TeamMaster" Type="Self.TeamMaster" Multiplicity="1" />
+          <End Role="Consultant" Type="Self.Consultant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TeamMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Consultant">
+              <PropertyRef Name="TeamID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -618,7 +601,6 @@ warning 6002: The table/view 'ProAccDev.dbo.SAPInput_Activities' does not have a
           <EntitySet Name="Project" EntityType="Self.Project" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProjectDetails" EntityType="Self.ProjectDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProjectInstanceConfig" EntityType="Self.ProjectInstanceConfig" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ProjectMonitor" EntityType="Self.ProjectMonitor" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StageStatus" EntityType="Self.StageStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StatusMaster" EntityType="Self.StatusMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SubMilestoneConfig" EntityType="Self.SubMilestoneConfig" Schema="dbo" store:Type="Tables" />
@@ -646,6 +628,10 @@ warning 6002: The table/view 'ProAccDev.dbo.SAPInput_Activities' does not have a
           <AssociationSet Name="FK_COnsultant_CustomerProjectConfig" Association="Self.FK_COnsultant_CustomerProjectConfig">
             <End Role="Consultant" EntitySet="Consultant" />
             <End Role="CustomerProjectConfig" EntitySet="CustomerProjectConfig" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Consultant_TeamMaster" Association="Self.FK_Consultant_TeamMaster">
+            <End Role="TeamMaster" EntitySet="TeamMaster" />
+            <End Role="Consultant" EntitySet="Consultant" />
           </AssociationSet>
           <AssociationSet Name="FK_Consultant_User_Master" Association="Self.FK_Consultant_User_Master">
             <End Role="User_Master" EntitySet="User_Master" />
@@ -718,7 +704,6 @@ warning 6002: The table/view 'ProAccDev.dbo.SAPInput_Activities' does not have a
             <Parameter Name="Type" Mode="In" Type="String" />
             <Parameter Name="InstanceId" Mode="In" Type="String" />
           </FunctionImport>
-          <EntitySet Name="Consultants" EntityType="ProAccModel.Consultant" />
           <EntitySet Name="Milestones" EntityType="ProAccModel.Milestone" />
           <EntitySet Name="MilestoneDetails" EntityType="ProAccModel.MilestoneDetail" />
           <EntitySet Name="Projects" EntityType="ProAccModel.Project" />
@@ -726,10 +711,6 @@ warning 6002: The table/view 'ProAccDev.dbo.SAPInput_Activities' does not have a
           <EntitySet Name="StageStatus" EntityType="ProAccModel.StageStatu" />
           <EntitySet Name="SubMilestoneConfigs" EntityType="ProAccModel.SubMilestoneConfig" />
           <EntitySet Name="User_Master" EntityType="ProAccModel.User_Master" />
-          <AssociationSet Name="FK_Consultant_User_Master" Association="ProAccModel.FK_Consultant_User_Master">
-            <End Role="User_Master" EntitySet="User_Master" />
-            <End Role="Consultant" EntitySet="Consultants" />
-          </AssociationSet>
           <AssociationSet Name="FK_MilestoneDetails_Milestone" Association="ProAccModel.FK_MilestoneDetails_Milestone">
             <End Role="Milestone" EntitySet="Milestones" />
             <End Role="MilestoneDetail" EntitySet="MilestoneDetails" />
@@ -759,10 +740,6 @@ warning 6002: The table/view 'ProAccDev.dbo.SAPInput_Activities' does not have a
           <FunctionImport Name="SP_CreateAnalysis" ReturnType="Collection(ProAccModel.SP_CreateAnalysis_Result)">
           <Parameter Name="Type" Mode="In" Type="String" />
           </FunctionImport>
-          <AssociationSet Name="FK_COnsultant_CustomerProjectConfig" Association="ProAccModel.FK_COnsultant_CustomerProjectConfig">
-            <End Role="Consultant" EntitySet="Consultants" />
-            <End Role="CustomerProjectConfig" EntitySet="CustomerProjectConfigs" />
-          </AssociationSet>
           <EntitySet Name="FileUploadMasters" EntityType="ProAccModel.FileUploadMaster" />
           <EntitySet Name="SAPInput_Activities" EntityType="ProAccModel.SAPInput_Activities" />
           <EntitySet Name="FileMasters" EntityType="ProAccModel.FileMaster" />
@@ -799,7 +776,6 @@ warning 6002: The table/view 'ProAccDev.dbo.SAPInput_Activities' does not have a
           <EntitySet Name="PendingMasters" EntityType="ProAccModel.PendingMaster" />
           <EntitySet Name="PhaseMasters" EntityType="ProAccModel.PhaseMaster" />
           <EntitySet Name="PictureToDatas" EntityType="ProAccModel.PictureToData" />
-          <EntitySet Name="ProjectMonitors" EntityType="ProAccModel.ProjectMonitor" />
           <EntitySet Name="StatusMasters" EntityType="ProAccModel.StatusMaster" />
           <EntitySet Name="TeamMasters" EntityType="ProAccModel.TeamMaster" />
           <AssociationSet Name="FK_ActivityMaster_ApplicationAreaMaster" Association="ProAccModel.FK_ActivityMaster_ApplicationAreaMaster">
@@ -809,6 +785,19 @@ warning 6002: The table/view 'ProAccDev.dbo.SAPInput_Activities' does not have a
           <AssociationSet Name="FK_ActivityMaster_PhaseMaster" Association="ProAccModel.FK_ActivityMaster_PhaseMaster">
             <End Role="PhaseMaster" EntitySet="PhaseMasters" />
             <End Role="ActivityMaster" EntitySet="ActivityMasters" />
+          </AssociationSet>
+          <EntitySet Name="Consultants" EntityType="ProAccModel.Consultant" />
+          <AssociationSet Name="FK_COnsultant_CustomerProjectConfig" Association="ProAccModel.FK_COnsultant_CustomerProjectConfig">
+            <End Role="Consultant" EntitySet="Consultants" />
+            <End Role="CustomerProjectConfig" EntitySet="CustomerProjectConfigs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Consultant_TeamMaster" Association="ProAccModel.FK_Consultant_TeamMaster">
+            <End Role="TeamMaster" EntitySet="TeamMasters" />
+            <End Role="Consultant" EntitySet="Consultants" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Consultant_User_Master" Association="ProAccModel.FK_Consultant_User_Master">
+            <End Role="User_Master" EntitySet="User_Master" />
+            <End Role="Consultant" EntitySet="Consultants" />
           </AssociationSet>
         </EntityContainer>
         <ComplexType Name="SP_ReadinessReport_Result">
@@ -821,27 +810,6 @@ warning 6002: The table/view 'ProAccDev.dbo.SAPInput_Activities' does not have a
           <Property Type="String" Name="C_Status" Nullable="true" MaxLength="255" />
           <Property Type="Int32" Name="C_Count" Nullable="true" />
         </ComplexType>
-        <EntityType Name="Consultant">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Guid" Nullable="false" />
-          <Property Name="UserName" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="Password" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="UserTypeID" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Designation" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Phone" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="EMail" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="isActive" Type="Boolean" Nullable="false" />
-          <Property Name="Cre_on" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Cre_By" Type="Guid" Nullable="false" />
-          <Property Name="Modified_On" Type="DateTime" Precision="3" />
-          <Property Name="Modified_by" Type="Guid" />
-          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="User_Master" Relationship="ProAccModel.FK_Consultant_User_Master" FromRole="Consultant" ToRole="User_Master" />
-          <NavigationProperty Name="CustomerProjectConfigs" Relationship="ProAccModel.FK_COnsultant_CustomerProjectConfig" FromRole="Consultant" ToRole="CustomerProjectConfig" />
-        </EntityType>
         <EntityType Name="Milestone">
           <Key>
             <PropertyRef Name="ID" />
@@ -961,21 +929,9 @@ warning 6002: The table/view 'ProAccDev.dbo.SAPInput_Activities' does not have a
           <Property Name="Modified_On" Type="DateTime" Precision="3" />
           <Property Name="Modified_by" Type="Guid" />
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Consultants" Relationship="ProAccModel.FK_Consultant_User_Master" FromRole="User_Master" ToRole="Consultant" />
           <NavigationProperty Name="Customers" Relationship="ProAccModel.FK_Customer_User_Master" FromRole="User_Master" ToRole="Customer" />
+          <NavigationProperty Name="Consultants" Relationship="ProAccModel.FK_Consultant_User_Master" FromRole="User_Master" ToRole="Consultant" />
         </EntityType>
-        <Association Name="FK_Consultant_User_Master">
-          <End Type="ProAccModel.User_Master" Role="User_Master" Multiplicity="1" />
-          <End Type="ProAccModel.Consultant" Role="Consultant" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User_Master">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Consultant">
-              <PropertyRef Name="UserTypeID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_MilestoneDetails_Milestone">
           <End Type="ProAccModel.Milestone" Role="Milestone" Multiplicity="1" />
           <End Type="ProAccModel.MilestoneDetail" Role="MilestoneDetail" Multiplicity="*" />
@@ -1063,9 +1019,9 @@ warning 6002: The table/view 'ProAccDev.dbo.SAPInput_Activities' does not have a
           <Property Name="Modified_On" Type="DateTime" Precision="3" />
           <Property Name="Modified_by" Type="Guid" />
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Consultant" Relationship="ProAccModel.FK_COnsultant_CustomerProjectConfig" FromRole="CustomerProjectConfig" ToRole="Consultant" />
           <NavigationProperty Name="Customer" Relationship="ProAccModel.FK_Customer_CustomerProjectConfig" FromRole="CustomerProjectConfig" ToRole="Customer" />
           <NavigationProperty Name="ProjectInstanceConfigs" Relationship="ProAccModel.FK_ProjInstanceConfig_CustProjconfig" FromRole="CustomerProjectConfig" ToRole="ProjectInstanceConfig" />
+          <NavigationProperty Name="Consultant" Relationship="ProAccModel.FK_COnsultant_CustomerProjectConfig" FromRole="CustomerProjectConfig" ToRole="Consultant" />
         </EntityType>
         <EntityType Name="HanaStatu">
           <Key>
@@ -1080,18 +1036,6 @@ warning 6002: The table/view 'ProAccDev.dbo.SAPInput_Activities' does not have a
           <Property Type="String" Name="Name" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="Company" Nullable="false" MaxLength="50" />
         </ComplexType>
-        <Association Name="FK_COnsultant_CustomerProjectConfig">
-          <End Type="ProAccModel.Consultant" Role="Consultant" Multiplicity="0..1" />
-          <End Type="ProAccModel.CustomerProjectConfig" Role="CustomerProjectConfig" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Consultant">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="CustomerProjectConfig">
-              <PropertyRef Name="ConsultantID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="FileUploadMaster">
           <Key>
             <PropertyRef Name="Id" />
@@ -1354,36 +1298,6 @@ warning 6002: The table/view 'ProAccDev.dbo.SAPInput_Activities' does not have a
           <Property Name="Modified_by" Type="Guid" />
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
         </EntityType>
-        <EntityType Name="ProjectMonitor">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Guid" Nullable="false" />
-          <Property Name="Instance" Type="Guid" />
-          <Property Name="PhaseId" Type="Int32" />
-          <Property Name="Task" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Sequence" Type="Int32" />
-          <Property Name="Task_Other_Environment" Type="Boolean" Nullable="false" />
-          <Property Name="Dependency" Type="Boolean" Nullable="false" />
-          <Property Name="PendingId" Type="Int32" Nullable="false" />
-          <Property Name="Delay_occurred" Type="Boolean" Nullable="false" />
-          <Property Name="Team" Type="Boolean" Nullable="false" />
-          <Property Name="ConsultantID" Type="Guid" Nullable="false" />
-          <Property Name="StatusId" Type="Int32" Nullable="false" />
-          <Property Name="EST_hours" Type="Double" Nullable="false" />
-          <Property Name="Actual_St_hours" Type="Double" Nullable="false" />
-          <Property Name="Planed__St_Date" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Actual_St_Date" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Planed__En_Date" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Actual_En_Date" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Notes" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="isActive" Type="Boolean" Nullable="false" />
-          <Property Name="Cre_on" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Cre_By" Type="Guid" Nullable="false" />
-          <Property Name="Modified_On" Type="DateTime" Precision="3" />
-          <Property Name="Modified_by" Type="Guid" />
-          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
-        </EntityType>
         <EntityType Name="StatusMaster">
           <Key>
             <PropertyRef Name="Id" />
@@ -1409,6 +1323,7 @@ warning 6002: The table/view 'ProAccDev.dbo.SAPInput_Activities' does not have a
           <Property Name="Modified_On" Type="DateTime" Precision="3" />
           <Property Name="Modified_by" Type="Guid" />
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Consultants" Relationship="ProAccModel.FK_Consultant_TeamMaster" FromRole="TeamMaster" ToRole="Consultant" />
         </EntityType>
         <Association Name="FK_ActivityMaster_ApplicationAreaMaster">
           <End Type="ProAccModel.ApplicationAreaMaster" Role="ApplicationAreaMaster" Multiplicity="1" />
@@ -1431,6 +1346,65 @@ warning 6002: The table/view 'ProAccDev.dbo.SAPInput_Activities' does not have a
             </Principal>
             <Dependent Role="ActivityMaster">
               <PropertyRef Name="PhaseID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Consultant">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="UserTypeID" Type="Int32" Nullable="false" />
+          <Property Name="TeamID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Designation" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EMail" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="isActive" Type="Boolean" Nullable="false" />
+          <Property Name="Cre_on" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Cre_By" Type="Guid" Nullable="false" />
+          <Property Name="Modified_On" Type="DateTime" Precision="3" />
+          <Property Name="Modified_by" Type="Guid" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="CustomerProjectConfigs" Relationship="ProAccModel.FK_COnsultant_CustomerProjectConfig" FromRole="Consultant" ToRole="CustomerProjectConfig" />
+          <NavigationProperty Name="TeamMaster" Relationship="ProAccModel.FK_Consultant_TeamMaster" FromRole="Consultant" ToRole="TeamMaster" />
+          <NavigationProperty Name="User_Master" Relationship="ProAccModel.FK_Consultant_User_Master" FromRole="Consultant" ToRole="User_Master" />
+        </EntityType>
+        <Association Name="FK_COnsultant_CustomerProjectConfig">
+          <End Type="ProAccModel.Consultant" Role="Consultant" Multiplicity="0..1" />
+          <End Type="ProAccModel.CustomerProjectConfig" Role="CustomerProjectConfig" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Consultant">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CustomerProjectConfig">
+              <PropertyRef Name="ConsultantID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Consultant_TeamMaster">
+          <End Type="ProAccModel.TeamMaster" Role="TeamMaster" Multiplicity="1" />
+          <End Type="ProAccModel.Consultant" Role="Consultant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TeamMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Consultant">
+              <PropertyRef Name="TeamID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Consultant_User_Master">
+          <End Type="ProAccModel.User_Master" Role="User_Master" Multiplicity="1" />
+          <End Type="ProAccModel.Consultant" Role="Consultant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User_Master">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Consultant">
+              <PropertyRef Name="UserTypeID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1459,26 +1433,6 @@ warning 6002: The table/view 'ProAccDev.dbo.SAPInput_Activities' does not have a
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="Consultants">
-            <EntityTypeMapping TypeName="ProAccModel.Consultant">
-              <MappingFragment StoreEntitySet="Consultant">
-                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
-                <ScalarProperty Name="Modified_by" ColumnName="Modified_by" />
-                <ScalarProperty Name="Modified_On" ColumnName="Modified_On" />
-                <ScalarProperty Name="Cre_By" ColumnName="Cre_By" />
-                <ScalarProperty Name="Cre_on" ColumnName="Cre_on" />
-                <ScalarProperty Name="isActive" ColumnName="isActive" />
-                <ScalarProperty Name="EMail" ColumnName="EMail" />
-                <ScalarProperty Name="Phone" ColumnName="Phone" />
-                <ScalarProperty Name="Designation" ColumnName="Designation" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="UserTypeID" ColumnName="UserTypeID" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Milestones">
             <EntityTypeMapping TypeName="ProAccModel.Milestone">
               <MappingFragment StoreEntitySet="Milestone">
@@ -1817,37 +1771,6 @@ warning 6002: The table/view 'ProAccDev.dbo.SAPInput_Activities' does not have a
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ProjectMonitors">
-            <EntityTypeMapping TypeName="ProAccModel.ProjectMonitor">
-              <MappingFragment StoreEntitySet="ProjectMonitor">
-                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
-                <ScalarProperty Name="Modified_by" ColumnName="Modified_by" />
-                <ScalarProperty Name="Modified_On" ColumnName="Modified_On" />
-                <ScalarProperty Name="Cre_By" ColumnName="Cre_By" />
-                <ScalarProperty Name="Cre_on" ColumnName="Cre_on" />
-                <ScalarProperty Name="isActive" ColumnName="isActive" />
-                <ScalarProperty Name="Notes" ColumnName="Notes" />
-                <ScalarProperty Name="Actual_En_Date" ColumnName="Actual_En_Date" />
-                <ScalarProperty Name="Planed__En_Date" ColumnName="Planed__En_Date" />
-                <ScalarProperty Name="Actual_St_Date" ColumnName="Actual_St_Date" />
-                <ScalarProperty Name="Planed__St_Date" ColumnName="Planed__St_Date" />
-                <ScalarProperty Name="Actual_St_hours" ColumnName="Actual_St_hours" />
-                <ScalarProperty Name="EST_hours" ColumnName="EST_hours" />
-                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
-                <ScalarProperty Name="ConsultantID" ColumnName="ConsultantID" />
-                <ScalarProperty Name="Team" ColumnName="Team" />
-                <ScalarProperty Name="Delay_occurred" ColumnName="Delay_occurred" />
-                <ScalarProperty Name="PendingId" ColumnName="PendingId" />
-                <ScalarProperty Name="Dependency" ColumnName="Dependency" />
-                <ScalarProperty Name="Task_Other_Environment" ColumnName="Task_Other_Environment" />
-                <ScalarProperty Name="Sequence" ColumnName="Sequence" />
-                <ScalarProperty Name="Task" ColumnName="Task" />
-                <ScalarProperty Name="PhaseId" ColumnName="PhaseId" />
-                <ScalarProperty Name="Instance" ColumnName="Instance" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="StatusMasters">
             <EntityTypeMapping TypeName="ProAccModel.StatusMaster">
               <MappingFragment StoreEntitySet="StatusMaster">
@@ -1872,6 +1795,27 @@ warning 6002: The table/view 'ProAccDev.dbo.SAPInput_Activities' does not have a
                 <ScalarProperty Name="Cre_on" ColumnName="Cre_on" />
                 <ScalarProperty Name="isActive" ColumnName="isActive" />
                 <ScalarProperty Name="TeamName" ColumnName="TeamName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Consultants">
+            <EntityTypeMapping TypeName="ProAccModel.Consultant">
+              <MappingFragment StoreEntitySet="Consultant">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="Modified_by" ColumnName="Modified_by" />
+                <ScalarProperty Name="Modified_On" ColumnName="Modified_On" />
+                <ScalarProperty Name="Cre_By" ColumnName="Cre_By" />
+                <ScalarProperty Name="Cre_on" ColumnName="Cre_on" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+                <ScalarProperty Name="EMail" ColumnName="EMail" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Designation" ColumnName="Designation" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="TeamID" ColumnName="TeamID" />
+                <ScalarProperty Name="UserTypeID" ColumnName="UserTypeID" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
